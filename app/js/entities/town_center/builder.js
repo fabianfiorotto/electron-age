@@ -5,7 +5,7 @@ const Building = require('../building');
 module.exports = class Builder extends VillagerRole {
 
   isCarrying() {
-    return FALSE;
+    return false;
   }
 
   update() {

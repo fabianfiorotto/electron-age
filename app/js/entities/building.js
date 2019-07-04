@@ -78,7 +78,8 @@ module.exports = class Building extends Entity {
   }
 
   getFrame() {
-    if (this.state === Building.INCOMPLETE) {
+    var model = this.getModel();
+    if (this.state === Building.INCOMPLETE && model) {
       return Math.floor(model.frames.length * this.properties.hitPoints / this.properties.maxHitPoints);
     }
     else {
