@@ -37,6 +37,10 @@ module.exports = class Building extends Entity {
     this.focus = false;
   }
 
+  drawSelection(camera) {
+    resources.drawSquare(this.pos.subtract(camera), 100 * this.getSize());
+  }
+
   draw(camera) {
     var model = this.getModel();
     if (model) {

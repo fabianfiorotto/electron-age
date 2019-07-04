@@ -100,6 +100,19 @@ module.exports = class ResourceManager {
     ctx.ellipse(v.e(1), v.e(2), rad, rad  / 2, - Math.atan(0.5), 0, 2 * Math.PI);
   }
 
+  drawSquare(v, size, ctx) {
+    if(!ctx) {
+      ctx = this.get2DContext();
+    }
+    var x = v.e(1), y = v.e(2);
+
+    ctx.moveTo(x, y - size / 4);
+    ctx.lineTo(x - size / 2, y);
+    ctx.lineTo(x, y + size / 4);
+    ctx.lineTo(x + size / 2, y);
+    ctx.closePath();
+  }
+
   playSound(audioBuffer) {
     var audioCtx = new AudioContext();
     var source = audioCtx.createBufferSource();
