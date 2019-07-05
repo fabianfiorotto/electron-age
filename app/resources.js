@@ -97,7 +97,33 @@ module.exports = class ResourceManager {
     if(!ctx) {
       ctx = this.get2DContext();
     }
+    ctx.beginPath();
+    ctx.strokeStyle = "#ffffff";
     ctx.ellipse(v.e(1), v.e(2), rad, rad  / 2, - Math.atan(0.5), 0, 2 * Math.PI);
+    ctx.stroke();
+  }
+
+  drawHitpoints(v, val, player, ctx) {
+    if(!ctx) {
+      ctx = this.get2DContext();
+    }
+    var base_id = 50505;
+    if (!this.palettes[base_id]) {
+      return;
+    }
+    var x = v.e(1), y = v.e(2);
+
+    var color = this.palettes[base_id][16 * player + 0];
+    ctx.fillStyle = "rgb(" + color.join(',') +")";
+    ctx.beginPath();
+    ctx.rect(x, y, 40, 5);
+    ctx.fill();
+
+    color = this.palettes[base_id][16 * player + 5];
+    ctx.fillStyle = "rgb(" + color.join(',') +")";
+    ctx.beginPath();
+    ctx.rect(x, y, Math.round(40 * val), 5);
+    ctx.fill();
   }
 
   drawSquare(v, size, ctx) {
@@ -106,11 +132,14 @@ module.exports = class ResourceManager {
     }
     var x = v.e(1), y = v.e(2);
 
+    ctx.beginPath();
+    ctx.strokeStyle = "#ffffff";
     ctx.moveTo(x, y - size / 4);
     ctx.lineTo(x - size / 2, y);
     ctx.lineTo(x, y + size / 4);
     ctx.lineTo(x + size / 2, y);
     ctx.closePath();
+    ctx.stroke();
   }
 
   playSound(audioBuffer) {

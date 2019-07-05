@@ -72,15 +72,11 @@ module.exports = class AoeMap {
   }
 
   draw(camera) {
-    var ctx = resources.get2DContext();
-    ctx.beginPath();
-    ctx.strokeStyle = "#ffffff";
     this.selected.drawSelection(camera);
-    ctx.stroke();
-    // ---
     this.entities.forEach((unit) => {
       unit.draw(camera);
     });
+    this.selected.drawHitpoints(camera);
   }
 
   update() {

@@ -42,6 +42,11 @@ module.exports = class Unit extends Entity {
     resources.drawCircle(this.pos.subtract(camera), 20);
   }
 
+  drawHitpoints(camera) {
+    var v = this.pos.subtract(camera).subtract($V([20, 50]));
+    resources.drawHitpoints(v ,this.properties.maxHitPoints / this.properties.hitPoints, this.player.id);
+  }
+
   walk() {
     if (this.path.length) {
       var v = this.path[0].subtract(this.pos);
