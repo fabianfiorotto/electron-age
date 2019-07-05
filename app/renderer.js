@@ -74,6 +74,29 @@ document.addEventListener("DOMContentLoaded", function() {
     map.over(v);
   });
 
+  c.addEventListener('mousedown', (e) => {
+    if (e.which == 1) {
+      var dim = e.target.getBoundingClientRect();
+      var x = e.clientX - dim.left;
+      var y = e.clientY - dim.top;
+
+      var v = $V([x, y]).add(cameraPos);
+      map.mouseDown(v);
+    }
+  });
+
+  c.addEventListener('mouseup', (e) => {
+    if (e.which == 1) {
+      var dim = e.target.getBoundingClientRect();
+      var x = e.clientX - dim.left;
+      var y = e.clientY - dim.top;
+
+      var v = $V([x, y]).add(cameraPos);
+      map.mouseUp(v);
+    }
+  });
+
+
   c.addEventListener('click', (e) => {
     var dim = e.target.getBoundingClientRect();
     var x = e.clientX - dim.left;

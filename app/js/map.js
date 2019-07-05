@@ -77,6 +77,11 @@ module.exports = class AoeMap {
       unit.draw(camera);
     });
     this.selected.drawHitpoints(camera);
+
+    if (this.selectionStart && this.selectionEnd) {
+      var diff = this.selectionEnd.subtract(this.selectionStart);
+      resources.drawSelect(this.selectionStart,diff);
+    }
   }
 
   update() {
@@ -129,12 +134,6 @@ module.exports = class AoeMap {
     }
   }
 
-  over(v) {
-    if (this.selected instanceof Villager && this.selected.building) {
-      this.selected.building.pos = v;
-    }
-  }
-
   canPlace(building , pos) {
     // Too slow
     for (var i = 0; i < this.entities.length; i++) {
@@ -166,6 +165,24 @@ module.exports = class AoeMap {
       this.selected.click();
       this.emitter.emit('did-change-selection', this.selected);
     }
+  }
+
+  over(v) {
+    if (this.selected instanceof Villager && this.selected.building) {
+      this.selected.building.pos = v;
+    }
+    if (this.selectionStart) {
+      this.selectionEnd = v;
+    }
+  }
+
+  mouseDown(v) {
+    this.selectionStart = v;
+  }
+
+  mouseUp(v) {
+    this.selectionStart = null;
+    this.selectionEnd = null;
   }
 
   clickEntity(v) {
