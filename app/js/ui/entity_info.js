@@ -9,9 +9,11 @@ module.exports = class EntityInfo {
     this.hitPoints = element.getElementsByClassName('hit-points')[0];
 
     map.onDidChangeSelection((selected) => {
-      this.eventsUnsuscribe();
-      this.eventsSubscribe(selected);
-      this.displayInfo(selected);
+      if (selected.length == 1) {
+        this.eventsUnsuscribe();
+        this.eventsSubscribe(selected[0]);
+        this.displayInfo(selected[0]);
+      }
     });
   }
 

@@ -46,7 +46,7 @@ module.exports = class AoeMap {
     this.entities.push(new Archer(this, player2));
 
     this.emitter = new Emitter();
-    this.selected = this.entities[0];
+    this.selected = [this.entities[0]];
     this.player = this.players[0];
 
     this.terrain = [];
@@ -72,11 +72,16 @@ module.exports = class AoeMap {
   }
 
   draw(camera) {
-    this.selected.drawSelection(camera);
+    for (var selected of this.selected) {
+      selected.drawSelection(camera);
+    }
     this.entities.forEach((unit) => {
       unit.draw(camera);
     });
-    this.selected.drawHitpoints(camera);
+    for (selected of this.selected) {
+      selected.drawHitpoints(camera);
+    }
+
 
     if (this.selectionStart && this.selectionEnd) {
       var diff = this.selectionEnd.subtract(this.selectionStart);
@@ -151,25 +156,20 @@ module.exports = class AoeMap {
 
   rightClick(v) {
     var entity = this.clickEntity(v);
-    this.selected.setTarget(entity);
-    this.selected.setPath([v]);
-  }
-
-  leftClick(v) {
-    var entity = this.clickEntity(v);
-    if (entity) {
-      if (this.selected) {
-        this.selected.blur();
-      }
-      this.selected = entity;
-      this.selected.click();
-      this.emitter.emit('did-change-selection', this.selected);
+    for (var selected of this.selected) {
+      // Tienen que mantenar la formacion y no chocarse.
+      selected.setTarget(entity);
+      selected.setPath([v]);
     }
   }
 
+  leftClick(v) {
+
+  }
+
   over(v) {
-    if (this.selected instanceof Villager && this.selected.building) {
-      this.selected.building.pos = v;
+    if (this.selected[0] instanceof Villager && this.selected[0].building) {
+      this.selected[0].building.pos = v;
     }
     if (this.selectionStart) {
       this.selectionEnd = v;
@@ -181,6 +181,22 @@ module.exports = class AoeMap {
   }
 
   mouseUp(v) {
+    var  newSelected = [];
+    if (this.selectionStart && this.selectionEnd) {
+      newSelected = this.selectEntites();
+    }
+    else {
+      var entity = this.clickEntity(v);
+      if (entity) {
+        newSelected = [entity];
+        entity.click();
+      }
+    }
+    for (var selected of this.selected) {
+      selected.blur();
+    }
+    this.selected = newSelected;
+    this.emitter.emit('did-change-selection', this.selected);
     this.selectionStart = null;
     this.selectionEnd = null;
   }
@@ -191,6 +207,37 @@ module.exports = class AoeMap {
         return this.entities[i];
       }
     }
+  }
+
+  selectEntites() {
+    var x, y, x1, y1, x2, y2;
+    var entities = [];
+    if (this.selectionStart.e(1) < this.selectionEnd.e(1)) {
+      x1 = this.selectionStart.e(1);
+      x2 = this.selectionEnd.e(1);
+    }
+    else {
+      x1 = this.selectionEnd.e(1);
+      x2 = this.selectionStart.e(1);
+    }
+
+    if (this.selectionStart.e(2) < this.selectionEnd.e(2)) {
+      y1 = this.selectionStart.e(2);
+      y2 = this.selectionEnd.e(2);
+    }
+    else {
+      y1 = this.selectionEnd.e(2);
+      y2 = this.selectionStart.e(2);
+    }
+    for (var entity of this.entities) {
+      x = entity.pos.e(1);
+      y = entity.pos.e(2);
+
+      if (x >= x1 && x <= x2 && y >= y1 && y <=  y2) {
+        entities.push(entity);
+      }
+    }
+    return entities;
   }
 
   getPlayerEntities(player) {

@@ -1,12 +1,19 @@
 module.exports = class Controls {
 
   bind(map) {
+
+    // Los fondos estan en 51141
+    // Usar los de mayor resolucion
+
+
     this.controlsView = document.getElementById('controls');
 
     map.onDidChangeSelection((selected) => {
-      this.eventsUnsuscribe();
-      this.eventsSubscribe(selected);
-      this.displayControls(selected, selected.getControls());
+      if (selected.length == 1) {
+        this.eventsUnsuscribe();
+        this.eventsSubscribe(selected[0]);
+        this.displayControls(selected[0], selected[0].getControls());
+      }
     });
   }
 
