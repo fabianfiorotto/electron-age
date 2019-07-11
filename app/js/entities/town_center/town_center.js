@@ -17,14 +17,23 @@ module.exports = class TownCenter extends Building {
       var v1 = $V([0,95]), v2 = $V([0,50]), v3 = $V([0,70]);
       var pos = this.pos.subtract(camera);
 
-      if(this.models.model1){
-        this.models.model1.draw(pos.add(v1), 0, 0, this.player.id);
+      if(this.models.leftRoof){
+        this.models.leftRoof.draw(pos.add(v1), 0, 0, this.player.id);
       }
-      if(this.models.model2){
-        this.models.model2.draw(pos.add(v2), 0, 0, this.player.id);
+      if(this.models.leftColumn1){
+        this.models.leftColumn1.draw(pos.add(v2), 0, 0, this.player.id);
       }
-      if(this.models.model3){
-        this.models.model3.draw(pos.add(v3), 0, 0, this.player.id);
+      if(this.models.leftColumn2){
+        this.models.leftColumn2.draw(pos.add(v3), 0, 0, this.player.id);
+      }
+      if(this.models.rightRoof){
+        this.models.rightRoof.draw(pos.add(v1), 0, 0, this.player.id);
+      }
+      if(this.models.rightColumn1){
+        this.models.rightColumn1.draw(pos.add(v3), 0, 0, this.player.id);
+      }
+      if(this.models.rightColumn2){
+        this.models.rightColumn2.draw(pos.add(v2), 0, 0, this.player.id);
       }
     }
   }
@@ -33,9 +42,13 @@ module.exports = class TownCenter extends Building {
     return {
       model: {
         building: 891,
-        model1: 3594,
-        model2: 3596,
-        model3: 3595,
+        leftRoof: 3594,
+        leftColumn1: 3596,
+        leftColumn2: 3595,
+
+        rightRoof: 4610,
+        rightColumn1: 4611,
+        rightColumn2: 4612,
       },
       sounds: {
         click: 5123
