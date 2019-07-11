@@ -103,6 +103,7 @@ module.exports = class AoeMap {
 
   removeEntity(entity) {
     this.entities.splice(this.entities.indexOf(entity), 1);
+    this.selected.splice(this.entities.indexOf(entity), 1);
   }
 
   async loadResources(res) {
@@ -184,6 +185,7 @@ module.exports = class AoeMap {
     var  newSelected = [];
     if (this.selectionStart && this.selectionEnd) {
       newSelected = this.selectEntites();
+      newSelected = this.filterSelection(newSelected);
     }
     else {
       var entity = this.clickEntity(v);
@@ -238,6 +240,14 @@ module.exports = class AoeMap {
       }
     }
     return entities;
+  }
+
+  filterSelection(selection) {
+    var player1 = this.players[0];
+    // if
+
+
+    return selection;
   }
 
   getPlayerEntities(player) {

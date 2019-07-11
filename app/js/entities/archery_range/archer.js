@@ -32,9 +32,14 @@ module.exports = class Archer extends Unit {
       var v = this.arrowTarget.subtract(this.arrowPos);
       if (v.modulus() <= 3.0) {
         this.arrowPos = null;
-        this.state = Unit.IDLE;
-        this.target.hitPoints = 0; //la flecha no necesariamente lo mata!
-        this.target.onEntityDestroy();
+        if (this.target.properties.hitPoints) {
+          this.target.properties.hitPoints -= 1;
+          this.target.emitter.emit('did-change-properties', this.target.properties);
+        }
+        else {
+          this.state = Unit.IDLE;
+          this.target.onEntityDestroy();
+        }
       }
       else {
         this.arrowPos = this.arrowPos.add(v.toUnitVector().multiply(3));
@@ -56,6 +61,10 @@ module.exports = class Archer extends Unit {
       base: resources.palettes[base_id],
       player: this.player.id
     });
+  }
+
+  thumbnail() {
+    return 17;
   }
 
 };

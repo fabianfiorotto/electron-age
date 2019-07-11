@@ -44,7 +44,7 @@ module.exports = class Unit extends Entity {
 
   drawHitpoints(camera) {
     var v = this.pos.subtract(camera).subtract($V([20, 50]));
-    resources.drawHitpoints(v ,this.properties.maxHitPoints / this.properties.hitPoints, this.player.id);
+    resources.drawHitpoints(v ,this.properties.hitPoints / this.properties.maxHitPoints, this.player.id);
   }
 
   walk() {
@@ -69,8 +69,9 @@ module.exports = class Unit extends Entity {
   }
 
   attack() {
-    if (this.target.hitPoints) {
-      this.target.hitPoints -= 1;
+    if (this.target.properties.hitPoints) {
+      this.target.properties.hitPoints -= 1;
+      this.target.emitter.emit('did-change-properties', this.target.properties);
     }
     else {
       this.state = Unit.IDLE;
@@ -148,9 +149,18 @@ module.exports = class Unit extends Entity {
     }
   }
 
+  thumbnail() {
+    return 0;
+  }
 
   iconsResources() {
     return [
+      {
+        interface: 50730,
+        frames: {
+          thumbnail: this.thumbnail(),
+        }
+      },
       {
         interface: 50721,
         frames: {

@@ -1,12 +1,16 @@
 module.exports = class EntityInfo {
 
   bind(element, map) {
+    this.resources = element.getElementsByClassName('resources')[0];
     this.thumbnail = element.getElementsByClassName('thumbnail')[0];
     this.stone = element.getElementsByClassName('unit-stone')[0];
     this.food = element.getElementsByClassName('unit-food')[0];
     this.wood = element.getElementsByClassName('unit-wood')[0];
     this.gold = element.getElementsByClassName('unit-gold')[0];
     this.hitPoints = element.getElementsByClassName('hit-points')[0];
+    this.hitPointsBar = element.getElementsByClassName('hit-points-bar')[0];
+    this.attack = element.getElementsByClassName('attack')[0];
+    this.armor = element.getElementsByClassName('armor')[0];
 
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
@@ -39,38 +43,29 @@ module.exports = class EntityInfo {
   }
 
   displayResourcesInfo(res) {
-    if (res.food) {
-      this.food.parentNode.style.display = '';
-      this.food.textContent = res.food;
-    }
-    else {
-      this.food.parentNode.style.display = 'none';
-    }
-    if (res.stone) {
-      this.stone.parentNode.style.display = '';
-      this.stone.textContent = res.stone;
-    }
-    else {
-      this.stone.parentNode.style.display = 'none';
-    }
-    if (res.gold) {
-      this.gold.parentNode.style.display = '';
-      this.gold.textContent = res.gold;
-    }
-    else {
-      this.gold.parentNode.style.display = 'none';
-    }
-    if (res.wood) {
-      this.wood.parentNode.style.display = '';
-      this.wood.textContent = res.wood;
-    }
-    else {
-      this.wood.parentNode.style.display = 'none';
+    for (var name of ['food', 'stone', 'gold', 'wood']) {
+      if (res[name]) {
+        this[name].parentNode.style.display = '';
+        this[name].textContent = res[name];
+      }
+      else {
+        this[name].parentNode.style.display = 'none';
+      }
     }
   }
 
   displayPropertiesInfo(pr) {
-    this.hitPoints.textContent = "(" + pr.hitPoints + "/" + pr.maxHitPoints + ")";
+    this.hitPoints.textContent = pr.hitPoints + "/" + pr.maxHitPoints;
+    this.hitPointsBar.setAttribute('value', pr.hitPoints);
+    this.hitPointsBar.setAttribute('max', pr.maxHitPoints);
+    if (pr.attack) {
+      this.attack.parentNode.style.display = '';
+      this.attack.textContent = pr.attack;
+    }
+    else {
+      this.attack.parentNode.style.display = 'none';
+    }
+    this.armor.textContent = pr.meleeArmor + "/" + pr.pierceArmor;
   }
 
   displayInfo(selected) {
@@ -81,10 +76,11 @@ module.exports = class EntityInfo {
        this.thumbnail.setAttribute('src', "#");
      }
      if (selected.resources) {
+       this.resources.style.display = '';
        this.displayResourcesInfo(selected.resources);
      }
      else {
-       this.food.parentNode.style.display = 'none';
+       this.resources.style.display = 'none';
      }
      this.displayPropertiesInfo(selected.properties);
   }
