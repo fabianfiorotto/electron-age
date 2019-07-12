@@ -1,4 +1,6 @@
-module.exports = class CentralEuropean {
+const Civilization = require('../../civilization');
+
+module.exports = class CentralEuropean extends Civilization {
 
   modelsResources() {
     return {
@@ -29,6 +31,15 @@ module.exports = class CentralEuropean {
         },
         Stable: {
           building: 1009
+        },
+        TownCenter: {
+          building: 903,
+          leftRoof: 3600,
+          leftColumn1: 3608,
+          leftColumn2: 3604,
+
+          rightRoof: 4616,
+          rightColumn1: 4620,
         }
       },
       castle: {
@@ -69,21 +80,6 @@ module.exports = class CentralEuropean {
         }
       }
     };
-  }
-
-  async updateAge(age, entity) {
-    var allres = this.modelsResources();
-    var res = allres[age];
-    var name = entity.constructor.name;
-    if (res[name]) {
-      for (const [key,value] of Object.entries(res[name])){
-        entity.models[key] = await resources.loadModel(value);
-        entity.models[key].load({
-          base: resources.palettes[50505],
-          player: entity.player.id
-        });
-      }
-    }
   }
 
 };
