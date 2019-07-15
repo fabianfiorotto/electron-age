@@ -17,32 +17,6 @@ var cameraPos = $V([0, 0]);
 var cameraMoved = true;
 var fps = 0;
 
-var loadSlpImgs = async function(root) {
-  var imgs = root.getElementsByClassName('slp-image');
-  for (var i = 0; i < imgs.length; i++) {
-    var src = imgs[i].getAttribute('src');
-    var [id, frame] = src.split('/');
-    var m = await resources.loadInterface(id.substr(1));
-    m.load({
-      base: resources.palettes[50505],
-      player: 0
-    });
-    imgs[i].setAttribute('src', m.frames[frame || 0].getUrl());
-  }
-};
-
-var bindWidget = function(widget, name, elementName) {
-  fs.readFile('./app/js/ui/' + name + '.html', (err, data) => {
-    if (err) {
-      console.log(err);
-    }
-    var element = document.getElementById(elementName);
-    element.innerHTML = data;
-    loadSlpImgs(element);
-    widget.bind(element, map);
-  });
-};
-
 document.addEventListener("DOMContentLoaded", function() {
   var c, ctx, tr_c, tr_ctx, doKeyDown, idle, imgs;
 
@@ -54,15 +28,13 @@ document.addEventListener("DOMContentLoaded", function() {
   tr_c = document.getElementById("terrainCanvas");
   tr_ctx = tr_c.getContext("2d");
 
-  loadSlpImgs(document);
-
   map.loadResources(resources).then(() => cameraMoved = true);
 
   controls.loadResources(resources);
-  controls.bind(map);
+  controls.onBind(map);
 
-  bindWidget(info, 'entity_info', 'entity-info');
-  bindWidget(viewResources, 'resources', 'resources');
+  info.bind(map, 'entity-info');
+  viewResources.bind(map, 'resources');
 
   c.addEventListener('mousemove', (e) => {
     var dim = e.target.getBoundingClientRect();

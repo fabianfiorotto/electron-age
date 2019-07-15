@@ -1,6 +1,12 @@
-module.exports = class ViewResources {
+const UIWidget = require('./ui_widget');
 
-  bind(element, map) {
+module.exports = class ViewResources extends UIWidget{
+
+  template() {
+    return 'resources';
+  }
+
+  onBind(map, element) {
     this.wood = document.getElementsByClassName('wood')[0];
     this.food = document.getElementsByClassName('food')[0];
     this.gold = document.getElementsByClassName('gold')[0];

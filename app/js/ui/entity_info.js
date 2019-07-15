@@ -1,6 +1,12 @@
-module.exports = class EntityInfo {
+const UIWidget = require('./ui_widget');
 
-  bind(element, map) {
+module.exports = class EntityInfo extends UIWidget {
+
+  template() {
+    return 'entity_info';
+  }
+
+  onBind(map, element) {
     this.resources = element.getElementsByClassName('resources')[0];
     this.thumbnail = element.getElementsByClassName('thumbnail')[0];
     this.stone = element.getElementsByClassName('unit-stone')[0];

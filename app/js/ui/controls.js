@@ -1,6 +1,8 @@
-module.exports = class Controls {
+const UIWidget = require('./ui_widget');
 
-  bind(map) {
+module.exports = class Controls extends UIWidget {
+
+  onBind(map) {
 
     // Los fondos estan en 51141
     // Usar los de mayor resolucion
