@@ -40,9 +40,25 @@ module.exports = class CentralEuropean extends Civilization {
 
           rightRoof: 4613,
           rightColumn1: 4617,
+          rightColumn2: 4621,
         }
       },
       castle: {
+        House: {
+          building: 2244
+        },
+        Blacksmith: {
+          building: 102
+        },
+        Barracks: {
+          building: 142
+        },
+        ArcheryRange: {
+          building: 33
+        },
+        Stable: {
+          building: 1018
+        },
         Market: {
           building: 817
         },
@@ -60,24 +76,9 @@ module.exports = class CentralEuropean extends Civilization {
         },
       },
       imperial: {
-        House: {
-          building: 2244
-        },
         Market: {
           building: 3794
         },
-        Blacksmith: {
-          building: 102
-        },
-        Barracks: {
-          building: 142
-        },
-        ArcheryRange: {
-          building: 33
-        },
-        Stable: {
-          building: 1018
-        }
       }
     };
   }
