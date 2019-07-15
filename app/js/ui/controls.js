@@ -2,13 +2,13 @@ const UIWidget = require('./ui_widget');
 
 module.exports = class Controls extends UIWidget {
 
-  onBind(map) {
+  onBind(map, element) {
 
     // Los fondos estan en 51141
     // Usar los de mayor resolucion
 
 
-    this.controlsView = document.getElementById('controls');
+    this.controlsView = element;
 
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {

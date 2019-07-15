@@ -3,7 +3,7 @@ const fs = require('fs');
 module.exports = class UIWidget {
 
   template() {
-    return NULL;
+    return null;
   }
 
   async loadSlpImgs(root) {

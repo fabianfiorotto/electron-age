@@ -20,9 +20,13 @@ module.exports = class EntityInfo extends UIWidget {
 
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
+        element.style.display = '';
         this.eventsUnsuscribe();
         this.eventsSubscribe(selected[0]);
         this.displayInfo(selected[0]);
+      }
+      else {
+        element.style.display = 'none';
       }
     });
   }
