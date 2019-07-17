@@ -15,10 +15,10 @@
       <div class="view-resources">
       </div>
     </div>
-    <div class="map" style="position:relative; height: 600px;">
-      <canvas id="terrainCanvas" width="800" height="600" style="border:1px solid #000000; position:absolute;">
+    <div id="map" class="map" style="position:relative; height: 600px;">
+      <canvas id="terrainCanvas" width="800" height="600" style="position:absolute;">
       </canvas>
-      <canvas id="myCanvas" width="800" height="600" style="border:1px solid #000000; position:absolute;">
+      <canvas id="myCanvas" width="800" height="600" style="position:absolute;">
       </canvas>
     </div>
     <canvas id="myCanvas2" width="100" height="100" style="display: none;">
@@ -26,7 +26,11 @@
     <div id="dashboard" class="dashboard">
     </div>
 
-    <a href="./debug.html">Debug</a> <span id="fps"></span>
+    <div class="debug">
+      <a href="./debug.html">Debug</a>
+      <br />
+      FPS: <span id="fps"></span>
+    </div>
 
   </body>
   <script src="renderer.js"></script>

@@ -85,7 +85,7 @@ module.exports = class AoeMap {
 
     if (this.selectionStart && this.selectionEnd) {
       var diff = this.selectionEnd.subtract(this.selectionStart);
-      resources.drawSelect(this.selectionStart,diff);
+      resources.drawSelect(this.selectionStart.subtract(camera),diff);
     }
   }
 

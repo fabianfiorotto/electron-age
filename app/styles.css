@@ -3,6 +3,15 @@ body {
   margin: 0;
 }
 
+.debug {
+  color: #fff;
+  background-color: #000;
+  position: fixed;
+  top: 32px;
+  right: 0;
+  padding: 2px;
+}
+
 /*****
  Top Bar
 */

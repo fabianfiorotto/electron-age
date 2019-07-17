@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var c, ctx, tr_c, tr_ctx, doKeyDown, idle, imgs;
 
   var showFps = document.getElementById("fps");
+  var mapDiv = document.getElementById("map");
 
   c = document.getElementById("myCanvas");
   ctx = c.getContext("2d");
@@ -85,6 +86,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
+  var resizeMap = function() {
+    c.setAttribute('width', window.innerWidth);
+    tr_c.setAttribute('width', window.innerWidth);
+    c.setAttribute('height', window.innerHeight - 250);
+    tr_c.setAttribute('height', window.innerHeight - 250);
+    mapDiv.style.height = (window.innerHeight - 250) + "px";
+    cameraMoved = true;
+  };
+
+  window.addEventListener('resize',function(e) {
+    resizeMap();
+  });
+  resizeMap();
+
   doKeyDown = function(e) {
     if (e.keyCode == 87) { //w
       cameraPos = cameraPos.add($V([0,-10]));
@@ -108,7 +123,11 @@ document.addEventListener("DOMContentLoaded", function() {
     ctx.clearRect(0, 0, c.width, c.height);
     map.update();
     if (cameraMoved) {
-      tr_ctx.clearRect(0, 0, tr_c.width, tr_c.height);
+      // tr_ctx.clearRect(0, 0, tr_c.width, tr_c.height);
+      tr_ctx.beginPath();
+      tr_ctx.rect(0, 0, tr_c.width, tr_c.height);
+      tr_ctx.fillStyle = "#000";
+      tr_ctx.fill();
       map.drawTerrain(cameraPos);
       cameraMoved = false;
     }
@@ -133,10 +152,6 @@ document.addEventListener("DOMContentLoaded", function() {
   };
   setInterval(resetFps, 1000);
 
-  // Si le pongo menos de 60 el proceso de dibujado del terreno tarde demaciado
-  // y bloquea los procesos de carga de recursos.
-  // La solucion seria que el proceso de dibujado sea asincronico
-  // setInterval(idle, 60);
   loop();
 
   return 1;
