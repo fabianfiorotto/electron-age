@@ -7,6 +7,8 @@ module.exports = class ViewResources extends UIWidget{
   }
 
   onBind(map, element) {
+    this.top = document.getElementsByClassName('top-bar')[0];
+
     this.wood = document.getElementsByClassName('wood')[0];
     this.food = document.getElementsByClassName('food')[0];
     this.gold = document.getElementsByClassName('gold')[0];
@@ -29,5 +31,16 @@ module.exports = class ViewResources extends UIWidget{
     this.age.textContent = age;
   }
 
+
+  async loadResources(res) {
+    this.imgs = {};
+    var model = await res.loadInterface(51141);
+    model.load({
+      base: resources.palettes[50505],
+      player: 0
+    });
+    var img = model.frames[0].imgs[0];
+    this.top.setAttribute('src', res.cropUrl(img,0 ,0 ,1280, 32));
+  }
 
 };

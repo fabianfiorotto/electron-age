@@ -1,14 +1,11 @@
 const ResourceManager = require("./resources");
 const AoeMap = require('./js/map');
-const Controls = require('./js/ui/controls');
-const EntityInfo = require('./js/ui/entity_info');
-const ViewResources = require('./js/ui/resources');
-const Selecion = require('./js/ui/selection');
 
-var controls = new Controls();
-var info = new EntityInfo();
+const ViewResources = require('./js/ui/resources');
+const Dashboard = require('./js/ui/dashboard');
+
 var viewResources = new ViewResources();
-var selection = new Selecion();
+var dashboard = new Dashboard();
 
 require("sylvester");
 const fs = require('fs');
@@ -32,12 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   map.loadResources(resources).then(() => cameraMoved = true);
 
-  controls.loadResources(resources);
-
-  selection.bind(map, 'selection');
-  controls.bind(map, 'controls');
-  info.bind(map, 'entity-info');
   viewResources.bind(map, 'resources');
+  dashboard.bind(map, 'dashboard');
 
   c.addEventListener('mousemove', (e) => {
     var dim = e.target.getBoundingClientRect();

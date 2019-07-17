@@ -20,9 +20,13 @@ module.exports = class UIWidget {
     }
   }
 
-  bind(map, elementId) {
+  bind(map, element) {
+    if (typeof element === 'string') {
+      element = document.getElementById(element);
+    }
+
     var templateName = this.template();
-    var element = document.getElementById(elementId);
+
     if (templateName) {
       fs.readFile('./app/js/ui/' + templateName + '.html', (err, data) => {
         if (err) {
@@ -31,10 +35,12 @@ module.exports = class UIWidget {
         element.innerHTML = data;
         this.loadSlpImgs(element);
         this.onBind(map, element);
+        this.loadResources(resources);
       });
     }
     else {
       this.onBind(map, element);
+      this.loadResources(resources);
     }
   }
 

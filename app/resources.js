@@ -174,6 +174,23 @@ module.exports = class ResourceManager {
     return aux.canvas.toDataURL();
   }
 
+  cropUrl(img, sx, sy, width, height) {
+    var aux = this.getAux2DContext();
+
+    aux.canvas.setAttribute('width', img.width);
+    aux.canvas.setAttribute('height', img.height);
+    aux.clearRect(0, 0, aux.canvas.width, aux.canvas.height);
+    aux.putImageData(img, 0, 0);
+    img = aux.getImageData(sx, sy, width, height);
+
+    aux.canvas.setAttribute('width', width);
+    aux.canvas.setAttribute('height', height);
+    aux.clearRect(0, 0, width, height);
+    aux.putImageData(img, 0, 0);
+
+    return aux.canvas.toDataURL();
+  }
+
   flipImage(img) {
     var inv = this.createImage(img.width, img.height);
     for (var i = 0; i < img.height; i++) {
