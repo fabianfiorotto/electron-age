@@ -18,6 +18,16 @@ module.exports = class EntityInfo extends UIWidget {
     this.attack = this.element.getElementsByClassName('attack')[0];
     this.armor = this.element.getElementsByClassName('armor')[0];
 
+    if (map.selected.length == 1) {
+      this.element.style.display = '';
+      this.eventsUnsuscribe();
+      this.eventsSubscribe(map.selected[0]);
+      this.displayInfo(map.selected[0]);
+    }
+    else {
+      this.element.style.display = 'none';
+    }
+
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
         this.element.style.display = '';

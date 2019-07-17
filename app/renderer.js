@@ -1,10 +1,10 @@
 const ResourceManager = require("./resources");
 const AoeMap = require('./js/map');
 
-const ViewResources = require('./js/ui/resources');
+const TopBar = require('./js/ui/topbar');
 const Dashboard = require('./js/ui/dashboard');
 
-var viewResources = new ViewResources();
+var topBar = new TopBar();
 var dashboard = new Dashboard();
 
 require("sylvester");
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   map.loadResources(resources).then(() => cameraMoved = true);
 
-  viewResources.bind(map, 'resources');
+  topBar.bind(map, 'top-bar');
   dashboard.bind(map, 'dashboard');
 
   c.addEventListener('mousemove', (e) => {

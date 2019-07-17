@@ -18,8 +18,6 @@ module.exports = class Dashboard extends UIWidget {
   }
 
   onBind(map) {
-    this.bottom = this.element.getElementsByClassName('bottom-bar')[0];
-
     this.controls.bind(map, this.element.getElementsByClassName('controls')[0]);
     this.info.bind(map, this.element.getElementsByClassName('entity-info')[0]);
     this.selection.bind(map, this.element.getElementsByClassName('selection')[0]);
@@ -33,7 +31,7 @@ module.exports = class Dashboard extends UIWidget {
       player: 0
     });
     var img = model.frames[0].imgs[0];
-    this.bottom.setAttribute('src', res.cropUrl(img, 0, 806 ,1280, 218));
+    this.element.style.backgroundImage = 'url(' + res.cropUrl(img, 0, 806 ,1280, 218) +')';
   }
 
 };

@@ -1,3 +1,52 @@
+
+body {
+  margin: 0;
+}
+
+/*****
+ Top Bar
+*/
+
+.top-bar {
+  height: 32px;
+}
+
+.view-resources {
+  color: #fff;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+.view-resources .resource {
+  float: left;
+  margin-left: 27px;
+  width: 49px;
+  text-align: right;
+}
+
+/*****
+ Dashboard
+*/
+
+.dashboard {
+  height: 218px;
+}
+
+.dashboard-column {
+  width: 340px;
+  box-sizing: border-box;
+  float: left;
+}
+
+.dashboard-column-1 {
+  width: 340px;
+  padding: 43px;
+}
+
+.dashboard-column-2 {
+  padding: 40px 30px;
+}
+
 .hit-points-bar {
   width: 37px;
   height: 7px;
