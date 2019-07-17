@@ -2,13 +2,10 @@ const UIWidget = require('./ui_widget');
 
 module.exports = class Controls extends UIWidget {
 
-  onBind(map, element) {
+  onBind(map) {
 
     // Los fondos estan en 51141
     // Usar los de mayor resolucion
-
-
-    this.controlsView = element;
 
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
@@ -72,13 +69,13 @@ module.exports = class Controls extends UIWidget {
 
   displayControls(selected, controls) {
     var tr;
-    this.controlsView.innerHTML = '';
+    this.element.innerHTML = '';
     for (var i = 0; i < 15; i++) {
       var td, img;
       var control;
       if (i % 5 == 0) {
         tr = document.createElement('tr');
-        this.controlsView.appendChild(tr);
+        this.element.appendChild(tr);
       }
       if (Array.isArray(controls[i])) {
         control = controls[i].reverse().find((c) => typeof c.condition !== "function" || c.condition());

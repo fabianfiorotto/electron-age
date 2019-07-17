@@ -17,12 +17,12 @@ module.exports = class Dashboard extends UIWidget {
     return 'dashboard';
   }
 
-  onBind(map, element) {
-    this.bottom = element.getElementsByClassName('bottom-bar')[0];
+  onBind(map) {
+    this.bottom = this.element.getElementsByClassName('bottom-bar')[0];
 
-    this.controls.bind(map, element.getElementsByClassName('controls')[0]);
-    this.info.bind(map, element.getElementsByClassName('entity-info')[0]);
-    this.selection.bind(map, element.getElementsByClassName('selection')[0]);
+    this.controls.bind(map, this.element.getElementsByClassName('controls')[0]);
+    this.info.bind(map, this.element.getElementsByClassName('entity-info')[0]);
+    this.selection.bind(map, this.element.getElementsByClassName('selection')[0]);
   }
 
   async loadResources(res) {

@@ -6,14 +6,14 @@ module.exports = class ViewResources extends UIWidget{
     return 'resources';
   }
 
-  onBind(map, element) {
-    this.top = document.getElementsByClassName('top-bar')[0];
+  onBind(map) {
+    this.top = this.element.getElementsByClassName('top-bar')[0];
 
-    this.wood = document.getElementsByClassName('wood')[0];
-    this.food = document.getElementsByClassName('food')[0];
-    this.gold = document.getElementsByClassName('gold')[0];
-    this.stone = document.getElementsByClassName('stone')[0];
-    this.age = document.getElementsByClassName('current-age')[0];
+    this.wood = this.element.getElementsByClassName('wood')[0];
+    this.food = this.element.getElementsByClassName('food')[0];
+    this.gold = this.element.getElementsByClassName('gold')[0];
+    this.stone = this.element.getElementsByClassName('stone')[0];
+    this.age = this.element.getElementsByClassName('current-age')[0];
     var player = map.players[0];
     player.onDidChangeResources((res) => this.display(res));
     player.onDidChangeAge((age) => this.displayAge(age));

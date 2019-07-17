@@ -2,8 +2,7 @@ const UIWidget = require('./ui_widget');
 
 module.exports = class Controls extends UIWidget {
 
-  onBind(map, element) {
-    this.selectionView = element;
+  onBind(map) {
     map.onDidChangeSelection((selected) => {
 
       if (selected.length > 1) {
@@ -12,7 +11,7 @@ module.exports = class Controls extends UIWidget {
         this.display(selected);
       }
       else {
-        this.selectionView.innerHTML = '';
+        this.element.innerHTML = '';
       }
     });
   }
@@ -28,7 +27,7 @@ module.exports = class Controls extends UIWidget {
 
   display(selected) {
     var tr;
-    this.selectionView.innerHTML = '';
+    this.element.innerHTML = '';
 
     tr = document.createElement('tr');
 
@@ -48,7 +47,7 @@ module.exports = class Controls extends UIWidget {
 
       tr.appendChild(td);
     }
-    this.selectionView.appendChild(tr);
+    this.element.appendChild(tr);
   }
 
 };

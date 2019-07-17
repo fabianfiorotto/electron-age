@@ -6,8 +6,8 @@ module.exports = class UIWidget {
     return null;
   }
 
-  async loadSlpImgs(root) {
-    var imgs = root.getElementsByClassName('slp-image');
+  async loadSlpImgs() {
+    var imgs = this.element.getElementsByClassName('slp-image');
     for (var i = 0; i < imgs.length; i++) {
       var src = imgs[i].getAttribute('src');
       var [id, frame] = src.split('/');
@@ -22,7 +22,10 @@ module.exports = class UIWidget {
 
   bind(map, element) {
     if (typeof element === 'string') {
-      element = document.getElementById(element);
+      this.element = document.getElementById(element);
+    }
+    else {
+      this.element = element;
     }
 
     var templateName = this.template();
@@ -32,14 +35,14 @@ module.exports = class UIWidget {
         if (err) {
           console.log(err);
         }
-        element.innerHTML = data;
-        this.loadSlpImgs(element);
-        this.onBind(map, element);
+        this.element.innerHTML = data;
+        this.loadSlpImgs();
+        this.onBind(map, this.element);
         this.loadResources(resources);
       });
     }
     else {
-      this.onBind(map, element);
+      this.onBind(map);
       this.loadResources(resources);
     }
   }
