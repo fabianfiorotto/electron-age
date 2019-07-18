@@ -101,6 +101,11 @@ module.exports = class AoeMap {
     this.entities.push(entity);
   }
 
+  setSelected(newSelected) {
+    this.selected = newSelected;
+    this.emitter.emit('did-change-selection', newSelected);
+  }
+
   removeEntity(entity) {
     this.entities.splice(this.entities.indexOf(entity), 1);
     this.selected.splice(this.entities.indexOf(entity), 1);
@@ -197,8 +202,7 @@ module.exports = class AoeMap {
     for (var selected of this.selected) {
       selected.blur();
     }
-    this.selected = newSelected;
-    this.emitter.emit('did-change-selection', this.selected);
+    this.setSelected(newSelected);
     this.selectionStart = null;
     this.selectionEnd = null;
   }

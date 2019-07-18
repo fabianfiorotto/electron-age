@@ -102,6 +102,7 @@ module.exports = class EntityInfo extends UIWidget {
      else {
        this.resources.style.display = 'none';
      }
+     this.hitPointsBar.parentNode.setAttribute("class", "player" + selected.player.id);
      this.displayPropertiesInfo(selected.properties);
   }
 

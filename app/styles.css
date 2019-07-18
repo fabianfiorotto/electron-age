@@ -57,6 +57,25 @@ body {
 }
 
 .hit-points-bar {
+  -webkit-appearance: none;
   width: 37px;
   height: 7px;
+  margin-top: -4px;
+}
+
+.player1 progress[value]::-webkit-progress-value {
+  background-color: rgb(95, 95, 255);
+}
+
+.player2 progress[value]::-webkit-progress-value {
+  background-color: rgb(255, 95, 95);
+}
+
+
+.selection td {
+  padding-left: 10px;
+}
+
+.selection .hit-points-bar  {
+  display: block;
 }

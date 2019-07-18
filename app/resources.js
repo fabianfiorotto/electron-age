@@ -329,7 +329,13 @@ module.exports = class ResourceManager {
         player: res.player_id
       });
       for (const [key,value] of Object.entries(icons.frames)){
-        entity.icons[key] = model.frames[value].getUrl();
+        if (key == 'thumbnail') {
+          var img = model.frames[value].imgs[res.player_id];
+          entity.icons.thumbnail = this.getUrl(img);
+        }
+        else {
+          entity.icons[key] = model.frames[value].getUrl();
+        }
       }
     }
     entity.onResourcesLoaded();
