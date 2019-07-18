@@ -25,9 +25,14 @@ module.exports = class Controls extends UIWidget {
     }
   }
 
-  attachClick(img, entity) {
+  attachEvents(img, pg ,entity) {
     img.addEventListener('click', (e) => {
       map.setSelected([entity]);
+    });
+
+    entity.onDidChangeProperties( () => {
+      pg.setAttribute('value', entity.properties.hitPoints);
+      pg.setAttribute('max', entity.properties.maxHitPoints);
     });
   }
 
@@ -43,12 +48,13 @@ module.exports = class Controls extends UIWidget {
       td = document.createElement('td');
       img = document.createElement('img');
       img.setAttribute('src', entity.icons.thumbnail);
-      this.attachClick(img, entity);
       pg = document.createElement('progress');
       pg.setAttribute('value', entity.properties.hitPoints);
       pg.setAttribute('max', entity.properties.maxHitPoints);
       pg.classList.add('hit-points-bar');
       td.classList.add('player' + entity.player.id);
+      this.attachEvents(img, pg, entity);
+
 
       td.appendChild(img);
       td.appendChild(pg);

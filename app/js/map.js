@@ -108,7 +108,11 @@ module.exports = class AoeMap {
 
   removeEntity(entity) {
     this.entities.splice(this.entities.indexOf(entity), 1);
-    this.selected.splice(this.entities.indexOf(entity), 1);
+
+    if (this.selected.indexOf(entity) !== -1) {
+      this.selected.splice(this.selected.indexOf(entity), 1);
+      this.emitter.emit('did-change-selection', this.selected);
+    }
   }
 
   async loadResources(res) {
