@@ -35,15 +35,15 @@ module.exports = class Player {
   }
 
   onDidChangeResources(callback){
-    this.emitter.on('did-change-resources', callback);
+    return this.emitter.on('did-change-resources', callback);
   }
 
   onDidChangeAge(callback) {
-    this.emitter.on('did-change-age', callback);
+    return this.emitter.on('did-change-age', callback);
   }
 
   onDidDevelopTecnology(callback) {
-    this.emitter.on('did-develop-tecnology', callback);
+    return this.emitter.on('did-develop-tecnology', callback);
   }
 
   getAgeCode(age) {
