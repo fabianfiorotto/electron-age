@@ -74,10 +74,30 @@ module.exports = class CentralEuropean extends Civilization {
         SiegeWorkshop: {
           building: 955
         },
+        TownCenter: {
+          building: 912,
+          leftRoof: 3609,
+          leftColumn1: 3620,
+          leftColumn2: 3616,
+
+          rightRoof: 4625,
+          rightColumn1: 4632,
+          rightColumn2: 4636,
+        },
       },
       imperial: {
         Market: {
           building: 3794
+        },
+        TownCenter: {
+          building: 924,
+          leftRoof: 3465,
+          leftColumn1: 3473,
+          leftColumn2: 3469,
+
+          rightRoof: 4637,
+          rightColumn1: 4641,
+          rightColumn2: 4645,
         },
       }
     };
