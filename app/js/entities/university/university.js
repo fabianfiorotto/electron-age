@@ -19,7 +19,7 @@ module.exports = class University extends Building {
       {
         interface: 50706,
         frames: {
-          thumbnail: 10
+          thumbnail: 32
         }
       }
     ];

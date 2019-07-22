@@ -81,23 +81,26 @@ module.exports = class CentralEuropean extends Civilization {
           leftColumn2: 3616,
 
           rightRoof: 4628,
-          rightColumn1: 4636,
-          rightColumn2: 4632,
+          rightColumn1: 4632,
+          rightColumn2: 4636,
         }
       },
       imperial: {
         Market: {
           building: 3797
         },
+        University: {
+          building: 3839
+        },
         TownCenter: {
           building: 927,
           leftRoof: 3468,
-          leftColumn1: 3608,
-          leftColumn2: 3604,
+          leftColumn1: 3476,
+          leftColumn2: 3472,
 
           rightRoof: 4640,
-          rightColumn1: 4620,
-          rightColumn2: 4624,
+          rightColumn2: 4648,
+          rightColumn1: 4644,
         },
       }
     };

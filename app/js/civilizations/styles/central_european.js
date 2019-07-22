@@ -89,6 +89,9 @@ module.exports = class CentralEuropean extends Civilization {
         Market: {
           building: 3794
         },
+        University: {
+          building: 3836
+        },
         TownCenter: {
           building: 924,
           leftRoof: 3465,
