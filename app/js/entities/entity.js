@@ -112,6 +112,10 @@ module.exports = class Entity {
     return false;
   }
 
+  isAt(pos) {
+    return false;
+  }
+
   modelsResources() {
     return {};
   }

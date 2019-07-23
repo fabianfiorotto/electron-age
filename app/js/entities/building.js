@@ -109,12 +109,24 @@ module.exports = class Building extends Entity {
   }
 
   canClick(pos) {
-    var m = this.getModel();
-    if (m) {
-      var p = this.pos.subtract(pos);
-      return m.canClick(p, 0);
+    if (this.state === Building.INCOMPLETE) {
+      return this.isAt(pos);
     }
-    return false;
+    else {
+      var p = this.pos.subtract(pos);
+      var m = this.getModel();
+      if (m) {
+        return m.canClick(p, 0);
+      }
+      return false;
+    }
+  }
+
+  isAt(pos) {
+    var p = this.pos.subtract(pos).map((e) => Math.abs(e));
+    var size = this.getSize();
+    var x = p.e(1), y = p.e(2);
+    return  y < - 0.5 * x + 30 * size;
   }
 
   modelsResources() {

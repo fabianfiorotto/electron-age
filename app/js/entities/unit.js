@@ -87,7 +87,11 @@ module.exports = class Unit extends Entity {
   canReachTarget(){
     // aca depende porque las unicades de que atacan a distancia tienen mas alcance
     // los aldeanos por ejemplo pueden alcanzar ciervos de lejos pero arboles no
-    return this.target.pos.subtract(this.pos).modulus() < 50.0;
+    return this.target.isAt(this.pos);
+  }
+
+  isAt(pos) {
+    return this.pos.subtract(pos).modulus() < 50.0;
   }
 
   targetReached() {
