@@ -1,5 +1,6 @@
 const Unit = require('../unit');
 
+const Building = require('../building');
 const House = require('../house/house');
 const MiningCamp = require('../resources/mining_camp');
 const LumberCamp = require('../resources/lumber_camp');
@@ -72,7 +73,11 @@ module.exports = class Villager extends Unit {
       this.role = new LumberJack(this);
       resources.load(this.role);
     }
-    if (entity && entity instanceof TownCenter) {
+    if (entity && entity instanceof Building && entity.state == Building.INCOMPLETE) {
+      this.role = new Builder(this);
+      resources.load(this.role);
+    }
+    if (entity && entity instanceof TownCenter && entity.state == Building.FINISHED) {
       this.state = Unit.IDLE;
     }
     this.target = entity;
