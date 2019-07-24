@@ -12,29 +12,37 @@ module.exports = class TownCenter extends Building {
   }
 
   draw(camera) {
-    super.draw(camera);
     if (this.state == Building.FINISHED || this.state == Building.IMAGINARY) {
-      var v1 = $V([0,95]), v2 = $V([0,50]), v3 = $V([0,70]);
+      var v0 = $V([0,-45]);
+      super.draw(camera.subtract(v0));
+
+      var v1 = $V([0,50]), v2 = $V([0,25]);
       var pos = this.pos.subtract(camera);
 
       if(this.models.leftRoof){
         this.models.leftRoof.draw(pos.add(v1), 0, 0, this.player.id);
       }
       if(this.models.leftColumn1){
-        this.models.leftColumn1.draw(pos.add(v2), 0, 0, this.player.id);
+        this.models.leftColumn1.draw(pos, 0, 0, this.player.id);
       }
       if(this.models.leftColumn2){
-        this.models.leftColumn2.draw(pos.add(v3), 0, 0, this.player.id);
+        this.models.leftColumn2.draw(pos.add(v2), 0, 0, this.player.id);
       }
       if(this.models.rightRoof){
         this.models.rightRoof.draw(pos.add(v1), 0, 0, this.player.id);
       }
       if(this.models.rightColumn1){
-        this.models.rightColumn1.draw(pos.add(v3), 0, 0, this.player.id);
+        this.models.rightColumn1.draw(pos.add(v2), 0, 0, this.player.id);
       }
       if(this.models.rightColumn2){
-        this.models.rightColumn2.draw(pos.add(v2), 0, 0, this.player.id);
+        this.models.rightColumn2.draw(pos, 0, 0, this.player.id);
       }
+      if (this.models.floor) {
+        this.models.floor.draw(pos, 0, 0, this.player.id);
+      }
+    }
+    else {
+      super.draw(camera);
     }
   }
 

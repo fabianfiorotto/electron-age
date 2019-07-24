@@ -72,12 +72,16 @@ module.exports = class AoeMap {
   }
 
   draw(camera) {
-    for (var selected of this.selected) {
+    var entity, selected;
+    for (selected of this.selected) {
       selected.drawSelection(camera);
     }
-    this.entities.forEach((unit) => {
-      unit.draw(camera);
-    });
+    for (entity of this.entities) {
+      entity.drawShadow(camera);
+    }
+    for (entity of this.entities) {
+      entity.draw(camera);
+    }
     for (selected of this.selected) {
       selected.drawHitpoints(camera);
     }

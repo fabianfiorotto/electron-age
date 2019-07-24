@@ -34,6 +34,7 @@ module.exports = class CentralEuropean extends Civilization {
         },
         TownCenter: {
           building: 903,
+          shadow: 895,
           leftRoof: 3600,
           leftColumn1: 3608,
           leftColumn2: 3604,
@@ -63,7 +64,8 @@ module.exports = class CentralEuropean extends Civilization {
           building: 820
         },
         Monastery: {
-          building: 281
+          building: 281,
+          shadow: 273
         },
         University: {
           building: 3835
@@ -76,6 +78,7 @@ module.exports = class CentralEuropean extends Civilization {
         },
         TownCenter: {
           building: 915,
+          shadow: 907,
           leftRoof: 3612,
           leftColumn1: 3620,
           leftColumn2: 3616,
@@ -94,6 +97,8 @@ module.exports = class CentralEuropean extends Civilization {
         },
         TownCenter: {
           building: 927,
+          shadow: 919,
+          floor: 923,
           leftRoof: 3468,
           leftColumn1: 3476,
           leftColumn2: 3472,

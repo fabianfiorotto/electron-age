@@ -41,6 +41,12 @@ module.exports = class Building extends Entity {
     resources.drawSquare(this.pos.subtract(camera), 100 * this.getSize());
   }
 
+  drawShadow(camera) {
+    if (this.models.shadow && this.state === Building.FINISHED) {
+      this.models.shadow.draw(this.pos.subtract(camera), 0, this.frame, this.player.id);
+    }
+  }
+
   draw(camera) {
     var model = this.getModel();
     if (model) {

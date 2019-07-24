@@ -42,6 +42,9 @@ module.exports = class Entity {
     this.target = entity;
   }
 
+  drawShadow(camera) {
+  }
+
   draw(camera) {
   }
 
