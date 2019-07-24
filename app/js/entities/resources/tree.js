@@ -1,17 +1,11 @@
-const Entity = require('../entity');
+const Resource = require('../resource');
 
-module.exports = class Tree extends Entity {
+module.exports = class Tree extends Resource {
 
   constructor(map, player) {
     super(map, player);
     this.pos = $V([320, 50]);
     this.resources = {wood: 600};
-  }
-
-  draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), 0, this.getFrame());
-    }
   }
 
   getModel() {

@@ -1,17 +1,11 @@
-const Entity = require('../entity');
+const Resource = require('../resource');
 
-module.exports = class Berries extends Entity {
+module.exports = class Berries extends Resource {
 
   constructor(map, player) {
     super(map, player);
     this.pos = $V([200, 100]);
     this.resources = {food: 600};
-  }
-
-  draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), 0, this.getFrame());
-    }
   }
 
   getModel() {

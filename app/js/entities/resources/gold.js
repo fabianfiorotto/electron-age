@@ -1,6 +1,6 @@
-const Entity = require('../entity');
+const Resource = require('../resource');
 
-module.exports = class Stone extends Entity {
+module.exports = class Stone extends Resource {
 
   constructor(map, player) {
     super(map, player);
