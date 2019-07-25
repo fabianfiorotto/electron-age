@@ -1,8 +1,8 @@
-var DrsFile = require("./js/drs/drs");
-var SlpModel = require("./js/slp/model");
-var SlpUnitModel = require("./js/slp/unit");
-var SlpPalette = require("./js/slp/palette");
-var ResourceManager = require("./resources");
+var DrsFile = require("../js/drs/drs");
+var SlpModel = require("../js/slp/model");
+var SlpUnitModel = require("../js/slp/unit");
+var SlpPalette = require("../js/slp/palette");
+var ResourceManager = require("../resources");
 
 require("sylvester");
 
