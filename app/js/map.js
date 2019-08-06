@@ -11,6 +11,7 @@ const Archer = require("./entities/archery_range/archer");
 const CentralEuropean = require('./civilizations/styles/central_european');
 const WestEuropean = require('./civilizations/styles/west_european');
 const Player = require('./player');
+const Terrain = require('./terrain/terrain');
 
 const {Emitter} = require('event-kit');
 
@@ -36,7 +37,7 @@ module.exports = class AoeMap {
     villager2.pos = $V([100,150]);
 
     this.entities = [];
-    this.entities.push(new Villager(this, player1));
+    this.entities.push(new Villager(this, player2));
     this.entities.push(villager2);
     this.entities.push(new House(this, player1));
     this.entities.push(new Berries(this, player1));
@@ -49,26 +50,12 @@ module.exports = class AoeMap {
     this.selected = [this.entities[0]];
     this.player = this.players[0];
 
-    this.terrain = [];
-    this.terrainModel = null;
-    this.tpos = $V([-650, 250]);
+    this.terrain = new Terrain(width, height);
   }
 
 
   drawTerrain(camera) {
-    if (this.terrainModel && this.terrain.length) {
-      for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
-          var f = this.terrain[i][j];
-          var w = f.width - 1, h = f.height - 1;
-          var cell = $V([
-            (i + j) * w / 2,
-            (i - j) * h / 2
-          ]);
-          f.drawTerrain(this.tpos.add(cell).subtract(camera));
-        }
-      }
-    }
+    this.terrain.draw(camera);
   }
 
   draw(camera) {
@@ -124,33 +111,8 @@ module.exports = class AoeMap {
     for (var i = 0; i < this.entities.length; i++) {
       resources.load(this.entities[i]);
     }
-    this.terrainModel = await res.loadTerrain(15009);
-    this.terrainModel.load({
-      base: resources.palettes[50505],
-      player: 0
-    });
-
-    this.sand = await res.loadTerrain(15010);
-    this.sand.load({
-      base: resources.palettes[50505],
-      player: 0
-    });
-
-    for (i = 0; i < this.width; i++) {
-      this.terrain.push([]);
-      for (var j = 0; j < this.height; j++) {
-        var m;
-        if (i > 10 && i < 20 && j > 10 && j < 20 ){
-          m = this.sand;
-        }
-        else {
-          m = this.terrainModel;
-        }
-
-        var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
-        this.terrain[i].push(m.frames[frame_id]);
-      }
-    }
+    //TODO call resources.load(this.terrain);
+    await this.terrain.loadResources(res);
   }
 
   canPlace(building , pos) {

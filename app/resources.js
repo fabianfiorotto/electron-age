@@ -58,8 +58,10 @@ module.exports = class ResourceManager {
     return this.terrainContext2d;
   }
 
-  putImage(img, v) {
-    var ctx = this.get2DContext();
+  putImage(img, v, ctx) {
+    if(!ctx) {
+      ctx = this.get2DContext();
+    }
     ctx.putImageData(img, v.e(1), v.e(2));
   }
 
