@@ -14,6 +14,7 @@ const Stable = require('../stable/stable');
 const ArqueryRange = require('../archery_range/archery_range');
 const SiegeWorkshop = require('../siege_workshop/siege_workshop');
 const Castle = require('../castle/castle');
+const Palisade = require('../wall/palisade');
 const TownCenter = require('./town_center');
 
 const Berries = require('../resources/berries');
@@ -46,10 +47,9 @@ module.exports = class Villager extends Unit {
 
   setPath(path) {
     if (path.length && this.building != null) {
-      var pos = path[path.length-1];
-      if (this.map.canPlace(this.building, pos)) {
+      if (this.map.canPlace(this.building)) {
         super.setPath(path);
-        this.startBuilding(pos);
+        this.startBuilding();
       }
       else {
         console.log("Can't build there");
@@ -146,6 +146,7 @@ module.exports = class Villager extends Unit {
           blacksmith:  4,
           market:     16,
           monastery:  10,
+          palisade:   30,
           university: 32,
           townCenter: 28,
 
@@ -197,8 +198,7 @@ module.exports = class Villager extends Unit {
     this.map.addEntity(this.building);
   }
 
-  startBuilding(pos) {
-    this.building.pos = pos;
+  startBuilding() {
     // this.map.addEntity(this.building);
     this.role = new Builder(this);
     resources.load(this.role);
@@ -281,6 +281,10 @@ module.exports = class Villager extends Unit {
         icon: icons.siegeWorkshop,
         condition: () => this.player.age >= 3,
         callback: () => this.build(SiegeWorkshop)
+      },
+      {
+        icon: icons.palisade,
+        callback: () => this.build(Palisade)
       },
       {
         icon: icons.castle,

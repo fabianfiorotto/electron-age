@@ -115,14 +115,14 @@ module.exports = class AoeMap {
     await this.terrain.loadResources(res);
   }
 
-  canPlace(building , pos) {
-    // Too slow
+  canPlace(building) {
+    var pos = building.pos;
     for (var i = 0; i < this.entities.length; i++) {
       var entity = this.entities[i];
       if (entity !== building && entity instanceof Building) {
         var v = entity.pos.subtract(pos).map((e) => Math.abs(e));
         var size = 10 * entity.getSize();
-        if (v.e(1) < size || v.e(2) < size) {
+        if (v.e(1) < size && v.e(2) < size / 2) {
           return false;
         }
       }
@@ -145,7 +145,15 @@ module.exports = class AoeMap {
 
   over(v) {
     if (this.selected[0] instanceof Villager && this.selected[0].building) {
-      this.selected[0].building.pos = v;
+      var x = v.e(1) - v.e(1) % 48;
+      var y = v.e(2) - v.e(2) % 24;
+      if (!(x % 96 == 0 ^ y % 48 == 0)) {
+        y += 24;
+      }
+      if (this.selected[0].building.getSize() % 2 == 0) {
+        x -= 48;
+      }
+      this.selected[0].building.pos = $V([x, y]);
     }
     if (this.selectionStart) {
       this.selectionEnd = v;
