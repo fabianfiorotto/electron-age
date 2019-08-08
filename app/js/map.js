@@ -120,11 +120,9 @@ module.exports = class AoeMap {
     for (var i = 0; i < this.entities.length; i++) {
       var entity = this.entities[i];
       if (entity !== building && entity instanceof Building) {
-        var v = entity.pos.subtract(pos).map((e) => Math.abs(e));
-        var size = 10 * entity.getSize();
-        if (v.e(1) < size && v.e(2) < size / 2) {
+        if (entity.overlap(building)) {
           return false;
-        }
+        };
       }
     }
     return true;

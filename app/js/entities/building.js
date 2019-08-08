@@ -110,6 +110,27 @@ module.exports = class Building extends Entity {
     }
   }
 
+  getTilePoints() {
+    var size = this.getSize();
+    var y0 = 48 * size / 2 - 24;
+    var points = [];
+    for (var i = 0; i < size; i++) {
+      for (var j = 0; j < size; j++) {
+        points.push(this.pos.subtract($V([
+          (i - j) * 48,
+          (i + j) * 24 - y0
+        ])));
+      }
+    }
+    return points;
+  }
+
+  overlap(entity) {
+    var points1 = entity.getTilePoints();
+    var points2 = this.getTilePoints();
+    return points1.some((v1) => points2.some((v2) => v2.eql(v1)));
+  }
+
   onEntityDestroy() {
     this.state = Building.DESTROYED;
   }

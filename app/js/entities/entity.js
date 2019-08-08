@@ -9,7 +9,7 @@ module.exports = class Entity {
     this.models = {};
     this.sounds = {};
     this.icons = {};
-    this.pos = $V([200,200]);
+    this.pos = $V([192,192]);
     this.eachLastRun = {};
 
     this.emitter = new Emitter();
