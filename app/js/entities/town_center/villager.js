@@ -193,6 +193,9 @@ module.exports = class Villager extends Unit {
   }
 
   build(buildingClass) {
+    if (this.building && this.building.isImaginary()) {
+      this.map.removeEntity(this.building);
+    }
     this.building = new buildingClass(this.map, this.player);
     this.building.state = buildingClass.IMAGINARY;
     this.map.addEntity(this.building);

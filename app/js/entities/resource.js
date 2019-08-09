@@ -12,4 +12,8 @@ module.exports = class Resource extends Entity {
     return this.pos.subtract(pos).modulus() < 50.0;
   }
 
+  drawSelection(camera) {
+    resources.drawSquare(this.pos.subtract(camera), 100);
+  }
+
 };
