@@ -161,7 +161,14 @@ module.exports = class Villager extends Unit {
         interface: 50721,
         frames: {
           civilian: 30,
-          military: 31
+          military: 31,
+          repair: 28,
+        }
+      },
+      {
+        interface: 51000,
+        frames: {
+          shelter: 14,
         }
       }
     ];
@@ -257,6 +264,7 @@ module.exports = class Villager extends Unit {
       },
       {
         icon: icons.university,
+        cost: {wood: 200},
         condition: () => this.player.age >= 3,
         callback : () => this.build(University)
       },
@@ -304,6 +312,15 @@ module.exports = class Villager extends Unit {
         icon: icons.military,
         group: military,
       },
+      {
+        icon: icons.repair,
+        callback: () => console.log("repair")
+      },
+      null,
+      {
+        icon: icons.shelter,
+        callback: () => console.log("shelter")
+      }
     ];
   }
 

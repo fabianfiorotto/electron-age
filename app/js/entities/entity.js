@@ -70,6 +70,22 @@ module.exports = class Entity {
     return [];
   }
 
+  developControl(tec, minAge = 1) {
+    return {
+      icon: this.icons[tec],
+      condition: () => this.player.age >= minAge && !this.player.tecnologies[tec],
+      callback : () => this.player.develop(tec)
+    };
+  }
+
+  developControlGroup(tecs) {
+    var ctrls = [];
+    for (const [tec,minAge] of Object.entries(tecs)) {
+      ctrls.push(this.developControl(tec, minAge));
+    }
+    return ctrls;
+  }
+
   getControls() {
     return this.controls();
   }
