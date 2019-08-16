@@ -80,7 +80,9 @@ module.exports = class Entity {
 
   developControlGroup(tecs) {
     var ctrls = [];
-    for (const [tec,minAge] of Object.entries(tecs)) {
+    var entries = Object.entries(tecs);
+    var entires1 = entries.sort( (a,b) => a[1] == b[1] ? entries.indexOf(b) - entries.indexOf(a) : a[1] - b[1]);
+    for (const [tec,minAge] of entires1) {
       ctrls.push(this.developControl(tec, minAge));
     }
     return ctrls;

@@ -6,10 +6,10 @@ module.exports = class Player {
     this.map = map;
     this.civilization = civilization;
     this.resources = {
-      food: 0,
-      wood: 0,
-      stone: 0,
-      gold: 0
+      food: 10000,
+      wood: 10000,
+      stone: 10000,
+      gold: 10000
     };
     this.age = 1;
     this.tecnologies = {};

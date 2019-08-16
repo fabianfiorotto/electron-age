@@ -1,6 +1,9 @@
 const Building = require('../building');
 const ManAtArms = require('./man');
 const Miliatia = require('./militia');
+const LongSwordMan = require('./long_sword.js');
+const TwoHandedSwordMan = require('./two_handed.js');
+const Champion = require('./champion.js');
 
 module.exports = class Barracks extends Building {
 
@@ -30,14 +33,20 @@ module.exports = class Barracks extends Building {
       {
         interface: 50729,
         frames: {
-          researchManAtArms: 85
+          manAtArms: 85,
+          longSwordMan: 48,
+          twoHandedSwordMan: 53,
+          champion: 44,
         }
       },
       {
         interface: 50730,
         frames: {
-          militia: 8,
-          manAtArms: 13
+          createMilitia: 8,
+          createManAtArms: 13,
+          createLongSwordMan: 10,
+          createTwoHandedSwordMan: 12,
+          createChampion: 72,
         }
       }
     ];
@@ -48,24 +57,40 @@ module.exports = class Barracks extends Building {
     return [
       [
         {
-          icon: icons.militia,
+          icon: icons.createMilitia,
           callback : () => this.createUnit(Miliatia)
         },
         {
-          icon: icons.manAtArms,
+          icon: icons.createManAtArms,
           condition: () => this.player.tecnologies.manAtArms,
           callback : () => this.createUnit(ManAtArms)
+        },
+        {
+          icon: icons.createLongSwordMan,
+          condition: () => this.player.tecnologies.longSwordMan,
+          callback : () => this.createUnit(LongSwordMan)
+        },
+        {
+          icon: icons.createTwoHandedSwordMan,
+          condition: () => this.player.tecnologies.twoHandedSwordMan,
+          callback : () => this.createUnit(TwoHandedSwordMan)
+        },
+        {
+          icon: icons.createChampion,
+          condition: () => this.player.tecnologies.champion,
+          callback : () => this.createUnit(Champion)
         }
       ],
       null,
       null,
       null,
       null,
-      {
-        icon: icons.researchManAtArms,
-        condition: () => this.player.age >= 2 && !this.player.tecnologies.manAtArms,
-        callback : () => this.player.develop("manAtArms")
-      },
+      this.developControlGroup({
+        manAtArms: 2,
+        longSwordMan: 3,
+        twoHandedSwordMan: 4,
+        champion: 4,
+      }),
     ];
   }
 

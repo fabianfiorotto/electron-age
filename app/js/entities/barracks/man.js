@@ -1,6 +1,13 @@
 const Unit = require('../unit');
+const LongSwordMan = require('./long_sword.js');
 
 module.exports = class ManAtArms extends Unit {
+
+  upgradesTo() {
+    return {
+      longSwordMan: LongSwordMan,
+    };
+  }
 
   modelsResources() {
     return {
@@ -12,6 +19,17 @@ module.exports = class ManAtArms extends Unit {
         walking: 1048,
       }
     };
+  }
+
+  iconsResources() {
+    return [
+      {
+        interface: 50730,
+        frames: {
+          thumbnail: 13,
+        }
+      },
+    ];
   }
 
 };
