@@ -1,5 +1,6 @@
 const Unit = require('../unit');
 const SlpProjectileModel = require('../../slp/projectile');
+const Crossbowman = require('./crossbowman');
 
 module.exports = class Archer extends Unit {
 
@@ -12,6 +13,12 @@ module.exports = class Archer extends Unit {
         rotting: 9,
         walking: 12,
       }
+    };
+  }
+
+  upgradesTo() {
+    return {
+      crossbow: Crossbowman,
     };
   }
 
