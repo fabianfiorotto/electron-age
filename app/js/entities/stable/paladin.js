@@ -14,16 +14,8 @@ module.exports = class Paladin extends Unit {
     };
   }
 
-
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 2,
-        }
-      },
-    ];
+  thumbnail() {
+    return 2;
   }
 
 };

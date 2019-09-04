@@ -1,4 +1,5 @@
 const Unit = require('../unit');
+const LightCavalry = require('./light');
 
 module.exports = class ScoutCavalry extends Unit {
 
@@ -14,16 +15,15 @@ module.exports = class ScoutCavalry extends Unit {
     };
   }
 
-
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 64,
-        }
-      },
-    ];
+  upgradesTo() {
+    return {
+      lightCavalry: LightCavalry,
+    };
   }
+
+  thumbnail() {
+    return 64;
+  }
+
 
 };

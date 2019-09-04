@@ -1,4 +1,5 @@
 const Unit = require('../unit');
+const Cavalier = require('./cavalier');
 
 module.exports = class Knight extends Unit {
 
@@ -14,16 +15,14 @@ module.exports = class Knight extends Unit {
     };
   }
 
+  upgradesTo() {
+    return {
+      cavalier: Cavalier,
+    };
+  }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 1,
-        }
-      },
-    ];
+  thumbnail() {
+    return 1;
   }
 
 };

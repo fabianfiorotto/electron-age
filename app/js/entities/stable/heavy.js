@@ -14,16 +14,8 @@ module.exports = class HeavyCamel extends Unit {
     };
   }
 
-
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 79,
-        }
-      },
-    ];
+  thumbnail() {
+    return 79;
   }
 
 };

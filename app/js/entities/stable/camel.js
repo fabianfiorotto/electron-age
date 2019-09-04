@@ -1,4 +1,5 @@
 const Unit = require('../unit');
+const HeavyCamel = require('./heavy');
 
 module.exports = class Camel extends Unit {
 
@@ -14,16 +15,14 @@ module.exports = class Camel extends Unit {
     };
   }
 
+  upgradesTo() {
+    return {
+      heavyCamel: HeavyCamel,
+    };
+  }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 78,
-        }
-      },
-    ];
+  thumbnail() {
+    return 78;
   }
 
 };

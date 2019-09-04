@@ -14,16 +14,8 @@ module.exports = class LightCavalry extends Unit {
     };
   }
 
-
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 91,
-        }
-      },
-    ];
+  thumbnail() {
+    return 91;
   }
 
 };

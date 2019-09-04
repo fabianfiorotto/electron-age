@@ -1,4 +1,5 @@
 const Unit = require('../unit');
+const Paladin = require('./paladin');
 
 module.exports = class Cavalier extends Unit {
 
@@ -14,16 +15,14 @@ module.exports = class Cavalier extends Unit {
     };
   }
 
+  upgradesTo() {
+    return {
+      paladin: Paladin,
+    };
+  }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 49,
-        }
-      },
-    ];
+  thumbnail() {
+    return 20;
   }
 
 };
