@@ -21,15 +21,8 @@ module.exports = class LongSwordMan extends Unit {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 10,
-        }
-      },
-    ];
+  thumbnail() {
+    return 10;
   }
 
 };

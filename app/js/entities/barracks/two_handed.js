@@ -21,15 +21,8 @@ module.exports = class TwoHandedSwordMan extends Unit {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 12,
-        }
-      },
-    ];
+  thumbnail() {
+    return 12;
   }
 
 };

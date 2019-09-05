@@ -21,15 +21,8 @@ module.exports = class Militia extends Unit {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 8,
-        }
-      },
-    ];
+  thumbnail() {
+    return 8;
   }
 
 };

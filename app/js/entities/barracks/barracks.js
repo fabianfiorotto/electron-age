@@ -5,6 +5,10 @@ const LongSwordMan = require('./long_sword.js');
 const TwoHandedSwordMan = require('./two_handed.js');
 const Champion = require('./champion.js');
 
+const Spearman = require('./spearman');
+const Pikeman = require('./pikeman');
+const Halberdier = require('./halberdier');
+
 module.exports = class Barracks extends Building {
 
   getSize() {
@@ -37,6 +41,8 @@ module.exports = class Barracks extends Building {
           longSwordMan: 48,
           twoHandedSwordMan: 53,
           champion: 44,
+          pikeman: 36,
+          halberdier: 106,
         }
       },
       {
@@ -47,6 +53,9 @@ module.exports = class Barracks extends Building {
           createLongSwordMan: 10,
           createTwoHandedSwordMan: 12,
           createChampion: 72,
+          createSpearman: 31,
+          createPikerman: 11,
+          createHalberdier: 104,
         }
       }
     ];
@@ -81,7 +90,23 @@ module.exports = class Barracks extends Building {
           callback : () => this.createUnit(Champion)
         }
       ],
-      null,
+      [
+        {
+          icon: icons.createSpearman,
+          condition: () => this.player.age >= 3,
+          callback : () => this.createUnit(Spearman)
+        },
+        {
+          icon: icons.createPikerman,
+          condition: () => this.player.tecnologies.pikeman,
+          callback : () => this.createUnit(Pikeman)
+        },
+        {
+          icon: icons.createHalberdier,
+          condition: () => this.player.tecnologies.halberdier,
+          callback : () => this.createUnit(Halberdier)
+        }
+      ],
       null,
       null,
       null,
@@ -90,6 +115,10 @@ module.exports = class Barracks extends Building {
         longSwordMan: 3,
         twoHandedSwordMan: 4,
         champion: 4,
+      }),
+      this.developControlGroup({
+        pikeman: 3,
+        halberdier: 4,
       }),
     ];
   }

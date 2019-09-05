@@ -14,15 +14,7 @@ module.exports = class Champion extends Unit {
     };
   }
 
-
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 72,
-        }
-      },
-    ];
+  thumbnail() {
+    return 72;
   }
 };

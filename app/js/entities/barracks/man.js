@@ -21,15 +21,9 @@ module.exports = class ManAtArms extends Unit {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50730,
-        frames: {
-          thumbnail: 13,
-        }
-      },
-    ];
+
+  thumbnail() {
+    return 13;
   }
 
 };
