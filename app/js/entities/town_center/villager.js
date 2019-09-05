@@ -229,14 +229,17 @@ module.exports = class Villager extends Unit {
       },
       {
         icon: icons.mild,
+        cost: {wood: 100},
         callback : () => this.build(Mild)
       },
       {
         icon: icons.miningCamp,
+        cost: {wood: 100},
         callback : () => this.build(MiningCamp)
       },
       {
         icon: icons.lumberCamp,
+        cost: {wood: 100},
         callback : () => this.build(LumberCamp)
       },
       {
@@ -249,16 +252,19 @@ module.exports = class Villager extends Unit {
       },
       {
         icon: icons.blacksmith,
+        cost: {wood: 150},
         condition: () => this.player.age >= 2,
         callback : () => this.build(Blacksmith)
       },
       {
         icon: icons.market,
+        cost: {wood: 175},
         condition: () => this.player.age >= 2,
         callback : () => this.build(Market)
       },
       {
         icon: icons.monastery,
+        cost: {wood: 175},
         condition: () => this.player.age >= 3,
         callback : () => this.build(Monastery)
       },
@@ -276,20 +282,24 @@ module.exports = class Villager extends Unit {
     var military = [
       {
         icon: icons.barracks,
+        cost: {wood: 175},
         callback: () => this.build(Barracks)
       },
       {
         icon: icons.archeryRange,
+        cost: {wood: 175},
         condition: () => this.player.age >= 2,
         callback: () => this.build(ArqueryRange)
       },
       {
         icon: icons.stable,
+        cost: {wood: 175},
         condition: () => this.player.age >= 2,
         callback: () => this.build(Stable)
       },
       {
         icon: icons.siegeWorkshop,
+        cost: {wood: 200},
         condition: () => this.player.age >= 3,
         callback: () => this.build(SiegeWorkshop)
       },
@@ -299,6 +309,7 @@ module.exports = class Villager extends Unit {
       },
       {
         icon: icons.castle,
+        cost: {stone: 650},
         condition: () => this.player.age >= 3,
         callback: () => this.build(Castle)
       },
