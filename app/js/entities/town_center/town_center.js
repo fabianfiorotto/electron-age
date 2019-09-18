@@ -98,7 +98,7 @@ module.exports = class TownCenter extends Building {
       {
         time: 10,
         icon: this.nextAgeIcon(),
-        parepare: () => this.player.prepareToChangeAge(),
+        prepare: () => this.player.prepareToChangeAge(),
         callback : () => this.player.updgrateAge(),
         condition: () => this.player.age < 4
       }

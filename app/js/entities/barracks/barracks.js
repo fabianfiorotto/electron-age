@@ -1,6 +1,6 @@
 const Building = require('../building');
 const ManAtArms = require('./man');
-const Miliatia = require('./militia');
+const Militia = require('./militia');
 const LongSwordMan = require('./long_sword.js');
 const TwoHandedSwordMan = require('./two_handed.js');
 const Champion = require('./champion.js');
@@ -67,44 +67,60 @@ module.exports = class Barracks extends Building {
       [
         {
           icon: icons.createMilitia,
-          callback : () => this.createUnit(Miliatia)
+          time: 5,
+          prepare: () => this.prepareUnit(Militia),
+          callback : () => this.createUnit()
         },
         {
           icon: icons.createManAtArms,
+          time: 5,
           condition: () => this.player.tecnologies.manAtArms,
-          callback : () => this.createUnit(ManAtArms)
+          prepare: () =>  this.prepareUnit(ManAtArms),
+          callback : () => this.createUnit()
         },
         {
           icon: icons.createLongSwordMan,
+          time: 5,
           condition: () => this.player.tecnologies.longSwordMan,
-          callback : () => this.createUnit(LongSwordMan)
+          prepare: () =>  this.prepareUnit(LongSwordMan),
+          callback : () => this.createUnit()
         },
         {
           icon: icons.createTwoHandedSwordMan,
+          time: 5,
           condition: () => this.player.tecnologies.twoHandedSwordMan,
-          callback : () => this.createUnit(TwoHandedSwordMan)
+          prepare: () =>  this.prepareUnit(TwoHandedSwordMan),
+          callback : () => this.createUnit()
         },
         {
           icon: icons.createChampion,
+          time: 5,
           condition: () => this.player.tecnologies.champion,
-          callback : () => this.createUnit(Champion)
+          prepare: () =>  this.prepareUnit(Champion),
+          callback : () => this.createUnit()
         }
       ],
       [
         {
           icon: icons.createSpearman,
+          time: 5,
           condition: () => this.player.age >= 3,
-          callback : () => this.createUnit(Spearman)
+          prepare: () =>  this.prepareUnit(Spearman),
+          callback : () => this.createUnit()
         },
         {
           icon: icons.createPikerman,
+          time: 5,
           condition: () => this.player.tecnologies.pikeman,
-          callback : () => this.createUnit(Pikeman)
+          prepare: () =>  this.prepareUnit(Pikeman),
+          callback : () => this.createUnit()
         },
         {
           icon: icons.createHalberdier,
+          time: 5,
           condition: () => this.player.tecnologies.halberdier,
-          callback : () => this.createUnit(Halberdier)
+          prepare: () =>  this.prepareUnit(Halberdier),
+          callback : () => this.createUnit()
         }
       ],
       null,

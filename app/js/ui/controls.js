@@ -58,14 +58,14 @@ module.exports = class Controls extends UIWidget {
         if (control.time) {
 
           selected.operationInit(control);
-          if (typeof control.parepare === "function") {
-            control.parepare.call(selected);
+          if (typeof control.prepare === "function") {
+            control.prepare.call(selected);
           }
           var t = setInterval(() => selected.operationStep(), 1000);
           setTimeout(()=> {
-            selected.operationComplete();
             clearInterval(t);
             control.callback.call(selected);
+            selected.operationComplete();
           }, control.time * 1000);
         }
         else {

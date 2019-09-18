@@ -207,8 +207,20 @@ module.exports = class Building extends Entity {
     });
   }
 
+  prepareUnit(unitClass) {
+    this.operation.newUnit = new unitClass(this.map, this.player);
+    resources.load(this.operation.newUnit);
+  }
+
   createUnit(unitClass) {
-    var entity = new unitClass(this.map, this.player);
+    var entity;
+    if (!unitClass && this.operation && this.operation.newUnit) {
+      entity = this.operation.newUnit;
+    }
+    else {
+      entity = new unitClass(this.map, this.player);
+    }
+
     entity.pos = this.pos;
     entity.setPath([this.spawnReunion]);
     this.map.addEntity(entity);

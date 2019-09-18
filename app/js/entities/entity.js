@@ -205,8 +205,8 @@ module.exports = class Entity {
     return this.emitter.on('did-operation-step', callback);
   }
   operationComplete() {
-    this.operation = null;
     this.emitter.emit('did-operation-complete', this.operation);
+    this.operation = null;
   }
   onOperationComplete(callback){
     return this.emitter.on('did-operation-complete', callback);
