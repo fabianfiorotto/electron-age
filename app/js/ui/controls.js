@@ -55,7 +55,22 @@ module.exports = class Controls extends UIWidget {
           }
         }
         resources.playSound(this.sounds.click);
-        control.callback.call(selected);
+        if (control.time) {
+
+          selected.operationInit(control);
+          if (typeof control.parepare === "function") {
+            control.parepare.call(selected);
+          }
+          var t = setInterval(() => selected.operationStep(), 1000);
+          setTimeout(()=> {
+            selected.operationComplete();
+            clearInterval(t);
+            control.callback.call(selected);
+          }, control.time * 1000);
+        }
+        else {
+          control.callback.call(selected);
+        }
       });
     }
     else {

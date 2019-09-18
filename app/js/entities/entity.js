@@ -189,7 +189,28 @@ module.exports = class Entity {
     this.emitter.dispose();
   }
 
-
+  operationInit(control) {
+    control.step = 0;
+    this.operation = control;
+    this.emitter.emit('did-operation-init', control);
+  }
+  onOperationInit(callback){
+    return this.emitter.on('did-operation-init', callback);
+  }
+  operationStep() {
+    this.operation.step++;
+    this.emitter.emit('did-operation-step', this.operation);
+  }
+  onOperationStep(callback){
+    return this.emitter.on('did-operation-step', callback);
+  }
+  operationComplete() {
+    this.operation = null;
+    this.emitter.emit('did-operation-complete', this.operation);
+  }
+  onOperationComplete(callback){
+    return this.emitter.on('did-operation-complete', callback);
+  }
 
   each(ms, name, callback) {
     var now = Date.now();

@@ -69,6 +69,15 @@ module.exports = class Player {
     return codes;
   }
 
+
+  prepareToChangeAge() {
+    var entities = this.map.getPlayerEntities(this);
+    var age = this.getAgeCode(this.age + 1);
+    for (var i = 0; i < entities.length; i++) {
+      this.civilization.prepareToChangeAge(age, entities[i]);
+    }
+  }
+
   onChangeAge() {
     var entities = this.map.getPlayerEntities(this);
     var age = this.getAgeCode();

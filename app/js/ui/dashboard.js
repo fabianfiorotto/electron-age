@@ -3,6 +3,7 @@ const UIWidget = require('./ui_widget');
 const Controls = require('./controls');
 const EntityInfo = require('./entity_info');
 const Selecion = require('./selection');
+const Progress = require('./progress');
 
 module.exports = class Dashboard extends UIWidget {
 
@@ -11,6 +12,7 @@ module.exports = class Dashboard extends UIWidget {
     this.controls = new Controls();
     this.info = new EntityInfo();
     this.selection = new Selecion();
+    this.progress = new Progress();
   }
 
   template() {
@@ -21,6 +23,7 @@ module.exports = class Dashboard extends UIWidget {
     this.controls.bind(map, this.element.getElementsByClassName('controls')[0]);
     this.info.bind(map, this.element.getElementsByClassName('entity-info')[0]);
     this.selection.bind(map, this.element.getElementsByClassName('selection')[0]);
+    this.progress.bind(map, this.element.getElementsByClassName('progress')[0]);
   }
 
   async loadResources(res) {

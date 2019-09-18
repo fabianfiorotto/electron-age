@@ -96,7 +96,9 @@ module.exports = class TownCenter extends Building {
         callback : () => this.createUnit(this.map.Villager)
       },
       {
+        time: 10,
         icon: this.nextAgeIcon(),
+        parepare: () => this.player.prepareToChangeAge(),
         callback : () => this.player.updgrateAge(),
         condition: () => this.player.age < 4
       }
