@@ -108,7 +108,7 @@ module.exports = class Unit extends Entity {
 
   update() {
 
-    this.each(50, 'walk' , () => {
+    this.each(40 / this.properties.speed, 'walk' , () => {
       this.walk();
     });
 
