@@ -70,13 +70,19 @@ module.exports = class Unit extends Entity {
 
   attack() {
     if (this.target.properties.hitPoints) {
-      this.target.properties.hitPoints -= 1;
+      this.target.properties.hitPoints -= this.attackMeleeDamage(this.target);
+      this.target.properties.hitPoints = Math.max(0, this.target.properties.hitPoints);
       this.target.emitter.emit('did-change-properties', this.target.properties);
     }
     else {
       this.state = Unit.IDLE;
       this.target.onEntityDestroy();
     }
+  }
+
+  attackMeleeDamage(target) {
+    // TODO collect bunus.
+    return Math.max(1, this.properties.attack - target.properties.meleeArmor);
   }
 
   onEntityDestroy() {

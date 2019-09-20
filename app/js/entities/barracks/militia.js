@@ -9,6 +9,19 @@ module.exports = class Militia extends Unit {
     };
   }
 
+  defineProperties() {
+    return {
+      speed: 0.9,
+      hitPoints: 40,
+      maxHitPoints: 40,
+      attack: 4,
+      meleeArmor: 0,
+      pierceArmor: 1,
+      lineofSeight: 4,
+    };
+  }
+
+
   modelsResources() {
     return {
       unit: {

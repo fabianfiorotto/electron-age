@@ -14,15 +14,7 @@ module.exports = class Entity {
 
     this.emitter = new Emitter();
 
-    //Estos son del aldeano
-    this.properties = {};
-    this.properties.speed = 0.8;
-    this.properties.hitPoints = 100;
-    this.properties.maxHitPoints = 100;
-    this.properties.attack = 1;
-    this.properties.meleeArmor = 1;
-    this.properties.pierceArmor = 0;
-    this.properties.lineofSeight = 4;
+    this.properties = this.defineProperties();
 
 
     var upgrades = this.upgradesTo();
@@ -33,6 +25,19 @@ module.exports = class Entity {
         }
       });
     }
+  }
+
+  defineProperties() {
+    //Estos son del aldeano
+    return {
+      speed: 0.8,
+      hitPoints: 100,
+      maxHitPoints: 100,
+      attack: 1,
+      meleeArmor: 0,
+      pierceArmor: 0,
+      lineofSeight: 4,
+    };
   }
 
   setPath(path) {
