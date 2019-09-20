@@ -71,6 +71,10 @@ body {
   background-color: rgb(255, 95, 95);
 }
 
+.controls td {
+  min-width: 36px;
+  min-height: 36px;
+}
 
 .selection td {
   padding-left: 10px;
