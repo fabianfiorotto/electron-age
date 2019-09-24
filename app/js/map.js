@@ -122,7 +122,7 @@ module.exports = class AoeMap {
       if (entity !== building && entity instanceof Building) {
         if (entity.overlap(building)) {
           return false;
-        };
+        }
       }
     }
     return true;
@@ -130,10 +130,11 @@ module.exports = class AoeMap {
 
   rightClick(v) {
     var entity = this.clickEntity(v);
-    for (var selected of this.selected) {
-      // Tienen que mantenar la formacion y no chocarse.
+    for (var i = 0; i < this.selected.length; i++) {
+      let selected = this.selected[i];
       selected.setTarget(entity);
-      selected.setPath([v]);
+      var f = $V([i % 3, Math.floor(i / 3)]).multiply(50);
+      selected.setPath([v.add(f)]);
     }
   }
 
