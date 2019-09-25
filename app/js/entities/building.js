@@ -156,6 +156,28 @@ module.exports = class Building extends Entity {
     return  y < - 0.5 * x + 30 * size;
   }
 
+  isAtVec(p1, p2) {
+    if (this.isAt(p2)) {
+      return true;
+    }
+    var size = this.getSize();
+
+    var x1 = p1.e(1), y1 = p1.e(2);
+    var x2 = p2.e(1), y2 = p2.e(2);
+
+    var x = this.pos.e(1);
+    var yy = this.pos.e(2);
+    var y = (y2 - y1) * (x - x1) / (x2 - x1) + y1;
+    var cond1 = y < yy + 25 * size && y > yy - 25 * size;
+
+    y = this.pos.e(2);
+    var xx = this.pos.e(1);
+    x = (x2 - x1) * (y - y1) / (y2 - y1) + x1;
+    var cond2 = x < xx + 50 * size  && x > xx - 50 * size;
+
+    return cond1 || cond2;
+  }
+
   modelsResources() {
     return {
       model: {

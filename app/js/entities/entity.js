@@ -142,6 +142,10 @@ module.exports = class Entity {
     return false;
   }
 
+  isAtVec(pos1, pos2) {
+    return false;
+  }
+
   modelsResources() {
     return {};
   }

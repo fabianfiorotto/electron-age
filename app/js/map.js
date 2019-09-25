@@ -33,7 +33,7 @@ module.exports = class AoeMap {
     this.players.push(player1);
     this.players.push(player2);
 
-    var villager2 = new Villager(this, player2);
+    var villager2 = new Villager(this, player1);
     villager2.pos = $V([100,150]);
 
     this.entities = [];
@@ -128,12 +128,22 @@ module.exports = class AoeMap {
     return true;
   }
 
+  areThereAnyObstacle(entity, v) {
+    if (this.entities.some((e) => e.isAtVec(entity.pos, v))) {
+      return true;
+    }
+    return false;
+  }
+
   rightClick(v) {
     var entity = this.clickEntity(v);
     for (var i = 0; i < this.selected.length; i++) {
       let selected = this.selected[i];
       selected.setTarget(entity);
       var f = $V([i % 3, Math.floor(i / 3)]).multiply(50);
+      if (this.areThereAnyObstacle(selected, v)) {
+        continue;
+      }
       selected.setPath([v.add(f)]);
     }
   }
