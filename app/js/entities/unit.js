@@ -59,6 +59,10 @@ module.exports = class Unit extends Entity {
         if (this.path.length == 0) {
           this.state = Unit.IDLE;
         }
+        else {
+          v = this.path[0].subtract(this.pos);
+          this.orientation = Math.atan2(-v.e(2), v.e(1));
+        }
       }
       if (this.target && this.canReachTarget()){
         this.path = [];

@@ -13,6 +13,7 @@ const WestEuropean = require('./civilizations/styles/west_european');
 const Player = require('./player');
 const Terrain = require('./terrain/terrain');
 
+const PathFinder = require('./pathfinder');
 const {Emitter} = require('event-kit');
 
 module.exports = class AoeMap {
@@ -51,6 +52,7 @@ module.exports = class AoeMap {
     this.player = this.players[0];
 
     this.terrain = new Terrain(width, height);
+    this.pathfinder = new PathFinder(this);
   }
 
 
@@ -128,8 +130,8 @@ module.exports = class AoeMap {
     return true;
   }
 
-  areThereAnyObstacle(entity, v) {
-    if (this.entities.some((e) => e.isAtVec(entity.pos, v))) {
+  areThereAnyObstacle(pos, v) {
+    if (this.entities.some((e) => e.isAtVec(pos, v))) {
       return true;
     }
     return false;
@@ -141,10 +143,8 @@ module.exports = class AoeMap {
       let selected = this.selected[i];
       selected.setTarget(entity);
       var f = $V([i % 3, Math.floor(i / 3)]).multiply(50);
-      if (this.areThereAnyObstacle(selected, v)) {
-        continue;
-      }
-      selected.setPath([v.add(f)]);
+      var path = this.pathfinder.find(selected.pos, v);
+      selected.setPath(path);
     }
   }
 
