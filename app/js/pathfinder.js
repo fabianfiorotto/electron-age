@@ -104,7 +104,7 @@ module.exports = class PathFinder {
           dist: node.dist + nextPos.modulus(node.pos),
           parent: node,
         };
-        if (best.dist !== null && best.dist < nextNode.dist) {
+        if (best.dist !== null && best.dist < nextNode.dist + target.modulus(nextPos)) {
           continue;
         }
 
