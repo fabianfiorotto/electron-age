@@ -157,6 +157,9 @@ module.exports = class Building extends Entity {
   }
 
   isAtVec(p1, p2, target = false) {
+    if (this.isAt(p1)) {
+      return false;
+    }
     if (this.isAt(p2)) {
       return !target;
     }
@@ -244,7 +247,8 @@ module.exports = class Building extends Entity {
     }
 
     entity.pos = this.pos;
-    entity.setPath([this.spawnReunion]);
+    var path = this.map.pathfinder.find(this.pos, this.spawnReunion);
+    entity.setPath(path);
     this.map.addEntity(entity);
   }
 
