@@ -156,9 +156,9 @@ module.exports = class Building extends Entity {
     return  y < - 0.5 * x + 30 * size;
   }
 
-  isAtVec(p1, p2) {
+  isAtVec(p1, p2, target = false) {
     if (this.isAt(p2)) {
-      return true;
+      return !target;
     }
     var size = this.getSize();
 

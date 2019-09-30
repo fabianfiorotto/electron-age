@@ -130,8 +130,8 @@ module.exports = class AoeMap {
     return true;
   }
 
-  areThereAnyObstacle(pos, v) {
-    if (this.entities.some((e) => e.isAtVec(pos, v))) {
+  areThereAnyObstacle(pos, v, target = false) {
+    if (this.entities.some((e) => e.isAtVec(pos, v, target))) {
       return true;
     }
     return false;

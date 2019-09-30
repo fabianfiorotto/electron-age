@@ -142,7 +142,7 @@ module.exports = class Entity {
     return false;
   }
 
-  isAtVec(pos1, pos2) {
+  isAtVec(pos1, pos2, target = false) {
     return false;
   }
 

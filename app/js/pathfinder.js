@@ -9,7 +9,7 @@ module.exports = class PathFinder {
     if (!this.enabled) {
       return [pos2]; // DEBUG ONLY!
     }
-    if (!this.map.areThereAnyObstacle(pos1, pos2)) {
+    if (!this.map.areThereAnyObstacle(pos1, pos2, true)) {
       return [pos2];
     }
 
@@ -59,7 +59,7 @@ module.exports = class PathFinder {
     for (const n of next) {
       visited.push(n);
 
-      if (!this.map.areThereAnyObstacle(n.pos, target)) {
+      if (!this.map.areThereAnyObstacle(n.pos, target, true)) {
         if (best.dist === null || best.dist > n.dist ) {
           best.dist = n.dist;
         }
