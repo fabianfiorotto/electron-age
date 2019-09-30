@@ -34,9 +34,17 @@ module.exports = class PathFinder {
     }
 
     var path = [pos2];
+    var last = pos2;
 
     while (result) {
-      path.push(result.pos);
+      if (this.map.areThereAnyObstacle(result.pos, last)) {
+        path.push(last);
+        last = result.pos;
+        if (!last.parent) {
+          path.push(last);
+        }
+      }
+
       result = result.parent;
     }
     path.reverse();
@@ -49,7 +57,7 @@ module.exports = class PathFinder {
     var results = [];
 
     for (const n of next) {
-      visited.push(node);
+      visited.push(n);
 
       if (!this.map.areThereAnyObstacle(n.pos, target)) {
         if (best.dist === null || best.dist > n.dist ) {
