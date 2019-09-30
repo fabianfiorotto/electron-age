@@ -89,8 +89,8 @@ module.exports = class PathFinder {
         }
 
         var nextPos = node.pos.subtract($V([
-          (i - j) * 48,
-          (i + j) * 24
+          (i - j) * 24,
+          (i + j) * 12
         ]));
         if (nextPos.e(1) > this.map.width * 48 || nextPos.e(2) > this.map.height * 24) {
           continue;
@@ -101,10 +101,10 @@ module.exports = class PathFinder {
 
         var nextNode = {
           pos: nextPos,
-          dist: node.dist + nextPos.modulus(node.pos),
+          dist: node.dist + nextPos.distanceFrom(node.pos),
           parent: node,
         };
-        if (best.dist !== null && best.dist < nextNode.dist + target.modulus(nextPos)) {
+        if (best.dist !== null && best.dist < nextNode.dist + target.distanceFrom(nextPos)) {
           continue;
         }
 
@@ -116,7 +116,7 @@ module.exports = class PathFinder {
         points.push(nextNode);
       }
     }
-    points.sort((n1,n2) => target.modulus(n1.pos) - target.modulus(n2.pos));
+    points.sort((n1,n2) => target.distanceFrom(n1.pos) - target.distanceFrom(n2.pos));
     return points;
   }
 
