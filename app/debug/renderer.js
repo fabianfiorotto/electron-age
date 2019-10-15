@@ -4,6 +4,8 @@ var SlpUnitModel = require("../js/slp/unit");
 var SlpPalette = require("../js/slp/palette");
 var ResourceManager = require("../resources");
 
+var Blendomatic = require('../js/blendomatic/blendomatic');
+
 require("sylvester");
 
 var model = null;
@@ -149,6 +151,21 @@ drs.ls(filename, 'vaw').then((ids) => {
 });
 
 
+//--------- Blending modes
+var blendingModes;
+var mode;
+Blendomatic.getBlendingModes().then((modes) =>{
+  blendingModes = modes;
+  var select = document.getElementById("blending-modes");
+  for (var i = 0; i < modes.length; i++) {
+    var option = document.createElement("option");
+    option.text = i;
+    option.value = i;
+    select.appendChild(option);
+  }
+  select.addEventListener('change', ()=> mode = blendingModes[select.value]);
+});
+
 document.addEventListener("DOMContentLoaded", function() {
   var c, ctx, doKeyDown, idle;
 
@@ -175,15 +192,30 @@ document.addEventListener("DOMContentLoaded", function() {
     if (model){
       ctx.clearRect(0, 0, c.width, c.height);
 
-      terrain.draw(pos, 0, frame);
       // 50706
       // model.draw(pos, orientation, frame);
       // frame = model.nextFrame(frame, 0);
       //
-      for (var i = 0; i < model.frames.length; i++) {
-        model.frames[i].draw($V([50 + 50 * (i % 10), 50 + 60 * Math.floor(i/10) ]));
+      var i;
+      if (mode) {
+        for (i = 0; i < mode.alphamasks.length; i++) {
+          resources.putImage(mode.alphamasks[i] , $V([
+            (i % 10) * 96,
+            Math.floor(i / 10) * 48
+          ]));
+          resources.putImage(mode.bitmasks[i] , $V([
+            (i % 10) * 96,
+            Math.floor(i / 10) * 48 + 48 * 4
+          ]));
+        }
       }
+      else {
+        terrain.draw(pos, 0, frame);
 
+        for (i = 0; i < model.frames.length; i++) {
+          model.frames[i].draw($V([50 + 50 * (i % 10), 50 + 60 * Math.floor(i/10) ]));
+        }
+      }
     }
   };
   window.addEventListener("keydown", doKeyDown, true);
