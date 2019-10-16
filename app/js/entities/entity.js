@@ -15,7 +15,7 @@ module.exports = class Entity {
     this.emitter = new Emitter();
 
     this.properties = this.defineProperties();
-
+    this.queue = [];
 
     var upgrades = this.upgradesTo();
     if (Object.entries(upgrades).length !== 0) {
@@ -198,10 +198,29 @@ module.exports = class Entity {
     this.emitter.dispose();
   }
 
+  operationPerform(operation) {
+    operation.callback.call(this);
+  }
+
   operationInit(control) {
-    control.step = 0;
-    this.operation = control;
-    this.emitter.emit('did-operation-init', control);
+    if (this.operation) {
+      this.queue.push(control);
+      this.emitter.emit('did-operation-queue-changed', this.queue);
+    }
+    else{
+      control.step = 0;
+      this.operation = control;
+      if (typeof control.prepare === "function") {
+        control.prepare.call(this);
+      }
+      var t = setInterval(() => this.operationStep(), 1000);
+      setTimeout(()=> {
+        clearInterval(t);
+        this.operationPerform(control);
+        this.operationComplete();
+      }, control.time * 1000);
+      this.emitter.emit('did-operation-init', control);
+    }
   }
   onOperationInit(callback){
     return this.emitter.on('did-operation-init', callback);
@@ -210,12 +229,20 @@ module.exports = class Entity {
     this.operation.step++;
     this.emitter.emit('did-operation-step', this.operation);
   }
-  onOperationStep(callback){
+  onOperationStep(callback) {
     return this.emitter.on('did-operation-step', callback);
   }
+  onOperationQueueChanged(callback) {
+    return this.emitter.on('did-operation-queue-changed', callback);
+  }
+
   operationComplete() {
     this.emitter.emit('did-operation-complete', this.operation);
     this.operation = null;
+    if (this.queue.length) {
+      this.operationInit(this.queue.shift());
+      this.emitter.emit('did-operation-queue-changed', this.queue);
+    }
   }
   onOperationComplete(callback){
     return this.emitter.on('did-operation-complete', callback);

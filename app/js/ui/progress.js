@@ -12,6 +12,8 @@ module.exports = class Controls extends UIWidget {
 
   onBind(map) {
     this.progress = this.element.getElementsByClassName('the-progress')[0];
+    this.icon = this.element.getElementsByClassName('progress-icon')[0];
+    this.queue = this.element.getElementsByClassName('queue')[0];
 
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
@@ -34,23 +36,24 @@ module.exports = class Controls extends UIWidget {
   }
 
   eventsUnsuscribe() {
-    if (this.operationInit) {
-      this.operationInit.dispose();
-      this.operationInit = null;
-    }
-    if (this.operationStep) {
-      this.operationStep.dispose();
-      this.operationStep = null;
-    }
-    if (this.operationComplete) {
-      this.operationComplete.dispose();
-      this.operationComplete = null;
+    var events = [
+      'operationInit',
+      'operationStep',
+      'operationComplete',
+      'operationQueueChanged'
+    ];
+    for (var event of events) {
+      if (this[event]) {
+        this[event].dispose();
+        this[event] = null;
+      }
     }
   }
 
   eventsSubscribe(selected) {
     this.onOperationInit = selected.onOperationInit((control) => {
       this.element.style.display = '';
+      this.icon.setAttribute('src', control.icon);
       this.progress.setAttribute('value', control.step);
       this.progress.setAttribute('max', control.time);
     });
@@ -60,6 +63,24 @@ module.exports = class Controls extends UIWidget {
     this.operationComplete = selected.onOperationComplete((control) => {
       this.element.style.display = 'none';
     });
+    this.operationQueueChanged = selected.onOperationQueueChanged((queue) => {
+      this.queue.innerHTML = '';
+      for (var i = 0; i < queue.length; i++) {
+        this.queue.appendChild(
+          this.displayQueueElement(i, queue[i], selected)
+        );
+      }
+    });
+  }
+
+  displayQueueElement(i, control, selected) {
+    var img = document.createElement('img');
+    img.setAttribute('src', control.icon);
+    img.addEventListener('click', (e) => {
+      selected.queue.splice(i,1);
+      selected.emitter.emit('did-operation-queue-changed', selected.queue);
+    });
+    return img;
   }
 
 };

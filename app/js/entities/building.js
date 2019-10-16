@@ -241,6 +241,7 @@ module.exports = class Building extends Entity {
     var entity;
     if (!unitClass && this.operation && this.operation.newUnit) {
       entity = this.operation.newUnit;
+      this.operation.newUnit = null;
     }
     else {
       entity = new unitClass(this.map, this.player);
