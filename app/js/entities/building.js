@@ -247,8 +247,15 @@ module.exports = class Building extends Entity {
       entity = new unitClass(this.map, this.player);
     }
 
-    entity.pos = this.pos;
-    var path = this.map.pathfinder.find(this.pos, this.spawnReunion);
+    entity.pos = this.pos.add(
+      this.spawnReunion
+        .subtract(this.pos)
+        .toUnitVector()
+        .elementMultiply($V([48,24]))
+        .multiply(this.getSize())
+    );
+
+    var path = this.map.pathfinder.find(entity.pos, this.spawnReunion);
     entity.setPath(path);
     this.map.addEntity(entity);
   }
