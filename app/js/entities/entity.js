@@ -112,10 +112,20 @@ module.exports = class Entity {
     console.log("Not defined");
   }
 
-  transfer(entity, quantities) {
+  transfer(entity, quantities, revert = false) {
     for (const [key,quantity] of Object.entries(quantities)){
-      entity.resources[key] += quantity;
-      this.resources[key] -= quantity;
+      if (revert) {
+        if (entity) {
+          entity.resources[key] -= quantity;
+        }
+        this.resources[key] += quantity;
+      }
+      else {
+        if (entity) {
+          entity.resources[key] += quantity;
+        }
+        this.resources[key] -= quantity;
+      }
     }
     this.emitter.emit('did-change-resources', this.resources);
     entity.emitter.emit('did-change-resources', entity.resources);
@@ -198,30 +208,59 @@ module.exports = class Entity {
     this.emitter.dispose();
   }
 
+  operationCancel(i) {
+    if (Number.isInteger(i)) {
+      if (this.queue[i].cost) {
+        this.player.transfer(null, this.queue[i].cost, true);
+      }
+      this.queue.splice(i, 1);
+      this.emitter.emit('did-operation-queue-changed', this.queue);
+    }
+    else {
+      if (this.operation.cost) {
+        this.player.transfer(null, this.operation.cost, true);
+      }
+      clearInterval(this.operation.timeout);
+      clearInterval(this.operation.interval);
+      this.operationComplete();
+    }
+  }
+
   operationPerform(operation) {
     operation.callback.call(this);
   }
 
   operationInit(control) {
+    if (control.cost && !this.player.canAfford(control.cost)) {
+      return false;
+    }
+    if (control.cost) {
+      this.player.transfer(null, control.cost);
+    }
     if (this.operation) {
       this.queue.push(control);
       this.emitter.emit('did-operation-queue-changed', this.queue);
     }
-    else{
+    else if (control.time){
       control.step = 0;
       this.operation = control;
       if (typeof control.prepare === "function") {
         control.prepare.call(this);
       }
-      var t = setInterval(() => this.operationStep(), 1000);
-      setTimeout(()=> {
-        clearInterval(t);
+      control.interval = setInterval(() => this.operationStep(), 1000);
+      control.timeout  = setTimeout(()=> {
+        clearInterval(control.interval);
         this.operationPerform(control);
         this.operationComplete();
       }, control.time * 1000);
       this.emitter.emit('did-operation-init', control);
     }
+    else {
+      this.operationPerform(control);
+    }
+    return true;
   }
+
   onOperationInit(callback){
     return this.emitter.on('did-operation-init', callback);
   }

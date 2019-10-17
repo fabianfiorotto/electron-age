@@ -45,21 +45,12 @@ module.exports = class Controls extends UIWidget {
     img.setAttribute('src', control.icon);
     if (control.callback) {
       img.addEventListener('click', (e) => {
-        if (control.cost) {
-          if (selected.player.canAfford(control.cost)) {
-            selected.player.transfer(null, control.cost);
-          }
-          else {
-            resources.playSound(this.sounds.noEnoughResources);
-            return;
-          }
-        }
-        resources.playSound(this.sounds.click);
-        if (control.time) {
-          selected.operationInit(control);
+        var init = selected.operationInit(control);
+        if (init) {
+          resources.playSound(this.sounds.click);
         }
         else {
-          selected.operationPerform(control);
+          resources.playSound(this.sounds.noEnoughResources);
         }
       });
     }

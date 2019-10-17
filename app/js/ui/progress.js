@@ -15,6 +15,12 @@ module.exports = class Controls extends UIWidget {
     this.icon = this.element.getElementsByClassName('progress-icon')[0];
     this.queue = this.element.getElementsByClassName('queue')[0];
 
+    this.icon.addEventListener('click', (e) => {
+      if (this.selected) {
+        this.selected.operationCancel();
+      }
+    });
+
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
         if (selected[0].operation) {
@@ -27,6 +33,7 @@ module.exports = class Controls extends UIWidget {
         }
 
         this.eventsUnsuscribe();
+        this.selected = selected[0];
         this.eventsSubscribe(selected[0]);
       }
       else {
@@ -77,8 +84,7 @@ module.exports = class Controls extends UIWidget {
     var img = document.createElement('img');
     img.setAttribute('src', control.icon);
     img.addEventListener('click', (e) => {
-      selected.queue.splice(i,1);
-      selected.emitter.emit('did-operation-queue-changed', selected.queue);
+      selected.operationCancel(i);
     });
     return img;
   }

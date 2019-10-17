@@ -94,12 +94,20 @@ module.exports = class Player {
     return can;
   }
 
-  transfer(entity, quantities) {
+  transfer(entity, quantities, revert = false) {
     for (const [key,quantity] of Object.entries(quantities)){
-      if (entity) {
-        entity.resources[key] += quantity;
+      if (revert) {
+        if (entity) {
+          entity.resources[key] -= quantity;
+        }
+        this.resources[key] += quantity;
       }
-      this.resources[key] -= quantity;
+      else {
+        if (entity) {
+          entity.resources[key] += quantity;
+        }
+        this.resources[key] -= quantity;
+      }
     }
     this.emitter.emit('did-change-resources', this.resources);
     if (entity) {

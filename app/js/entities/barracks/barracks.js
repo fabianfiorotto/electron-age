@@ -68,6 +68,7 @@ module.exports = class Barracks extends Building {
         {
           icon: icons.createMilitia,
           time: 5,
+          cost: {food: 60, gold: 20},
           prepare: () => this.prepareUnit(Militia),
           callback : () => this.createUnit()
         },
