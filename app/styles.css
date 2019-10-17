@@ -1,6 +1,7 @@
 
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 .debug {
@@ -42,6 +43,7 @@ body {
 }
 
 .dashboard-column {
+  position: relative;
   width: 340px;
   box-sizing: border-box;
   float: left;
@@ -61,6 +63,30 @@ body {
   width: 37px;
   height: 7px;
   margin-top: -4px;
+}
+
+.progress {
+  position: absolute;
+  top: 60px;
+  left: 190px;
+  width: 100%;
+}
+
+.progress progress {
+  -webkit-appearance: none;
+  height: 12px;
+}
+
+.progress progress::-webkit-progress-value {
+  background-color: rgb(255, 0, 0);
+}
+
+.progress .queue {
+  margin-top: 5px;
+}
+
+.progress .queue img {
+  margin-right: 5px;
 }
 
 .player1 progress[value]::-webkit-progress-value {
