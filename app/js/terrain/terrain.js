@@ -4,6 +4,7 @@ module.exports = class Terrain {
 
   constructor(width, height) {
     this.tiles = [];
+    this.create_tiles = Array.from({length: height}, ()=> new Array(width).fill('grass'));
     this.models = {};
 
     this.width = width;
@@ -220,6 +221,19 @@ module.exports = class Terrain {
     return null;
   }
 
+  setTile(i,j,type) {
+    if (this.create_tiles) {
+      this.create_tiles[i][j] = type;
+    }
+    else {
+      var m = this.models[type];
+      var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
+      // TODO aca necesito info del terreno
+      m.frames[frame_id].terrain = m;
+      this.tiles[i][j] = m.frames[frame_id];
+    }
+  }
+
   async loadResources(res) {
     this.models.grass = await res.loadTerrain(15009);
     this.models.grass.terrain_id = 0;
@@ -240,14 +254,8 @@ module.exports = class Terrain {
     for (var i = 0; i < this.width; i++) {
       this.tiles.push([]);
       for (var j = 0; j < this.height; j++) {
-        var m;
-        if (i > 10 && i < 20 && j > 10 && j < 20 ){
-          m = this.models.sand;
-        }
-        else {
-          m = this.models.grass;
-        }
-
+        var name = this.create_tiles[i][j];
+        var m = this.models[name];
         var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
         // TODO aca necesito info del terreno
         m.frames[frame_id].terrain = m;
@@ -257,5 +265,6 @@ module.exports = class Terrain {
 
     this.modes = await Blendomatic.getBlendingModes();
 
+    this.create_tiles = null;
   }
 };

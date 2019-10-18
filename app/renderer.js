@@ -1,5 +1,6 @@
 const ResourceManager = require("./resources");
 const AoeMap = require('./js/map');
+const TestBuilder = require('./js/test/testmap');
 
 const TopBar = require('./js/ui/topbar');
 const Dashboard = require('./js/ui/dashboard');
@@ -11,7 +12,7 @@ require("sylvester");
 const fs = require('fs');
 
 window.resources = new ResourceManager();
-var map = new AoeMap(120, 120);
+var map;
 var cameraPos = $V([0, 0]);
 var cameraMoved = true;
 var fps = 0;
@@ -28,6 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
   tr_c = document.getElementById("terrainCanvas");
   tr_ctx = tr_c.getContext("2d");
 
+  //map = new AoeMap(120, 120);
+  map = TestBuilder.loadTestMap();
   map.loadResources(resources).then(() => cameraMoved = true);
 
   topBar.bind(map, 'top-bar');

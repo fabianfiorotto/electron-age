@@ -1,16 +1,5 @@
 const Villager = require("./entities/town_center/villager");
-const House = require('./entities/house/house');
-const Berries = require('./entities/resources/berries');
-const Stone = require('./entities/resources/stone');
-const Tree = require('./entities/resources/tree');
-const Gold = require('./entities/resources/gold');
-const Building = require("./entities/building");
 
-const Archer = require("./entities/archery_range/archer");
-
-const CentralEuropean = require('./civilizations/styles/central_european');
-const WestEuropean = require('./civilizations/styles/west_european');
-const Player = require('./player');
 const Terrain = require('./terrain/terrain');
 
 const PathFinder = require('./pathfinder');
@@ -25,31 +14,7 @@ module.exports = class AoeMap {
 
     this.Villager = Villager; // This avoids ciclic dependencie among tc and villager
 
-    var civ1 = new CentralEuropean();
-    var civ2 = new WestEuropean();
-
-    var player1 = new Player(this, civ1, 1);
-    var player2 = new Player(this, civ2, 2);
-    this.players = [];
-    this.players.push(player1);
-    this.players.push(player2);
-
-    var villager2 = new Villager(this, player1);
-    villager2.pos = $V([100,150]);
-
-    this.entities = [];
-    this.entities.push(new Villager(this, player2));
-    this.entities.push(villager2);
-    this.entities.push(new House(this, player1));
-    this.entities.push(new Berries(this, player1));
-    this.entities.push(new Stone(this, player1));
-    this.entities.push(new Tree(this, player1));
-    // this.entities.push(new Gold(this, player1));
-    this.entities.push(new Archer(this, player2));
-
     this.emitter = new Emitter();
-    this.selected = [this.entities[0]];
-    this.player = this.players[0];
 
     this.terrain = new Terrain(width, height);
     this.pathfinder = new PathFinder(this);
