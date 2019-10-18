@@ -166,10 +166,6 @@ module.exports = class Terrain {
             var neighbors = this.getNeighbors(i,j);
             var influences = this.getInfluences(f, neighbors);
             var masks = this.getMasks(i, j, f, influences);
-            if (i == 11 && j == 11) {
-              console.log(influences);
-            //   debugger;
-            }
 
             if (masks.length) {
               // console.log(i, j);

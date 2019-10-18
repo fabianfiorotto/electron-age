@@ -2,6 +2,7 @@ const fs = require("fs").promises;
 
 const BinaryReader = require('../binary_reader');
 // https://github.com/SFTtech/openage/blob/e9e29ebf8d7f50716ecf9df689d1e3e38dff3e40/openage/convert/blendomatic.py#L228
+// https://github.com/aap/geniedoc
 const BlendingMode = require('./mode');
 
 module.exports = class Blendomatic {
@@ -58,8 +59,6 @@ module.exports = class Blendomatic {
       }
       modes.push(mode);
     }
-    // resources.putImage(modes[0].alphamasks[0] , $V([0,0]));
-    console.log(modes);
     return modes;
   }
 

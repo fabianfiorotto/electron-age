@@ -6,7 +6,6 @@ const Berries = require('../entities/resources/berries');
 const Stone = require('../entities/resources/stone');
 const Tree = require('../entities/resources/tree');
 const Gold = require('../entities/resources/gold');
-const Building = require("../entities/building");
 
 const Archer = require("../entities/archery_range/archer");
 
@@ -23,22 +22,22 @@ module.exports =  class TestBuilder {
     var civ1 = new CentralEuropean();
     var civ2 = new WestEuropean();
 
-    var player1 = new Player(this, civ1, 1);
-    var player2 = new Player(this, civ2, 2);
+    var player1 = new Player(map, civ1, 1);
+    var player2 = new Player(map, civ2, 2);
     map.players.push(player1);
     map.players.push(player2);
 
-    var villager2 = new Villager(this, player1);
+    var villager2 = new Villager(map, player1);
     villager2.pos = $V([100,150]);
 
-    map.entities.push(new Villager(this, player2));
+    map.entities.push(new Villager(map, player2));
     map.entities.push(villager2);
-    map.entities.push(new House(this, player1));
-    map.entities.push(new Berries(this, player1));
-    map.entities.push(new Stone(this, player1));
-    map.entities.push(new Tree(this, player1));
-    // map.entities.push(new Gold(this, player1));
-    map.entities.push(new Archer(this, player2));
+    map.entities.push(new House(map, player1));
+    map.entities.push(new Berries(map, player1));
+    map.entities.push(new Stone(map, player1));
+    map.entities.push(new Tree(map, player1));
+    // map.entities.push(new Gold(map, player1));
+    map.entities.push(new Archer(map, player2));
 
     //???
     map.selected = [map.entities[0]];
