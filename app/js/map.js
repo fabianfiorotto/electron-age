@@ -14,6 +14,10 @@ module.exports = class AoeMap {
 
     this.Villager = Villager; // This avoids ciclic dependencie among tc and villager
 
+    this.players = [];
+    this.entities = [];
+    this.selected = [];
+
     this.emitter = new Emitter();
 
     this.terrain = new Terrain(width, height);
