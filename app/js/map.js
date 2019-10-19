@@ -1,5 +1,5 @@
 const Villager = require("./entities/town_center/villager");
-const Building = require("../entities/building");
+const Building = require("./entities/building");
 
 const Terrain = require('./terrain/terrain');
 
