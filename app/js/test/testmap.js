@@ -46,7 +46,7 @@ module.exports =  class TestBuilder {
     for (var i = 0; i < map.height; i++) {
       for (var j = 0; j < map.width; j++) {
         if (i > 10 && i < 20 && j > 10 && j < 20 ){
-          map.terrain.setTile(i,j, 'sand');
+          map.terrain.setTile(i,j, 'desert');
         }
         else {
           map.terrain.setTile(i,j, 'grass');
@@ -57,25 +57,4 @@ module.exports =  class TestBuilder {
     return map;
   }
 
-
-  static loadTerrain(map) {
-    //TODO: Buscar una forma de que se pueda definir el terreno antes de cargar los resources.
-
-    for (var i = 0; i < map.width; i++) {
-      for (var j = 0; j < map.height; j++) {
-        var m;
-        if (i > 10 && i < 20 && j > 10 && j < 20 ){
-          m = map.terrain.models.sand;
-        }
-        else {
-          m = map.terrain.models.grass;
-        }
-
-        var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
-        // TODO aca necesito info del terreno
-        m.frames[frame_id].terrain = m;
-        map.terrain.tiles[i][j] = m.frames[frame_id];
-      }
-    }
-  }
 };

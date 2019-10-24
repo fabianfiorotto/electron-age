@@ -1,5 +1,7 @@
 const Blendomatic = require("../blendomatic/blendomatic");
 
+const types = require("./types");
+
 module.exports = class Terrain {
 
   constructor(width, height) {
@@ -23,6 +25,7 @@ module.exports = class Terrain {
     ];
 
     this.neighbor_lookup = [4, 3, 2, 5, 0, 7, 6, 1];
+    this.type = types;
   }
 
 
@@ -231,21 +234,16 @@ module.exports = class Terrain {
   }
 
   async loadResources(res) {
-    this.models.grass = await res.loadTerrain(15009);
-    this.models.grass.terrain_id = 0;
-    this.models.grass.priority = 100;
-    this.models.grass.load({
-      base: resources.palettes[50505],
-      player: 0
-    });
-
-    this.models.sand = await res.loadTerrain(15010);
-    this.models.sand.terrain_id = 2;
-    this.models.sand.priority = 80;
-    this.models.sand.load({
-      base: resources.palettes[50505],
-      player: 0
-    });
+    for (const [key,type] of Object.entries(this.type)){
+      this.models[key] = await res.loadTerrain(type.slp);
+      this.models[key].terrain_id = type.terrain_id;
+      this.models[key].priority = type.priority;
+      this.models[key].load({
+        base: res.palettes[50505],
+        player: 0
+      });
+      type.model = this.model[key];
+    }
 
     for (var i = 0; i < this.width; i++) {
       this.tiles.push([]);

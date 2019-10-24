@@ -1,0 +1,190 @@
+{
+  "dirt": {
+    "id": 0,
+    "slp": 15000,
+    "priority": 70,
+    "terrain_id": 0,
+    "minimap": "#e4a252"
+  },
+  "green_grass": {
+    "id": 1,
+    "slp": 15001,
+    "priority": 102,
+    "terrain_id": 0,
+    "minimap": "#339927"
+  },
+  "water": {
+    "id": 2,
+    "slp": 15002,
+    "priority": 139,
+    "terrain_id": 3,
+    "minimap": "#305db6"
+  },
+  "farm_stage_3": {
+    "id": 3,
+    "slp": 15004,
+    "priority": 155,
+    "terrain_id": 1,
+    "minimap": "#82884d"
+  },
+  "farm_stage_4": {
+    "id": 4,
+    "slp": 15005,
+    "priority": 157,
+    "terrain_id": 1,
+    "minimap": "#82884d"
+  },
+  "dirty_grass": {
+    "id": 5,
+    "slp": 15006,
+    "priority": 101,
+    "terrain_id": 0,
+    "minimap": "#e4a252"
+  },
+  "dry_grass": {
+    "id": 6,
+    "slp": 15007,
+    "priority": 106,
+    "terrain_id": 0,
+    "minimap": "#e4a252"
+  },
+  "dark_grass": {
+    "id": 7,
+    "slp": 15008,
+    "priority": 90,
+    "terrain_id": 0,
+    "minimap": "#339927"
+  },
+  "grass": {
+    "id": 8,
+    "slp": 15009,
+    "priority": 100,
+    "terrain_id": 0,
+    "terrain_id": 0,
+    "minimap": "#339927"
+  },
+  "desert": {
+    "id": 9,
+    "slp": 15010,
+    "priority": 80,
+    "terrain_id": 2,
+    "minimap": "#e8b478"
+  },
+  "sandy_grass": {
+    "id": 10,
+    "slp": 15011,
+    "priority": 92,
+    "terrain_id": 0,
+    "minimap": "#e4a252"
+  },
+  "swamp": {
+    "id": 11,
+    "slp": 15014,
+    "priority": 60,
+    "terrain_id": 4,
+    "minimap": "#e4a252"
+  },
+  "deep_water": {
+    "id": 12,
+    "slp": 15015,
+    "priority": 140,
+    "terrain_id": 3,
+    "minimap": "#004abb"
+  },
+  "ocean": {
+    "id": 13,
+    "slp": 15016,
+    "priority": 141,
+    "terrain_id": 3,
+    "minimap": "#004abb"
+  },
+  "sand": {
+    "id": 14,
+    "slp": 15017,
+    "terrain_id": 2,
+    "priority": 110,
+    "terrain_id": 0,
+    "--comment": "Is tid 0 or 2?",
+    "minimap": "#ffec49"
+  },
+  "road": {
+    "id": 15,
+    "slp": 15018,
+    "priority": 122,
+    "terrain_id": 5,
+    "minimap": "#e4a252"
+  },
+  "dirty_road": {
+    "id": 17,
+    "slp": 15019,
+    "priority": 150,
+    "terrain_id": 5,
+    "minimap": "#e4a252"
+  },
+  "farm_stage_0": {
+    "id": 18,
+    "slp": 15021,
+    "priority": 151,
+    "terrain_id": 1,
+    "minimap": "#82884d"
+  },
+  "farm_stage_1": {
+    "id": 19,
+    "slp": 15022,
+    "priority": 152,
+    "terrain_id": 1,
+    "minimap": "#82884d"
+  },
+  "farm_stage_2": {
+    "id": 20,
+    "slp": 15023,
+    "priority": 40,
+    "terrain_id": 1,
+    "minimap": "#82884d"
+  },
+  "ice": {
+    "id": 21,
+    "slp": 15024,
+    "priority": 130,
+    "terrain_id": 6,
+    "minimap": "#98c0f0"
+  },
+  "snow": {
+    "id": 22,
+    "slp": 15026,
+    "priority": 132,
+    "terrain_id": 7,
+    "minimap": "#c8d8ff"
+  },
+  "dirty_snow": {
+    "id": 23,
+    "slp": 15027,
+    "priority": 134,
+    "terrain_id": 7,
+    "--coment": "Is tid 0 or 7?",
+    "minimap": "#c8d8ff"
+  },
+  "snowy_grass": {
+    "id": 24,
+    "slp": 15028,
+    "priority": 136,
+    "terrain_id": 7,
+    "--coment": "Is tid 0 or 7?",
+    "minimap": "#c8d8ff"
+  },
+  "snowy_road": {
+    "id": 25,
+    "slp": 15030,
+    "priority": 162,
+    "terrain_id": 5,
+    "--coment": "Is tid 5 or 7?",
+    "minimap": "#c8d8ff"
+  },
+  "grassy_road": {
+    "id": 26,
+    "slp": 15031,
+    "priority": 120,
+    "terrain_id": 5,
+    "minimap": "#e4a252"
+  }
+}
