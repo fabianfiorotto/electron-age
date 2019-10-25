@@ -5,8 +5,13 @@ const types = require("./types");
 module.exports = class Terrain {
 
   constructor(width, height) {
+    this.type = types;
     this.tiles = [];
-    this.create_tiles = Array.from({length: height}, ()=> new Array(width).fill('grass'));
+    this.tiles = Array.from({length: width}, ()=> {
+      return Array.from({length: height}, () => {
+        return { terrain: this.type.grass, elevation: 1};
+      });
+    });
     this.models = {};
 
     this.width = width;
@@ -25,7 +30,6 @@ module.exports = class Terrain {
     ];
 
     this.neighbor_lookup = [4, 3, 2, 5, 0, 7, 6, 1];
-    this.type = types;
   }
 
 
@@ -52,14 +56,20 @@ module.exports = class Terrain {
       var k = this.neighbor_lookup[i];
       var neighbor = neighbors[i];
       if (neighbor && neighbor.terrain.priority > tile.terrain.priority && tile.terrain.terrain_id != neighbor.terrain.terrain_id) {
+        if (!influences[neighbor.terrain.id]) {
+          influences[neighbor.terrain.id] = {
+            direction: 0,
+            terrain: neighbor.terrain
+          };
+        }
         if (k % 2 == 0) {
           var mask = (1 << ((k - 1) & 0x07)) | (1 << ((k + 1) & 0x07));
 
-          if (influences[neighbor.terrain.terrain_id] & mask) {
+          if (influences[neighbor.terrain.id] & mask) {
             continue;
           }
         }
-        influences[neighbor.terrain.terrain_id] |= 1 << k;
+        influences[neighbor.terrain.id].direction |= 1 << k;
       }
     }
     return influences;
@@ -119,32 +129,28 @@ module.exports = class Terrain {
   }
 
   getBlendingMode(base_id, terrain_id) {
-    // var base_mode = blend_mask_lookup[base_id];
-    // var neighbor_mode = blend_mask_lookup[terrain_id];
-    //
-    // return neighbor_mode > base_mode ? neighbor_mode : base_mode;
     var blend_mode_id = this.blend_mask_lookup[base_id][terrain_id];
     return this.modes[blend_mode_id];
   }
 
   getMasks(i, j, tile, influences) {
     var masks = [];
-    for (const [terrain_id,direction] of Object.entries(influences)) {
-      if (direction == 0) {
+    for (const [tid,influence] of Object.entries(influences)) {
+      if (influence.direction == 0) {
         continue;
       }
 
-      var mask_id = this.getInflueceMask(direction);
+      var mask_id = this.getInflueceMask(influence.direction);
 
       if (mask_id <= 12) {
         mask_id += (i+j) & 0x03;
       }
-      var mode = this.getBlendingMode(tile.terrain.terrain_id,terrain_id);
+      var mode = this.getBlendingMode(tile.terrain.terrain_id, influence.terrain.terrain_id);
       if (mask_id >= 0) {
         masks.push({
           bit: mode.bitmasks[mask_id],
           alpha: mode.alphamasks[mask_id],
-          terrain: terrain_id
+          terrain: influence.terrain
         });
       }
     }
@@ -158,7 +164,11 @@ module.exports = class Terrain {
     if (this.tiles.length) {
       for (var i = 0; i < this.width; i++) {
         for (var j = 0; j < this.height; j++) {
-          var f = this.tiles[i][j];
+          var tile = this.tiles[i][j];
+          if (!tile.frame) {
+            continue;
+          }
+          var f = tile.frame;
           var w = f.width - 1, h = f.height - 1;
           var cell = $V([
             (i + j) * w / 2,
@@ -167,15 +177,15 @@ module.exports = class Terrain {
           f.drawTerrain(this.pos.add(cell).subtract(camera));
           if (blend) {
             var neighbors = this.getNeighbors(i,j);
-            var influences = this.getInfluences(f, neighbors);
-            var masks = this.getMasks(i, j, f, influences);
+            var influences = this.getInfluences(tile, neighbors);
+            var masks = this.getMasks(i, j, tile, influences);
 
             if (masks.length) {
               // console.log(i, j);
               // console.log(masks);
               for (var mask of masks) {
 
-                var m = this.getTerrainById(mask.terrain);
+                var m = mask.terrain.model;
                 var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
                 // m.frames[frame_id].drawTerrain(this.pos.add(cell).subtract(camera));
 
@@ -221,44 +231,37 @@ module.exports = class Terrain {
   }
 
   setTile(i,j,type) {
-    if (this.create_tiles) {
-      this.create_tiles[i][j] = type;
-    }
-    else {
+    this.tiles[i][j].terrain = this.type[type];
+    if (this.models[type]) {
       var m = this.models[type];
       var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
-      // TODO aca necesito info del terreno
+
       m.frames[frame_id].terrain = m;
-      this.tiles[i][j] = m.frames[frame_id];
+      this.tiles[i][j].frame = m.frames[frame_id];
     }
   }
 
   async loadResources(res) {
     for (const [key,type] of Object.entries(this.type)){
       this.models[key] = await res.loadTerrain(type.slp);
-      this.models[key].terrain_id = type.terrain_id;
-      this.models[key].priority = type.priority;
       this.models[key].load({
         base: res.palettes[50505],
         player: 0
       });
-      type.model = this.model[key];
+      type.model = this.models[key];
     }
 
     for (var i = 0; i < this.width; i++) {
-      this.tiles.push([]);
       for (var j = 0; j < this.height; j++) {
-        var name = this.create_tiles[i][j];
-        var m = this.models[name];
+        var m = this.tiles[i][j].terrain.model;
         var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
-        // TODO aca necesito info del terreno
+
         m.frames[frame_id].terrain = m;
-        this.tiles[i].push(m.frames[frame_id]);
+        this.tiles[i][j].frame = m.frames[frame_id];
       }
     }
 
     this.modes = await Blendomatic.getBlendingModes();
 
-    this.create_tiles = null;
   }
 };

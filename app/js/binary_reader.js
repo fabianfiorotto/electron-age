@@ -40,6 +40,12 @@ module.exports = class BinaryReader {
     return value;
   }
 
+  readInt16LE() {
+    var value = this.buffer.readInt16LE(this.offset);
+    this.offset += 2;
+    return value;
+  }
+
   readUInt16LE() {
     var value = this.buffer.readUInt16LE(this.offset);
     this.offset += 2;
@@ -52,4 +58,10 @@ module.exports = class BinaryReader {
     return value;
   }
 
-}
+  readFloatLE() {
+    var value = this.buffer.readFloatLE(this.offset);
+    this.offset += 4;
+    return value;
+  }
+
+};
