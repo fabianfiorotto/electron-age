@@ -15,7 +15,7 @@
   "dependencies": {
     "event-kit": "^2.2.0",
     "sylvester": "0.0.21",
-    "underscore": "^1.8.3"
+    "pako": "^1.0.8"
   },
   "standard": {
     "globals": [
