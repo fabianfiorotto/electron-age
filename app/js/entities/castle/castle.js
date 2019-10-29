@@ -14,15 +14,8 @@ module.exports = class Castle extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 7
-        }
-      }
-    ];
+  thumbnail() {
+    return 7;
   }
 
 };

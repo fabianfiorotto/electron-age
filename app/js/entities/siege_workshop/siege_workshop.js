@@ -14,15 +14,8 @@ module.exports = class SiegeWorkshop extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 22
-        }
-      }
-    ];
+  thumbnail() {
+    return 22;
   }
 
 };

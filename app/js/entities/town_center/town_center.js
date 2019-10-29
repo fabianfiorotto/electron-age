@@ -64,29 +64,22 @@ module.exports = class TownCenter extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 28,
-        }
-      },
-      {
-        interface: 50729,
-        frames: {
-          age2: 30,
-          age3: 31,
-          age4: 32,
-        }
-      },
-      {
-        interface: 50730,
-        frames: {
-          villager: 15
-        }
-      }
-    ];
+  thumbnail() {
+    return 28;
+  }
+
+  tecnologyIcons() {
+    return {
+      age2: 30,
+      age3: 31,
+      age4: 32,
+    };
+  }
+
+  unitsIcons() {
+    return {
+      villager: 15
+    };
   }
 
   controls() {

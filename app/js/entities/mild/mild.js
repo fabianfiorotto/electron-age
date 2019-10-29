@@ -18,15 +18,8 @@ module.exports = class Mild extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 19
-        }
-      }
-    ];
+  thumbnail() {
+    return 19;
   }
 
 };

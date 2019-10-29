@@ -26,39 +26,32 @@ module.exports = class Barracks extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 2,
-        }
-      },
-      {
-        interface: 50729,
-        frames: {
-          manAtArms: 85,
-          longSwordMan: 48,
-          twoHandedSwordMan: 53,
-          champion: 44,
-          pikeman: 36,
-          halberdier: 106,
-        }
-      },
-      {
-        interface: 50730,
-        frames: {
-          createMilitia: 8,
-          createManAtArms: 13,
-          createLongSwordMan: 10,
-          createTwoHandedSwordMan: 12,
-          createChampion: 72,
-          createSpearman: 31,
-          createPikerman: 11,
-          createHalberdier: 104,
-        }
-      }
-    ];
+  thumbnail() {
+    return 2;
+  }
+
+  tecnologyIcons() {
+    return {
+      manAtArms: 85,
+      longSwordMan: 48,
+      twoHandedSwordMan: 53,
+      champion: 44,
+      pikeman: 36,
+      halberdier: 106,
+    };
+  }
+
+  unitsIcons() {
+    return {
+      createMilitia: 8,
+      createManAtArms: 13,
+      createLongSwordMan: 10,
+      createTwoHandedSwordMan: 12,
+      createChampion: 72,
+      createSpearman: 31,
+      createPikerman: 11,
+      createHalberdier: 104,
+    };
   }
 
   controls() {

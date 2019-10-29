@@ -2,13 +2,8 @@ const Building = require('../building');
 
 module.exports = class House extends Building {
 
-  iconsResources() {
-    return [{
-      interface: 50706,
-      frames: {
-        thumbnail: 34,
-      }
-    }];
+  thumbnail() {
+    return 34;
   }
 
   getSize() {

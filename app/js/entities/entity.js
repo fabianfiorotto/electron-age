@@ -182,7 +182,30 @@ module.exports = class Entity {
   }
 
   iconsResources() {
-    return [];
+    return [
+      {
+        interface: 50706,
+        frames: {
+          thumbnail: this.thumbnail(),
+        }
+      },
+      {
+        interface: 50730,
+        frames: this.unitsIcons()
+      },
+      {
+        interface: 50729,
+        frames: this.tecnologyIcons()
+      }
+    ];
+  }
+
+  tecnologyIcons() {
+    return {};
+  }
+
+  unitsIcons() {
+    return {};
   }
 
   onDidChangeResources(callback){

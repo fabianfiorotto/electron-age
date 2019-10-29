@@ -13,38 +13,31 @@ module.exports = class ArcheryRange extends Building {
     return 3;
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 0,
-        }
-      },
-      {
-        interface: 50730,
-        frames: {
-          createArbalest: 90,
-          createArcher: 17,
-          createCrossbowman: 18,
-          createCavalryArcher: 19,
-          createHeavyCavalryArcher: 19,
-          createSkirmisher: 20,
-          createElitSkirmisher: 21,
-        }
-      },
-      {
-        interface: 50729,
-        frames: {
-          elitSkirmisher: 28,
-          crossbow: 29,
-          arbalest: 54,
-          heavyCavalryArcher: 52,
-          thumbRing: 112,
-          parthianTactics: 111,
-        }
-      }
-    ];
+  thumbnail() {
+    return 0;
+  }
+
+  tecnologyIcons() {
+    return {
+      elitSkirmisher: 28,
+      crossbow: 29,
+      arbalest: 54,
+      heavyCavalryArcher: 52,
+      thumbRing: 112,
+      parthianTactics: 111,
+    };
+  }
+
+  unitsIcons() {
+    return {
+      createArbalest: 90,
+      createArcher: 17,
+      createCrossbowman: 18,
+      createCavalryArcher: 19,
+      createHeavyCavalryArcher: 19,
+      createSkirmisher: 20,
+      createElitSkirmisher: 21,
+    };
   }
 
   modelsResources() {

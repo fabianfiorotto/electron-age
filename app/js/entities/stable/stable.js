@@ -14,36 +14,29 @@ module.exports = class Stable extends Building {
     return 3;
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 23,
-        }
-      },
-      {
-        interface: 50729,
-        frames: {
-          lightCavalry: 43,
-          cavalier: 78,
-          paladin: 45,
-          heavyCamel: 55,
-        }
-      },
-      {
-        interface: 50730,
-        frames: {
-          createCamel: 78,
-          createCavalier: 49,
-          createHeavyCamel: 79,
-          createKnight: 1,
-          createLightCavalry: 91,
-          createPaladin: 2,
-          createScoutCavalry: 64,
-        }
-      },
-    ];
+  thumbnail() {
+    return 23;
+  }
+
+  tecnologyIcons() {
+    return {
+      lightCavalry: 43,
+      cavalier: 78,
+      paladin: 45,
+      heavyCamel: 55,
+    };
+  }
+
+  unitsIcons() {
+    return {
+      createCamel: 78,
+      createCavalier: 49,
+      createHeavyCamel: 79,
+      createKnight: 1,
+      createLightCavalry: 91,
+      createPaladin: 2,
+      createScoutCavalry: 64,
+    };
   }
 
   modelsResources() {

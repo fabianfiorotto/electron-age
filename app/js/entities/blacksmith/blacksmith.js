@@ -6,35 +6,28 @@ module.exports = class Blacksmith extends Building {
     return 3;
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 4,
-        }
-      },
-      {
-        interface: 50729,
-        frames: {
-          scaleMailArmor: 63,
-          scaleBardingArmor: 66,
-          chainMailArmor: 22,
-          chainBardingArmor: 23,
-          plateMailArmor: 64,
-          plateBardingArmor: 65,
-          fletching: 34,
-          bodkinArrow: 35,
-          bracer: 37,
-          paddedArcherArmor: 49,
-          leatherArcherArmor: 50,
-          ringArcherArmor: 51,
-          forgin: 17,
-          ironCasting: 18,
-          blastFurnance: 21,
-        }
-      },
-    ];
+  thumbnail() {
+    return 4;
+  }
+
+  tecnologyIcons() {
+    return {
+      scaleMailArmor: 63,
+      scaleBardingArmor: 66,
+      chainMailArmor: 22,
+      chainBardingArmor: 23,
+      plateMailArmor: 64,
+      plateBardingArmor: 65,
+      fletching: 34,
+      bodkinArrow: 35,
+      bracer: 37,
+      paddedArcherArmor: 49,
+      leatherArcherArmor: 50,
+      ringArcherArmor: 51,
+      forgin: 17,
+      ironCasting: 18,
+      blastFurnance: 21,
+    };
   }
 
   controls() {

@@ -19,15 +19,8 @@ module.exports = class Palisade extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50707,
-        frames: {
-          thumbnail: 30
-        }
-      }
-    ];
+  thumbnail() {
+    return 30;
   }
 
 };

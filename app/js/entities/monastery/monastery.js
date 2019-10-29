@@ -14,15 +14,8 @@ module.exports = class Monastery extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 32
-        }
-      }
-    ];
+  thumbnail() {
+    return 32;
   }
 
 };

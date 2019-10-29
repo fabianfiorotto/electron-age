@@ -2,13 +2,8 @@ const Building = require('../building');
 
 module.exports = class Market extends Building {
 
-  iconsResources() {
-    return [{
-      interface: 50706,
-      frames: {
-        thumbnail: 16,
-      }
-    }];
+  thumbnail() {
+    return 16;
   }
 
   modelsResources() {

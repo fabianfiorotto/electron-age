@@ -5,14 +5,9 @@ module.exports = class LumberCamp extends Building {
   getSize() {
     return 2;
   }
-  
-  iconsResources() {
-    return [{
-      interface: 50706,
-      frames: {
-        thumbnail: 40,
-      }
-    }];
+
+  thumbnail() {
+    return 40;
   }
 
 }

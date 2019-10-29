@@ -14,34 +14,26 @@ module.exports = class University extends Building {
     };
   }
 
-  iconsResources() {
-    return [
-      {
-        interface: 50706,
-        frames: {
-          thumbnail: 32
-        }
-      },
-      {
-        interface: 50729,
-        frames: {
-          masonry: 13,
-          architecture: 14,
-          fortifiedWall: 46,
-          chemistry: 12,
-          bombardTower: 47,
-          ballistica: 25,
-          siegeEngineers: 101,
-          guardTower: 76,
-          keep: 26,
-          heatedShot: 104,
-          murderHoles: 61,
-          treadmillCrane: 60,
-        }
-      }
-    ];
+  thumbnail() {
+    return 32;
   }
 
+  unitsIcons() {
+    return {
+      masonry: 13,
+      architecture: 14,
+      fortifiedWall: 46,
+      chemistry: 12,
+      bombardTower: 47,
+      ballistica: 25,
+      siegeEngineers: 101,
+      guardTower: 76,
+      keep: 26,
+      heatedShot: 104,
+      murderHoles: 61,
+      treadmillCrane: 60,
+    };
+  }
 
   controls() {
     var icons = this.icons;
