@@ -16,6 +16,9 @@ const SiegeWorkshop = require('../siege_workshop/siege_workshop');
 const Castle = require('../castle/castle');
 const Palisade = require('../wall/palisade');
 const TownCenter = require('./town_center');
+const Outpost = require('../tower/outpost');
+const WatchTower = require('../tower/watch');
+const BombardTower = require('../tower/bombard');
 
 const Berries = require('../resources/berries');
 const Stone = require('../resources/stone');
@@ -146,7 +149,6 @@ module.exports = class Villager extends Unit {
           blacksmith:  4,
           market:     16,
           monastery:  10,
-          palisade:   30,
           university: 32,
           townCenter: 28,
 
@@ -155,6 +157,14 @@ module.exports = class Villager extends Unit {
           stable:        23,
           siegeWorkshop: 22,
           castle:         7,
+          palisade:      30,
+          wall:          31,
+          outpost:        9,
+          watchTower:    25,
+          guardTower:    26,
+          keep:          27,
+          bombardTower:  42,
+          door:          36,
         }
       },
       {
@@ -303,8 +313,33 @@ module.exports = class Villager extends Unit {
         condition: () => this.player.age >= 3,
         callback: () => this.build(SiegeWorkshop)
       },
+      null,
+      {
+        icon: icons.outpost,
+        callback: () => this.build(Outpost)
+      },
       {
         icon: icons.palisade,
+        callback: () => this.build(Palisade)
+      },
+      {
+        icon: icons.wall,
+        condition: () => this.player.age >= 2,
+        callback: () => this.build(Palisade)
+      },
+      {
+        icon: icons.watchTower,
+        condition: () => this.player.age >= 2,
+        callback: () => this.build(WatchTower)
+      },
+      {
+        icon: icons.bombardTower,
+        condition: () => this.player.age >= 4,
+        callback: () => this.build(BombardTower)
+      },
+      {
+        icon: icons.door,
+        condition: () => this.player.age >= 2,
         callback: () => this.build(Palisade)
       },
       {

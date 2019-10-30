@@ -32,6 +32,9 @@ module.exports = class CentralEuropean extends Civilization {
         Stable: {
           building: 1009
         },
+        WatchTower: {
+          building: 2667
+        },
         TownCenter: {
           building: 903,
           shadow: 895,
@@ -76,6 +79,9 @@ module.exports = class CentralEuropean extends Civilization {
         SiegeWorkshop: {
           building: 958
         },
+        GuardTower: {
+          building: 2655
+        },
         TownCenter: {
           building: 915,
           shadow: 907,
@@ -94,6 +100,12 @@ module.exports = class CentralEuropean extends Civilization {
         },
         University: {
           building: 3839
+        },
+        BombardTower: {
+          building: 2549
+        },
+        Keep: {
+          building: 2541
         },
         TownCenter: {
           building: 927,
