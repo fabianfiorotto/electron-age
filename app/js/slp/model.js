@@ -139,7 +139,9 @@ module.exports = class SlpModel {
   }
 
   draw(pos, orientation, frame, player) {
-    this.frames[frame].draw(pos, player);
+    if (this.frames[frame]) {
+      this.frames[frame].draw(pos, player);
+    }
   }
 
   canClick(pos, frame) {

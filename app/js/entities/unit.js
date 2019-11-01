@@ -33,6 +33,9 @@ module.exports = class Unit extends Entity {
   }
 
   draw(camera) {
+    if (this.models.wheels && this.state == Unit.WALKING) {
+      this.models.walking.draw(this.pos.subtract(camera), this.orientation, 0, this.player.id);
+    }
     if (this.getModel()) {
       this.getModel().draw(this.pos.subtract(camera), this.orientation, this.getFrame(), this.player.id);
     }
@@ -151,7 +154,7 @@ module.exports = class Unit extends Entity {
   getModel() {
     switch (this.state) {
       case Unit.WALKING:
-        return this.models.walking;
+        return this.models.wheels ? this.models.wheels : this.models.walking;
       case Unit.DYING:
         return this.models.dying;
       case Unit.ATTACKING:

@@ -92,7 +92,9 @@ module.exports = class SlpUnitModel extends SlpModel {
 
   draw(pos, orientation, frame, player) {
     var frameSet = this.getFrameSetByOrientation(orientation);
-    frameSet[frame].draw(pos, player);
+    if (frameSet[frame]) {
+      frameSet[frame].draw(pos, player);
+    }
   }
 
   nextFrame(n, orientation) {
