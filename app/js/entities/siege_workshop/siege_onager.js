@@ -1,6 +1,6 @@
-const Unit = require('../unit');
+const SiegeUnit = require('./siege_unit');
 
-module.exports = class SiegeOnager extends Unit {
+module.exports = class SiegeOnager extends SiegeUnit {
 
   modelsResources() {
     return {
@@ -11,12 +11,6 @@ module.exports = class SiegeOnager extends Unit {
         rotting: 3560,
         walking: 3561,
         wheels: 3563,
-
-
-
-
-
-
       }
     };
   }

@@ -1,7 +1,7 @@
-const Unit = require('../unit');
+const SiegeUnit = require('./siege_unit');
 const Onager = require('./onager');
 
-module.exports = class Mangonel extends Unit {
+module.exports = class Mangonel extends SiegeUnit {
 
   modelsResources() {
     return {

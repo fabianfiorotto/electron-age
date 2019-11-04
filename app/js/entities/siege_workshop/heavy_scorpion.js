@@ -1,6 +1,6 @@
-const Unit = require('../unit');
+const SiegeUnit = require('./siege_unit');
 
-module.exports = class heavyScorpion extends Unit {
+module.exports = class heavyScorpion extends SiegeUnit {
 
   modelsResources() {
     return {

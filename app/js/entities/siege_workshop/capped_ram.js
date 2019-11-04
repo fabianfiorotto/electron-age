@@ -1,7 +1,7 @@
-const Unit = require('../unit');
+const SiegeUnit = require('./siege_unit');
 const SiegeRam = require('./siege_ram');
 
-module.exports = class CappedRam extends Unit {
+module.exports = class CappedRam extends SiegeUnit {
 
   modelsResources() {
     return {
@@ -15,22 +15,6 @@ module.exports = class CappedRam extends Unit {
         ram: 1683
       }
     };
-  }
-
-  draw(camera) {
-    if (this.models.walking && this.state == Unit.ATTACKING) {
-      this.models.walking.draw(this.pos.subtract(camera), this.orientation, 0, this.player.id);
-    }
-    super.draw(camera);
-  }
-
-  getModel() {
-    if (this.state == Unit.ATTACKING) {
-      return this.models.ram;
-    }
-    else {
-      return super.getModel();
-    }
   }
 
   thumbnail() {
