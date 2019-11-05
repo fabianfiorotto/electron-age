@@ -4,7 +4,7 @@ const Building = require('../building');
 const House = require('../house/house');
 const MiningCamp = require('../resources/mining_camp');
 const LumberCamp = require('../resources/lumber_camp');
-const Mild = require('../mild/mild');
+const Mill = require('../mill/mill');
 const Blacksmith = require('../blacksmith/blacksmith');
 const Market = require('../market/market');
 const Monastery = require('../monastery/monastery');
@@ -141,7 +141,7 @@ module.exports = class Villager extends Unit {
         interface: 50706,
         frames: {
           house:      34,
-          mild:       19,
+          mill:       19,
           miningCamp: 39,
           lumberCamp: 40,
           dock:       13,
@@ -238,9 +238,9 @@ module.exports = class Villager extends Unit {
         callback : () => this.build(House),
       },
       {
-        icon: icons.mild,
+        icon: icons.mill,
         cost: {wood: 100},
-        callback : () => this.build(Mild)
+        callback : () => this.build(Mill)
       },
       {
         icon: icons.miningCamp,

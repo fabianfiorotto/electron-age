@@ -1,5 +1,10 @@
 const AoeMap = require('../map');
+
 const CentralEuropean = require('../civilizations/styles/central_european');
+const WestEuropean = require('../civilizations/styles/west_european');
+const Asian = require('../civilizations/styles/asian');
+const Arabic = require('../civilizations/styles/arabic');
+
 const Player = require('../player');
 
 const ScxMapReader = require('./reader');
@@ -13,11 +18,17 @@ module.exports = class ScxMapBuilder {
 
     var map = new AoeMap(scenario.map.width, scenario.map.height);
 
-    var civ1 = new CentralEuropean();
-
     //TODO gaia sould be player 0
+
+    var civ = new WestEuropean();// GAIA;
+    var player = new Player(map, civ, 0);
+    map.players.push(player);
+
     for (i = 0; i < scenario.header.nPlayers; i++) {
-      var player = new Player(map, civ1, i+1);
+      console.log(scenario.players[i]);
+      var klass = this.getCivilizationClass(scenario.players[i].civilization);
+      civ = new klass();
+      player = new Player(map, civ, i+1);
       map.players.push(player);
     }
 
@@ -56,11 +67,25 @@ module.exports = class ScxMapBuilder {
 
   static getUnitClass(code) {
     switch (code) {
+      case 12:
+        return require('../entities/barracks/barracks');
       case 83:
       case 293:
         return require('../entities/town_center/villager');
       case 66: //Gold
         return require('../entities/resources/stone');
+      case 68:
+        return require('../entities/mill/mill');
+      case 70:
+        return require('../entities/house/house');
+      case 82:
+        return require('../entities/castle/castle');
+      case 84:
+        return require('../entities/market/market');
+      case 87:
+        return require('../entities/archery_range/archery_range');
+      case 101:
+        return require('../entities/stable/stable');
       case 102:
         return require('../entities/resources/stone');
       case 103:
@@ -75,6 +100,10 @@ module.exports = class ScxMapBuilder {
         return null;
       case 399:
         return require('../entities/resources/tree');
+      case 562:
+        return require('../entities/resources/lumber_camp');
+      case 584:
+        return require('../entities/resources/mining_camp');
       default:
         console.log(code);
         return null;
@@ -168,5 +197,23 @@ module.exports = class ScxMapBuilder {
         return 'grass';
     }
   }
+
+ static getCivilizationClass(code) {
+    switch (code) {
+      case 0:
+      case 1:
+        return WestEuropean;
+      case 5:
+      case 6:
+        return Asian;
+      case 10:
+        return Arabic;
+      case 11:
+        return CentralEuropean;
+      default:
+        return WestEuropean;
+    }
+  }
+
 
 };

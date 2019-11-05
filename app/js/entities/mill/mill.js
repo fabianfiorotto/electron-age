@@ -1,6 +1,6 @@
 const Building = require('../building');
 
-module.exports = class Mild extends Building {
+module.exports = class Mill extends Building {
 
   getSize() {
     return 3;

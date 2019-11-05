@@ -38,14 +38,23 @@ module.exports = class ScxMapReader {
     var version2 = reader.readFloatLE();
     var playerNames = reader.readString(16*256);
 
-    var i,j;
+    var i,j, data;
 
 
     for (i = 0; i < 16; i++) {
       var strTablePyrNames = reader.readUInt32LE();
     }
 
-    var data = reader.readString(16*16);
+    scenario.players = [];
+    for (i = 0; i < 16; i++) {
+      var player = {};
+      player.active = reader.readUInt32LE();
+      player.human = reader.readUInt32LE();
+      player.civilization = reader.readUInt32LE();
+      player.cty_mode = reader.readUInt32LE();
+      scenario.players.push(player);
+    }
+
     header.conquestMode = reader.readUInt8();
     header.missionCount = reader.readUInt16LE();
     header.missionAvailable = reader.readUInt16LE();
@@ -152,7 +161,7 @@ module.exports = class ScxMapReader {
      * Global Victory
      */
     separator = reader.readUInt32LE();  //  Separator, 0xFFFFFF9D
-    console.log(separator.toString(16));
+    // console.log(separator.toString(16));
     data = reader.readUInt32LE();  //  Boolean: conquest required? (for custom vict)
     data = reader.readUInt32LE();  //  Ruins
     data = reader.readUInt32LE();  //  Artifacts
