@@ -16,6 +16,10 @@ module.exports = class CentralEuropean extends Civilization {
         House: {
           building: 2234
         },
+        Mill: {
+          building: 740,
+          animation: 748
+        },
         Market: {
           building: 2277
         },
@@ -50,6 +54,9 @@ module.exports = class CentralEuropean extends Civilization {
       castle: {
         House: {
           building: 2246
+        },
+        Mill: {
+          building: 752
         },
         Blacksmith: {
           building: 104
