@@ -193,6 +193,12 @@ module.exports = class Building extends Entity {
     return this.state === Building.IMAGINARY;
   }
 
+  startBuilding() {
+    this.state = Building.INCOMPLETE;
+    this.frame = 0;
+    this.properties.hitPoints = 1;
+  }
+
   async loadResources(res) {
     this.flagModel = await res.loadModel(3404);
     switch (this.getSize()) {

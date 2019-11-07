@@ -16,7 +16,8 @@ module.exports = class Terrain {
 
     this.width = width;
     this.height = height;
-    this.pos = $V([-650, 250]); //TODO remove
+    // this.pos = $V([-650, 250]); //TODO remove
+    this.pos = $V([0, 0]);
 
     this.blend_mask_lookup = [
       [ 2, 3, 2, 1, 1, 6, 5, 4 ],
@@ -29,7 +30,22 @@ module.exports = class Terrain {
       [ 4, 3, 4, 4, 4, 4, 4, 4 ]
     ];
 
+    this.redraw = true;
     this.neighbor_lookup = [4, 3, 2, 5, 0, 7, 6, 1];
+
+
+    //Transform matrix
+    this.m = $M([
+      [ 48, 48],
+      [-24, 24]
+      // [24, -24] invert Y axis
+    ]);
+
+    this.mr = $M([
+      [ 1/96,  1/48],
+      [ 1/96,  -1/48]
+    ]);
+
   }
 
 
@@ -197,6 +213,7 @@ module.exports = class Terrain {
         }
       }
     }
+    this.redraw = false;
   }
 
   applyMask(mask, img) {
@@ -238,6 +255,7 @@ module.exports = class Terrain {
 
       m.frames[frame_id].terrain = m;
       this.tiles[i][j].frame = m.frames[frame_id];
+      this.redraw = true;
     }
   }
 
@@ -262,6 +280,6 @@ module.exports = class Terrain {
     }
 
     this.modes = await Blendomatic.getBlendingModes();
-
+    this.redraw = true;
   }
 };

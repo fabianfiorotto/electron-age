@@ -19,12 +19,14 @@ const TownCenter = require('./town_center');
 const Outpost = require('../tower/outpost');
 const WatchTower = require('../tower/watch');
 const BombardTower = require('../tower/bombard');
+const Farm = require('../mill/farm');
 
 const Berries = require('../resources/berries');
 const Stone = require('../resources/stone');
 const Tree = require('../resources/tree');
 
 const Forager    = require('./forager');
+const Farmer     = require('./farmer');
 const Builder    = require('./builder');
 const Miner      = require('./miner');
 const LumberJack = require('./lumberjack');
@@ -76,7 +78,11 @@ module.exports = class Villager extends Unit {
       this.role = new LumberJack(this);
       resources.load(this.role);
     }
-    if (entity && entity instanceof Building && entity.state == Building.INCOMPLETE) {
+    if (entity && entity instanceof Farm) {
+      this.role = new Farmer(this);
+      resources.load(this.role);
+    }
+    else if (entity && entity instanceof Building && entity.state == Building.INCOMPLETE) {
       this.role = new Builder(this);
       resources.load(this.role);
     }
@@ -223,9 +229,7 @@ module.exports = class Villager extends Unit {
     this.role = new Builder(this);
     resources.load(this.role);
     this.setTarget(this.building);
-    this.building.state = this.building.constructor.INCOMPLETE;
-    this.building.frame = 0;
-    this.building.properties.hitPoints = 1;
+    this.building.startBuilding();
     this.building = null;
   }
 
@@ -258,7 +262,7 @@ module.exports = class Villager extends Unit {
       },
       {
         icon: icons.farm,
-        callback : () => console.log("buildFarm")
+        callback : () => this.build(Farm)
       },
       {
         icon: icons.blacksmith,

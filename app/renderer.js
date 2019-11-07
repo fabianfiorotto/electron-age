@@ -1,5 +1,6 @@
 const ResourceManager = require("./resources");
 const AoeMap = require('./js/map');
+const ScxMapBuilder = require('./js/scx/scx');
 const TestBuilder = require('./js/test/testmap');
 
 const TopBar = require('./js/ui/topbar');
@@ -9,13 +10,34 @@ var topBar = new TopBar();
 var dashboard = new Dashboard();
 
 require("sylvester");
-const fs = require('fs');
+const fs = require('fs').promises;
 
 window.resources = new ResourceManager();
 var map;
 var cameraPos = $V([0, 0]);
-var cameraMoved = true;
 var fps = 0;
+
+var loadMapScx = async function() {
+  map = new AoeMap(120, 120); //No puedo dejar la variable map vacia!!
+  // var file = await fs.open('/home/fabian/github/aldeano.scx', "r");
+  // var file = await fs.open('/home/fabian/github/test1.scx', "r");
+  var file = await fs.open('/home/fabian/github/edificios.scx', "r");
+  map = await ScxMapBuilder.load(file);
+  await map.loadResources(resources);
+
+  topBar.bind(map, 'top-bar');
+  dashboard.bind(map, 'dashboard');
+};
+
+var loadMap = async function() {
+  //map = new AoeMap(120, 120);
+  map = TestBuilder.loadTestMap();
+  await map.loadResources(resources);
+
+  topBar.bind(map, 'top-bar');
+  dashboard.bind(map, 'dashboard');
+  return map;
+};
 
 document.addEventListener("DOMContentLoaded", function() {
   var c, ctx, tr_c, tr_ctx, doKeyDown, idle, imgs;
@@ -29,12 +51,8 @@ document.addEventListener("DOMContentLoaded", function() {
   tr_c = document.getElementById("terrainCanvas");
   tr_ctx = tr_c.getContext("2d");
 
-  //map = new AoeMap(120, 120);
-  map = TestBuilder.loadTestMap();
-  map.loadResources(resources).then(() => cameraMoved = true);
-
-  topBar.bind(map, 'top-bar');
-  dashboard.bind(map, 'dashboard');
+  loadMap();
+  // loadMapScx();
 
   c.addEventListener('mousemove', (e) => {
     var dim = e.target.getBoundingClientRect();
@@ -95,7 +113,8 @@ document.addEventListener("DOMContentLoaded", function() {
     c.setAttribute('height', window.innerHeight - 250);
     tr_c.setAttribute('height', window.innerHeight - 250);
     mapDiv.style.height = (window.innerHeight - 250) + "px";
-    cameraMoved = true;
+    map.terrain.redraw = true;
+    map.terrain.redraw = true;
   };
 
   window.addEventListener('resize',function(e) {
@@ -106,33 +125,32 @@ document.addEventListener("DOMContentLoaded", function() {
   doKeyDown = function(e) {
     if (e.keyCode == 87) { //w
       cameraPos = cameraPos.add($V([0,-10]));
-      cameraMoved = true;
+      map.terrain.redraw = true;
     }
     if (e.keyCode == 65) { //a
       cameraPos = cameraPos.add($V([-10, 0]));
-      cameraMoved = true;
+      map.terrain.redraw = true;
     }
     if (e.keyCode == 83) { //s
       cameraPos = cameraPos.add($V([0, 10]));
-      cameraMoved = true;
+      map.terrain.redraw = true;
     }
     if (e.keyCode == 68) { //d
       cameraPos = cameraPos.add($V([10, 0]));
-      cameraMoved = true;
+      map.terrain.redraw = true;
     }
     // console.log(e.keyCode);
   };
   idle = function() {
     ctx.clearRect(0, 0, c.width, c.height);
     map.update();
-    if (cameraMoved) {
+    if (map.terrain.redraw) {
       // tr_ctx.clearRect(0, 0, tr_c.width, tr_c.height);
       tr_ctx.beginPath();
       tr_ctx.rect(0, 0, tr_c.width, tr_c.height);
       tr_ctx.fillStyle = "#000";
       tr_ctx.fill();
       map.drawTerrain(cameraPos);
-      cameraMoved = false;
     }
     map.draw(cameraPos);
     fps += 1;

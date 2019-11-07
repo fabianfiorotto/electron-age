@@ -13,6 +13,11 @@ body {
   padding: 2px;
 }
 
+.debug a {
+  text-decoration: none;
+  font-size: 25px;
+}
+
 /*****
  Top Bar
 */

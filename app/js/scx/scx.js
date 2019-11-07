@@ -40,12 +40,7 @@ module.exports = class ScxMapBuilder {
       }
     }
 
-
-    var m = $M([
-      [ 48, 48],
-      [-24, 24]
-      // [24, -24] invert Y axis
-    ]);
+    var m = map.terrain.m;
 
     for (i = 0; i < scenario.units.length; i++) {
       var unitDef = scenario.units[i];
