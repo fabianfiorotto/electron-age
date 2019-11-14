@@ -10,6 +10,9 @@ module.exports = class SlpFrame {
     if (!this.imgs[pid]) {
 
       if (this.flipped) {
+        if (!this.original.imgs[pid]) {
+          this.original.load(colors);
+        }
         this.img = resources.flipImage(this.original.imgs[pid]);
       }
       else {

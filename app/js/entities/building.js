@@ -199,6 +199,25 @@ module.exports = class Building extends Entity {
     this.properties.hitPoints = 1;
   }
 
+  iconsResources() {
+    return [
+      {
+        interface: 50706,
+        frames: {
+          thumbnail: this.thumbnail(),
+        }
+      },
+      {
+        interface: 50730,
+        frames: this.unitsIcons()
+      },
+      {
+        interface: 50729,
+        frames: this.tecnologyIcons()
+      }
+    ];
+  }
+
   async loadResources(res) {
     this.flagModel = await res.loadModel(3404);
     switch (this.getSize()) {

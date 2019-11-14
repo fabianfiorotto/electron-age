@@ -21,6 +21,9 @@ var loadModel = async function(id) {
   if (id == 2 || id == 8) {
     slp = await resources.loadUnit(id);
   }
+  else if (id == 50) {
+    slp = await resources.loadProjectile(id);
+  }
   else {
     slp = await resources.loadModel(id);
   }

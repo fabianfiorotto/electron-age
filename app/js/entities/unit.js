@@ -16,20 +16,21 @@ module.exports = class Unit extends Entity {
     this.path = [];
     this.pos = $V([50,100]);
     this.orientation = 3.14;
-    this.state = Unit.IDLE;
+    this.setState(Unit.IDLE);
   }
 
   setPath(path) {
-    if (path.length > 0) {
-      var v = path[0].subtract(this.pos);
-      this.orientation = Math.atan2(-v.e(2), v.e(1));
-      this.state = Unit.WALKING;
+    if(this.isAlive()) {
+      if (path.length > 0) {
+        var v = path[0].subtract(this.pos);
+        this.orientation = Math.atan2(-v.e(2), v.e(1));
+        this.setState(Unit.WALKING);
+      }
+      else {
+        this.setState(Unit.IDLE);
+      }
+      this.path = path;
     }
-    else {
-      this.state = Unit.IDLE;
-    }
-    this.path = path;
-    this.frame = 0;
   }
 
   draw(camera) {
@@ -57,7 +58,7 @@ module.exports = class Unit extends Entity {
         this.frame = 0;
         this.path.shift();
         if (this.path.length == 0) {
-          this.state = Unit.IDLE;
+          this.setState(Unit.IDLE);
         }
         else {
           v = this.path[0].subtract(this.pos);
@@ -66,7 +67,7 @@ module.exports = class Unit extends Entity {
       }
       if (this.target && this.canReachTarget()){
         this.path = [];
-        this.state = Unit.IDLE;
+        this.setState(Unit.IDLE);
         this.targetReached();
       }
     }
@@ -79,7 +80,7 @@ module.exports = class Unit extends Entity {
       this.target.emitter.emit('did-change-properties', this.target.properties);
     }
     else {
-      this.state = Unit.IDLE;
+      this.setState(Unit.IDLE);
       this.target.onEntityDestroy();
     }
   }
@@ -90,7 +91,17 @@ module.exports = class Unit extends Entity {
   }
 
   onEntityDestroy() {
-    this.state = Unit.DYING;
+    if (this.isAlive()) {
+      this.setState(Unit.DYING);
+    }
+  }
+
+  isAlive() {
+    return this.state !== Unit.DYING && this.state !== Unit.ROTTING;
+  }
+
+  setState(state) {
+    this.state = state;
     this.frame = 0;
   }
 
@@ -106,7 +117,7 @@ module.exports = class Unit extends Entity {
 
   targetReached() {
     if (this.target.player.id != this.player.id) {
-      this.state = Unit.ATTACKING;
+      this.setState(Unit.ATTACKING);
     }
   }
 
@@ -131,7 +142,7 @@ module.exports = class Unit extends Entity {
           this.map.removeEntity(this);
         }
         if (this.state == Unit.DYING && prevFrame > this.frame) {
-          this.state = Unit.ROTTING;
+          this.setState(Unit.ROTTING);
         }
       }
     });
