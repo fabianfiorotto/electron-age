@@ -87,7 +87,7 @@ module.exports = class Villager extends Unit {
       resources.load(this.role);
     }
     if (entity && entity instanceof TownCenter && entity.state == Building.FINISHED) {
-      this.state = Unit.IDLE;
+      this.setState(Unit.IDLE);
     }
     this.target = entity;
   }

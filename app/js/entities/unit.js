@@ -115,6 +115,33 @@ module.exports = class Unit extends Entity {
     return this.pos.subtract(pos).modulus() < 50.0;
   }
 
+  isAtVec(pos1, pos2, target = false) {
+    if (this.isAt(pos1)) {
+      return false;
+    }
+    if (this.isAt(pos2)) {
+      return !target;
+    }
+
+    var p1 = pos1.subtract(this.pos);
+    var p2 = pos2.subtract(this.pos);
+
+    var d = p2.subtract(p1);
+
+    if (d.modulus() < p1.modulus()) {
+      return false;
+    }
+
+    var bigD = $M([
+      p1.elements,
+      p2.elements
+    ])
+    .transpose()
+    .determinant();
+    var d_sq = d.dot(d);
+    return 50.0 ** 2 * d_sq > bigD;
+  }
+
   targetReached() {
     if (this.target.player.id != this.player.id) {
       this.setState(Unit.ATTACKING);

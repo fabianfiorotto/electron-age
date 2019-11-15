@@ -263,7 +263,7 @@ module.exports = class Building extends Entity {
   }
 
   createUnit(unitClass) {
-    var entity;
+    var entity, target;
     if (!unitClass && this.operation && this.operation.newUnit) {
       entity = this.operation.newUnit;
       this.operation.newUnit = null;
@@ -283,6 +283,10 @@ module.exports = class Building extends Entity {
     var path = this.map.pathfinder.find(entity.pos, this.spawnReunion);
     entity.setPath(path);
     this.map.addEntity(entity);
+    target = this.map.clickEntity(this.spawnReunion);
+    if (target) {
+      entity.setTarget(target);
+    }
   }
 
 };
