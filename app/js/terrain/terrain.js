@@ -259,6 +259,13 @@ module.exports = class Terrain {
     }
   }
 
+  isWater(pos) {
+    pos = this.mr.x(pos);
+    pos = pos.map((e) => Math.floor(e));
+    var i = pos.e(1), j = pos.e(2);
+    return this.tiles[i][j].terrain.water || false;
+  }
+
   async loadResources(res) {
     for (const [key,type] of Object.entries(this.type)){
       this.models[key] = await res.loadTerrain(type.slp);

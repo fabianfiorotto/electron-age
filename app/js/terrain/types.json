@@ -18,6 +18,7 @@
     "slp": 15002,
     "priority": 139,
     "terrain_id": 3,
+    "water": true,
     "minimap": "#305db6"
   },
   "farm_stage_3": {
@@ -89,6 +90,7 @@
     "slp": 15015,
     "priority": 140,
     "terrain_id": 3,
+    "water": true,
     "minimap": "#004abb"
   },
   "ocean": {
@@ -96,6 +98,7 @@
     "slp": 15016,
     "priority": 141,
     "terrain_id": 3,
+    "water": true,
     "minimap": "#004abb"
   },
   "sand": {

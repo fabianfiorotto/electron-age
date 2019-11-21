@@ -23,6 +23,7 @@ module.exports = class AoeMap {
 
     this.terrain = new Terrain(width, height);
     this.pathfinder = new PathFinder(this);
+    this.initCameraPos = $V([0, 0]);
   }
 
 
@@ -97,7 +98,8 @@ module.exports = class AoeMap {
         }
       }
     }
-    return true;
+    //TODO: Docks
+    return !building.getTilePoints().some((tile) => this.terrain.isWater(tile));
   }
 
   areThereAnyObstacle(pos, v, target = false) {
@@ -108,6 +110,10 @@ module.exports = class AoeMap {
   }
 
   rightClick(v) {
+    if (this.terrain.isWater(v)){
+      // TODO Boats and dock
+      return;
+    }
     var entity = this.clickEntity(v);
     for (var i = 0; i < this.selected.length; i++) {
       let selected = this.selected[i];

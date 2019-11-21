@@ -24,6 +24,7 @@ var loadMapScx = async function() {
   var file = await fs.open('/home/fabian/github/edificios.scx', "r");
   map = await ScxMapBuilder.load(file);
   await map.loadResources(resources);
+  cameraPos = map.initCameraPos;
 
   topBar.bind(map, 'top-bar');
   dashboard.bind(map, 'dashboard');

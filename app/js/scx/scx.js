@@ -54,7 +54,7 @@ module.exports = class ScxMapBuilder {
     }
 
 
-
+    map.initCameraPos = $V([6250, -200]);
     return map;
   }
 
@@ -153,7 +153,7 @@ module.exports = class ScxMapBuilder {
       case 22: // Water, Deep
         return 'ocean';
       case 23:
-        return deep_water;
+        return 'deep_water';
       case 24: // Road
         return 'road';
       case 25: // Broken Road
