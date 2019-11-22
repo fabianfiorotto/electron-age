@@ -266,6 +266,22 @@ module.exports = class Terrain {
     return this.tiles[i][j].terrain.water || false;
   }
 
+  isWaterAtVec(pos1,pos2) {
+    var v = pos2.subtract(pos1).toUnitVector();
+    var d = pos1.distanceFrom(pos2);
+
+    var times = Math.floor(d / 48) + 1;
+
+    for (var i = 0; i < times; i++) {
+      var v1 = v.x(48).x(i+1);
+      if (this.isWater(pos1.add(v1))) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   async loadResources(res) {
     for (const [key,type] of Object.entries(this.type)){
       this.models[key] = await res.loadTerrain(type.slp);

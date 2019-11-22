@@ -103,6 +103,9 @@ module.exports = class AoeMap {
   }
 
   areThereAnyObstacle(pos, v, target = false) {
+    if (this.terrain.isWaterAtVec(pos,v)) {
+      return true;
+    }
     if (this.entities.some((e) => e.isAtVec(pos, v, target))) {
       return true;
     }

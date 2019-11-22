@@ -92,7 +92,7 @@ module.exports = class PathFinder {
           (i - j) * 24,
           (i + j) * 12
         ]));
-        if (nextPos.e(1) > this.map.width * 48 || nextPos.e(2) > this.map.height * 24) {
+        if (nextPos.e(1) > this.map.width * 96 || nextPos.e(2) > this.map.height * 48) {
           continue;
         }
         if (this.map.areThereAnyObstacle(node.pos, nextPos)){
