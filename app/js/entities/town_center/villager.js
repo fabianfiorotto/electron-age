@@ -5,6 +5,7 @@ const House = require('../house/house');
 const MiningCamp = require('../resources/mining_camp');
 const LumberCamp = require('../resources/lumber_camp');
 const Mill = require('../mill/mill');
+const Dock = require('../dock/dock');
 const Blacksmith = require('../blacksmith/blacksmith');
 const Market = require('../market/market');
 const Monastery = require('../monastery/monastery');
@@ -258,7 +259,7 @@ module.exports = class Villager extends Unit {
       },
       {
         icon: icons.dock,
-        callback : () => console.log("buildDock")
+        callback : () => this.build(Dock)
       },
       {
         icon: icons.farm,
