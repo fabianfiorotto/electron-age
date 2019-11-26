@@ -269,6 +269,16 @@ module.exports = class Terrain {
     return this.tiles[i][j].terrain.water || false;
   }
 
+  isLand(pos) {
+    pos = this.mr.x(pos);
+    pos = pos.map((e) => Math.floor(e));
+    var i = pos.e(1), j = pos.e(2);
+    if (!this.tiles[i] || !this.tiles[i][j] ) {
+      return false;
+    }
+    return !this.tiles[i][j].terrain.water;
+  }
+
   isWaterAtVec(pos1,pos2) {
     var v = pos2.subtract(pos1).toUnitVector();
     var d = pos1.distanceFrom(pos2);
@@ -278,6 +288,22 @@ module.exports = class Terrain {
     for (var i = 0; i < times; i++) {
       var v1 = v.x(48).x(i+1);
       if (this.isWater(pos1.add(v1))) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  isLandAtVec(pos1,pos2) {
+    var v = pos2.subtract(pos1).toUnitVector();
+    var d = pos1.distanceFrom(pos2);
+
+    var times = Math.floor(d / 48) + 1;
+
+    for (var i = 0; i < times; i++) {
+      var v1 = v.x(48).x(i+1);
+      if (this.isLand(pos1.add(v1))) {
         return true;
       }
     }

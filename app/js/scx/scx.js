@@ -95,6 +95,8 @@ module.exports = class ScxMapBuilder {
         return null;
       case 399:
         return require('../entities/resources/tree');
+      case 539:
+        return require('../entities/dock/galley');
       case 562:
         return require('../entities/resources/lumber_camp');
       case 584:

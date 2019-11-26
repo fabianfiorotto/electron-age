@@ -1,5 +1,5 @@
-const Unit = require('../unit');
-module.exports = class Galley extends Unit {
+const Boat = require('./boat');
+module.exports = class Galley extends Boat {
 
   modelsResources() {
     return {
@@ -25,25 +25,8 @@ module.exports = class Galley extends Unit {
     };
   }
 
-  draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), this.orientation, this.getFrame(), this.player.id);
-    }
-    if (this.models.sail) {
-      this.models.sail.draw(this.pos.subtract(camera), this.orientation, this.getFrame(), this.player.id);
-    }
-  }
-
   thumbnail() {
     return 87;
-  }
-
-  getModel() {
-    return this.models.hull;
-  }
-
-  getFrame() {
-    return 0;
   }
 
 };

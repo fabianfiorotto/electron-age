@@ -1,5 +1,6 @@
 const Villager = require("./entities/town_center/villager");
 const Building = require("./entities/building");
+const Boat = require("./entities/dock/boat");
 
 const Terrain = require('./terrain/terrain');
 
@@ -103,7 +104,9 @@ module.exports = class AoeMap {
   }
 
   areThereAnyObstacle(pos, v, target = false) {
-    if (this.terrain.isWaterAtVec(pos,v)) {
+    var t = this.terrain;
+    var w = t.isWater(pos);
+    if ((w && t.isLandAtVec(pos,v)) || (!w && t.isWaterAtVec(pos,v))) {
       return true;
     }
     if (this.entities.some((e) => e.isAtVec(pos, v, target))) {
@@ -113,17 +116,15 @@ module.exports = class AoeMap {
   }
 
   rightClick(v) {
-    if (this.terrain.isWater(v)){
-      // TODO Boats and dock
-      return;
-    }
     var entity = this.clickEntity(v);
     for (var i = 0; i < this.selected.length; i++) {
       let selected = this.selected[i];
       selected.setTarget(entity);
       var f = $V([i % 3, Math.floor(i / 3)]).multiply(50);
-      var path = this.pathfinder.find(selected.pos, v.add(f));
-      selected.setPath(path);
+      if (selected instanceof Boat ^ !this.terrain.isWater(v.add(f)) ){
+        var path = this.pathfinder.find(selected.pos, v.add(f));
+        selected.setPath(path);
+      }
     }
   }
 
