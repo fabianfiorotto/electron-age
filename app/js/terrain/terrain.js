@@ -263,6 +263,9 @@ module.exports = class Terrain {
     pos = this.mr.x(pos);
     pos = pos.map((e) => Math.floor(e));
     var i = pos.e(1), j = pos.e(2);
+    if (!this.tiles[i] || !this.tiles[i][j] ) {
+      return false;
+    }
     return this.tiles[i][j].terrain.water || false;
   }
 

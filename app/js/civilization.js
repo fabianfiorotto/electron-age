@@ -29,7 +29,13 @@ module.exports = class Civilization {
     var name = entity.constructor.name;
     if (res[name]) {
       for (const [key,value] of Object.entries(res[name])){
-        let model = await resources.loadModel(value);
+        let model;
+        if (key == 'sail') {
+          model = await resources.loadUnit(value);
+        }
+        else {
+          model = await resources.loadModel(value);
+        }
         model.load({
           base: resources.palettes[50505],
           player: entity.player.id

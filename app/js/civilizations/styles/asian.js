@@ -23,6 +23,9 @@ module.exports = class CentralEuropean extends Civilization {
         Dock: {
           building: 386
         },
+        Galley: {
+          sail: 4225
+        },
         Market: {
           building: 2276
         },

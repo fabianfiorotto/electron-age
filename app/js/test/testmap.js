@@ -9,6 +9,8 @@ const Gold = require('../entities/resources/gold');
 
 const Archer = require("../entities/archery_range/archer");
 
+const Galley = require("../entities/dock/galley");
+
 const CentralEuropean = require('../civilizations/styles/central_european');
 const WestEuropean = require('../civilizations/styles/west_european');
 const Player = require('../player');
@@ -27,17 +29,30 @@ module.exports =  class TestBuilder {
     map.players.push(player1);
     map.players.push(player2);
 
-    var villager2 = new Villager(map, player1);
-    villager2.pos = $V([100,150]);
 
-    map.entities.push(new Villager(map, player2));
-    map.entities.push(villager2);
-    map.entities.push(new House(map, player1));
+    var entity;
+
+    entity = new Villager(map, player1);
+    entity.pos = $V([96,0]);
+    map.entities.push(entity);
+
+    entity = new Villager(map, player2);
+    entity.pos = $V([240, -24]);
+    map.entities.push(entity);
+
+    entity = new House(map, player1);
+    entity.pos = $V([384, 96]);
+    map.entities.push(entity);
+
     map.entities.push(new Berries(map, player1));
     map.entities.push(new Stone(map, player1));
     map.entities.push(new Tree(map, player1));
     // map.entities.push(new Gold(map, player1));
-    map.entities.push(new Archer(map, player2));
+
+    // entity = new Archer(map, player2);
+    entity = new Galley(map, player2);
+    entity.pos = $V([624, 24]);
+    map.entities.push(entity);
 
     //???
     map.selected = [map.entities[0]];
@@ -54,6 +69,7 @@ module.exports =  class TestBuilder {
       }
     }
 
+    map.initCameraPos = $V([0, -340]);
     return map;
   }
 
