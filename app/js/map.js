@@ -99,8 +99,7 @@ module.exports = class AoeMap {
         }
       }
     }
-    //TODO: Docks
-    return !building.getTilePoints().some((tile) => this.terrain.isWater(tile));
+    return building.canPlace();
   }
 
   areThereAnyObstacle(pos, v, target = false) {

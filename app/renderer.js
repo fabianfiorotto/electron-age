@@ -34,6 +34,7 @@ var loadMap = async function() {
   //map = new AoeMap(120, 120);
   map = TestBuilder.loadTestMap();
   await map.loadResources(resources);
+  cameraPos = map.initCameraPos;
 
   topBar.bind(map, 'top-bar');
   dashboard.bind(map, 'dashboard');

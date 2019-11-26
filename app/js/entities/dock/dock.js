@@ -63,4 +63,10 @@ module.exports = class Dock extends Building {
     ];
   }
 
+  canPlace() {
+    var someWater = this.getTilePoints().some((tile) => this.map.terrain.isWater(tile));
+    var someLand = this.getTilePoints().some((tile) => this.map.terrain.isLand(tile));
+    return someWater && someLand;
+  }
+
 };

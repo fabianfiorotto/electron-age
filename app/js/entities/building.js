@@ -131,6 +131,10 @@ module.exports = class Building extends Entity {
     return points1.some((v1) => points2.some((v2) => v2.eql(v1)));
   }
 
+  canPlace() {
+    return !this.getTilePoints().some((tile) => this.map.terrain.isWater(tile));
+  }
+
   onEntityDestroy() {
     this.state = Building.DESTROYED;
   }
