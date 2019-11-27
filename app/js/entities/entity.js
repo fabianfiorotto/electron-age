@@ -177,7 +177,12 @@ module.exports = class Entity {
       var age = ages[i];
       if (civres[age] && civres[age][name]) {
         for (const [key,value] of Object.entries(civres[age][name])){
-          res.model[key] = value;
+          if (key == 'sail') { //HACK?
+            res.unit[key] = value;
+          }
+          else {
+            res.model[key] = value;
+          }
         }
       }
     }

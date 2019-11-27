@@ -30,7 +30,7 @@ module.exports = class Civilization {
     if (res[name]) {
       for (const [key,value] of Object.entries(res[name])){
         let model;
-        if (key == 'sail') {
+        if (key == 'sail') { //HACK?
           model = await resources.loadUnit(value);
         }
         else {

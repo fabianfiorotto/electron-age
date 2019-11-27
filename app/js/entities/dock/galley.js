@@ -29,4 +29,8 @@ module.exports = class Galley extends Boat {
     return 87;
   }
 
+  minAge() {
+    return 2;
+  }
+
 };
