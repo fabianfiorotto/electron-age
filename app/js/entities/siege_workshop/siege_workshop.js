@@ -138,4 +138,8 @@ module.exports = class SiegeWorkshop extends Building {
 
   }
 
+  minAge() {
+    return 3;
+  }
+
 };

@@ -38,4 +38,8 @@ module.exports = class Market extends Building {
     ];
   }
 
+  minAge() {
+    return 2;
+  }
+
 };

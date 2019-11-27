@@ -107,4 +107,8 @@ module.exports = class Stable extends Building {
     ];
   }
 
+  minAge() {
+    return 2;
+  }
+
 };

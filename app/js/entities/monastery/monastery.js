@@ -38,4 +38,8 @@ module.exports = class Monastery extends Building {
     ];
   }
 
+  minAge() {
+    return 3;
+  }
+
 };

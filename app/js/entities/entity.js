@@ -75,6 +75,10 @@ module.exports = class Entity {
     return [];
   }
 
+  minAge(){
+    return 1;
+  }
+
   developControl(tec, minAge = 1) {
     return {
       icon: this.icons[tec],
@@ -168,7 +172,7 @@ module.exports = class Entity {
     var civ = this.player.civilization;
     var civres = civ.modelsResources();
     var name = this.constructor.name;
-    var ages = this.player.getAgeCodes();
+    var ages = this.player.getAgeCodes(this.minAge());
     for (var i = 0; i < ages.length; i++) {
       var age = ages[i];
       if (civres[age] && civres[age][name]) {

@@ -9,4 +9,8 @@ module.exports = class WatchTower extends Building {
   thumbnail() {
     return 25;
   }
+
+  minAge() {
+    return 2;
+  }
 };

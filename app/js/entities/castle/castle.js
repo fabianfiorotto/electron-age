@@ -46,4 +46,8 @@ module.exports = class Castle extends Building {
     ];
   }
 
+  minAge() {
+    return 3;
+  }
+
 };

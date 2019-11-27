@@ -10,4 +10,8 @@ module.exports = class Keep extends Building {
     return 27;
   }
 
+  minAge() {
+    return 4;
+  }
+
 };

@@ -70,4 +70,8 @@ module.exports = class Blacksmith extends Building {
     };
   }
 
+  minAge() {
+    return 2;
+  }
+
 };

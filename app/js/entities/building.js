@@ -102,6 +102,9 @@ module.exports = class Building extends Entity {
   }
 
   getControls() {
+    if (this.minAge() > this.player.age ) {
+      return [];
+    }    
     if (this.state === Building.FINISHED) {
       return this.controls();
     }

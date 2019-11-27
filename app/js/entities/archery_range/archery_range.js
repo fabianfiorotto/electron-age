@@ -114,4 +114,8 @@ module.exports = class ArcheryRange extends Building {
     ];
   }
 
+  minAge() {
+    return 2;
+  }
+
 };

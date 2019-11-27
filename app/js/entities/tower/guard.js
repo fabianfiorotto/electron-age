@@ -10,4 +10,8 @@ module.exports = class GuardTower extends Building {
     return 26;
   }
 
+  minAge() {
+    return 3;
+  }
+
 };

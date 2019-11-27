@@ -61,9 +61,10 @@ module.exports = class Player {
     }
   }
 
-  getAgeCodes() {
+  getAgeCodes(minAge = 1) {
     var codes = [];
-    for (var i = 1; i <= this.age; i++) {
+    minAge = Math.max(this.age, minAge);
+    for (var i = 1; i <= minAge; i++) {
       codes.push(this.getAgeCode(i));
     }
     return codes;

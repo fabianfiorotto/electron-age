@@ -9,4 +9,8 @@ module.exports = class BombardTower extends Building {
   thumbnail() {
     return 42;
   }
+
+  minAge() {
+    return 4;
+  }
 };
