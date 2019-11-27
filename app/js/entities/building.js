@@ -226,42 +226,51 @@ module.exports = class Building extends Entity {
   }
 
   async loadResources(res) {
-    this.flagModel = await res.loadModel(3404);
-    switch (this.getSize()) {
-      case 1:
-        this.models.marks  = await res.loadModel(236);
-        this.models.debris = await res.loadModel(928);
-        break;
-      case 2:
-        this.models.marks  = await res.loadModel(237);
-        this.models.debris = await res.loadModel(929);
-        break;
-      case 3:
-        this.models.marks  = await res.loadModel(238);
-        this.models.debris = await res.loadModel(930);
-        break;
-      case 4:
-        this.models.marks  = await res.loadModel(239);
-        this.models.debris = await res.loadModel(931);
-        break;
-      case 5:
-        this.models.marks  = await res.loadModel(241);
-        this.models.debris = await res.loadModel(933);
-        break;
-    }
     var base_id = 50505;
+    this.flagModel = await res.loadModel(3404);
     this.flagModel.load({
       base: resources.palettes[base_id],
       player: this.player.id
     });
-    this.models.marks.load({
-      base: resources.palettes[base_id],
-      player: this.player.id
-    });
-    this.models.debris.load({
-      base: resources.palettes[base_id],
-      player: this.player.id
-    });
+
+    var mr = this.getModelsResources();
+    var marks_id, debris_id;
+    switch (this.getSize()) {
+      case 1:
+        marks_id  = 236;
+        debris_id = 928;
+        break;
+      case 2:
+        marks_id  = 237;
+        debris_id = 929;
+        break;
+      case 3:
+        marks_id  = 238;
+        debris_id = 930;
+        break;
+      case 4:
+        marks_id  = 239;
+        debris_id = 931;
+        break;
+      case 5:
+        marks_id  = 241;
+        debris_id = 933;
+        break;
+    }
+    if (marks_id && (!mr.model || !mr.model.marks)) {
+      this.models.marks  = await res.loadModel(marks_id);
+      this.models.marks.load({
+        base: resources.palettes[base_id],
+        player: this.player.id
+      });
+    }
+    if (debris_id && (!mr.model || !mr.model.debris)) {
+      this.models.debris = await res.loadModel(debris_id);
+      this.models.debris.load({
+        base: resources.palettes[base_id],
+        player: this.player.id
+      });
+    }
   }
 
   prepareUnit(unitClass) {
