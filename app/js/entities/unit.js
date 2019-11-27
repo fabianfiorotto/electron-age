@@ -20,16 +20,21 @@ module.exports = class Unit extends Entity {
   }
 
   setPath(path) {
-    if(this.isAlive()) {
-      if (path.length > 0) {
-        var v = path[0].subtract(this.pos);
-        this.orientation = Math.atan2(-v.e(2), v.e(1));
-        this.setState(Unit.WALKING);
-      }
-      else {
-        this.setState(Unit.IDLE);
-      }
-      this.path = path;
+    if (path.length > 0) {
+      var v = path[0].subtract(this.pos);
+      this.orientation = Math.atan2(-v.e(2), v.e(1));
+      this.setState(Unit.WALKING);
+    }
+    else {
+      this.setState(Unit.IDLE);
+    }
+    this.path = path;
+  }
+
+  setTargetPos(pos) {
+    if (this.validTargetPos(pos) && this.isAlive()){
+      var path = this.map.pathfinder.find(this.pos, pos);
+      this.setPath(path);
     }
   }
 

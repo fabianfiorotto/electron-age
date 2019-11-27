@@ -18,4 +18,8 @@ module.exports = class Boat extends Unit {
     return 0;
   }
 
+  validTargetPos(pos) {
+    return this.map.terrain.isWater(pos);
+  }
+
 };

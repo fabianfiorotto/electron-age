@@ -20,9 +20,9 @@ module.exports = class Building extends Entity {
     this.modelFrame = 0;
   }
 
-  setPath(path) {
-    if (path.length > 0) {
-      this.spawnReunion = path[path.length - 1];
+  setTargetPos(pos) {
+    if (this.validTargetPos(pos) ){
+      this.spawnReunion = pos;
     }
   }
 
@@ -104,7 +104,7 @@ module.exports = class Building extends Entity {
   getControls() {
     if (this.minAge() > this.player.age ) {
       return [];
-    }    
+    }
     if (this.state === Building.FINISHED) {
       return this.controls();
     }
@@ -287,13 +287,12 @@ module.exports = class Building extends Entity {
         .multiply(this.getSize())
     );
 
-    var path = this.map.pathfinder.find(entity.pos, this.spawnReunion);
-    entity.setPath(path);
     this.map.addEntity(entity);
     target = this.map.clickEntity(this.spawnReunion);
     if (target) {
       entity.setTarget(target);
     }
+    entity.setTargetPos(this.spawnReunion);
   }
 
 };

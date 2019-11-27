@@ -1,5 +1,5 @@
-const Unit = require('../unit');
-module.exports = class FishingShip extends Unit {
+const Boat = require('./boat');
+module.exports = class FishingShip extends Boat {
 
   modelsResources() {
     return {
@@ -11,10 +11,6 @@ module.exports = class FishingShip extends Unit {
 
   thumbnail() {
     return 24;
-  }
-
-  getModel() {
-    return this.models.hull;
   }
 
 };

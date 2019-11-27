@@ -69,4 +69,9 @@ module.exports = class Dock extends Building {
     return someWater && someLand;
   }
 
+
+  validTargetPos(pos) {
+    return this.map.terrain.isWater(pos);
+  }
+
 };

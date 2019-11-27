@@ -120,10 +120,7 @@ module.exports = class AoeMap {
       let selected = this.selected[i];
       selected.setTarget(entity);
       var f = $V([i % 3, Math.floor(i / 3)]).multiply(50);
-      if (selected instanceof Boat ^ !this.terrain.isWater(v.add(f)) ){
-        var path = this.pathfinder.find(selected.pos, v.add(f));
-        selected.setPath(path);
-      }
+      selected.setTargetPos(v.add(f));
     }
   }
 

@@ -43,6 +43,13 @@ module.exports = class Entity {
   setPath(path) {
   }
 
+  validTargetPos(pos) {
+    return this.map.terrain.isLand(pos);
+  }
+
+  setTargetPos(pos) {
+  }
+
   setTarget(entity) {
     this.target = entity;
   }
