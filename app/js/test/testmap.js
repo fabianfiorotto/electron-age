@@ -17,15 +17,18 @@ const Player = require('../player');
 
 module.exports =  class TestBuilder {
 
-  static loadTestMap() {
+  static async loadTestMap() {
     var map = new AoeMap(120, 120);
+    await map.loadResources(resources);
 
 
     var civ1 = new CentralEuropean();
     var civ2 = new WestEuropean();
 
+    var gaia = new Player(map, civ1, 0);
     var player1 = new Player(map, civ1, 1);
     var player2 = new Player(map, civ2, 2);
+    map.players.push(gaia);
     map.players.push(player1);
     map.players.push(player2);
 
@@ -34,25 +37,25 @@ module.exports =  class TestBuilder {
 
     entity = new Villager(map, player1);
     entity.pos = $V([96,0]);
-    map.entities.push(entity);
+    await map.addEntity(entity);
 
     entity = new Villager(map, player2);
     entity.pos = $V([240, -24]);
-    map.entities.push(entity);
+    await map.addEntity(entity);
 
     entity = new House(map, player1);
     entity.pos = $V([384, 96]);
-    map.entities.push(entity);
+    await map.addEntity(entity);
 
-    map.entities.push(new Berries(map, player1));
-    map.entities.push(new Stone(map, player1));
-    map.entities.push(new Tree(map, player1));
-    // map.entities.push(new Gold(map, player1));
+    await map.addEntity(new Berries(map, gaia));
+    await map.addEntity(new Stone(map, gaia));
+    await map.addEntity(new Tree(map, gaia));
+    // map.addEntity(new Gold(map, gaia));
 
     // entity = new Archer(map, player2);
     entity = new Galley(map, player2);
     entity.pos = $V([624, 24]);
-    map.entities.push(entity);
+    await map.addEntity(entity);
 
     //???
     map.selected = [map.entities[0]];

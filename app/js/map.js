@@ -61,8 +61,9 @@ module.exports = class AoeMap {
     this.entities.sort((u1, u2) => u1.pos.e(2) > u2.pos.e(2) ? 1 : -1  );
   }
 
-  addEntity(entity) {
-    resources.load(entity);
+  async addEntity(entity) {
+    await resources.load(entity);
+    entity.onEntityCreated();
     this.entities.push(entity);
   }
 
@@ -82,9 +83,6 @@ module.exports = class AoeMap {
 
   async loadResources(res) {
     await res.loadPalette(50505);
-    for (var i = 0; i < this.entities.length; i++) {
-      resources.load(this.entities[i]);
-    }
     //TODO call resources.load(this.terrain);
     await this.terrain.loadResources(res);
   }

@@ -10,6 +10,15 @@ module.exports = class House extends Building {
     return 2;
   }
 
+  defineProperties() {
+    return {
+      hitPoints: 100,
+      maxHitPoints: 100,
+      population: 5,
+      lineofSeight: 2,
+    };
+  }
+
   modelsResources() {
     return {
       model: {

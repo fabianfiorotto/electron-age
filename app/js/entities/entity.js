@@ -224,8 +224,10 @@ module.exports = class Entity {
   async loadResources(res) {
   }
 
+  onEntityCreated() {
+  }
+
   onEntityDestroy() {
-    console.log("DESTROY");
   }
 
   destroy() {

@@ -40,6 +40,7 @@ module.exports = class ScxMapBuilder {
       }
     }
 
+    await map.loadResources(resources);
     var m = map.terrain.m;
 
     for (i = 0; i < scenario.units.length; i++) {
@@ -49,7 +50,7 @@ module.exports = class ScxMapBuilder {
         var entity = new klass(map, map.players[unitDef.player]);
         // entity.pos = $V([unitDef.x, unitDef.y]);
         entity.pos = m.x($V([unitDef.x, unitDef.y]));
-        map.entities.push(entity);
+        await map.addEntity(entity);
       }
     }
 

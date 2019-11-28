@@ -85,7 +85,9 @@ module.exports = class EntityInfo extends UIWidget {
     else {
       this.attack.parentNode.style.display = 'none';
     }
-    this.armor.textContent = pr.meleeArmor + "/" + pr.pierceArmor;
+    if (typeof pr.meleeArmor !== 'undefined') {
+      this.armor.textContent = pr.meleeArmor + "/" + pr.pierceArmor;
+    }
   }
 
   displayInfo(selected) {

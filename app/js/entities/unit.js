@@ -92,7 +92,13 @@ module.exports = class Unit extends Entity {
 
   attackMeleeDamage(target) {
     // TODO collect bunus.
-    return Math.max(1, this.properties.attack - target.properties.meleeArmor);
+    var armor = target.properties.meleeArmor || 0;
+    return Math.max(1, this.properties.attack - armor);
+  }
+
+  onEntityCreated() {
+    this.player.population++;
+    this.player.emitter.emit('did-change-population', this.player);
   }
 
   onEntityDestroy() {

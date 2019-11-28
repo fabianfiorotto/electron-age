@@ -11,14 +11,15 @@ module.exports = class Builder extends VillagerRole {
   update() {
     this.villager.each(500, 'work' , () => {
       if (this.villager.state == Unit.WORKING) {
-        var properties = this.villager.target.properties;
+        var building = this.villager.target;
+        var properties = building.properties;
         if (properties.hitPoints < properties.maxHitPoints) {
           properties.hitPoints++;
-          this.villager.target.emitter.emit('did-change-properties', properties);
+          building.emitter.emit('did-change-properties', properties);
         }
         else {
-          this.villager.target.state = Building.FINISHED;
-          this.villager.state = Unit.IDLE;
+          building.setState(Building.FINISHED);
+          this.villager.setState(Unit.IDLE);
         }
       }
     });

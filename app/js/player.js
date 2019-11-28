@@ -11,8 +11,11 @@ module.exports = class Player {
       stone: 10000,
       gold: 10000
     };
+    this.population = 0;
+    this.maxPopulation = 0;
     this.age = 1;
     this.tecnologies = {};
+
 
     this.emitter = new Emitter();
 
@@ -40,6 +43,10 @@ module.exports = class Player {
 
   onDidChangeAge(callback) {
     return this.emitter.on('did-change-age', callback);
+  }
+
+  onDidChangePopulation(callback) {
+    return this.emitter.on('did-change-population', callback);
   }
 
   onDidDevelopTecnology(callback) {

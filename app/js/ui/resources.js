@@ -12,10 +12,14 @@ module.exports = class ViewResources extends UIWidget{
     this.gold = this.element.getElementsByClassName('gold')[0];
     this.stone = this.element.getElementsByClassName('stone')[0];
     this.age = this.element.getElementsByClassName('current-age')[0];
-    var player = map.players[0];
+    this.population = this.element.getElementsByClassName('population')[0];
+    var player = map.players[1];
     player.onDidChangeResources((res) => this.display(res));
     player.onDidChangeAge((age) => this.displayAge(age));
-    this.display(map.players[0].resources);
+    player.onDidChangePopulation((p) => this.displayPopulation(p));
+    this.display(player.resources);
+    this.displayAge(player.age);
+    this.displayPopulation(player);
   }
 
   display(res) {
@@ -29,4 +33,7 @@ module.exports = class ViewResources extends UIWidget{
     this.age.textContent = age;
   }
 
+  displayPopulation(player) {
+    this.population.textContent = player.population + ' / ' + player.maxPopulation;
+  }
 };

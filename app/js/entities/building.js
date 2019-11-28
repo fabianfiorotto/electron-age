@@ -6,7 +6,7 @@ module.exports = class Building extends Entity {
   static IMAGINARY   = Symbol('building_imaginary');
   static INCOMPLETE  = Symbol('building_incomplete');
   static FINISHED    = Symbol('building_finished');
-  static DESTROYED   = Symbol('building_Destro');
+  static DESTROYED   = Symbol('building_destroyed');
   /* jshint ignore:end */
 
   constructor(map, player) {
@@ -23,6 +23,18 @@ module.exports = class Building extends Entity {
   setTargetPos(pos) {
     if (this.validTargetPos(pos) ){
       this.spawnReunion = pos;
+    }
+  }
+
+  setState(state) {
+    this.state = state;
+    if (state == Building.FINISHED && this.properties.population) {
+      this.player.maxPopulation += this.properties.population;
+      this.player.emitter.emit('did-change-population', this.player);
+    }
+    else if (state == Building.DESTROYED && this.properties.population) {
+      this.player.maxPopulation -= this.properties.population;
+      this.player.emitter.emit('did-change-population', this.player);
     }
   }
 
@@ -138,8 +150,15 @@ module.exports = class Building extends Entity {
     return !this.getTilePoints().some((tile) => this.map.terrain.isWater(tile));
   }
 
+  onEntityCreated() {
+    if (this.state == Building.FINISHED && this.properties.population) {
+      this.player.maxPopulation += this.properties.population;
+      this.player.emitter.emit('did-change-population', this.player);
+    }
+  }
+
   onEntityDestroy() {
-    this.state = Building.DESTROYED;
+    this.setState(Building.DESTROYED);
   }
 
   canClick(pos) {
