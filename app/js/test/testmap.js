@@ -10,6 +10,7 @@ const Gold = require('../entities/resources/gold');
 const Archer = require("../entities/archery_range/archer");
 
 const Galley = require("../entities/dock/galley");
+const Trebuchet = require('../entities/castle/trebuchet');
 
 const CentralEuropean = require('../civilizations/styles/central_european');
 const WestEuropean = require('../civilizations/styles/west_european');
@@ -53,7 +54,7 @@ module.exports =  class TestBuilder {
     // map.addEntity(new Gold(map, gaia));
 
     // entity = new Archer(map, player2);
-    entity = new Galley(map, player2);
+    entity = new Trebuchet(map, player2);
     entity.pos = $V([624, 24]);
     await map.addEntity(entity);
 

@@ -176,11 +176,7 @@ module.exports = class Villager extends Unit {
       },
       {
         interface: 50721,
-        frames: {
-          civilian: 30,
-          military: 31,
-          repair: 28,
-        }
+        frames: this.controlsIcons()
       },
       {
         interface: 51000,
@@ -189,6 +185,14 @@ module.exports = class Villager extends Unit {
         }
       }
     ];
+  }
+
+  controlsIcons() {
+    return {
+      civilian: 30,
+      military: 31,
+      repair: 28,
+    };
   }
 
   getModel() {

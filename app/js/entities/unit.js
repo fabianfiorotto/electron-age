@@ -226,18 +226,22 @@ module.exports = class Unit extends Entity {
       },
       {
         interface: 50721,
-        frames: {
-          unit1:  6,
-          unit2:  7,
-          unit3:  8,
-          kill:  59,
-          unit5:  9,
-          unit6: 10,
-          unit7: 11,
-          stop:   3,
-        }
+        frames: this.controlsIcons()
       }
     ];
+  }
+
+  controlsIcons() {
+    return {
+      unit1:  6,
+      unit2:  7,
+      unit3:  8,
+      kill:  59,
+      unit5:  9,
+      unit6: 10,
+      unit7: 11,
+      stop:   3,
+    };
   }
 
   modelsResources() {
