@@ -50,6 +50,10 @@ module.exports = class Trebuchet extends Unit {
   setTrebuchetState(state) {
     this.frame = 0;
     this.trebuchet_state = state;
+    this.path = [];
+    if (Trebuchet.PACKING) {
+      this.state = Unit.IDLE;
+    }
   }
 
   controls() {
