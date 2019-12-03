@@ -63,8 +63,8 @@ module.exports = class AoeMap {
 
   async addEntity(entity) {
     await resources.load(entity);
-    entity.onEntityCreated();
     this.entities.push(entity);
+    entity.onEntityCreated();
   }
 
   setSelected(newSelected) {

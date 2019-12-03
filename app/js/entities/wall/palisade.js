@@ -1,14 +1,7 @@
 const Building = require('../building');
+const Wall = require('./wall');
 
-module.exports = class Palisade extends Building {
-
-  getSize() {
-    return 1;
-  }
-
-  getFrame() {
-    return 2;
-  }
+module.exports = class Palisade extends Wall {
 
   modelsResources() {
     return {
