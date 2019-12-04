@@ -16,4 +16,13 @@ module.exports = class Palisade extends Wall {
     return 30;
   }
 
+  getFrame() {
+    if (this.state === Wall.IMAGINARY) {
+      return 2;
+    }
+    else {
+      return this.modelFrame;
+    }
+  }
+
 };

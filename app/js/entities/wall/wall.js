@@ -6,7 +6,18 @@ module.exports = class Wall extends Building {
     return 1;
   }
 
+  startBuilding() {
+    super.startBuilding();
+    this.calculateAllModelFrames();
+  }
+
   onEntityCreated() {
+    if (this.state == Building.FINISHED) {
+      this.calculateAllModelFrames();
+    }
+  }
+
+  calculateAllModelFrames() {
     var n = this.getNeighbors();
     for (var i = 1; i <= 3; i++) {
       for (var j = 1; j <= 3; j++) {
@@ -85,4 +96,38 @@ module.exports = class Wall extends Building {
 
   }
 
+  getStoneWallFrame() {
+    var model = this.getStoneWallModel();
+    if (this.state === Wall.IMAGINARY) {
+      return 2;
+    }
+    if (this.state === Wall.INCOMPLETE && model) {
+      return 4 * this.modelFrame + Math.floor(4 * this.properties.hitPoints / this.properties.maxHitPoints);
+    }
+    else {
+      return this.modelFrame;
+    }
+  }
+
+
+  getStoneWallModel() {
+    if (this.state === Wall.INCOMPLETE) {
+      return this.models.marks;
+    }
+    if (this.state === Wall.DESTROYED) {
+      return this.models.debris;
+    }
+    else if (this.properties.hitPoints / this.properties.maxHitPoints > 0.75) {
+      return this.models.building;
+    }
+    else if (this.properties.hitPoints / this.properties.maxHitPoints > 0.50) {
+      return this.models.damaged0;
+    }
+    else if (this.properties.hitPoints / this.properties.maxHitPoints > 0.25) {
+      return this.models.damaged1;
+    }
+    else {
+      return this.models.damaged2;
+    }
+  }
 };

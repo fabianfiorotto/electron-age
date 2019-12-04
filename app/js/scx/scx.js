@@ -50,6 +50,7 @@ module.exports = class ScxMapBuilder {
         var entity = new klass(map, map.players[unitDef.player]);
         // entity.pos = $V([unitDef.x, unitDef.y]);
         entity.pos = m.x($V([unitDef.x, unitDef.y]));
+        entity.orientation = unitDef.rotation;
         await map.addEntity(entity);
       }
     }
@@ -74,6 +75,8 @@ module.exports = class ScxMapBuilder {
         return require('../entities/mill/mill');
       case 70:
         return require('../entities/house/house');
+      case 72:
+        return require('../entities/wall/palisade');
       case 82:
         return require('../entities/castle/castle');
       case 84:
@@ -92,6 +95,10 @@ module.exports = class ScxMapBuilder {
         return require('../entities/town_center/town_center');
       case 209:
         return require('../entities/university/university');
+      case 117:
+        return require('../entities/wall/stone');
+      case 155:
+        return require('../entities/wall/fortified');
       case 285: //relic
         return null;
       case 399:

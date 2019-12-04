@@ -17,6 +17,9 @@ module.exports = class EntityInfo extends UIWidget {
     this.hitPointsBar = this.element.getElementsByClassName('hit-points-bar')[0];
     this.attack = this.element.getElementsByClassName('attack')[0];
     this.armor = this.element.getElementsByClassName('armor')[0];
+    this.debug = this.element.getElementsByClassName('debug-entity-link')[0];
+
+    this.debug.addEventListener('click', ()=>  map.selected[0].debugger());
 
     if (map.selected.length == 1) {
       this.element.style.display = '';

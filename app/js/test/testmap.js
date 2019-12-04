@@ -1,5 +1,6 @@
 const AoeMap = require('../map');
 
+const TownCenter = require("../entities/town_center/town_center");
 const Villager = require("../entities/town_center/villager");
 const House = require('../entities/house/house');
 const Berries = require('../entities/resources/berries');
@@ -56,6 +57,11 @@ module.exports =  class TestBuilder {
     // entity = new Archer(map, player2);
     entity = new Trebuchet(map, player2);
     entity.pos = $V([624, 24]);
+    await map.addEntity(entity);
+
+
+    entity = new TownCenter(map, player1);
+    entity.pos = $V([864, -144]);
     await map.addEntity(entity);
 
     //???

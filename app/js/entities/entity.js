@@ -321,4 +321,9 @@ module.exports = class Entity {
     }
   }
 
+  debugger() {
+    /* jshint ignore:start */
+    debugger;
+    /* jshint ignore:end */
+  }
 };

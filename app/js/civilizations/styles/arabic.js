@@ -45,6 +45,14 @@ module.exports = class CentralEuropean extends Civilization {
         WatchTower: {
           building: 2652
         },
+        StoneWall: {
+          marks: 3744,
+          shadow: 4659,
+          building: 2100,
+          damaged0: 4171,
+          damaged1: 4179,
+          damaged2: 4187
+        },
         TownCenter: {
           building: 902,
           shadow: 894,
@@ -96,6 +104,14 @@ module.exports = class CentralEuropean extends Civilization {
         },
         GuardTower: {
           building: 2656
+        },
+        FortifiedWall: {
+          marks: 3752,
+          shadow: 4663,
+          building: 2112,
+          damaged0: 4175,
+          damaged1: 4183,
+          damaged2: 4191
         },
         TownCenter: {
           building: 914,

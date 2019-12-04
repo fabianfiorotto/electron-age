@@ -114,3 +114,14 @@ body {
 .selection .hit-points-bar  {
   display: block;
 }
+
+.debug-entity{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.debug-entity-link {
+  text-decoration: none;
+  opacity: 0.2;
+  color: black;
+}
