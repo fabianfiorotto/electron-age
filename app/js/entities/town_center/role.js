@@ -84,4 +84,8 @@ module.exports = class VillagerRole {
 
   }
 
+  targetReached() {
+    
+  }
+
 };

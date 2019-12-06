@@ -19,7 +19,10 @@ module.exports = class EntityInfo extends UIWidget {
     this.armor = this.element.getElementsByClassName('armor')[0];
     this.debug = this.element.getElementsByClassName('debug-entity-link')[0];
 
-    this.debug.addEventListener('click', ()=>  map.selected[0].debugger());
+    this.debug.addEventListener('click', ()=> {
+      require('electron').remote.getCurrentWindow().openDevTools();
+      map.selected[0].debugger();
+    });
 
     if (map.selected.length == 1) {
       this.element.style.display = '';

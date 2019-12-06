@@ -23,6 +23,7 @@ const Outpost = require('../tower/outpost');
 const WatchTower = require('../tower/watch');
 const BombardTower = require('../tower/bombard');
 const Farm = require('../mill/farm');
+const Livestock = require('../mill/livestock');
 
 const Berries = require('../resources/berries');
 const Stone = require('../resources/stone');
@@ -30,6 +31,7 @@ const Tree = require('../resources/tree');
 
 const Forager    = require('./forager');
 const Farmer     = require('./farmer');
+const Shephard   = require('./shepherd');
 const Builder    = require('./builder');
 const Miner      = require('./miner');
 const LumberJack = require('./lumberjack');
@@ -51,6 +53,16 @@ module.exports = class Villager extends Unit {
     this.properties.meleeArmor = 1;
     this.properties.pierceArmor = 0;
     this.properties.lineofSeight = 4;
+
+    this.roles = {};
+    this.roles.forager = new Forager(this);
+    this.roles.shepherd = new Shephard(this);
+    this.roles.miner = new Miner(this);
+    this.roles.lumberJack = new LumberJack(this);
+    this.roles.farmer = new Farmer(this);
+    this.roles.builder = new Builder(this);
+    this.roles.builder = new Builder(this);
+
   }
 
   setPath(path) {
@@ -70,24 +82,22 @@ module.exports = class Villager extends Unit {
 
   setTarget(entity) {
     if (entity && entity instanceof Berries) {
-      this.role = new Forager(this);
-      resources.load(this.role);
+      this.role = this.roles.forager;
     }
     if (entity && entity instanceof Stone) {
-      this.role = new Miner(this);
-      resources.load(this.role);
+      this.role = this.roles.miner;
     }
     if (entity && entity instanceof Tree) {
-      this.role = new LumberJack(this);
-      resources.load(this.role);
+      this.role = this.roles.lumberJack;
     }
     if (entity && entity instanceof Farm) {
-      this.role = new Farmer(this);
-      resources.load(this.role);
+      this.role = this.roles.farmer;
+    }
+    if (entity && entity instanceof Livestock) {
+      this.role = this.roles.shepherd;
     }
     else if (entity && entity instanceof Building && entity.state == Building.INCOMPLETE) {
-      this.role = new Builder(this);
-      resources.load(this.role);
+      this.role = this.roles.builder;
     }
     if (entity && entity instanceof TownCenter && entity.state == Building.FINISHED) {
       this.setState(Unit.IDLE);
@@ -233,11 +243,19 @@ module.exports = class Villager extends Unit {
 
   startBuilding() {
     // this.map.addEntity(this.building);
-    this.role = new Builder(this);
-    resources.load(this.role);
+    this.role = this.roles.builder;
     this.setTarget(this.building);
     this.building.startBuilding();
     this.building = null;
+  }
+
+  attack() {
+    if (this.target instanceof Livestock) {
+      this.role.attack();
+    }
+    else {
+      super.attack();
+    }
   }
 
   controls() {
@@ -393,5 +411,12 @@ module.exports = class Villager extends Unit {
       this.map.removeEntity(this.building);
     }
     this.building = null;
+  }
+
+  async loadResources(res) {
+    await super.loadResources(res);
+    for (const [key,role] of Object.entries(this.roles)){
+      await resources.load(role);
+    }
   }
 };

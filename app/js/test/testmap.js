@@ -2,6 +2,7 @@ const AoeMap = require('../map');
 
 const TownCenter = require("../entities/town_center/town_center");
 const Villager = require("../entities/town_center/villager");
+const Sheep = require('../entities/mill/sheep');
 const House = require('../entities/house/house');
 const Berries = require('../entities/resources/berries');
 const Stone = require('../entities/resources/stone');
@@ -59,6 +60,7 @@ module.exports =  class TestBuilder {
     entity.pos = $V([624, 24]);
     await map.addEntity(entity);
 
+    await this.addEntity(map, Sheep,1039, 63, player1);
 
     entity = new TownCenter(map, player1);
     entity.pos = $V([864, -144]);
@@ -81,6 +83,12 @@ module.exports =  class TestBuilder {
 
     map.initCameraPos = $V([0, -340]);
     return map;
+  }
+
+  static async addEntity(map, klass,x , y, player) {
+    var entity = new klass(map, player);
+    entity.pos = $V([x, y]);
+    await map.addEntity(entity);
   }
 
 };

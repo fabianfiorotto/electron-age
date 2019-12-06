@@ -175,16 +175,24 @@ module.exports = class Unit extends Entity {
     this.each(50, 'animation' , () => {
       if (this.getModel()) {
         var prevFrame = this.frame;
-        this.frame = this.getModel().nextFrame(this.frame, this.orientation);
+        this.frame = this.nextFrame();
         if (this.state == Unit.ROTTING && prevFrame > this.frame) {
           this.map.removeEntity(this);
         }
         if (this.state == Unit.DYING && prevFrame > this.frame) {
-          this.setState(Unit.ROTTING);
+          onDied();
         }
       }
     });
 
+  }
+
+  nextFrame() {
+    return this.getModel().nextFrame(this.frame, this.orientation);
+  }
+
+  onDied() {
+    this.setState(Unit.ROTTING);
   }
 
   upgrade(entityClass) {
