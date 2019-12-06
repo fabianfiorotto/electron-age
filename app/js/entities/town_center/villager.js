@@ -225,6 +225,15 @@ module.exports = class Villager extends Unit {
     }
   }
 
+  nextFrame() {
+    if (this.role) {
+      return this.role.nextFrame();
+    }
+    else {
+      return super.nextFrame();
+    }
+  }
+
   update() {
     super.update();
     if (this.role) {

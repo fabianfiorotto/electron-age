@@ -1,6 +1,7 @@
 const VillagerRole = require('./role');
 const Unit = require('../unit');
 const Building = require('../building');
+const Farm = require('../mill/farm');
 
 module.exports = class Farmer extends VillagerRole {
 
@@ -64,7 +65,10 @@ module.exports = class Farmer extends VillagerRole {
   }
 
   targetReached() {
-    this.villager.state = Unit.WORKING;
+    super.targetReached();
+    if (this.villager.target instanceof Farm) {
+      this.villager.setState(Unit.WORKING);
+    }
   }
 
   femaleModelsResources() {

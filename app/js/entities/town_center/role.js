@@ -1,4 +1,8 @@
 const Unit = require('../unit');
+const TownCenter = require('./town_center');
+const Mill = require('../mill/mill');
+const MiningCamp = require('../resources/mining_camp');
+const LumberCamp = require('../resources/lumber_camp');
 
 module.exports = class VillagerRole {
 
@@ -31,9 +35,6 @@ module.exports = class VillagerRole {
         }
       }
     });
-    if (this.villager.state == Unit.IDLE && this.isCarrying()) {
-      this.villager.frame = 0;
-    }
   }
 
   getFrame() {
@@ -42,6 +43,15 @@ module.exports = class VillagerRole {
     }
     else {
       return this.villager.frame;
+    }
+  }
+
+  nextFrame() {
+    if (this.villager.state == Unit.IDLE && this.isCarrying()) {
+      return 0;
+    }
+    else {
+      return this.getModel().nextFrame(this.villager.frame, this.villager.orientation);
     }
   }
 
@@ -85,7 +95,30 @@ module.exports = class VillagerRole {
   }
 
   targetReached() {
-    
+    if (this.canStoreResources()) {
+      this.villager.transfer(this.villager.player, this.villager.resources);
+    }
+  }
+
+  canStoreResources() {
+    var target = this.villager.target;
+    var rType = this.resourceType;
+    if (target.player.id != this.villager.player.id) {
+      return false;
+    }
+    if (target instanceof TownCenter) {
+      return true;
+    }
+    if (rType == 'food' && target instanceof Mill) {
+      return true;
+    }
+    if (rType == 'stone' && target instanceof MiningCamp) {
+      return true;
+    }
+    if (rType == 'wood' && target instanceof LumberCamp) {
+      return true;
+    }
+    return false;
   }
 
 };

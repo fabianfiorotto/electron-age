@@ -57,6 +57,7 @@ module.exports = class Shephard extends VillagerRole {
   }
 
   targetReached() {
+    super.targetReached();
     var villager = this.villager;
     var target = this.villager.target;
     if (target instanceof Livestock) {
@@ -66,9 +67,6 @@ module.exports = class Shephard extends VillagerRole {
       else {
         villager.setState(Unit.ATTACKING);
       }
-    }
-    if (this.villager.target instanceof TownCenter) {
-      this.villager.transfer(this.villager.player, this.villager.resources);
     }
   }
 

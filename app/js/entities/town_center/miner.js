@@ -1,5 +1,4 @@
 const Stone = require('../resources/stone');
-const TownCenter = require('./town_center');
 const VillagerRole = require('./role');
 const Unit = require('../unit');
 
@@ -12,11 +11,9 @@ module.exports = class Miner extends VillagerRole {
   }
 
   targetReached() {
+    super.targetReached();
     if (this.villager.target instanceof Stone) {
       this.villager.state = Unit.WORKING;
-    }
-    if (this.villager.target instanceof TownCenter) {
-      this.villager.transfer(this.villager.player, this.villager.resources);
     }
   }
 

@@ -12,11 +12,9 @@ module.exports = class LumberJack extends VillagerRole {
   }
 
   targetReached() {
+    super.targetReached();
     if (this.villager.target instanceof Tree) {
       this.villager.state = Unit.WORKING;
-    }
-    if (this.villager.target instanceof TownCenter) {
-      this.villager.transfer(this.villager.player, this.villager.resources);
     }
   }
 
