@@ -8,21 +8,17 @@ module.exports = class Builder extends VillagerRole {
     return false;
   }
 
-  update() {
-    this.villager.each(500, 'work' , () => {
-      if (this.villager.state == Unit.WORKING) {
-        var building = this.villager.target;
-        var properties = building.properties;
-        if (properties.hitPoints < properties.maxHitPoints) {
-          properties.hitPoints++;
-          building.emitter.emit('did-change-properties', properties);
-        }
-        else {
-          building.setState(Building.FINISHED);
-          this.villager.setState(Unit.IDLE);
-        }
-      }
-    });
+  work() {
+    var building = this.villager.target;
+    var properties = building.properties;
+    if (properties.hitPoints < properties.maxHitPoints) {
+      properties.hitPoints++;
+      building.emitter.emit('did-change-properties', properties);
+    }
+    else {
+      building.setState(Building.FINISHED);
+      this.villager.setState(Unit.IDLE);
+    }
   }
 
   getModel() {

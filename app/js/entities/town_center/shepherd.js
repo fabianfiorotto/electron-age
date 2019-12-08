@@ -51,7 +51,7 @@ module.exports = class Shephard extends VillagerRole {
       target.emitter.emit('did-change-properties', target.properties);
     }
     else {
-      villager.setState(Unit.IDLE);
+      villager.setState(Unit.WORKING);
       target.onEntityDestroy();
     }
   }

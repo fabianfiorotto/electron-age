@@ -39,7 +39,7 @@ module.exports =  class TestBuilder {
     var entity;
 
     entity = new Villager(map, player1);
-    entity.pos = $V([96,0]);
+    entity.pos = $V([767.75, 69]);
     await map.addEntity(entity);
 
     entity = new Villager(map, player2);

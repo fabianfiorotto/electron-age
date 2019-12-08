@@ -126,6 +126,21 @@ module.exports = class AoeMap {
 
   }
 
+  closest(pos ,max , condition) {
+    //TODO: Optimize
+    var minDist = null;
+    var closest = null;
+    for (var i = 0; i < this.entities.length; i++) {
+      var entity = this.entities[i];
+      var dist = entity.pos.distanceFrom(pos);
+      if ((minDist === null || dist < minDist) && condition(entity)) {
+        minDist = dist;
+        closest = entity;
+      }
+    }
+    return (max == null || minDist < max) ? closest : null;
+  }
+
   over(v) {
     if (this.selected[0] instanceof Villager && this.selected[0].building) {
       var x = v.e(1) - v.e(1) % 48;

@@ -17,24 +17,36 @@ module.exports = class VillagerRole {
   }
 
   update() {
-    var rType = this.resourceType;
     this.villager.each(500, 'work' , () => {
       if (this.villager.state == Unit.WORKING) {
-        if (!this.villager.resources || !this.villager.resources[rType]) {
-          this.villager.resources = {};
-          this.villager.resources[rType] = 0;
-        }
-        if (this.villager.resources[rType] >= this.maxCarry) {
-          this.villager.state = Unit.IDLE;
-        }
-        else {
-          var berries = this.villager.target;
-          var rTrans = {};
-          rTrans[rType] = 1;
-          berries.transfer(this.villager,rTrans);
-        }
+        this.work();
       }
     });
+  }
+
+  work() {
+    var rType = this.resourceType;
+    if (!this.villager.resources || !this.villager.resources[rType]) {
+      this.villager.resources = {};
+      this.villager.resources[rType] = 0;
+    }
+    if (this.villager.resources[rType] >= this.maxCarry) {
+      var warehouse = this.closestWarehouse();
+      if (warehouse) {
+        this.villager.setTarget(warehouse);
+        this.villager.setTargetPos(warehouse.pos);
+        this.villager.setState(Unit.WALKING);
+      }
+      else {
+        this.villager.setState(Unit.IDLE);
+      }
+    }
+    else {
+      var berries = this.villager.target;
+      var rTrans = {};
+      rTrans[rType] = 1;
+      berries.transfer(this.villager,rTrans);
+    }
   }
 
   getFrame() {
@@ -95,30 +107,34 @@ module.exports = class VillagerRole {
   }
 
   targetReached() {
-    if (this.canStoreResources()) {
+    var warehouse = this.villager.target;
+    if (this.canStoreResources(warehouse)) {
       this.villager.transfer(this.villager.player, this.villager.resources);
     }
   }
 
-  canStoreResources() {
-    var target = this.villager.target;
+  canStoreResources(warehouse) {
     var rType = this.resourceType;
-    if (target.player.id != this.villager.player.id) {
+    if (warehouse.player.id != this.villager.player.id) {
       return false;
     }
-    if (target instanceof TownCenter) {
+    if (warehouse instanceof TownCenter) {
       return true;
     }
-    if (rType == 'food' && target instanceof Mill) {
+    if (rType == 'food' && warehouse instanceof Mill) {
       return true;
     }
-    if (rType == 'stone' && target instanceof MiningCamp) {
+    if (rType == 'stone' && warehouse instanceof MiningCamp) {
       return true;
     }
-    if (rType == 'wood' && target instanceof LumberCamp) {
+    if (rType == 'wood' && warehouse instanceof LumberCamp) {
       return true;
     }
     return false;
+  }
+
+  closestWarehouse() {
+    return this.villager.map.closest(this.villager.pos, 300, (e) => this.canStoreResources(e));
   }
 
 };
