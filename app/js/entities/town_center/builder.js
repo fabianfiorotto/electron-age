@@ -34,7 +34,10 @@ module.exports = class Builder extends VillagerRole {
   }
 
   targetReached() {
-    this.villager.state = Unit.WORKING;
+    var target = this.villager.target;
+    if (target instanceof Building && target.state == Building.INCOMPLETE ) {
+      this.villager.setState(Unit.WORKING);
+    }
   }
 
   femaleModelsResources() {
