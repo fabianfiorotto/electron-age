@@ -11,10 +11,10 @@ module.exports = class Miner extends VillagerRole {
   }
 
   targetReached() {
-    super.targetReached();
     if (this.villager.target instanceof Stone) {
-      this.villager.state = Unit.WORKING;
+      this.villager.setState(Unit.WORKING);
     }
+    super.targetReached();
   }
 
   femaleModelsResources() {

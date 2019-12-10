@@ -16,8 +16,15 @@ module.exports = class Builder extends VillagerRole {
       building.emitter.emit('did-change-properties', properties);
     }
     else {
+      var villager = this.villager;
       building.setState(Building.FINISHED);
-      this.villager.setState(Unit.IDLE);
+      villager.setState(Unit.IDLE);
+      var newTarget = villager.map.closest(building.pos, 200, (e) => this.isAIncompleBuilding(e));
+      if (newTarget) {
+        villager.setTarget(newTarget);
+        villager.setTargetPos(newTarget.pos);
+        villager.setState(Unit.WALKING);
+      }
     }
   }
 
@@ -34,10 +41,13 @@ module.exports = class Builder extends VillagerRole {
   }
 
   targetReached() {
-    var target = this.villager.target;
-    if (target instanceof Building && target.state == Building.INCOMPLETE ) {
+    if (this.isAIncompleBuilding(this.villager.target) ) {
       this.villager.setState(Unit.WORKING);
     }
+  }
+
+  isAIncompleBuilding(entity) {
+    return entity instanceof Building && entity.state == Building.INCOMPLETE;
   }
 
   femaleModelsResources() {

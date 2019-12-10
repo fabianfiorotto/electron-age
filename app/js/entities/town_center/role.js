@@ -33,6 +33,7 @@ module.exports = class VillagerRole {
     if (this.villager.resources[rType] >= this.maxCarry) {
       var warehouse = this.closestWarehouse();
       if (warehouse) {
+        this.workplace = this.villager.target.pos;
         this.villager.setTarget(warehouse);
         this.villager.setTargetPos(warehouse.pos);
         this.villager.setState(Unit.WALKING);
@@ -109,7 +110,11 @@ module.exports = class VillagerRole {
   targetReached() {
     var warehouse = this.villager.target;
     if (this.canStoreResources(warehouse)) {
+      this.villager.setState(Unit.IDLE);
       this.villager.transfer(this.villager.player, this.villager.resources);
+      if (this.workplace) {
+        this.villager.map.setEntityTargetPos(this.villager, this.workplace);
+      }
     }
   }
 

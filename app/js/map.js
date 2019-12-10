@@ -126,6 +126,14 @@ module.exports = class AoeMap {
 
   }
 
+  setEntityTargetPos(entity, pos) {
+    var target = this.clickEntity(pos);
+    if (target) {
+      entity.setTarget(target);
+    }
+    entity.setTargetPos(pos);
+  }
+
   closest(pos ,max , condition) {
     //TODO: Optimize
     var minDist = null;

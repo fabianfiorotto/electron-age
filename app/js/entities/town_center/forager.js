@@ -12,10 +12,10 @@ module.exports = class Forager extends VillagerRole {
   }
 
   targetReached() {
-    super.targetReached();
     if (this.villager.target instanceof Berries) {
-      this.villager.state = Unit.WORKING;
+      this.villager.setState(Unit.WORKING);
     }
+    super.targetReached();
   }
 
   femaleModelsResources() {

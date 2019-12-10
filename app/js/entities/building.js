@@ -316,11 +316,7 @@ module.exports = class Building extends Entity {
     );
 
     this.map.addEntity(entity);
-    target = this.map.clickEntity(this.spawnReunion);
-    if (target) {
-      entity.setTarget(target);
-    }
-    entity.setTargetPos(this.spawnReunion);
+    this.map.setEntityTargetPos(entity, this.spawnReunion);
   }
 
 };

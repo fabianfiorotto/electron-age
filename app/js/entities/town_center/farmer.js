@@ -65,10 +65,10 @@ module.exports = class Farmer extends VillagerRole {
   }
 
   targetReached() {
-    super.targetReached();
     if (this.villager.target instanceof Farm) {
       this.villager.setState(Unit.WORKING);
     }
+    super.targetReached();
   }
 
   femaleModelsResources() {
