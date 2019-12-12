@@ -204,7 +204,22 @@ module.exports = class Building extends Entity {
     x = (x2 - x1) * (y - y1) / (y2 - y1) + x1;
     var cond2 = x < xx + 50 * size  && x > xx - 50 * size;
 
-    return cond1 || cond2;
+    if (!cond1 && !cond2) {
+      return false;
+    }
+
+    var pos = $V([xx, yy]);
+
+    if (p1.distanceFrom(pos) > p1.distanceFrom(p2)) {
+      return false;
+    }
+
+    var u1 = p2.subtract(p1).toUnitVector();
+    var u2 = pos.subtract(p1).toUnitVector();
+
+
+    return u1.angleFrom(u2) < Math.PI;
+    // return u1.eql(u2);
   }
 
   modelsResources() {

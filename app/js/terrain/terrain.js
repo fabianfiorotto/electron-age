@@ -4,6 +4,13 @@ const types = require("./types");
 
 module.exports = class Terrain {
 
+  /* jshint ignore:start */
+  static TILE_WIDTH = 96;
+  static TILE_HEIGHT = 48;
+  static TILE_HALF_WIDTH = 48;
+  static TILE_HALF_HEIGHT = 24;
+  /* jshint ignore:end */
+
   constructor(width, height) {
     this.type = types;
     this.tiles = [];
@@ -36,14 +43,14 @@ module.exports = class Terrain {
 
     //Transform matrix
     this.m = $M([
-      [ 48, 48],
-      [-24, 24]
+      [ Terrain.TILE_HALF_WIDTH,  Terrain.TILE_HALF_WIDTH],
+      [-Terrain.TILE_HALF_HEIGHT, Terrain.TILE_HALF_HEIGHT]
       // [24, -24] invert Y axis
     ]);
 
     this.mr = $M([
-      [ 1/96,  1/48],
-      [ 1/96,  -1/48]
+      [ 1/Terrain.TILE_WIDTH,  1/Terrain.TILE_HEIGHT],
+      [ 1/Terrain.TILE_WIDTH, -1/Terrain.TILE_HEIGHT]
     ]);
 
   }
@@ -283,10 +290,10 @@ module.exports = class Terrain {
     var v = pos2.subtract(pos1).toUnitVector();
     var d = pos1.distanceFrom(pos2);
 
-    var times = Math.floor(d / 48) + 1;
+    var times = Math.floor(d / Terrain.TILE_HEIGHT) + 1;
 
     for (var i = 0; i < times; i++) {
-      var v1 = v.x(48).x(i+1);
+      var v1 = v.x(Terrain.TILE_HEIGHT).x(i+1);
       if (this.isWater(pos1.add(v1))) {
         return true;
       }
@@ -299,10 +306,10 @@ module.exports = class Terrain {
     var v = pos2.subtract(pos1).toUnitVector();
     var d = pos1.distanceFrom(pos2);
 
-    var times = Math.floor(d / 48) + 1;
+    var times = Math.floor(d / Terrain.TILE_HEIGHT) + 1;
 
     for (var i = 0; i < times; i++) {
-      var v1 = v.x(48).x(i+1);
+      var v1 = v.x(Terrain.TILE_HEIGHT).x(i+1);
       if (this.isLand(pos1.add(v1))) {
         return true;
       }
