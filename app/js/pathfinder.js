@@ -121,7 +121,8 @@ module.exports = class PathFinder {
   }
 
   nodeVisited(node, visited) {
-    return visited.find((v) => v.pos.eql(node.pos));
+    return visited.find((v) => v.pos.distanceFrom(node.pos) < 24);
+    // return visited.find((v) => v.pos.eql(node.pos));
   }
 
 };
