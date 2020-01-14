@@ -24,12 +24,15 @@ body {
 
 .top-bar {
   height: 32px;
+  width: 1280px;
+  margin: auto;
 }
 
 .view-resources {
   color: #fff;
   font-weight: bold;
   padding-top: 10px;
+  float:left;
 }
 
 .view-resources .resource {
@@ -39,12 +42,23 @@ body {
   text-align: right;
 }
 
+.top-bar-menu {
+  float: right;
+  margin: 5px;
+}
+
+.top-bar-menu img {
+  float: left;
+}
+
 /*****
  Dashboard
 */
 
 .dashboard {
   height: 218px;
+  width: 1280px;
+  margin: auto;
 }
 
 .dashboard-column {

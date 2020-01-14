@@ -1,17 +1,19 @@
 const UIWidget = require('./ui_widget');
 
 const ViewResources = require('./resources');
-
+const TopBarMenu = require('./top_bar_menu');
 
 module.exports = class TopBar extends UIWidget {
 
   constructor() {
     super();
     this.viewResources = new ViewResources();
+    this.topBarMenu = new TopBarMenu();
   }
 
   onBind(map) {
     this.viewResources.bind(map, this.element.getElementsByClassName('view-resources')[0]);
+    this.topBarMenu.bind(map, this.element.getElementsByClassName('top-bar-menu')[0]);
   }
 
   async loadResources(res) {
