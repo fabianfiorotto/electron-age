@@ -20,6 +20,9 @@ module.exports = class UIWidget {
     }
   }
 
+  onBind(map) {
+  }
+
   bind(map, element) {
     if (typeof element === 'string') {
       this.element = document.getElementById(element);
