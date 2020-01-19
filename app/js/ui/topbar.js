@@ -14,11 +14,12 @@ module.exports = class TopBar extends UIWidget {
   onBind(map) {
     this.viewResources.bind(map, this.element.getElementsByClassName('view-resources')[0]);
     this.topBarMenu.bind(map, this.element.getElementsByClassName('top-bar-menu')[0]);
+    this.player = map.players[1];
   }
 
   async loadResources(res) {
     this.imgs = {};
-    var model = await res.loadInterface(51141);
+    var model = await res.loadInterface(this.player.civilization.interface());
     model.load({
       base: resources.palettes[50505],
       player: 0

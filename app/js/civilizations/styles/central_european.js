@@ -2,6 +2,10 @@ const Civilization = require('../../civilization');
 
 module.exports = class CentralEuropean extends Civilization {
 
+  interface() {
+    return 51141;
+  }
+
   modelsResources() {
     return {
       dark: {
