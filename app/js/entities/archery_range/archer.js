@@ -28,13 +28,6 @@ module.exports = class Archer extends Unit {
     return this.target.pos.subtract(this.pos).modulus() < 200.0;
   }
 
-  draw(camera) {
-    super.draw(camera);
-    if (this.arrowPos) {
-      this.models.arrow.draw(this.arrowPosZ.subtract(camera), this.arrowOrientation, 0, this.player.id);
-    }
-  }
-
   attack() {
     if (this.target.properties.hitPoints) {
       var arrow = new Arrow(this.map, this.player);
