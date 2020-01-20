@@ -1,4 +1,5 @@
 const Stone = require('../resources/stone');
+const Gold = require('../resources/gold');
 const VillagerRole = require('./role');
 const Unit = require('../unit');
 
@@ -6,17 +7,33 @@ module.exports = class Miner extends VillagerRole {
 
   constructor(villager) {
     super(villager);
-    this.resourceType = 'stone';
     this.maxCarry = 10;
   }
 
   targetReached() {
-    if (this.villager.target instanceof Stone) {
+    let target = this.villager.target;
+    if (target instanceof Stone || target instanceof Gold) {
+      if (target instanceof Stone) {
+        this.resourceType = 'stone';
+      }
+      else {
+        this.resourceType = 'gold';
+      }
       this.villager.setState(Unit.WORKING);
     }
     super.targetReached();
   }
 
+  getModel() {
+    let state = this.villager.state;
+    let walkingOrIdle = state == Unit.WALKING || state == Unit.IDLE;
+    if (walkingOrIdle && this.isCarrying() && this.resourceType == 'gold') {
+      return this.models.carryGold;
+    }
+    else {
+      return super.getModel();
+    }
+  }
   femaleModelsResources() {
     return {
       unit: {

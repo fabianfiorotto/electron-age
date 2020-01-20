@@ -129,7 +129,7 @@ module.exports = class VillagerRole {
     if (rType == 'food' && warehouse instanceof Mill) {
       return true;
     }
-    if (rType == 'stone' && warehouse instanceof MiningCamp) {
+    if ((rType == 'stone' || rType == 'gold') && warehouse instanceof MiningCamp) {
       return true;
     }
     if (rType == 'wood' && warehouse instanceof LumberCamp) {

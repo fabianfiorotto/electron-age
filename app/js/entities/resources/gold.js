@@ -5,14 +5,7 @@ module.exports = class Stone extends Resource {
   constructor(map, player) {
     super(map, player);
     this.pos = $V([350, 50]);
-    this.resources = {stone: 600};
-  }
-
-  draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), 0, this.getFrame());
-      this.models.nuggets.draw(this.pos.subtract(camera), 0, this.frame);
-    }
+    this.resources = {gold: 600};
   }
 
   getModel() {
@@ -31,8 +24,7 @@ module.exports = class Stone extends Resource {
   modelsResources() {
     return {
       model: {
-        stone: 1034,
-        nuggets: 2561
+        stone: 4479,
       }
     };
   }

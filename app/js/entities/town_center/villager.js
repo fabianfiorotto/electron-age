@@ -27,6 +27,7 @@ const Livestock = require('../mill/livestock');
 
 const Berries = require('../resources/berries');
 const Stone = require('../resources/stone');
+const Gold = require('../resources/gold');
 const Tree = require('../resources/tree');
 
 const Forager    = require('./forager');
@@ -84,7 +85,7 @@ module.exports = class Villager extends Unit {
     if (entity && entity instanceof Berries) {
       this.role = this.roles.forager;
     }
-    if (entity && entity instanceof Stone) {
+    if (entity && entity instanceof Stone || entity instanceof Gold) {
       this.role = this.roles.miner;
     }
     if (entity && entity instanceof Tree) {
