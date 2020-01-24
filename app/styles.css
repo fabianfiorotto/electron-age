@@ -51,6 +51,25 @@ body {
   float: left;
 }
 
+.main-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  margin: auto;
+}
+
+.main-menu-options {
+  margin: 30px 50px 30px 30px;
+}
+
+.main-menu-options button {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
 /*****
  Dashboard
 */

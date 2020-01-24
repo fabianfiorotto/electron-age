@@ -52,6 +52,16 @@ module.exports = class Entity {
 
   setTarget(entity) {
     this.target = entity;
+    if (this.canReachTarget()) {
+      this.targetReached();
+    }
+  }
+
+  canReachTarget(){
+    return false;
+  }
+
+  targetReached() {
   }
 
   drawShadow(camera) {
@@ -68,6 +78,11 @@ module.exports = class Entity {
   }
 
   update() {
+  }
+
+  getModels() {
+    // Test
+    return [];
   }
 
   getModel() {

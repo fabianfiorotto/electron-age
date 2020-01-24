@@ -1,4 +1,5 @@
 const Unit = require('../unit');
+const Boulder = require('../projectiles/boulder');
 
 module.exports = class Trebuchet extends Unit {
 
@@ -88,13 +89,32 @@ module.exports = class Trebuchet extends Unit {
     }
   }
 
-  update() {
-    super.update();
+  getFrame() {
     if (this.trebuchet_state == Trebuchet.PACKED && this.state == Unit.IDLE) {
-      this.frame = 0;
+      return 0;
     }
-    if (this.trebuchet_state == Trebuchet.PACKING || this.trebuchet_state == Trebuchet.ASSEMBLING) {
-      this.frame = 0;
+    else if (this.trebuchet_state == Trebuchet.PACKING || this.trebuchet_state == Trebuchet.ASSEMBLING) {
+      return 0;
+    }
+    else {
+      return super.getFrame();
+    }
+  }
+
+  canReachTarget() {
+    return this.trebuchet_state == Trebuchet.ASSEMBLED && this.target.pos.subtract(this.pos).modulus() < 800.0;
+  }
+
+
+  attack() {
+    if (this.target && this.target.properties.hitPoints) {
+      var boulder = new Boulder(this.map, this.player);
+      boulder.pos = this.pos;
+      boulder.setTarget(this.target);
+      this.map.addEntity(boulder);
+    }
+    else {
+      this.setState(Unit.IDLE);
     }
   }
 
