@@ -18,6 +18,7 @@ module.exports = class Building extends Entity {
     this.finished = true;
     this.frame = 0;
     this.modelFrame = 0;
+    this.fireFrame = 0;
   }
 
   setTargetPos(pos) {
@@ -61,14 +62,37 @@ module.exports = class Building extends Entity {
 
   draw(camera) {
     var model = this.getModel();
+    var pos = this.pos.subtract(camera);
     if (model) {
-      model.draw(this.pos.subtract(camera), 0, this.getFrame(), this.player.id);
+      model.draw(pos, 0, this.getFrame(), this.player.id);
     }
     if (this.flagModel && this.focus) {
       this.flagModel.draw(this.spawnReunion.subtract(camera), 0, this.flagFrame, this.player.id);
     }
     if (this.state === Building.FINISHED && this.models.animation) {
-      this.models.animation.draw(this.pos.subtract(camera), 0, this.frame, this.player.id);
+      this.models.animation.draw(pos, 0, this.frame, this.player.id);
+    }
+
+    if (this.state === Building.FINISHED) {
+      let rate = this.properties.hitPoints / this.properties.maxHitPoints;
+      if (this.getSize() == 2) {
+        if(rate < 0.25) {
+          this.models.mediumFire3.draw(pos, 0, this.fireFrame, this.player.id);
+        } else if (rate < 0.50) {
+          this.models.mediumFire2.draw(pos, 0, this.fireFrame, this.player.id);
+        } else if (rate < 0.75) {
+          this.models.mediumFire1.draw(pos, 0, this.fireFrame, this.player.id);
+        }
+      }
+      else {
+        if(rate < 0.25) {
+          this.models.fire6.draw(pos, 0, this.fireFrame, this.player.id);
+        } else if (rate < 0.50) {
+          this.models.fire4.draw(pos, 0, this.fireFrame, this.player.id);
+        } else if (rate < 0.75) {
+          this.models.fire1.draw(pos, 0, this.fireFrame, this.player.id);
+        }
+      }
     }
   }
 
@@ -77,6 +101,9 @@ module.exports = class Building extends Entity {
     this.each(80, 'animation' , () => {
       if (this.models.animation) {
         this.frame = this.models.animation.nextFrame(this.frame, 0);
+      }
+      if (this.models.fire1) {
+        this.fireFrame = this.models.fire1.nextFrame(this.fireFrame, 0);
       }
     });
 
@@ -305,6 +332,26 @@ module.exports = class Building extends Entity {
         player: this.player.id
       });
     }
+
+    for (var i = 0; i < 8; i++) {
+      // 0..3 small
+      // 4..5 medium
+      // 6..8 large
+      this.models['fire' + (i+1)] = await res.loadModel(424+i);
+      this.models['fire' + (i+1)].load({
+        base: resources.palettes[base_id],
+        player: this.player.id
+      });
+    }
+
+    for (i = 0; i < 3; i++) {
+      this.models['mediumFire' + (i+1)] = await res.loadModel(362+i);
+      this.models['mediumFire' + (i+1)].load({
+        base: resources.palettes[base_id],
+        player: this.player.id
+      });
+    }
+
   }
 
   prepareUnit(unitClass) {
