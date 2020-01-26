@@ -52,7 +52,7 @@ module.exports = class Entity {
 
   setTarget(entity) {
     this.target = entity;
-    if (this.canReachTarget()) {
+    if (entity && this.canReachTarget()) {
       this.targetReached();
     }
   }

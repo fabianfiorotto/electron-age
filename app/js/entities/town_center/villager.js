@@ -46,15 +46,6 @@ module.exports = class Villager extends Unit {
 
     this.building = null;
 
-    this.properties = {};
-    this.properties.speed = 0.8;
-    this.properties.hitPoints = 25;
-    this.properties.maxHitPoints = 25;
-    this.properties.attack = 1;
-    this.properties.meleeArmor = 1;
-    this.properties.pierceArmor = 0;
-    this.properties.lineofSeight = 4;
-
     this.roles = {};
     this.roles.forager = new Forager(this);
     this.roles.shepherd = new Shephard(this);
@@ -64,6 +55,18 @@ module.exports = class Villager extends Unit {
     this.roles.builder = new Builder(this);
     this.roles.builder = new Builder(this);
 
+  }
+
+  defineProperties() {
+    return {
+      speed: 0.8,
+      hitPoints: 25,
+      maxHitPoints: 25,
+      attack: 1,
+      meleeArmor: 1,
+      pierceArmor: 0,
+      lineofSeight: 4,
+    };
   }
 
   setPath(path) {

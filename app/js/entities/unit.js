@@ -17,6 +17,8 @@ module.exports = class Unit extends Entity {
     this.pos = $V([50,100]);
     this.orientation = 3.14;
     this.setState(Unit.IDLE);
+
+    this.standing = 0;
   }
 
   setPath(path) {
@@ -49,7 +51,7 @@ module.exports = class Unit extends Entity {
   }
 
   drawHitpoints(camera) {
-    var v = this.pos.subtract(camera).subtract($V([20, 50]));
+    var v = this.pos.subtract(camera).subtract($V([20, 60]));
     resources.drawHitpoints(v ,this.properties.hitPoints / this.properties.maxHitPoints, this.player.id);
   }
 
@@ -181,6 +183,16 @@ module.exports = class Unit extends Entity {
         }
         if (this.state == Unit.DYING && prevFrame > this.frame) {
           onDied();
+        }
+        if (this.state == Unit.IDLE && prevFrame > this.frame) {
+          if (this.standing > 0) {
+            this.frame = prevFrame;
+            this.standing--;
+          }
+          else {
+            this.frame = 0;
+            this.standing = 20;
+          }
         }
       }
     });
