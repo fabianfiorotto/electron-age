@@ -13,9 +13,11 @@ module.exports = class Entity {
     this.eachLastRun = {};
 
     this.emitter = new Emitter();
+    this.queue = [];
 
     this.properties = this.defineProperties();
-    this.queue = [];
+    this.updateProperties();
+    this.player.onDidChangeAge(() => this.updateProperties());
 
     var upgrades = this.upgradesTo();
     if (Object.entries(upgrades).length !== 0) {
@@ -25,6 +27,11 @@ module.exports = class Entity {
         }
       });
     }
+    this.initialize();
+  }
+
+  initialize() {
+    //Use this instead of constructor to avoid mothod sign
   }
 
   defineProperties() {
@@ -38,6 +45,9 @@ module.exports = class Entity {
       pierceArmor: 0,
       lineofSeight: 4,
     };
+  }
+
+  updateProperties() {
   }
 
   setPath(path) {

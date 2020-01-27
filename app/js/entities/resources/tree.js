@@ -2,8 +2,7 @@ const Resource = require('../resource');
 
 module.exports = class Tree extends Resource {
 
-  constructor(map, player) {
-    super(map, player);
+  initialize() {
     this.pos = $V([320, 50]);
     this.resources = {wood: 600};
   }

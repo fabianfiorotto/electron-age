@@ -2,8 +2,7 @@ const Resource = require('../resource');
 
 module.exports = class Berries extends Resource {
 
-  constructor(map, player) {
-    super(map, player);
+  initialize() {
     this.pos = $V([200, 100]);
     this.resources = {food: 600};
   }

@@ -15,6 +15,13 @@ module.exports = class ScoutCavalry extends Unit {
     };
   }
 
+  updateProperties() {
+    if (this.player.age >= 2) {
+      this.properties.speed = 1.55;
+      this.properties.attack = 5;
+    }
+  }
+
 
   modelsResources() {
     return {
@@ -38,5 +45,17 @@ module.exports = class ScoutCavalry extends Unit {
     return 64;
   }
 
+  updateSpeedProperty() {
+    switch (this.player.age) {
+      case 2:
+        break;
+      case 3:
+        this.properties.speed = 1.55;
+        break;
+      case 4:
+        this.properties.speed = 1.55;
+        break;
+    }
+  }
 
 };

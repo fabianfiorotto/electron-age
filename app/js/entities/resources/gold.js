@@ -2,8 +2,7 @@ const Resource = require('../resource');
 
 module.exports = class Stone extends Resource {
 
-  constructor(map, player) {
-    super(map, player);
+  initialize() {
     this.pos = $V([350, 50]);
     this.resources = {gold: 600};
   }

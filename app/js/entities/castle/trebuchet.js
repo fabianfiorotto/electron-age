@@ -10,8 +10,7 @@ module.exports = class Trebuchet extends Unit {
     static PACKING     = Symbol('trebuchet_packing');
   /* jshint ignore:end */
 
-  constructor(map, player) {
-    super(map, player);
+  initialize() {
     this.trebuchet_state = Trebuchet.PACKED;
   }
 
