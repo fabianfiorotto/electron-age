@@ -182,7 +182,7 @@ module.exports = class Unit extends Entity {
           this.map.removeEntity(this);
         }
         if (this.state == Unit.DYING && prevFrame > this.frame) {
-          onDied();
+          this.onDied();
         }
         if (this.state == Unit.IDLE && prevFrame > this.frame) {
           if (this.standing > 0) {
