@@ -13,9 +13,7 @@ module.exports = class ResourceManager {
     this.colors = {};
     this.icons = {};
     this.sounds = {};
-    // this.dir = "/home/fabian/crystal_age";
-    this.dir = "/home/fabian/herramientas/opengl/age";
-    // this.dir = ".";
+    this.dir = ".";
   }
 
   async loadPalette(pid) {

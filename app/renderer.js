@@ -20,8 +20,9 @@ var fps = 0;
 var loadMapScx = async function() {
   map = new AoeMap(120, 120); //No puedo dejar la variable map vacia!!
   // var file = await fs.open('/home/fabian/github/aldeano.scx', "r");
-  // var file = await fs.open('/home/fabian/github/test1.scx', "r");
-  var file = await fs.open('/home/fabian/github/agua.scx', "r");
+  var file = await fs.open('/home/fabian/github/test1.scx', "r");
+  // var file = await fs.open('/home/fabian/github/agua.scx', "r");
+  // var file = await fs.open('/home/fabian/github/paredes.scx', "r");
   // var file = await fs.open('/home/fabian/github/edificios.scx', "r");
   map = await ScxMapBuilder.load(file);
   cameraPos = map.initCameraPos;
@@ -52,8 +53,8 @@ document.addEventListener("DOMContentLoaded", function() {
   tr_c = document.getElementById("terrainCanvas");
   tr_ctx = tr_c.getContext("2d");
 
-  // loadMap();
-  loadMapScx();
+  loadMap();
+  // loadMapScx();
 
   c.addEventListener('mousemove', (e) => {
     var dim = e.target.getBoundingClientRect();
