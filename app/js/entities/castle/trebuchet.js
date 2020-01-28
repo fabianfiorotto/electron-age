@@ -105,12 +105,24 @@ module.exports = class Trebuchet extends Unit {
   }
 
 
+  update() {
+    super.update();
+    this.each(50, 'fire_boulder' , () => {
+      if (this.boulder && this.frame == 9) {
+        this.map.addEntity(this.boulder);
+        this.boulder = null;
+      }
+    });
+  }
+
   attack() {
     if (this.target && this.target.properties.hitPoints) {
-      var boulder = new Boulder(this.map, this.player);
-      boulder.pos = this.pos;
-      boulder.setTarget(this.target);
-      this.map.addEntity(boulder);
+      if (!this.boulder) {
+        this.boulder = new Boulder(this.map, this.player);
+        this.boulder.pos = this.pos.subtract($V([0,210]));
+        this.boulder.setTarget(this.target);
+        // this.map.addEntity(boulder);  
+      }
     }
     else {
       this.setState(Unit.IDLE);
