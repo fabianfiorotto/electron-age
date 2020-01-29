@@ -26,22 +26,24 @@ module.exports = class Arrow extends Entity {
   }
 
   update() {
-    var oldDis = this.pos.distanceFrom(this.target);
+    this.each(10, 'projectile_move' , () => {
+      var oldDis = this.pos.distanceFrom(this.target);
 
-    this.pos = this.pos.add(this.v);
-    var dis = this.pos.distanceFrom(this.target);
+      this.pos = this.pos.add(this.v);
+      var dis = this.pos.distanceFrom(this.target);
 
-    if (oldDis < dis) {
-      this.map.removeEntity(this);
-      this.causeDamage();
-    }
-    else {
-      var d = dis / this.distance;
-      var z = 300 * d**2 - 300 * d;
-      this.orientation = Math.atan(300*2*d - 300);
+      if (oldDis < dis) {
+        this.map.removeEntity(this);
+        this.causeDamage();
+      }
+      else {
+        var d = dis / this.distance;
+        var z = 300 * d**2 - 300 * d;
+        this.orientation = Math.atan(300*2*d - 300);
 
-      this.posZ = this.pos.add($V([0,z]));
-    }
+        this.posZ = this.pos.add($V([0,z]));
+      }
+    });
   }
 
   causeDamage() {
