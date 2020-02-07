@@ -75,23 +75,28 @@ module.exports = class Building extends Entity {
 
     if (this.state === Building.FINISHED) {
       let rate = this.properties.hitPoints / this.properties.maxHitPoints;
-      if (this.getSize() == 2) {
-        if(rate < 0.25) {
-          this.models.mediumFire3.draw(pos, 0, this.fireFrame, this.player.id);
-        } else if (rate < 0.50) {
-          this.models.mediumFire2.draw(pos, 0, this.fireFrame, this.player.id);
-        } else if (rate < 0.75) {
-          this.models.mediumFire1.draw(pos, 0, this.fireFrame, this.player.id);
-        }
+      this.drawFlames(camera, rate);
+    }
+  }
+
+  drawFlames(camera, rate) {
+    var pos = this.pos.subtract(camera);
+    if (this.getSize() == 2) {
+      if(rate < 0.25) {
+        this.models.mediumFire3.draw(pos, 0, this.fireFrame, this.player.id);
+      } else if (rate < 0.50) {
+        this.models.mediumFire2.draw(pos, 0, this.fireFrame, this.player.id);
+      } else if (rate < 0.75) {
+        this.models.mediumFire1.draw(pos, 0, this.fireFrame, this.player.id);
       }
-      else {
-        if(rate < 0.25) {
-          this.models.fire6.draw(pos, 0, this.fireFrame, this.player.id);
-        } else if (rate < 0.50) {
-          this.models.fire4.draw(pos, 0, this.fireFrame, this.player.id);
-        } else if (rate < 0.75) {
-          this.models.fire1.draw(pos, 0, this.fireFrame, this.player.id);
-        }
+    }
+    else {
+      if(rate < 0.25) {
+        this.models.fire6.draw(pos, 0, this.fireFrame, this.player.id);
+      } else if (rate < 0.50) {
+        this.models.fire4.draw(pos, 0, this.fireFrame, this.player.id);
+      } else if (rate < 0.75) {
+        this.models.fire1.draw(pos, 0, this.fireFrame, this.player.id);
       }
     }
   }
