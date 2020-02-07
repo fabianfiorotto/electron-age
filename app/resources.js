@@ -73,6 +73,24 @@ module.exports = class ResourceManager {
     return false;
   }
 
+  clear(ctx) {
+    if(!ctx) {
+      ctx = this.get2DContext();
+    }
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  }
+
+  clearTerrain(ctx) {
+    if(!ctx) {
+      ctx = this.getTerrain2DContext();
+    }
+    // tr_ctx.clearRect(0, 0, ctx.width, ctx.height);
+    ctx.beginPath();
+    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = "#000";
+    ctx.fill();
+  }
+
   drawImage(img, v, ctx) {
     var aux = this.getAux2DContext();
     if(!ctx) {

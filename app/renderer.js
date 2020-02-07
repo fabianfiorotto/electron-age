@@ -144,14 +144,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // console.log(e.keyCode);
   };
   idle = function() {
-    ctx.clearRect(0, 0, c.width, c.height);
+    resources.clear();
     map.update();
     if (map.terrain.redraw) {
-      // tr_ctx.clearRect(0, 0, tr_c.width, tr_c.height);
-      tr_ctx.beginPath();
-      tr_ctx.rect(0, 0, tr_c.width, tr_c.height);
-      tr_ctx.fillStyle = "#000";
-      tr_ctx.fill();
+      resources.clearTerrain();
       map.drawTerrain(cameraPos);
     }
     map.draw(cameraPos);
