@@ -151,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
       map.drawTerrain(cameraPos);
     }
     map.draw(cameraPos);
+    resources.drawCompleted();
     fps += 1;
   };
   window.addEventListener("keydown", doKeyDown, true);

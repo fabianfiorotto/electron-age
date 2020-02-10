@@ -4,6 +4,7 @@ var SlpUnitModel = require("./js/slp/unit");
 var SlpTerrainModel = require("./js/slp/terrain");
 var SlpProjectileModel = require("./js/slp/projectile");
 var SlpPalette = require("./js/slp/palette");
+var Painter = require('./painter');
 
 module.exports = class ResourceManager {
 
@@ -14,6 +15,7 @@ module.exports = class ResourceManager {
     this.icons = {};
     this.sounds = {};
     this.dir = ".";
+    this.painter = new Painter();
   }
 
   async loadPalette(pid) {
@@ -57,117 +59,42 @@ module.exports = class ResourceManager {
   }
 
   putImage(img, v, ctx) {
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    ctx.putImageData(img, v.e(1), v.e(2));
+    this.painter.putImage(img, v, ctx);
   }
 
   isOut(canvas, img, x, y) {
-    if (x > canvas.width || img.width + x < 0) {
-      return true;
-    }
-    if (y > canvas.height || img.height + y < 0) {
-      return true;
-    }
-    return false;
+    this.painter.isOut(canvas, img, x, y);
   }
 
   clear(ctx) {
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    this.painter.clear(ctx);
   }
 
   clearTerrain(ctx) {
-    if(!ctx) {
-      ctx = this.getTerrain2DContext();
-    }
-    // tr_ctx.clearRect(0, 0, ctx.width, ctx.height);
-    ctx.beginPath();
-    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = "#000";
-    ctx.fill();
+    this.painter.clearTerrain();
+  }
+
+  drawCompleted() {
   }
 
   drawImage(img, v, ctx) {
-    var aux = this.getAux2DContext();
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    var x = v.e(1);
-    var y = v.e(2);
-
-    if (this.isOut(ctx.canvas, img, x, y)) {
-      return;
-    }
-
-    aux.canvas.setAttribute('width', img.width);
-    aux.canvas.setAttribute('height', img.height);
-    aux.clearRect(0, 0, aux.canvas.width, aux.canvas.height);
-    aux.putImageData(img, 0, 0);
-
-    ctx.drawImage(aux.canvas, x, y);
+    this.painter.drawImage(img, v, ctx);
   }
 
   drawCircle(v, rad, ctx) {
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    ctx.beginPath();
-    ctx.strokeStyle = "#ffffff";
-    ctx.ellipse(v.e(1), v.e(2), rad, rad  / 2, - Math.atan(0.5), 0, 2 * Math.PI);
-    ctx.stroke();
+    this.painter.drawCircle(v, rad, ctx);
   }
 
   drawHitpoints(v, val, player, ctx) {
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    var base_id = 50505;
-    if (!this.palettes[base_id]) {
-      return;
-    }
-    var x = v.e(1), y = v.e(2);
-
-    var color = this.palettes[base_id][16 * player + 0];
-    ctx.fillStyle = "rgb(" + color.join(',') +")";
-    ctx.beginPath();
-    ctx.rect(x, y, 40, 5);
-    ctx.fill();
-
-    color = this.palettes[base_id][16 * player + 5];
-    ctx.fillStyle = "rgb(" + color.join(',') +")";
-    ctx.beginPath();
-    ctx.rect(x, y, Math.round(40 * val), 5);
-    ctx.fill();
+    this.painter.drawHitpoints(v, val, player, ctx);
   }
 
   drawSquare(v, size, ctx) {
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    var x = v.e(1), y = v.e(2);
-
-    ctx.beginPath();
-    ctx.strokeStyle = "#ffffff";
-    ctx.moveTo(x, y - size / 4);
-    ctx.lineTo(x - size / 2, y);
-    ctx.lineTo(x, y + size / 4);
-    ctx.lineTo(x + size / 2, y);
-    ctx.closePath();
-    ctx.stroke();
+    this.painter.drawSquare(v, size, ctx);
   }
 
   drawSelect(start, diff, ctx) {
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    ctx.strokeStyle = "#ffffff";
-    ctx.beginPath();
-    ctx.rect(start.e(1), start.e(2) , diff.e(1), diff.e(2));
-    ctx.stroke();
+    this.painter.drawSelect(start, diff, ctx);
   }
 
   playSound(audioBuffer) {
