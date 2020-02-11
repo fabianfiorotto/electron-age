@@ -114,4 +114,7 @@ module.exports = class Painter {
     ctx.stroke();
   }
 
+  drawCompleted() {
+  }
+
 };
