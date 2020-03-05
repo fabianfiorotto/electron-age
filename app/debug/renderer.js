@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
   };
   idle = function() {
     if (model){
-      ctx.clearRect(0, 0, c.width, c.height);
+      resources.clear();
 
       // 50706
       // model.draw(pos, orientation, frame);
@@ -219,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function() {
           model.frames[i].draw($V([50 + 50 * (i % 10), 50 + 60 * Math.floor(i/10) ]));
         }
       }
+      resources.drawCompleted();
     }
   };
   window.addEventListener("keydown", doKeyDown, true);
