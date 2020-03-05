@@ -18,7 +18,7 @@ module.exports = class SlpProjectileModel extends SlpModel {
 
   getFrameNumberByOrientation(orientation) {
     if (orientation < 0) {
-      orientation = Math.PI - orientation;
+      orientation = 2 * Math.PI + orientation;
     }
     return Math.floor(orientation * 36 / Math.PI);
   }
