@@ -22,6 +22,13 @@ body {
  Top Bar
 */
 
+  .top-bar-wrapper {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
 .top-bar {
   height: 32px;
   width: 1280px;
@@ -73,6 +80,11 @@ body {
 /*****
  Dashboard
 */
+.dashboard-wrapper {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
 
 .dashboard {
   height: 218px;

@@ -112,9 +112,9 @@ document.addEventListener("DOMContentLoaded", function() {
   var resizeMap = function() {
     c.setAttribute('width', window.innerWidth);
     tr_c.setAttribute('width', window.innerWidth);
-    c.setAttribute('height', window.innerHeight - 250);
-    tr_c.setAttribute('height', window.innerHeight - 250);
-    mapDiv.style.height = (window.innerHeight - 250) + "px";
+    c.setAttribute('height', window.innerHeight);
+    tr_c.setAttribute('height', window.innerHeight);
+    mapDiv.style.height = window.innerHeight + "px";
     map.terrain.redraw = true;
     resources.drawRefresh();
   };
