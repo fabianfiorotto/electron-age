@@ -38,9 +38,24 @@ module.exports = class Arrow extends Entity {
       }
       else {
         var d = dis / this.distance;
-        var z = 300 * d**2 - 300 * d;
-        this.orientation = Math.atan(300*2*d - 300);
+        var z = 200 * d**2 - 200 * d;
 
+        if (this.v.e(1) > 0) {
+          if (d > 0.5) {
+            this.orientation = Math.PI / 2 - (1 - d) * Math.PI;
+          }
+          else {
+            this.orientation = - Math.PI / 2 + d * Math.PI;
+          }
+        }
+        else {
+          if (d > 0.5) {
+            this.orientation = Math.PI / 2 + (1 - d) * Math.PI;
+          }
+          else {
+            this.orientation = 1.5 * Math.PI - d * Math.PI;
+          }
+        }
         this.posZ = this.pos.add($V([0,z]));
       }
     });

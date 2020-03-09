@@ -25,7 +25,7 @@ module.exports = class Archer extends Unit {
   }
 
   canReachTarget() {
-    return this.target.pos.subtract(this.pos).modulus() < 200.0;
+    return this.target.pos.subtract(this.pos).modulus() < 300.0;
   }
 
   attack() {
