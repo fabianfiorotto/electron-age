@@ -24,6 +24,9 @@ module.exports = class Painter {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
 
+  refhresh() {    
+  }
+
   clearTerrain(ctx) {
     if(!ctx) {
       ctx = resources.getTerrain2DContext();

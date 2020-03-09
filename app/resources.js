@@ -76,6 +76,10 @@ module.exports = class ResourceManager {
     this.painter.clearTerrain();
   }
 
+  drawRefresh() {
+    this.painter.refhresh();
+  }
+
   drawCompleted() {
     this.painter.drawCompleted();
   }

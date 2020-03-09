@@ -34,6 +34,12 @@ module.exports = class Painter2 {
     this.painter.clearTerrain();
   }
 
+  refhresh() {
+    for (var c of this.old_commands) {
+      this.commandsRun(c);
+    }
+  }
+
   putImage(img, v, ctx) {
     this.commands.push({
       type: 'put',
@@ -145,29 +151,34 @@ module.exports = class Painter2 {
     }
 
     for (c of toRedraw) {
-      switch (c.type) {
-        case 'put':
-          this.painter.putImage(c.img, c.pos, c.ctx);
-          break;
-        case 'draw':
-          this.painter.drawImage(c.img, c.pos, c.ctx);
-          break;
-        case 'circle':
-          this.painter.drawCircle(c.center,c.rad, c.ctx);
-          break;
-        case 'hits':
-          this.painter.drawHitpoints(c.center, c.val, c.player, c.ctx);
-          break;
-        case 'square':
-          this.painter.drawSquare(c.center, c.size, c.ctx);
-          break;
-        case 'select':
-          this.painter.drawSelect(c.start, c.diff, c.ctx);
-          break;
-      }
+      this.commandsRun(c);
     }
     this.old_commands = this.commands;
     this.commands = [];
+  }
+
+
+  commandsRun(c) {
+    switch (c.type) {
+      case 'put':
+        this.painter.putImage(c.img, c.pos, c.ctx);
+        break;
+      case 'draw':
+        this.painter.drawImage(c.img, c.pos, c.ctx);
+        break;
+      case 'circle':
+        this.painter.drawCircle(c.center,c.rad, c.ctx);
+        break;
+      case 'hits':
+        this.painter.drawHitpoints(c.center, c.val, c.player, c.ctx);
+        break;
+      case 'square':
+        this.painter.drawSquare(c.center, c.size, c.ctx);
+        break;
+      case 'select':
+        this.painter.drawSelect(c.start, c.diff, c.ctx);
+        break;
+    }
   }
 
   commandsDiff(a1, a2) {
