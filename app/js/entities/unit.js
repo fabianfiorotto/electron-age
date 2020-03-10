@@ -81,10 +81,24 @@ module.exports = class Unit extends Entity {
   }
 
   attack() {
+    if (!this.canReachTarget()) {
+      this.setState(Unit.IDLE);
+
+      return;
+    }
     if (this.target.properties.hitPoints) {
-      this.target.properties.hitPoints -= this.attackMeleeDamage(this.target);
-      this.target.properties.hitPoints = Math.max(0, this.target.properties.hitPoints);
-      this.target.emitter.emit('did-change-properties', this.target.properties);
+      var projectileClass = this.getProjectileClass();
+      if (projectileClass) {
+        var projectile = new projectileClass(this.map, this.player);
+        projectile.pos = this.pos;
+        projectile.setTarget(this.target);
+        this.map.addEntity(projectile);
+      }
+      else {
+        this.target.properties.hitPoints -= this.attackMeleeDamage(this.target);
+        this.target.properties.hitPoints = Math.max(0, this.target.properties.hitPoints);
+        this.target.emitter.emit('did-change-properties', this.target.properties);
+      }
     }
     else {
       this.setState(Unit.IDLE);

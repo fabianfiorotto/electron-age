@@ -7,6 +7,7 @@ module.exports = class Building extends Entity {
   static INCOMPLETE  = Symbol('building_incomplete');
   static FINISHED    = Symbol('building_finished');
   static DESTROYED   = Symbol('building_destroyed');
+  static ATTACKING   = Symbol('building_attacking');
   /* jshint ignore:end */
 
   constructor(map, player) {
@@ -103,6 +104,12 @@ module.exports = class Building extends Entity {
 
   update() {
 
+    this.each(500, 'attack' , () => {
+      if (this.state == Building.ATTACKING) {
+        this.attack();
+      }
+    });
+
     this.each(80, 'animation' , () => {
       if (this.models.animation) {
         this.frame = this.models.animation.nextFrame(this.frame, 0);
@@ -117,6 +124,36 @@ module.exports = class Building extends Entity {
         this.flagFrame = this.flagModel.nextFrame(this.flagFrame, 0);
       }
     });
+  }
+
+  canReachTarget() {
+    return this.target.pos.subtract(this.pos).modulus() < 300.0;
+  }
+
+  targetReached() {
+    if (this.target.player.id != this.player.id) {
+      this.setState(Building.ATTACKING);
+    }
+  }
+
+  attack() {
+    if (!this.canReachTarget()) {
+      this.setState(Building.FINISHED);
+      return;
+    }
+    if (this.target.properties.hitPoints) {
+      var projectileClass = this.getProjectileClass();
+      if (projectileClass && this.canReachTarget()) {
+        var projectile = new projectileClass(this.map, this.player);
+        projectile.pos = this.pos;
+        projectile.setTarget(this.target);
+        this.map.addEntity(projectile);
+      }
+    }
+    else {
+      this.setState(Building.FINISHED);
+      this.target.onEntityDestroy();
+    }
   }
 
   getModel() {

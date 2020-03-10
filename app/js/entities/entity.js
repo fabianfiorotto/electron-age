@@ -103,6 +103,10 @@ module.exports = class Entity {
     return this.frame;
   }
 
+  getProjectileClass() {
+    return null;
+  }
+
   controls() {
     return [];
   }
