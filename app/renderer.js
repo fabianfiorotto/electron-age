@@ -41,6 +41,14 @@ var loadMap = async function() {
   return map;
 };
 
+var eventCoords = function(e, cameraPos) {
+  var dim = e.target.getBoundingClientRect();
+  var x = e.clientX - dim.left;
+  var y = e.clientY - dim.top;
+
+  return $V([x, y]).add(cameraPos);
+}
+
 document.addEventListener("DOMContentLoaded", function() {
   var c, ctx, tr_c, tr_ctx, doKeyDown, idle, imgs;
 
@@ -57,45 +65,24 @@ document.addEventListener("DOMContentLoaded", function() {
   // loadMapScx();
 
   c.addEventListener('mousemove', (e) => {
-    var dim = e.target.getBoundingClientRect();
-    var x = e.clientX - dim.left;
-    var y = e.clientY - dim.top;
-
-    var v = $V([x, y]).add(cameraPos);
-
-    map.over(v);
+    map.over(eventCoords(e, cameraPos));
   });
 
   c.addEventListener('mousedown', (e) => {
     if (e.which == 1) {
-      var dim = e.target.getBoundingClientRect();
-      var x = e.clientX - dim.left;
-      var y = e.clientY - dim.top;
-
-      var v = $V([x, y]).add(cameraPos);
-      map.mouseDown(v);
+      map.mouseDown(eventCoords(e, cameraPos));
     }
   });
 
   c.addEventListener('mouseup', (e) => {
     if (e.which == 1) {
-      var dim = e.target.getBoundingClientRect();
-      var x = e.clientX - dim.left;
-      var y = e.clientY - dim.top;
-
-      var v = $V([x, y]).add(cameraPos);
-      map.mouseUp(v);
+      map.mouseUp(eventCoords(e, cameraPos));
     }
   });
 
 
   c.addEventListener('click', (e) => {
-    var dim = e.target.getBoundingClientRect();
-    var x = e.clientX - dim.left;
-    var y = e.clientY - dim.top;
-
-    var v = $V([x, y]).add(cameraPos);
-    map.leftClick(v);
+    map.leftClick(eventCoords(e, cameraPos));
   });
 
   window.addEventListener('contextmenu',function(e) {
