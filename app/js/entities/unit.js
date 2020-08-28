@@ -82,9 +82,8 @@ module.exports = class Unit extends Entity {
 
   attack() {
     if (this.target.properties.hitPoints) {
-      this.target.properties.hitPoints -= this.attackMeleeDamage(this.target);
-      this.target.properties.hitPoints = Math.max(0, this.target.properties.hitPoints);
-      this.target.emitter.emit('did-change-properties', this.target.properties);
+      let damage = this.attackMeleeDamage(this.target);
+      this.target.decProperty({hitPoints: damage});
     }
     else {
       this.setState(Unit.IDLE);

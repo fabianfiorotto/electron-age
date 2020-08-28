@@ -46,9 +46,8 @@ module.exports = class Shephard extends VillagerRole {
     var target = this.villager.target;
 
     if (target.properties.hitPoints) {
-      target.properties.hitPoints = 0;
+      target.setProperty({hitPoints: 0 });
       target.butchered = true;
-      target.emitter.emit('did-change-properties', target.properties);
     }
     else {
       villager.setState(Unit.WORKING);

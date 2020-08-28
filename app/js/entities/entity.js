@@ -179,21 +179,23 @@ module.exports = class Entity {
     console.log("Not defined");
   }
 
-  changeProperties(change) {
-    if (change.set) {
-      for (const [key,value] of Object.entries(change.set)){
-        this.properties[key] = value;
-      }
+  incProperty(values) {
+    for (const [key,value] of Object.entries(values)){
+      this.properties[key] += value;
     }
-    if (change.inc) {
-      for (const [key,value] of Object.entries(change.inc)){
-        this.properties[key] += value;
-      }
+    this.emitter.emit('did-change-properties', this.properties);
+  }
+
+  decProperty(values){
+    for (const [key,value] of Object.entries(values)){
+      this.properties[key] = Math.max(0, this.properties[key] - value);
     }
-    if (change.dec) {
-      for (const [key,value] of Object.entries(change.dec)){
-        this.properties[key] -= value;
-      }
+    this.emitter.emit('did-change-properties', this.properties);
+  }
+
+  setProperty(values) {
+    for (const [key,value] of Object.entries(values)){
+      this.properties[key] = value;
     }
     this.emitter.emit('did-change-properties', this.properties);
   }

@@ -12,8 +12,7 @@ module.exports = class Builder extends VillagerRole {
     var building = this.villager.target;
     var properties = building.properties;
     if (properties.hitPoints < properties.maxHitPoints) {
-      properties.hitPoints++;
-      building.emitter.emit('did-change-properties', properties);
+      building.incProperty({hitPoints: 1});
     }
     else {
       var villager = this.villager;

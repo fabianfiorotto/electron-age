@@ -82,7 +82,7 @@ module.exports = class Blacksmith extends Building {
       technology: {
         updateEntity(entity) {
           if (entity.isType(Building.INFANTRY, Building.CAVALRY)) {
-            entity.changeProperties({inc: {attack: 1}});
+            entity.incProperty({attack: 1});
           }
         },
         updatePlayer(player) {
