@@ -69,21 +69,6 @@ module.exports = class Villager extends Unit {
     };
   }
 
-  setPath(path) {
-    if (path.length && this.building != null) {
-      if (this.map.canPlace(this.building)) {
-        super.setPath(path);
-        this.startBuilding();
-      }
-      else {
-        console.log("Can't build there");
-      }
-    }
-    else {
-      super.setPath(path);
-    }
-  }
-
   setTarget(entity) {
     if (entity && entity instanceof Berries) {
       this.role = this.roles.forager;
@@ -372,7 +357,7 @@ module.exports = class Villager extends Unit {
         },
         {
           icon: icons.wall,
-          condition: () => this.player.tecnologies.fortifiedWall,
+          condition: () => this.player.technologies.fortifiedWall,
           callback: () => this.build(FortifiedWall)
         },
       ],
@@ -417,13 +402,6 @@ module.exports = class Villager extends Unit {
         callback: () => console.log("shelter")
       }
     ];
-  }
-
-  blur() {
-    if (this.building && this.building.isImaginary()) {
-      this.map.removeEntity(this.building);
-    }
-    this.building = null;
   }
 
   async loadResources(res) {

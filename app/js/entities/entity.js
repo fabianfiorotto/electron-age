@@ -2,6 +2,17 @@ const {Emitter} = require('event-kit');
 
 module.exports = class Entity {
 
+  /* jshint ignore:start */
+  static CIVIL      = Symbol('entity_civil'); //??
+  static CAVALRY      = Symbol('entity_cavalry');
+  static INFANTRY     = Symbol('entity_infantry');
+  static ARCHER       = Symbol('entity_archer');
+  static BUILDING     = Symbol('entity_building');
+  static SHIP     = Symbol('entity_ship');
+  static SIEGE_WEAPON = Symbol('entity_siege_weapon');
+  static DEFENSIVE_STRUCTURE = Symbol('entity_defensive_structure');
+  /* jshint ignore:end */
+
   constructor(map, player) {
     this.map = map;
     this.player = player;
@@ -16,12 +27,13 @@ module.exports = class Entity {
     this.queue = [];
 
     this.properties = this.defineProperties();
+    this.types = this.defineTypes();
     this.updateProperties();
     this.player.onDidChangeAge(() => this.updateProperties());
 
     var upgrades = this.upgradesTo();
     if (Object.entries(upgrades).length !== 0) {
-      player.onDidDevelopTecnology((tec) => {
+      player.onDidDevelopTechnology((tec) => {
         if (upgrades[tec]) {
           this.upgrade(upgrades[tec]);
         }
@@ -45,6 +57,10 @@ module.exports = class Entity {
       pierceArmor: 0,
       lineofSeight: 4,
     };
+  }
+
+  defineTypes() {
+    return [];
   }
 
   updateProperties() {
@@ -115,12 +131,27 @@ module.exports = class Entity {
     return 1;
   }
 
+  isType() {
+    return this.types.some((type) => [...arguments].includes(type));
+  }
+
   developControl(tec, minAge = 1) {
-    return {
+    let technologyOptions, technology;
+    if (typeof this[tec + "Technology"] == "function") {
+      technologyOptions = this[tec + "Technology"]();
+      technology = technologyOptions.technology;
+    }
+    let control = {
       icon: this.icons[tec],
-      condition: () => this.player.age >= minAge && !this.player.tecnologies[tec],
-      callback : () => this.player.develop(tec)
+      condition: () => this.player.age >= minAge && !this.player.technologies[tec],
+      callback : () => this.player.develop(tec, technology),
     };
+    if (technology) {
+      for (const [key,value] of Object.entries(technologyOptions)){
+        control[key] = value;
+      }
+    }
+    return control;
   }
 
   developControlGroup(tecs) {
@@ -150,6 +181,25 @@ module.exports = class Entity {
 
   notDefined() {
     console.log("Not defined");
+  }
+
+  changeProperties(change) {
+    if (change.set) {
+      for (const [key,value] of Object.entries(change.set)){
+        this.properties[key] = value;
+      }
+    }
+    if (change.inc) {
+      for (const [key,value] of Object.entries(change.inc)){
+        this.properties[key] += value;
+      }
+    }
+    if (change.dec) {
+      for (const [key,value] of Object.entries(change.dec)){
+        this.properties[key] -= value;
+      }
+    }
+    this.emitter.emit('did-change-properties', this.properties);
   }
 
   transfer(entity, quantities, revert = false) {
@@ -230,7 +280,7 @@ module.exports = class Entity {
     return [];
   }
 
-  tecnologyIcons() {
+  technologyIcons() {
     return {};
   }
 

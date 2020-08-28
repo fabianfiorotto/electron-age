@@ -64,6 +64,7 @@ module.exports = class AoeMap {
   async addEntity(entity) {
     await resources.load(entity);
     this.entities.push(entity);
+    entity.player.applyTechnologies(entity);
     entity.onEntityCreated();
   }
 
@@ -119,6 +120,10 @@ module.exports = class AoeMap {
       selected.setTarget(entity);
       var f = $V([i % 3, Math.floor(i / 3)]).multiply(50);
       selected.setTargetPos(v.add(f));
+      if (selected instanceof Villager && selected.building && selected.building.isImaginary()) {
+        this.removeEntity(selected.building);
+        selected.building = null;
+      }
     }
   }
 
@@ -184,7 +189,21 @@ module.exports = class AoeMap {
       }
     }
     for (var selected of this.selected) {
-      selected.blur();
+      if (selected instanceof Villager && selected.building) {
+        if (this.canPlace(selected.building)) {
+          selected.setTargetPos(selected.building.pos)
+          selected.startBuilding();
+        }
+        else {
+          this.selectionStart = null;
+          this.selectionEnd = null;
+          console.log("Can't build there"); //Que no haga el ruido
+          return;
+        }
+      }
+      else {
+        selected.blur();
+      }
     }
     this.setSelected(newSelected);
     this.selectionStart = null;

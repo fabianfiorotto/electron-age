@@ -17,7 +17,7 @@ module.exports = class ArcheryRange extends Building {
     return 0;
   }
 
-  tecnologyIcons() {
+  technologyIcons() {
     return {
       elitSkirmisher: 28,
       crossbow: 29,
@@ -58,12 +58,12 @@ module.exports = class ArcheryRange extends Building {
         },
         {
           icon: icons.createCrossbowman,
-          condition: () => this.player.tecnologies.crossbow,
+          condition: () => this.player.technologies.crossbow,
           callback : () => this.createUnit(Crossbowman)
         },
         {
           icon: icons.createArbalest,
-          condition: () => this.player.tecnologies.arbalest,
+          condition: () => this.player.technologies.arbalest,
           callback : () => this.createUnit(Albalest)
         },
       ],
@@ -74,7 +74,7 @@ module.exports = class ArcheryRange extends Building {
         },
         {
           icon: icons.createElitSkirmisher,
-          condition: () => this.player.tecnologies.elitSkirmisher,
+          condition: () => this.player.technologies.elitSkirmisher,
           callback : () => this.createUnit(ElitSkirmisher)
         }
       ],
@@ -86,7 +86,7 @@ module.exports = class ArcheryRange extends Building {
         },
         {
           icon: icons.createHeavyCavalryArcher,
-          condition: () => this.player.tecnologies.heavyCavalryArcher,
+          condition: () => this.player.technologies.heavyCavalryArcher,
           callback : () => this.createUnit(HeavyCavalryArcher)
         }
       ],

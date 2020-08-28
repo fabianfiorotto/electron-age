@@ -14,7 +14,7 @@ module.exports = class Player {
     this.population = 0;
     this.maxPopulation = 0;
     this.age = 1;
-    this.tecnologies = {};
+    this.technologies = {};
 
 
     this.emitter = new Emitter();
@@ -22,6 +22,7 @@ module.exports = class Player {
     this.id = id;
 
     this.onDidChangeAge(() => this.onChangeAge());
+    this.onDidDevelopTechnology((tec) => this.onDevelopTechnology(tec));
   }
 
 
@@ -32,9 +33,9 @@ module.exports = class Player {
     }
   }
 
-  develop(tec) {
-    this.tecnologies[tec] = true;
-    this.emitter.emit('did-develop-tecnology', tec);
+  develop(tec, technology = {}) {
+    this.technologies[tec] = technology;
+    this.emitter.emit('did-develop-technology', tec);
   }
 
   onDidChangeResources(callback){
@@ -49,8 +50,8 @@ module.exports = class Player {
     return this.emitter.on('did-change-population', callback);
   }
 
-  onDidDevelopTecnology(callback) {
-    return this.emitter.on('did-develop-tecnology', callback);
+  onDidDevelopTechnology(callback) {
+    return this.emitter.on('did-develop-technology', callback);
   }
 
   getAgeCode(age) {
@@ -91,6 +92,27 @@ module.exports = class Player {
     var age = this.getAgeCode();
     for (var i = 0; i < entities.length; i++) {
       this.civilization.updateAge(age, entities[i]);
+    }
+  }
+
+  onDevelopTechnology(tec) {
+    let technology = this.technologies[tec];
+    if (typeof technology.updatePlayer == "function") {
+      technology.updatePlayer(this);
+    }
+    if (typeof technology.updateEntity == "function") {
+      let entities = this.map.getPlayerEntities(this);
+      for (var i = 0; i < entities.length; i++) {
+        technology.updateEntity(entities[i]);
+      }
+    }
+  }
+
+  applyTechnologies(entity) {
+    for (const [tec,technology] of Object.entries(this.technologies)){
+      if (typeof technology.updateEntity == "function") {
+        technology.updateEntity(entity);
+      }
     }
   }
 

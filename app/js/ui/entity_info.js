@@ -64,7 +64,7 @@ module.exports = class EntityInfo extends UIWidget {
       this.displayResourcesInfo(res);
     });
     this.propertiesSubscription = selected.onDidChangeProperties((pr) => {
-      this.displayPropertiesInfo(pr);
+      this.displayPropertiesInfo(pr, selected.defineProperties());
     });
   }
 
@@ -80,19 +80,29 @@ module.exports = class EntityInfo extends UIWidget {
     }
   }
 
-  displayPropertiesInfo(pr) {
+  displayPropertiesInfo(pr, org) {
     this.hitPoints.textContent = pr.hitPoints + "/" + pr.maxHitPoints;
     this.hitPointsBar.setAttribute('value', pr.hitPoints);
     this.hitPointsBar.setAttribute('max', pr.maxHitPoints);
     if (pr.attack) {
       this.attack.parentNode.style.display = '';
-      this.attack.textContent = pr.attack;
+      this.attack.textContent = org.attack;
+      if (org.attack != pr.attack) {
+        this.attack.textContent += '+' + (pr.attack - org.attack);
+      }
     }
     else {
       this.attack.parentNode.style.display = 'none';
     }
     if (typeof pr.meleeArmor !== 'undefined') {
-      this.armor.textContent = pr.meleeArmor + "/" + pr.pierceArmor;
+      this.armor.textContent = org.meleeArmor;
+      if (org.meleeArmor != pr.meleeArmor) {
+        this.armor.textContent += '+' + (pr.meleeArmor - org.meleeArmor);
+      }
+      this.armor.textContent += "/" + org.pierceArmor;
+      if (org.pierceArmor != pr.pierceArmor) {
+        this.armor.textContent += '+' + (pr.pierceArmor - org.pierceArmor);
+      }
     }
   }
 
@@ -111,7 +121,7 @@ module.exports = class EntityInfo extends UIWidget {
        this.resources.style.display = 'none';
      }
      this.hitPointsBar.parentNode.setAttribute("class", "player" + selected.player.id);
-     this.displayPropertiesInfo(selected.properties);
+     this.displayPropertiesInfo(selected.properties, selected.defineProperties());
   }
 
 };

@@ -35,7 +35,7 @@ module.exports = class Controls extends UIWidget {
       }
       this.displayControls(selected, selected.getControls());
     });
-    this.devTecSubscription = selected.player.onDidDevelopTecnology(() => {
+    this.devTecSubscription = selected.player.onDidDevelopTechnology(() => {
       this.displayControls(selected, selected.getControls());
     });
   }

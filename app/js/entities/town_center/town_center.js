@@ -68,7 +68,7 @@ module.exports = class TownCenter extends Building {
     return 28;
   }
 
-  tecnologyIcons() {
+  technologyIcons() {
     return {
       age2: 30,
       age3: 31,
