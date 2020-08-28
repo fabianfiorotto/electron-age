@@ -44,4 +44,8 @@ module.exports = class Archer extends Unit {
     return 17;
   }
 
+  defineTypes() {
+    return [Unit.ARCHER];
+  }
+
 };

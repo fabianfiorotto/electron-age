@@ -38,4 +38,8 @@ module.exports = class Militia extends Unit {
     return 8;
   }
 
+  defineTypes() {
+    return [Unit.INFANTRY]
+  }
+
 };

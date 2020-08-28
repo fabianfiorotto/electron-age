@@ -18,7 +18,7 @@ module.exports = class Stable extends Building {
     return 23;
   }
 
-  tecnologyIcons() {
+  technologyIcons() {
     return {
       lightCavalry: 43,
       cavalier: 78,
@@ -58,7 +58,7 @@ module.exports = class Stable extends Building {
         },
         {
           icon: icons.createLightCavalry,
-          condition: () => this.player.tecnologies.lightCavalry,
+          condition: () => this.player.technologies.lightCavalry,
           callback : () => this.createUnit(LightCavalry),
         },
       ],
@@ -70,12 +70,12 @@ module.exports = class Stable extends Building {
         },
         {
           icon: icons.createCavalier,
-          condition: () => this.player.tecnologies.cavalier,
+          condition: () => this.player.technologies.cavalier,
           callback : () => this.createUnit(Cavalier)
         },
         {
           icon: icons.createPaladin,
-          condition: () => this.player.tecnologies.paladin,
+          condition: () => this.player.technologies.paladin,
           callback : () => this.createUnit(Paladin)
         },
       ],
@@ -87,7 +87,7 @@ module.exports = class Stable extends Building {
         },
         {
           icon: icons.createHeavyCamel,
-          condition: () => this.player.tecnologies.heavyCamel,
+          condition: () => this.player.technologies.heavyCamel,
           callback : () => this.createUnit(HeavyCamel)
         }
       ],

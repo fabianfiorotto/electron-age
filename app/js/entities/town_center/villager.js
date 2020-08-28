@@ -372,7 +372,7 @@ module.exports = class Villager extends Unit {
         },
         {
           icon: icons.wall,
-          condition: () => this.player.tecnologies.fortifiedWall,
+          condition: () => this.player.technologies.fortifiedWall,
           callback: () => this.build(FortifiedWall)
         },
       ],

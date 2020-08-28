@@ -64,6 +64,7 @@ module.exports = class AoeMap {
   async addEntity(entity) {
     await resources.load(entity);
     this.entities.push(entity);
+    entity.player.applyTechnologies(entity);
     entity.onEntityCreated();
   }
 

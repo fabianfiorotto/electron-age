@@ -30,7 +30,7 @@ module.exports = class Barracks extends Building {
     return 2;
   }
 
-  tecnologyIcons() {
+  technologyIcons() {
     return {
       manAtArms: 85,
       longSwordMan: 48,
@@ -68,28 +68,28 @@ module.exports = class Barracks extends Building {
         {
           icon: icons.createManAtArms,
           time: 5,
-          condition: () => this.player.tecnologies.manAtArms,
+          condition: () => this.player.technologies.manAtArms,
           prepare: () =>  this.prepareUnit(ManAtArms),
           callback : () => this.createUnit()
         },
         {
           icon: icons.createLongSwordMan,
           time: 5,
-          condition: () => this.player.tecnologies.longSwordMan,
+          condition: () => this.player.technologies.longSwordMan,
           prepare: () =>  this.prepareUnit(LongSwordMan),
           callback : () => this.createUnit()
         },
         {
           icon: icons.createTwoHandedSwordMan,
           time: 5,
-          condition: () => this.player.tecnologies.twoHandedSwordMan,
+          condition: () => this.player.technologies.twoHandedSwordMan,
           prepare: () =>  this.prepareUnit(TwoHandedSwordMan),
           callback : () => this.createUnit()
         },
         {
           icon: icons.createChampion,
           time: 5,
-          condition: () => this.player.tecnologies.champion,
+          condition: () => this.player.technologies.champion,
           prepare: () =>  this.prepareUnit(Champion),
           callback : () => this.createUnit()
         }
@@ -105,14 +105,14 @@ module.exports = class Barracks extends Building {
         {
           icon: icons.createPikerman,
           time: 5,
-          condition: () => this.player.tecnologies.pikeman,
+          condition: () => this.player.technologies.pikeman,
           prepare: () =>  this.prepareUnit(Pikeman),
           callback : () => this.createUnit()
         },
         {
           icon: icons.createHalberdier,
           time: 5,
-          condition: () => this.player.tecnologies.halberdier,
+          condition: () => this.player.technologies.halberdier,
           prepare: () =>  this.prepareUnit(Halberdier),
           callback : () => this.createUnit()
         }

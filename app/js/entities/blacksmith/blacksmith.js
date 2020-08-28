@@ -10,7 +10,7 @@ module.exports = class Blacksmith extends Building {
     return 4;
   }
 
-  tecnologyIcons() {
+  technologyIcons() {
     return {
       scaleMailArmor: 63,
       scaleBardingArmor: 66,
@@ -73,5 +73,26 @@ module.exports = class Blacksmith extends Building {
   minAge() {
     return 2;
   }
+
+
+  forginTechnology() {
+    return {
+      cost: {food: 500},
+      time: 50,
+      technology: {
+        updateEntity(entity) {
+          if (entity.isType(Building.INFANTRY, Building.CAVALRY)) {
+            entity.changeProperties({inc: {attack: 1}});
+          }
+        },
+        updatePlayer(player) {
+
+        }
+      }
+    }
+  }
+
+
+
 
 };

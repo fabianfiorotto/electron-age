@@ -39,7 +39,7 @@ module.exports = class SiegeWorkshop extends Building {
     };
   }
 
-  tecnologyIcons() {
+  technologyIcons() {
     return {
       heavyScorpion: 68,
       // heavyScorpion: 38,
@@ -67,14 +67,14 @@ module.exports = class SiegeWorkshop extends Building {
         {
           icon: icons.createOnager,
           time: 5,
-          condition: () => this.player.tecnologies.onager,
+          condition: () => this.player.technologies.onager,
           prepare: () => this.prepareUnit(Onager),
           callback : () => this.createUnit()
         },
         {
           icon: icons.createSiegeOnager,
           time: 5,
-          condition: () => this.player.tecnologies.siegeOnager,
+          condition: () => this.player.technologies.siegeOnager,
           prepare: () => this.prepareUnit(SiegeOnager),
           callback : () => this.createUnit()
         },
@@ -89,14 +89,14 @@ module.exports = class SiegeWorkshop extends Building {
         {
           icon: icons.createCappedRam,
           time: 5,
-          condition: () => this.player.tecnologies.cappedRam,
+          condition: () => this.player.technologies.cappedRam,
           prepare: () => this.prepareUnit(CappedRam),
           callback : () => this.createUnit()
         },
         {
           icon: icons.createSiegeRam,
           time: 5,
-          condition: () => this.player.tecnologies.siegeRam,
+          condition: () => this.player.technologies.siegeRam,
           prepare: () => this.prepareUnit(SiegeRam),
           callback : () => this.createUnit()
         },
@@ -111,7 +111,7 @@ module.exports = class SiegeWorkshop extends Building {
         {
           icon: icons.createHeavyScorpion,
           time: 5,
-          condition: () => this.player.tecnologies.heavyScorpion,
+          condition: () => this.player.technologies.heavyScorpion,
           prepare: () => this.prepareUnit(HeavyScorpion),
           callback : () => this.createUnit()
         },

@@ -286,7 +286,7 @@ module.exports = class Building extends Entity {
       },
       {
         interface: 50729,
-        frames: this.tecnologyIcons()
+        frames: this.technologyIcons()
       }
     ];
   }
