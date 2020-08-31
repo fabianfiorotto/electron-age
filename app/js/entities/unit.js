@@ -210,6 +210,11 @@ module.exports = class Unit extends Entity {
     var upgrade = new entityClass(this.map, this.player);
     upgrade.pos = this.pos;
     upgrade.orientation = this.orientation;
+    upgrade.properties.hitPoints = Math.floor(
+        this.properties.hitPoints
+      * upgrade.properties.maxHitPoints
+      / this.properties.maxHitPoints
+    );
     upgrade.path = this.path;
     this.map.addEntity(upgrade);
     this.map.removeEntity(this);
