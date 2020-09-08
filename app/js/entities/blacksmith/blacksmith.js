@@ -30,38 +30,106 @@ module.exports = class Blacksmith extends Building {
     };
   }
 
-  controls() {
-    var icons = this.icons;
-    return [
-      this.developControlGroup({
-        forgin: 2,
-        ironCasting: 3,
-        blastFurnance: 4,
-      }),
-      this.developControlGroup({
-        scaleMailArmor: 2,
-        chainMailArmor: 3,
-        plateMailArmor: 4,
-      }),
-      this.developControlGroup({
-        scaleBardingArmor: 2,
-        chainBardingArmor: 3,
-        plateBardingArmor: 4,
-      }),
-      null,
-      null,
-      this.developControlGroup({
-        paddedArcherArmor: 2,
-        leatherArcherArmor: 3,
-        ringArcherArmor: 4,
-      }),
-      this.developControlGroup({
-        fletching: 2,
-        bodkinArrow: 3,
-        bracer: 4,
-      }),
-    ];
+  defineDashboardControls() {
+    return {
+      main: [
+        "developForgin", "developScaleMailArmor", 'developScaleBardingArmor', null, null,
+        null, "developPaddedArcherArmor", "developFletching"
+      ]
+    }
   }
+
+  defineControls() {
+    var icons = this.icons;
+    return {
+      developForgin: {
+        icon: this.icons.forgin,
+        upgrade: 'developIronCasting',
+        condition: () => this.techCondition(2, 'forgin'),
+        callback : () => this.develop('forgin'),
+      },
+      developIronCasting: {
+        icon: this.icons.ironCasting,
+        upgrade: 'developBlastFurnance',
+        condition: () => this.techCondition(3, 'ironCasting', 'forgin'),
+        callback : () => this.develop('ironCasting'),
+      },
+      developBlastFurnance: {
+        icon: this.icons.blastFurnance,
+        condition: () => this.techCondition(4, 'blastFurnance', 'ironCasting'),
+        callback : () => this.develop('blastFurnance'),
+      },
+      developScaleMailArmor: {
+        icon: this.icons.scaleMailArmor,
+        update: 'developChainMailArmor',
+        condition: () => this.techCondition(2, 'scaleMailArmor'),
+        callback : () => this.develop('scaleMailArmor'),
+      },
+      developChainMailArmor: {
+        icon: this.icons.chainMailArmor,
+        update: 'developPlateMailArmor',
+        condition: () => this.techCondition(3, 'chainMailArmor', 'scaleMailArmor'),
+        callback : () => this.develop('chainMailArmor'),
+      },
+      developPlateMailArmor: {
+        icon: this.icons.plateMailArmor,
+        condition: () => this.techCondition(4, 'plateMailArmor', 'chainMailArmor'),
+        callback : () => this.develop('plateMailArmor'),
+      },
+      developScaleBardingArmor: {
+        icon: this.icons.scaleBardingArmor,
+        upgrade: 'developChainBardingArmor',
+        condition: () => this.techCondition(2, 'scaleBardingArmor'),
+        callback : () => this.develop('scaleBardingArmor'),
+      },
+      developChainBardingArmor: {
+        icon: this.icons.chainBardingArmor,
+        upgrade: 'developPlateBardingArmor',
+        condition: () => this.techCondition(3, 'chainBardingArmor', 'scaleBardingArmor'),
+        callback : () => this.develop('chainBardingArmor'),
+      },
+      developPlateBardingArmor: {
+        icon: this.icons.plateBardingArmor,
+        condition: () => this.techCondition(4, 'plateBardingArmor', 'chainBardingArmor'),
+        callback : () => this.develop('plateBardingArmor'),
+      },
+      developPaddedArcherArmor: {
+        icon: this.icons.paddedArcherArmor,
+        update: 'developLeatherArcherArmor',
+        condition: () => this.techCondition(2, 'paddedArcherArmor'),
+        callback : () => this.develop('paddedArcherArmor'),
+      },
+      developLeatherArcherArmor: {
+        icon: this.icons.leatherArcherArmor,
+        update: 'developRingArcherArmor',
+        condition: () => this.techCondition(3, 'leatherArcherArmor', 'paddedArcherArmor'),
+        callback : () => this.develop('leatherArcherArmor'),
+      },
+      developRingArcherArmor: {
+        icon: this.icons.ringArcherArmor,
+        condition: () => this.techCondition(4, 'ringArcherArmor', 'eatherArcherArmor'),
+        callback : () => this.develop('ringArcherArmor'),
+      },
+      developFletching: {
+        icon: this.icons.fletching,
+        upgrade: 'developBodkinArrow',
+        condition: () => this.techCondition(2, 'fletching'),
+        callback : () => this.develop('fletching'),
+      },
+      developBodkinArrow: {
+        icon: this.icons.bodkinArrow,
+        upgrade: 'developBracer',
+        condition: () => this.techCondition(3, 'bodkinArrow', 'fletching'),
+        callback : () => this.develop('bodkinArrow'),
+      },
+      developBracer: {
+        icon: this.icons.bracer,
+        condition: () => this.techCondition(4, 'bracer', 'bodkinArrow'),
+        callback : () => this.develop('bracer'),
+      },
+    }
+  }
+
   modelsResources() {
     return {
       sounds: {
@@ -77,17 +145,13 @@ module.exports = class Blacksmith extends Building {
 
   forginTechnology() {
     return {
-      cost: {food: 500},
-      time: 50,
-      technology: {
-        updateEntity(entity) {
-          if (entity.isType(Building.INFANTRY, Building.CAVALRY)) {
-            entity.incProperty({attack: 1});
-          }
-        },
-        updatePlayer(player) {
-
+      updateEntity(entity) {
+        if (entity.isType(Building.INFANTRY, Building.CAVALRY)) {
+          entity.incProperty({attack: 1});
         }
+      },
+      updatePlayer(player) {
+
       }
     }
   }

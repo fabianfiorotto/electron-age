@@ -38,6 +38,10 @@ module.exports = class Player {
     this.emitter.emit('did-develop-technology', tec);
   }
 
+  getDashboardControls(menu, entity) {
+    return this.civilization.getDashboardControls(menu, entity);
+  }
+
   onDidChangeResources(callback){
     return this.emitter.on('did-change-resources', callback);
   }

@@ -56,26 +56,34 @@ module.exports = class Trebuchet extends Unit {
     }
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        'assemble', 'disassemble', 'attackPoint'
+      ]
+    }
+  }
+
+  defineControls() {
     var icons = this.icons;
-    return [
-      {
+    return {
+      assemble: {
        icon: icons.assemble,
        time: 5,
        prepare: () => this.setTrebuchetState(Trebuchet.ASSEMBLING),
        callback: () => this.setTrebuchetState(Trebuchet.ASSEMBLED)
       },
-      {
+      disassemble: {
        icon: icons.disassemble,
        time: 5,
        prepare: () => this.setTrebuchetState(Trebuchet.PACKING),
        callback: () => this.setTrebuchetState(Trebuchet.PACKED)
       },
-      {
+      attackPoint: {
        icon: icons.attackPoint,
        callback: this.notDefined
       },
-    ];
+    }
   }
 
   setTargetPos(pos) {
@@ -121,7 +129,7 @@ module.exports = class Trebuchet extends Unit {
         this.boulder = new Boulder(this.map, this.player);
         this.boulder.pos = this.pos.subtract($V([0,210]));
         this.boulder.setTarget(this.target);
-        // this.map.addEntity(boulder);  
+        // this.map.addEntity(boulder);
       }
     }
     else {

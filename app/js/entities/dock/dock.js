@@ -42,25 +42,31 @@ module.exports = class Dock extends Building {
     };
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        "createFishingShip", "createGalley"
+      ]
+    }
+  }
+
+  defineControls() {
     var icons = this.icons;
-    return [
-      {
+    return {
+      createFishingShip: {
         icon: icons.createFishingShip,
         time: 5,
         prepare: () => this.prepareUnit(FishingShip),
         callback : () => this.createUnit()
       },
-      [
-        {
-          icon: icons.createGalley,
-          time: 5,
-          // condition: () => this.player.age >= 2,
-          prepare: () =>  this.prepareUnit(Galley),
-          callback : () => this.createUnit()
-        },
-      ]
-    ];
+      createGalley: {
+        icon: icons.createGalley,
+        time: 5,
+        // condition: () => this.player.age >= 2,
+        prepare: () =>  this.prepareUnit(Galley),
+        callback : () => this.createUnit()
+      },
+    };
   }
 
   canPlace() {

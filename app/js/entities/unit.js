@@ -274,44 +274,52 @@ module.exports = class Unit extends Entity {
     };
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        "unit1", "unit2", "unit3", "kill", null,
+        "unit5", "unit6", "unit7", "stop",
+      ]
+    };
+  }
+
+  defineControls() {
     // var icons = resources.icons.military;
     var icons = this.icons;
-    return [
-      {
+    return {
+      unit1: {
         icon: icons.unit1,
         callback: this.notDefined
       },
-      {
+      unit2: {
         icon: icons.unit2,
         callback: this.notDefined
       },
-      {
+      unit3: {
         icon: icons.unit3,
         callback: this.notDefined
       },
-      {
+      kill: {
         icon: icons.kill,
         callback: this.notDefined
       },
-      null,
-      {
+      unit5: {
         icon: icons.unit5,
         callback: this.notDefined
       },
-      {
+      unit6: {
         icon: icons.unit6,
         callback: this.notDefined
       },
-      {
+      unit7: {
         icon: icons.unit7,
         callback: this.notDefined
       },
-      {
+      stop: {
         icon: icons.stop,
         callback: this.notDefined
       },
-    ];
+    };
   }
 
 };

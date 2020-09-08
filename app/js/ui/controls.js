@@ -11,7 +11,7 @@ module.exports = class Controls extends UIWidget {
       if (selected.length == 1) {
         this.eventsUnsuscribe();
         this.eventsSubscribe(selected[0]);
-        this.displayControls(selected[0], selected[0].getControls());
+        this.displayControls(selected[0], selected[0].getDashboardControls('main'));
       }
     });
   }
@@ -33,10 +33,10 @@ module.exports = class Controls extends UIWidget {
       if (this.sounds.newAge) {
         resources.playSound(this.sounds.newAge);
       }
-      this.displayControls(selected, selected.getControls());
+      this.displayControls(selected, selected.getDashboardControls('main'));
     });
     this.devTecSubscription = selected.player.onDidDevelopTechnology(() => {
-      this.displayControls(selected, selected.getControls());
+      this.displayControls(selected, selected.getDashboardControls('main'));
     });
   }
 
@@ -57,7 +57,7 @@ module.exports = class Controls extends UIWidget {
     else {
       img.addEventListener('click', (e) => {
         resources.playSound(this.sounds.click);
-        this.displayControls(selected, control.group);
+        this.displayControls(selected, selected.getDashboardControls(control.menu));
       });
     }
     return img;
@@ -73,12 +73,7 @@ module.exports = class Controls extends UIWidget {
         tr = document.createElement('tr');
         this.element.appendChild(tr);
       }
-      if (Array.isArray(controls[i])) {
-        control = controls[i].reverse().find((c) => typeof c.condition !== "function" || c.condition());
-      }
-      else {
-        control = controls[i];
-      }
+      control = controls[i];
       td = document.createElement('td');
       tr.appendChild(td);
       if (control && (typeof control.condition !== "function" || control.condition())) {

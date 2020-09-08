@@ -147,13 +147,13 @@ module.exports = class Building extends Entity {
 
   getControls() {
     if (this.minAge() > this.player.age ) {
-      return [];
+      return {};
     }
     if (this.state === Building.FINISHED) {
-      return this.controls();
+      return this.defineControls();
     }
     else {
-      return [];
+      return {};
     }
   }
 

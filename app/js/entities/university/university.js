@@ -35,36 +35,85 @@ module.exports = class University extends Building {
     };
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        "masonry","fortifiedWall","ballistica","guardTower","heatedShot",
+        "murderHoles","treadmillCrane"
+      ]
+    };
+  }
+
+  defineControls() {
     var icons = this.icons;
-    return [
-      this.developControlGroup({
-        masonry: 3,
-        architecture: 4,
-      }),
-      this.developControlGroup({
-        fortifiedWall: 3,
-        chemistry: 4,
-        bombardTower: 4,
-      }),
-      this.developControlGroup({
-        ballistica: 3,
-        siegeEngineers: 4,
-      }),
-      this.developControlGroup({
-        guardTower: 3,
-        keep: 4,
-      }),
-      this.developControlGroup({
-        heatedShot: 3,
-      }),
-      this.developControlGroup({
-        murderHoles: 3,
-      }),
-      this.developControlGroup({
-        treadmillCrane: 3,
-      }),
-    ];
+
+    return {
+      developMasonry: {
+        icon: this.icons.masonry,
+        update: "developArchitecture",
+        condition: () => this.techCondition(3, 'masonry'),
+        callback : () => this.develop("masonry"),
+      },
+      developArchitecture: {
+        icon: this.icons.architecture,
+        condition: () => this.techCondition(4, 'architecture'),
+        callback : () => this.develop("architecture"),
+      },
+      developFortifiedWall: {
+        icon: this.icons.fortifiedWall,
+        update: "developChemistry",
+        condition: () => this.techCondition(3, 'fortifiedWall'),
+        callback : () => this.develop("fortifiedWall"),
+      },
+      developChemistry: {
+        icon: this.icons.chemistry,
+        update: "developBombardTower",
+        condition: () => this.techCondition(4, 'chemistry'),
+        callback : () => this.develop("chemistry"),
+      },
+      developBombardTower: {
+        icon: this.icons.bombardTower,
+        condition: () => this.techCondition(4, 'bombardTower'),
+        callback : () => this.develop("bombardTower"),
+      },
+      developBallistica: {
+        icon: this.icons.ballistica,
+        update: "developSiegeEngineers",
+        condition: () => this.techCondition(3, 'ballistica'),
+        callback : () => this.develop("ballistica"),
+      },
+      developSiegeEngineers: {
+        icon: this.icons.siegeEngineers,
+        condition: () => this.techCondition(4, 'siegeEngineers'),
+        callback : () => this.develop("siegeEngineers"),
+      },
+      developGuardTower: {
+        icon: this.icons.guardTower,
+        upgrade: 'developKeep',
+        condition: () => this.techCondition(3, 'guardTower'),
+        callback : () => this.develop("guardTower"),
+      },
+      developKeep: {
+        icon: this.icons.keep,
+        condition: () => this.techCondition(4, 'keep'),
+        callback : () => this.develop("keep"),
+      },
+      developHeatedShot: {
+        icon: this.icons.heatedShot,
+        condition: () => this.techCondition(3, 'heatedShot'),
+        callback : () => this.develop("heatedShot"),
+      },
+      developMurderHoles: {
+        icon: this.icons.murderHoles,
+        condition: () => this.techCondition(3, 'murderHoles'),
+        callback : () => this.develop("murderHoles"),
+      },
+      developTreadmillCrane: {
+        icon: this.icons.treadmillCrane,
+        condition: () => this.techCondition(3, 'treadmillCrane'),
+        callback : () => this.develop("treadmillCrane"),
+      },
+    }
   }
 
 };

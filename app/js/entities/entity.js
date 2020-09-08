@@ -119,10 +119,6 @@ module.exports = class Entity {
     return this.frame;
   }
 
-  controls() {
-    return [];
-  }
-
   minAge(){
     return 1;
   }
@@ -132,6 +128,8 @@ module.exports = class Entity {
   }
 
   developControl(tec, minAge = 1) {
+    // TODO remove
+
     let technologyOptions, technology;
     if (typeof this[tec + "Technology"] == "function") {
       technologyOptions = this[tec + "Technology"]();
@@ -150,7 +148,21 @@ module.exports = class Entity {
     return control;
   }
 
+  develop(tec) {
+    let technology;
+    if (this[tec + 'Technology']) {
+      technology = this[tec + 'Technology']();
+    }
+    this.player.develop(tec, technology);
+  }
+
+  techCondition(minAge, tec, prevTec) {
+    let technologies = this.player.technologies;
+    return this.player.age >= minAge && (!prevTec || technologies[prevTec]) && !technologies[tec];
+  }
+
   developControlGroup(tecs) {
+    // TODO remove
     var ctrls = [];
     var entries = Object.entries(tecs);
     var entires1 = entries.sort( (a,b) => a[1] == b[1] ? entries.indexOf(b) - entries.indexOf(a) : a[1] - b[1]);
@@ -160,8 +172,43 @@ module.exports = class Entity {
     return ctrls;
   }
 
+  defineControls() {
+    return {};
+  }
+
   getControls() {
-    return this.controls();
+    return this.defineControls();
+  }
+
+  defineDashboardControls() {
+    return {main: []};
+  }
+
+  _upgradeControl(controls, control) {
+    if (!control) {
+      return null;
+    }
+    if (control.update && controls[control.upgrade]) {
+      let upgraded = this._upgradeControl(controls, controls[control.upgrade]);
+      if (upgraded) {
+        return upgraded;
+      }
+    }
+    if (!control.condition || control.condition()) {
+      return control;
+    }
+    else {
+      return null;
+    }
+  }
+
+  getDashboardControls(menu) {
+    return this.player.getDashboardControls(menu, this);
+  }
+
+  buildDashboardControls(menu, controls) {
+    let dashboardControls = this.defineDashboardControls()
+    return dashboardControls[menu].map((c) => this._upgradeControl(controls, controls[c]));
   }
 
   upgradesTo() {
