@@ -10,6 +10,7 @@ const Tree = require('../entities/resources/tree');
 const Gold = require('../entities/resources/gold');
 
 const Archer = require("../entities/archery_range/archer");
+const ScoutCavalry = require("../entities/stable/scout");
 
 const Galley = require("../entities/dock/galley");
 const Trebuchet = require('../entities/castle/trebuchet');
@@ -46,21 +47,23 @@ module.exports =  class TestBuilder {
     entity.pos = $V([240, -24]);
     await map.addEntity(entity);
 
-    entity = new House(map, player1);
-    entity.pos = $V([384, 96]);
-    await map.addEntity(entity);
+    // entity = new House(map, player1);
+    // entity.pos = $V([384, 96]);
+    // await map.addEntity(entity);
 
     await map.addEntity(new Berries(map, gaia));
     await map.addEntity(new Stone(map, gaia));
     await map.addEntity(new Tree(map, gaia));
-    // map.addEntity(new Gold(map, gaia));
+    await map.addEntity(new Gold(map, gaia));
 
-    // entity = new Archer(map, player2);
-    entity = new Trebuchet(map, player2);
-    entity.pos = $V([624, 24]);
+    entity = new Archer(map, player2);
+    // entity = new Trebuchet(map, player2);
+    entity.pos = $V([474.90422568373566, 81.54880164849791]);
     await map.addEntity(entity);
 
-    await this.addEntity(map, Sheep,1039, 63, player1);
+    // await this.addEntity(map, Sheep,1039, 63, player1);
+
+    await this.addEntity(map, ScoutCavalry,1039, 63, player1);
 
     entity = new TownCenter(map, player1);
     entity.pos = $V([864, -144]);

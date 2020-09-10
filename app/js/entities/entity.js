@@ -8,7 +8,7 @@ module.exports = class Entity {
   static INFANTRY     = Symbol('entity_infantry');
   static ARCHER       = Symbol('entity_archer');
   static BUILDING     = Symbol('entity_building');
-  static SHIP     = Symbol('entity_ship');
+  static SHIP         = Symbol('entity_ship');
   static SIEGE_WEAPON = Symbol('entity_siege_weapon');
   static DEFENSIVE_STRUCTURE = Symbol('entity_defensive_structure');
   /* jshint ignore:end */
@@ -226,6 +226,18 @@ module.exports = class Entity {
     console.log("Not defined");
   }
 
+  incMaxHitPointsPerc(value) {
+    let prop = this.properties;
+    let oldValue = prop.maxHitPoints;
+    prop.maxHitPoints += Math.floor(
+      value * prop.maxHitPoints / 100
+    );
+    prop.hitPoints = Math.floor(
+      prop.hitPoints * prop.maxHitPoints / oldValue
+    );
+    this.emitter.emit('did-change-properties', prop);
+  }
+
   incProperty(values) {
     for (const [key,value] of Object.entries(values)){
       this.properties[key] += value;
@@ -246,6 +258,7 @@ module.exports = class Entity {
     }
     this.emitter.emit('did-change-properties', this.properties);
   }
+
 
   transfer(entity, quantities, revert = false) {
     for (const [key,quantity] of Object.entries(quantities)){

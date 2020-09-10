@@ -101,7 +101,7 @@ module.exports = class Wall extends Building {
     if (this.state === Wall.IMAGINARY) {
       return 2;
     }
-    if (this.state === Wall.INCOMPLETE && model) {
+    if (this.state === Wall.INCOMPLETE && model && this.properties.hitPoints < this.properties.maxHitPoints ) {
       return 4 * this.modelFrame + Math.floor(4 * this.properties.hitPoints / this.properties.maxHitPoints);
     }
     else {
