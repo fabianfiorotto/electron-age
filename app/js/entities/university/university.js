@@ -2,6 +2,15 @@ const Building = require('../building');
 
 module.exports = class University extends Building {
 
+  static heatedShotAttackBonus = {
+    apply(attacker, target) {
+      return target.isType(Building.SHIP);
+    },
+    value(attacker, target) {
+      return attacker.properties.attack * 1.25;
+    }
+  }
+
   getSize() {
     return 4;
   }
@@ -186,7 +195,7 @@ module.exports = class University extends Building {
     return {
       updateEntity(entity) {
         if (entity.isType(Building.DEFENSIVE_STRUCTURE)) {
-          // Add bonus attack to ship
+          entity.attackBonuses.push(this.heatedShotAttackBonus);
         }
       }
     }

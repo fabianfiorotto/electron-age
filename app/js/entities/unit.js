@@ -91,10 +91,20 @@ module.exports = class Unit extends Entity {
     }
   }
 
+  _collectBonuses(bonuses, t) {
+    return bonuses.filter((b) => b.apply(this, t)).reduce((a, b) => a + b.value(this, t), 0);
+  }
+
   attackMeleeDamage(target) {
-    // TODO collect bunus.
-    var armor = target.properties.meleeArmor || 0;
-    return Math.max(1, this.properties.attack - armor);
+    let attackBonus = this._collectBonuses(this.attackBonuses, target);
+    let defensiveBonus = this._collectBonuses(this.defensiveBonuses, target);
+
+    let attack = this.properties.attack;
+    let armor = target.properties.meleeArmor || 0;
+    return Math.max(1,
+      Math.max(0, attack - armor) +
+      Math.max(0, attackBonus - defensiveBonus)
+    );
   }
 
   onEntityCreated() {

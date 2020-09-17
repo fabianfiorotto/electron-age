@@ -3,8 +3,9 @@ const {Emitter} = require('event-kit');
 module.exports = class Entity {
 
   /* jshint ignore:start */
-  static CIVIL      = Symbol('entity_civil'); //??
+  static CIVIL        = Symbol('entity_civil'); //??
   static CAVALRY      = Symbol('entity_cavalry');
+  static CAMEL        = Symbol('entity_camel');
   static INFANTRY     = Symbol('entity_infantry');
   static ARCHER       = Symbol('entity_archer');
   static BUILDING     = Symbol('entity_building');
@@ -30,6 +31,9 @@ module.exports = class Entity {
     this.types = this.defineTypes();
     this.updateProperties();
     this.player.onDidChangeAge(() => this.updateProperties());
+
+    this.attackBonuses = this.defineAttackBonuses();
+    this.defensiveBonuses = this.defineDefensivekBonuses();
 
     var upgrades = this.upgradesTo();
     if (Object.entries(upgrades).length !== 0) {
@@ -60,6 +64,14 @@ module.exports = class Entity {
   }
 
   defineTypes() {
+    return [];
+  }
+
+  defineAttackBonuses() {
+    return [];
+  }
+
+  defineDefensivekBonuses() {
     return [];
   }
 
