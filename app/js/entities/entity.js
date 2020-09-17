@@ -254,6 +254,9 @@ module.exports = class Entity {
     for (const [key,value] of Object.entries(values)){
       this.properties[key] += value;
     }
+    if (this.properties.hitPoints > this.properties.maxHitPoints) {
+      this.properties.hitPoints = this.properties.maxHitPoints
+    }
     this.emitter.emit('did-change-properties', this.properties);
   }
 

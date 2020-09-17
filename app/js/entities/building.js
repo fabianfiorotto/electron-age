@@ -21,6 +21,19 @@ module.exports = class Building extends Entity {
     this.fireFrame = 0;
   }
 
+  defineProperties() {
+    //Estos son de la casa
+    return {
+      constructionTime: 25,
+      hitPoints: 550,
+      maxHitPoints: 550,
+      meleeArmor: 0,
+      pierceArmor: 7,
+      population: 0, //salvo este
+      lineofSeight: 2,
+    };
+  }
+
   setTargetPos(pos) {
     if (this.validTargetPos(pos) ){
       this.spawnReunion = pos;

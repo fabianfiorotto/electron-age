@@ -27,7 +27,7 @@ module.exports = class University extends Building {
     return 32;
   }
 
-  unitsIcons() {
+  technologyIcons() {
     return {
       masonry: 13,
       architecture: 14,
@@ -47,8 +47,8 @@ module.exports = class University extends Building {
   defineDashboardControls() {
     return {
       main: [
-        "masonry","fortifiedWall","ballistica","guardTower","heatedShot",
-        "murderHoles","treadmillCrane"
+        "developMasonry","developFortifiedWall","developBallistica","developGuardTower","developHeatedShot",
+        "developMurderHoles","developTreadmillCrane"
       ]
     };
   }
@@ -197,6 +197,14 @@ module.exports = class University extends Building {
         if (entity.isType(Building.DEFENSIVE_STRUCTURE)) {
           entity.attackBonuses.push(this.heatedShotAttackBonus);
         }
+      }
+    }
+  }
+
+  treadmillCraneTechnology() {
+    return {
+      updatePlayer(player) {
+        player.builderSpeedBonus += 30;
       }
     }
   }

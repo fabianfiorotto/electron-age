@@ -15,7 +15,7 @@ module.exports = class Player {
     this.maxPopulation = 0;
     this.age = 1;
     this.technologies = {};
-
+    this.builderSpeedBonus = 0;
 
     this.emitter = new Emitter();
 
