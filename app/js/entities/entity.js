@@ -139,27 +139,6 @@ module.exports = class Entity {
     return this.types.some((type) => [...arguments].includes(type));
   }
 
-  developControl(tec, minAge = 1) {
-    // TODO remove
-
-    let technologyOptions, technology;
-    if (typeof this[tec + "Technology"] == "function") {
-      technologyOptions = this[tec + "Technology"]();
-      technology = technologyOptions.technology;
-    }
-    let control = {
-      icon: this.icons[tec],
-      condition: () => this.player.age >= minAge && !this.player.technologies[tec],
-      callback : () => this.player.develop(tec, technology),
-    };
-    if (technology) {
-      for (const [key,value] of Object.entries(technologyOptions)){
-        control[key] = value;
-      }
-    }
-    return control;
-  }
-
   develop(tec) {
     let technology;
     if (this[tec + 'Technology']) {
@@ -171,17 +150,6 @@ module.exports = class Entity {
   techCondition(minAge, tec, prevTec) {
     let technologies = this.player.technologies;
     return this.player.age >= minAge && (!prevTec || technologies[prevTec]) && !technologies[tec];
-  }
-
-  developControlGroup(tecs) {
-    // TODO remove
-    var ctrls = [];
-    var entries = Object.entries(tecs);
-    var entires1 = entries.sort( (a,b) => a[1] == b[1] ? entries.indexOf(b) - entries.indexOf(a) : a[1] - b[1]);
-    for (const [tec,minAge] of entires1) {
-      ctrls.push(this.developControl(tec, minAge));
-    }
-    return ctrls;
   }
 
   defineControls() {
