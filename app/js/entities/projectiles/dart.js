@@ -1,13 +1,10 @@
-
 const Entity = require('../entity');
 
-module.exports = class Arrow extends Entity {
+module.exports = class Dart extends Entity {
 
   constructor(map, player) {
     super(map, player);
     this.v = $V([10, 10]);
-    this.posZ = this.pos;
-    this.z = 0;
   }
 
   setTarget(target) {
@@ -21,7 +18,7 @@ module.exports = class Arrow extends Entity {
 
   draw(camera) {
     if (this.getModel()) {
-      this.getModel().draw(this.posZ.subtract(camera), this.orientation, 0, this.player.id);
+      this.getModel().draw(this.pos.subtract(camera), this.orientation, 0, this.player.id);
     }
   }
 
@@ -36,29 +33,6 @@ module.exports = class Arrow extends Entity {
         this.map.removeEntity(this);
         this.causeDamage();
       }
-      else {
-        var d = dis / this.distance;
-        var z = 200 * d**2 - 200 * d;
-
-        if (this.v.e(1) > 0) {
-          if (d > 0.5) {
-            this.orientation = Math.PI / 2 - (1 - d) * Math.PI;
-          }
-          else {
-            this.orientation = - Math.PI / 2 + d * Math.PI;
-          }
-        }
-        else {
-          if (d > 0.5) {
-            this.orientation = Math.PI / 2 + (1 - d) * Math.PI;
-          }
-          else {
-            this.orientation = 1.5 * Math.PI - d * Math.PI;
-          }
-        }
-
-        this.posZ = this.pos.add($V([0,z]));
-      }
     });
   }
 
@@ -68,7 +42,8 @@ module.exports = class Arrow extends Entity {
 
     if (targetMove < 30) {
       if (entity.properties.hitPoints) {
-        entity.decProperty({hitPoints: 1});
+        entity.properties.hitPoints -= 1;
+        entity.emitter.emit('did-change-properties', entity.properties);
       }
       else {
         entity.onEntityDestroy();

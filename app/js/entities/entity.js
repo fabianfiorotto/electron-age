@@ -160,6 +160,10 @@ module.exports = class Entity {
     return this.defineControls();
   }
 
+  getProjectileClass() {
+    return null;
+  }
+
   defineDashboardControls() {
     return {main: []};
   }

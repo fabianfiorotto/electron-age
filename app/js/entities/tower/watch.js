@@ -1,4 +1,5 @@
 const Building = require('../building');
+const Dart = require('../projectiles/dart');
 
 module.exports = class WatchTower extends Building {
 
@@ -13,4 +14,9 @@ module.exports = class WatchTower extends Building {
   minAge() {
     return 2;
   }
+
+  getProjectileClass() {
+    return Dart;
+  }
+
 };

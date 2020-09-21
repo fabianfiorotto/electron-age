@@ -81,13 +81,25 @@ module.exports = class Unit extends Entity {
   }
 
   attack() {
-    if (this.target.properties.hitPoints) {
-      let damage = this.attackMeleeDamage(this.target);
-      this.target.decProperty({hitPoints: damage});
+    if (!this.canReachTarget()) {
+      this.setState(Unit.IDLE);
+      return;
     }
-    else {
+    if (this.target.properties.hitPoints <= 0) {
       this.setState(Unit.IDLE);
       this.target.onEntityDestroy();
+      return;
+    }
+    var projectileClass = this.getProjectileClass();
+    if (projectileClass) {
+      var projectile = new projectileClass(this.map, this.player);
+      projectile.pos = this.pos;
+      projectile.setTarget(this.target);
+      this.map.addEntity(projectile);
+    }
+    else {
+      let damage = this.attackMeleeDamage(this.target);
+      this.target.decProperty({hitPoints: damage});
     }
   }
 

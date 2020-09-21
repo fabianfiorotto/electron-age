@@ -19,6 +19,8 @@ module.exports = class Building extends Entity {
     this.frame = 0;
     this.modelFrame = 0;
     this.fireFrame = 0;
+
+    this.attacking = false;
   }
 
   defineProperties() {
@@ -116,6 +118,12 @@ module.exports = class Building extends Entity {
 
   update() {
 
+    this.each(500, 'attack' , () => {
+      if (this.attacking) {
+        this.attack();
+      }
+    });
+
     this.each(80, 'animation' , () => {
       if (this.models.animation) {
         this.frame = this.models.animation.nextFrame(this.frame, 0);
@@ -130,6 +138,36 @@ module.exports = class Building extends Entity {
         this.flagFrame = this.flagModel.nextFrame(this.flagFrame, 0);
       }
     });
+  }
+
+  canReachTarget() {
+    return this.target.pos.subtract(this.pos).modulus() < 300.0;
+  }
+
+  targetReached() {
+    if (this.target.player.id != this.player.id) {
+      this.attacking = true;
+    }
+  }
+
+  attack() {
+    if (!this.canReachTarget()) {
+      this.attacking = false;
+      return;
+    }
+    if (this.target.properties.hitPoints) {
+      var projectileClass = this.getProjectileClass();
+      if (projectileClass && this.canReachTarget()) {
+        var projectile = new projectileClass(this.map, this.player);
+        projectile.pos = this.pos;
+        projectile.setTarget(this.target);
+        this.map.addEntity(projectile);
+      }
+    }
+    else {
+      this.attacking = false;
+      this.target.onEntityDestroy();
+    }
   }
 
   getModel() {
