@@ -36,6 +36,20 @@ module.exports = class Archer extends Unit {
     return 17;
   }
 
+  defineProperties() {
+    return {
+      range: 4,
+      accuracy: 80,
+      speed: 0.96,
+      hitPoints: 30,
+      maxHitPoints: 30,
+      attack: 4,
+      meleeArmor: 0,
+      pierceArmor: 0,
+      lineofSeight: 6,
+    };
+  }
+
   defineTypes() {
     return [Unit.ARCHER];
   }

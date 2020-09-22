@@ -3,12 +3,13 @@ const {Emitter} = require('event-kit');
 module.exports = class Entity {
 
   /* jshint ignore:start */
-  static CIVIL      = Symbol('entity_civil'); //??
+  static CIVIL        = Symbol('entity_civil'); //??
   static CAVALRY      = Symbol('entity_cavalry');
+  static CAMEL        = Symbol('entity_camel');
   static INFANTRY     = Symbol('entity_infantry');
   static ARCHER       = Symbol('entity_archer');
   static BUILDING     = Symbol('entity_building');
-  static SHIP     = Symbol('entity_ship');
+  static SHIP         = Symbol('entity_ship');
   static SIEGE_WEAPON = Symbol('entity_siege_weapon');
   static DEFENSIVE_STRUCTURE = Symbol('entity_defensive_structure');
   /* jshint ignore:end */
@@ -30,6 +31,9 @@ module.exports = class Entity {
     this.types = this.defineTypes();
     this.updateProperties();
     this.player.onDidChangeAge(() => this.updateProperties());
+
+    this.attackBonuses = this.defineAttackBonuses();
+    this.defensiveBonuses = this.defineDefensivekBonuses();
 
     var upgrades = this.upgradesTo();
     if (Object.entries(upgrades).length !== 0) {
@@ -60,6 +64,14 @@ module.exports = class Entity {
   }
 
   defineTypes() {
+    return [];
+  }
+
+  defineAttackBonuses() {
+    return [];
+  }
+
+  defineDefensivekBonuses() {
     return [];
   }
 
@@ -119,14 +131,6 @@ module.exports = class Entity {
     return this.frame;
   }
 
-  getProjectileClass() {
-    return null;
-  }
-
-  controls() {
-    return [];
-  }
-
   minAge(){
     return 1;
   }
@@ -135,37 +139,60 @@ module.exports = class Entity {
     return this.types.some((type) => [...arguments].includes(type));
   }
 
-  developControl(tec, minAge = 1) {
-    let technologyOptions, technology;
-    if (typeof this[tec + "Technology"] == "function") {
-      technologyOptions = this[tec + "Technology"]();
-      technology = technologyOptions.technology;
+  develop(tec) {
+    let technology;
+    if (this[tec + 'Technology']) {
+      technology = this[tec + 'Technology']();
     }
-    let control = {
-      icon: this.icons[tec],
-      condition: () => this.player.age >= minAge && !this.player.technologies[tec],
-      callback : () => this.player.develop(tec, technology),
-    };
-    if (technology) {
-      for (const [key,value] of Object.entries(technologyOptions)){
-        control[key] = value;
-      }
-    }
-    return control;
+    this.player.develop(tec, technology);
   }
 
-  developControlGroup(tecs) {
-    var ctrls = [];
-    var entries = Object.entries(tecs);
-    var entires1 = entries.sort( (a,b) => a[1] == b[1] ? entries.indexOf(b) - entries.indexOf(a) : a[1] - b[1]);
-    for (const [tec,minAge] of entires1) {
-      ctrls.push(this.developControl(tec, minAge));
-    }
-    return ctrls;
+  techCondition(minAge, tec, prevTec) {
+    let technologies = this.player.technologies;
+    return this.player.age >= minAge && (!prevTec || technologies[prevTec]) && !technologies[tec];
+  }
+
+  defineControls() {
+    return {};
   }
 
   getControls() {
-    return this.controls();
+    return this.defineControls();
+  }
+
+  getProjectileClass() {
+    return null;
+  }
+
+  defineDashboardControls() {
+    return {main: []};
+  }
+
+  _upgradeControl(controls, control) {
+    if (!control) {
+      return null;
+    }
+    if (control.update && controls[control.upgrade]) {
+      let upgraded = this._upgradeControl(controls, controls[control.upgrade]);
+      if (upgraded) {
+        return upgraded;
+      }
+    }
+    if (!control.condition || control.condition()) {
+      return control;
+    }
+    else {
+      return null;
+    }
+  }
+
+  getDashboardControls(menu) {
+    return this.player.getDashboardControls(menu, this);
+  }
+
+  buildDashboardControls(menu, controls) {
+    let dashboardControls = this.defineDashboardControls()
+    return dashboardControls[menu].map((c) => this._upgradeControl(controls, controls[c]));
   }
 
   upgradesTo() {
@@ -183,24 +210,42 @@ module.exports = class Entity {
     console.log("Not defined");
   }
 
-  changeProperties(change) {
-    if (change.set) {
-      for (const [key,value] of Object.entries(change.set)){
-        this.properties[key] = value;
-      }
+  incMaxHitPointsPerc(value) {
+    let prop = this.properties;
+    let oldValue = prop.maxHitPoints;
+    prop.maxHitPoints += Math.floor(
+      value * prop.maxHitPoints / 100
+    );
+    prop.hitPoints = Math.floor(
+      prop.hitPoints * prop.maxHitPoints / oldValue
+    );
+    this.emitter.emit('did-change-properties', prop);
+  }
+
+  incProperty(values) {
+    for (const [key,value] of Object.entries(values)){
+      this.properties[key] += value;
     }
-    if (change.inc) {
-      for (const [key,value] of Object.entries(change.inc)){
-        this.properties[key] += value;
-      }
-    }
-    if (change.dec) {
-      for (const [key,value] of Object.entries(change.dec)){
-        this.properties[key] -= value;
-      }
+    if (this.properties.hitPoints > this.properties.maxHitPoints) {
+      this.properties.hitPoints = this.properties.maxHitPoints
     }
     this.emitter.emit('did-change-properties', this.properties);
   }
+
+  decProperty(values){
+    for (const [key,value] of Object.entries(values)){
+      this.properties[key] = Math.max(0, this.properties[key] - value);
+    }
+    this.emitter.emit('did-change-properties', this.properties);
+  }
+
+  setProperty(values) {
+    for (const [key,value] of Object.entries(values)){
+      this.properties[key] = value;
+    }
+    this.emitter.emit('did-change-properties', this.properties);
+  }
+
 
   transfer(entity, quantities, revert = false) {
     for (const [key,quantity] of Object.entries(quantities)){

@@ -4,6 +4,17 @@ module.exports = class Civilization {
     return {};
   }
 
+  getDashboardControls(menu, entity) {
+    // Extend to add extra elements to the dashboard.
+    let controls = this.getControls(entity);
+    return entity.buildDashboardControls(menu, controls);
+  }
+
+  getControls(entity) {
+    // Extend to change prices creation time etc.
+    return entity.getControls();
+  }
+
   async updateAge(age, entity) {
     var allres = this.modelsResources();
     var res = allres[age];

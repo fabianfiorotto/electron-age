@@ -12,8 +12,13 @@ module.exports = class Builder extends VillagerRole {
     var building = this.villager.target;
     var properties = building.properties;
     if (properties.hitPoints < properties.maxHitPoints) {
-      properties.hitPoints++;
-      building.emitter.emit('did-change-properties', properties);
+      let hitPoints = 1;
+      if (properties.constructionTime) {
+        const bonus = this.villager.player.builderSpeedBonus;
+        const time = ( 1 - bonus / 100) * properties.constructionTime;
+        hitPoints = Math.round(properties.maxHitPoints / time);
+      }
+      building.incProperty({hitPoints});
     }
     else {
       var villager = this.villager;

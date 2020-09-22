@@ -25,17 +25,24 @@ module.exports = class Market extends Building {
     };
   }
 
-  controls() {
-    var icons = this.icons;
-    return [
-      {
+  defineDashboardControls() {
+    return {
+      main: [
+        'createTradeCart'
+      ]
+    }
+  }
+
+  defineControls() {
+    return {
+      createTradeCart: {
         icon: icons.createTradeCart,
         time: 5,
         cost: {wood: 100, gold: 50},
         prepare: () => this.prepareUnit(TradeCart),
         callback : () => this.createUnit()
       }
-    ];
+    }
   }
 
   minAge() {

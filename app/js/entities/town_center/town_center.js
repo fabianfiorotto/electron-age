@@ -82,20 +82,29 @@ module.exports = class TownCenter extends Building {
     };
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        "createVillager", "upgradeAge"
+      ],
+    };
+  }
+
+  defineControls() {
     var icons = this.icons;
-    return [{
+    return {
+      createVillager: {
         icon: icons.villager,
         callback : () => this.createUnit(this.map.Villager)
       },
-      {
+      upgradeAge: {
         time: 10,
         icon: this.nextAgeIcon(),
         prepare: () => this.player.prepareToChangeAge(),
         callback : () => this.player.updgrateAge(),
         condition: () => this.player.age < 4
       }
-    ];
+    };
   }
 
   nextAgeIcon() {

@@ -20,6 +20,21 @@ module.exports = class Building extends Entity {
     this.frame = 0;
     this.modelFrame = 0;
     this.fireFrame = 0;
+
+    this.attacking = false;
+  }
+
+  defineProperties() {
+    //Estos son de la casa
+    return {
+      constructionTime: 25,
+      hitPoints: 550,
+      maxHitPoints: 550,
+      meleeArmor: 0,
+      pierceArmor: 7,
+      population: 0, //salvo este
+      lineofSeight: 2,
+    };
   }
 
   setTargetPos(pos) {
@@ -105,7 +120,7 @@ module.exports = class Building extends Entity {
   update() {
 
     this.each(500, 'attack' , () => {
-      if (this.state == Building.ATTACKING) {
+      if (this.attacking) {
         this.attack();
       }
     });
@@ -132,13 +147,13 @@ module.exports = class Building extends Entity {
 
   targetReached() {
     if (this.target.player.id != this.player.id) {
-      this.setState(Building.ATTACKING);
+      this.attacking = true;
     }
   }
 
   attack() {
     if (!this.canReachTarget()) {
-      this.setState(Building.FINISHED);
+      this.attacking = false;
       return;
     }
     if (this.target.properties.hitPoints) {
@@ -151,7 +166,7 @@ module.exports = class Building extends Entity {
       }
     }
     else {
-      this.setState(Building.FINISHED);
+      this.attacking = false;
       this.target.onEntityDestroy();
     }
   }
@@ -184,13 +199,13 @@ module.exports = class Building extends Entity {
 
   getControls() {
     if (this.minAge() > this.player.age ) {
-      return [];
+      return {};
     }
     if (this.state === Building.FINISHED) {
-      return this.controls();
+      return this.defineControls();
     }
     else {
-      return [];
+      return {};
     }
   }
 

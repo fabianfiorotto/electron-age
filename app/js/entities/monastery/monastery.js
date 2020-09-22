@@ -25,17 +25,24 @@ module.exports = class Monastery extends Building {
     };
   }
 
-  controls() {
-    var icons = this.icons;
-    return [
-      {
+  defineDashboardControls() {
+    return {
+      main: [
+        'createMonk'
+      ]
+    }
+  }
+
+  defineControls() {
+    return {
+      createMonk: {
         icon: icons.createMonk,
         time: 5,
         cost: {gold: 100},
         prepare: () => this.prepareUnit(Monk),
         callback : () => this.createUnit()
       }
-    ];
+    }
   }
 
   minAge() {

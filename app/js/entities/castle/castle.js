@@ -28,22 +28,30 @@ module.exports = class Castle extends Building {
     };
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        'createPetard', 'createTrebuchet'
+      ]
+    };
+  }
+
+  defineControls() {
     var icons = this.icons;
-    return [
-      {
+    return {
+      createPetard: {
         icon: icons.createPetard,
         time: 5,
         prepare: () => this.prepareUnit(Petard),
         callback : () => this.createUnit()
       },
-      {
+      createTrebuchet: {
         icon: icons.createTrebuchet,
         time: 5,
         prepare: () => this.prepareUnit(Trebuchet),
         callback : () => this.createUnit()
       },
-    ];
+    }
   }
 
   minAge() {

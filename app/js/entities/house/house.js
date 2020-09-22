@@ -12,8 +12,11 @@ module.exports = class House extends Building {
 
   defineProperties() {
     return {
-      hitPoints: 100,
-      maxHitPoints: 100,
+      constructionTime: 25,
+      hitPoints: 550,
+      maxHitPoints: 550,
+      meleeArmor: 0,
+      pierceArmor: 7,
       population: 5,
       lineofSeight: 2,
     };

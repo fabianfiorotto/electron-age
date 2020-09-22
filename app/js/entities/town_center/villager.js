@@ -190,9 +190,11 @@ module.exports = class Villager extends Unit {
 
   controlsIcons() {
     return {
+      cancel: 0,
       civilian: 30,
       military: 31,
       repair: 28,
+      nextMenu: 32,
     };
   }
 
@@ -256,153 +258,177 @@ module.exports = class Villager extends Unit {
     }
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        "menuCivilian", "menuMilitary", "repair", null, "shelter",
+      ],
+      civilian: [
+        "buildHouse", "buildMill", "buildMiningCamp", 'buildLumberCamp', 'buildDock',
+        "buildFarm", "buildBlacksmith", "buildMarket", "buildMonastery", 'buildUniversity',
+        "buildTownCenter", null, null, "nextMenuMilitary", "backToMain"
+      ],
+      military: [
+        "buildBarracks", "buildArcheryRange", 'buildStable', 'buildSiegeWorkshop', null,
+        'buildOutpost', 'buildPalisade', 'buildSoneWall', 'buildWatchTower', 'buildBombardTower',
+        'buildDoor', null, 'buildCasle', "nextMenuCivilian", "backToMain"
+      ],
+    }
+  }
+
+  defineControls() {
     var icons = this.icons;
-    var civilian = [
-      {
+    return {
+      buildHouse: {
         icon: icons.house,
         cost: {wood: 25},
         callback : () => this.build(House),
       },
-      {
+      buildMill: {
         icon: icons.mill,
         cost: {wood: 100},
         callback : () => this.build(Mill)
       },
-      {
+      buildMiningCamp: {
         icon: icons.miningCamp,
         cost: {wood: 100},
         callback : () => this.build(MiningCamp)
       },
-      {
+      buildLumberCamp: {
         icon: icons.lumberCamp,
         cost: {wood: 100},
         callback : () => this.build(LumberCamp)
       },
-      {
+      buildDock: {
         icon: icons.dock,
         callback : () => this.build(Dock)
       },
-      {
+      buildFarm: {
         icon: icons.farm,
         callback : () => this.build(Farm)
       },
-      {
+      buildBlacksmith: {
         icon: icons.blacksmith,
         cost: {wood: 150},
         condition: () => this.player.age >= 2,
         callback : () => this.build(Blacksmith)
       },
-      {
+      buildMarket: {
         icon: icons.market,
         cost: {wood: 175},
         condition: () => this.player.age >= 2,
         callback : () => this.build(Market)
       },
-      {
+      buildMonastery: {
         icon: icons.monastery,
         cost: {wood: 175},
         condition: () => this.player.age >= 3,
         callback : () => this.build(Monastery)
       },
-      {
+      buildUniversity: {
         icon: icons.university,
         cost: {wood: 200},
         condition: () => this.player.age >= 3,
         callback : () => this.build(University)
       },
-      {
+      buildTownCenter: {
         icon: icons.townCenter,
         callback : () => this.build(TownCenter)
       },
-    ];
-    var military = [
-      {
+      buildBarracks: {
         icon: icons.barracks,
         cost: {wood: 175},
         callback: () => this.build(Barracks)
       },
-      {
+      buildArcheryRange: {
         icon: icons.archeryRange,
         cost: {wood: 175},
         condition: () => this.player.age >= 2,
         callback: () => this.build(ArqueryRange)
       },
-      {
+      buildStable: {
         icon: icons.stable,
         cost: {wood: 175},
         condition: () => this.player.age >= 2,
         callback: () => this.build(Stable)
       },
-      {
+      buildSiegeWorkshop: {
         icon: icons.siegeWorkshop,
         cost: {wood: 200},
         condition: () => this.player.age >= 3,
         callback: () => this.build(SiegeWorkshop)
       },
-      null,
-      {
+      buildOutpost: {
         icon: icons.outpost,
         callback: () => this.build(Outpost)
       },
-      {
+      buildPalisade: {
         icon: icons.palisade,
         callback: () => this.build(Palisade)
       },
-      [
-        {
-          icon: icons.wall,
-          condition: () => this.player.age >= 2,
-          callback: () => this.build(StoneWall)
-        },
-        {
-          icon: icons.wall,
-          condition: () => this.player.technologies.fortifiedWall,
-          callback: () => this.build(FortifiedWall)
-        },
-      ],
-      {
+      buildSoneWall: {
+        icon: icons.wall,
+        upgrade: 'buildFortifiedWall',
+        condition: () => this.player.age >= 2,
+        callback: () => this.build(StoneWall)
+      },
+      buildFortifiedWall: {
+        icon: icons.wall,
+        condition: () => this.player.technologies.fortifiedWall,
+        callback: () => this.build(FortifiedWall)
+      },
+      buildWatchTower: {
         icon: icons.watchTower,
         condition: () => this.player.age >= 2,
         callback: () => this.build(WatchTower)
       },
-      {
+      buildBombardTower: {
         icon: icons.bombardTower,
         condition: () => this.player.age >= 4,
         callback: () => this.build(BombardTower)
       },
-      {
+      buildDoor: {
         icon: icons.door,
         condition: () => this.player.age >= 2,
         callback: () => this.build(Palisade)
       },
-      {
+      buildCasle: {
         icon: icons.castle,
         cost: {stone: 650},
         condition: () => this.player.age >= 3,
         callback: () => this.build(Castle)
       },
-    ];
-    return [
-      {
+      menuCivilian: {
         icon: icons.civilian,
-        group: civilian,
+        menu: 'civilian',
       },
-      {
+      menuMilitary: {
         icon: icons.military,
-        group: military,
+        menu: 'military',
       },
-      {
+      nextMenuCivilian: {
+        icon: icons.nextMenu,
+        menu: 'civilian',
+      },
+      nextMenuMilitary: {
+        icon: icons.nextMenu,
+        menu: 'military',
+      },
+      backToMain: {
+        icon: icons.cancel,
+        menu: 'main',
+      },
+      repair: {
         icon: icons.repair,
         callback: () => console.log("repair")
       },
-      null,
-      {
+      shelter: {
         icon: icons.shelter,
         callback: () => console.log("shelter")
       }
-    ];
+    }
   }
+
 
   async loadResources(res) {
     await super.loadResources(res);

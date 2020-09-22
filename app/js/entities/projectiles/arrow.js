@@ -56,6 +56,7 @@ module.exports = class Arrow extends Entity {
             this.orientation = 1.5 * Math.PI - d * Math.PI;
           }
         }
+
         this.posZ = this.pos.add($V([0,z]));
       }
     });
@@ -67,8 +68,7 @@ module.exports = class Arrow extends Entity {
 
     if (targetMove < 30) {
       if (entity.properties.hitPoints) {
-        entity.properties.hitPoints -= 1;
-        entity.emitter.emit('did-change-properties', entity.properties);
+        entity.decProperty({hitPoints: 1});
       }
       else {
         entity.onEntityDestroy();

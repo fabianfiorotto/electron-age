@@ -1,4 +1,3 @@
-
 const Entity = require('../entity');
 
 module.exports = class Dart extends Entity {

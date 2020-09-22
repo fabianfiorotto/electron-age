@@ -83,33 +83,40 @@ module.exports = class Unit extends Entity {
   attack() {
     if (!this.canReachTarget()) {
       this.setState(Unit.IDLE);
-
       return;
     }
-    if (this.target.properties.hitPoints) {
-      var projectileClass = this.getProjectileClass();
-      if (projectileClass) {
-        var projectile = new projectileClass(this.map, this.player);
-        projectile.pos = this.pos;
-        projectile.setTarget(this.target);
-        this.map.addEntity(projectile);
-      }
-      else {
-        this.target.properties.hitPoints -= this.attackMeleeDamage(this.target);
-        this.target.properties.hitPoints = Math.max(0, this.target.properties.hitPoints);
-        this.target.emitter.emit('did-change-properties', this.target.properties);
-      }
-    }
-    else {
+    if (this.target.properties.hitPoints <= 0) {
       this.setState(Unit.IDLE);
       this.target.onEntityDestroy();
+      return;
+    }
+    var projectileClass = this.getProjectileClass();
+    if (projectileClass) {
+      var projectile = new projectileClass(this.map, this.player);
+      projectile.pos = this.pos;
+      projectile.setTarget(this.target);
+      this.map.addEntity(projectile);
+    }
+    else {
+      let damage = this.attackMeleeDamage(this.target);
+      this.target.decProperty({hitPoints: damage});
     }
   }
 
+  _collectBonuses(bonuses, t) {
+    return bonuses.filter((b) => b.apply(this, t)).reduce((a, b) => a + b.value(this, t), 0);
+  }
+
   attackMeleeDamage(target) {
-    // TODO collect bunus.
-    var armor = target.properties.meleeArmor || 0;
-    return Math.max(1, this.properties.attack - armor);
+    let attackBonus = this._collectBonuses(this.attackBonuses, target);
+    let defensiveBonus = this._collectBonuses(this.defensiveBonuses, target);
+
+    let attack = this.properties.attack;
+    let armor = target.properties.meleeArmor || 0;
+    return Math.max(1,
+      Math.max(0, attack - armor) +
+      Math.max(0, attackBonus - defensiveBonus)
+    );
   }
 
   onEntityCreated() {
@@ -225,6 +232,11 @@ module.exports = class Unit extends Entity {
     var upgrade = new entityClass(this.map, this.player);
     upgrade.pos = this.pos;
     upgrade.orientation = this.orientation;
+    upgrade.properties.hitPoints = Math.floor(
+        this.properties.hitPoints
+      * upgrade.properties.maxHitPoints
+      / this.properties.maxHitPoints
+    );
     upgrade.path = this.path;
     this.map.addEntity(upgrade);
     this.map.removeEntity(this);
@@ -284,44 +296,52 @@ module.exports = class Unit extends Entity {
     };
   }
 
-  controls() {
+  defineDashboardControls() {
+    return {
+      main: [
+        "unit1", "unit2", "unit3", "kill", null,
+        "unit5", "unit6", "unit7", "stop",
+      ]
+    };
+  }
+
+  defineControls() {
     // var icons = resources.icons.military;
     var icons = this.icons;
-    return [
-      {
+    return {
+      unit1: {
         icon: icons.unit1,
         callback: this.notDefined
       },
-      {
+      unit2: {
         icon: icons.unit2,
         callback: this.notDefined
       },
-      {
+      unit3: {
         icon: icons.unit3,
         callback: this.notDefined
       },
-      {
+      kill: {
         icon: icons.kill,
         callback: this.notDefined
       },
-      null,
-      {
+      unit5: {
         icon: icons.unit5,
         callback: this.notDefined
       },
-      {
+      unit6: {
         icon: icons.unit6,
         callback: this.notDefined
       },
-      {
+      unit7: {
         icon: icons.unit7,
         callback: this.notDefined
       },
-      {
+      stop: {
         icon: icons.stop,
         callback: this.notDefined
       },
-    ];
+    };
   }
 
 };
