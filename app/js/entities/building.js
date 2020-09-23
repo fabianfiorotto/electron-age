@@ -26,6 +26,7 @@ module.exports = class Building extends Entity {
   defineProperties() {
     //Estos son de la casa
     return {
+      attack: 0,
       constructionTime: 25,
       hitPoints: 550,
       maxHitPoints: 550,
@@ -158,10 +159,7 @@ module.exports = class Building extends Entity {
     if (this.target.properties.hitPoints) {
       var projectileClass = this.getProjectileClass();
       if (projectileClass && this.canReachTarget()) {
-        var projectile = new projectileClass(this.map, this.player);
-        projectile.pos = this.pos;
-        projectile.setTarget(this.target);
-        this.map.addEntity(projectile);
+        this.map.addEntity(projectileClass.fire(this));
       }
     }
     else {

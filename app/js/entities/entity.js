@@ -164,6 +164,46 @@ module.exports = class Entity {
     return null;
   }
 
+  _collectBonuses(bonuses, t) {
+    return bonuses.filter((b) => b.apply(this, t)).reduce((a, b) => a + b.value(this, t), 0);
+  }
+
+  attackMeleeDamage(target) {
+    let attackBonus = this._collectBonuses(this.attackBonuses, target);
+    let defensiveBonus = this._collectBonuses(this.defensiveBonuses, target);
+
+    let attack = this.properties.attack;
+    let armor = target.properties.meleeArmor || 0;
+    return Math.floor(Math.max(1,
+      Math.max(0, attack - armor) +
+      Math.max(0, attackBonus - defensiveBonus)
+    ));
+  }
+
+  attackProjectileDamage(target) {
+    let attackBonus = this._collectBonuses(this.attackBonuses, target);
+    let defensiveBonus = this._collectBonuses(this.defensiveBonuses, target);
+
+
+    let attack = this.properties.attack;
+    let armor = target.properties.pierceArmor || 0;
+    return Math.floor(Math.max(1, this.getElevationMultiplier(target) * (
+      Math.max(0, attack - armor) +
+      Math.max(0, attackBonus - defensiveBonus)
+    )));
+  }
+
+  getElevationMultiplier(target) {
+    const terrain = this.map.terrain;
+    const myTile = terrain.getTileAt(this.pos);
+    const theirTile = terrain.getTileAt(target.pos);
+    if (!myTile || !theirTile) {
+      return 1;
+    }
+    const diff = myTile.elevation - theirTile.elevation;
+    return diff == 0 ? 1 : (diff < 0 ? 3/4 : 5/4);
+  }
+
   defineDashboardControls() {
     return {main: []};
   }

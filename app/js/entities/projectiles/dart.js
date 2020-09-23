@@ -1,6 +1,6 @@
-const Entity = require('../entity');
+const Projectile = require('./projectile');
 
-module.exports = class Dart extends Entity {
+module.exports = class Dart extends Projectile {
 
   constructor(map, player) {
     super(map, player);
@@ -34,21 +34,6 @@ module.exports = class Dart extends Entity {
         this.causeDamage();
       }
     });
-  }
-
-  causeDamage() {
-    var entity = this.targetEntity;
-    var targetMove = this.target.distanceFrom(entity.pos);
-
-    if (targetMove < 30) {
-      if (entity.properties.hitPoints) {
-        entity.properties.hitPoints -= 1;
-        entity.emitter.emit('did-change-properties', entity.properties);
-      }
-      else {
-        entity.onEntityDestroy();
-      }
-    }
   }
 
   getModel() {

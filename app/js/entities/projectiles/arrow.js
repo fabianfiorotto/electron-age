@@ -1,7 +1,7 @@
 
-const Entity = require('../entity');
+const Projectile = require('./projectile');
 
-module.exports = class Arrow extends Entity {
+module.exports = class Arrow extends Projectile {
 
   constructor(map, player) {
     super(map, player);
@@ -60,20 +60,6 @@ module.exports = class Arrow extends Entity {
         this.posZ = this.pos.add($V([0,z]));
       }
     });
-  }
-
-  causeDamage() {
-    var entity = this.targetEntity;
-    var targetMove = this.target.distanceFrom(entity.pos);
-
-    if (targetMove < 30) {
-      if (entity.properties.hitPoints) {
-        entity.decProperty({hitPoints: 1});
-      }
-      else {
-        entity.onEntityDestroy();
-      }
-    }
   }
 
   getModel() {

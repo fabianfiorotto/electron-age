@@ -48,7 +48,7 @@ module.exports = class University extends Building {
     return {
       main: [
         "developMasonry","developFortifiedWall","developBallistica","developGuardTower","developHeatedShot",
-        "developMurderHoles","developTreadmillCrane"
+        "developMurderHoles","developTreadmillCrane", "developChemistry"
       ]
     };
   }

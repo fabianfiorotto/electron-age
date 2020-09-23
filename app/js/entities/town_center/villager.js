@@ -384,7 +384,7 @@ module.exports = class Villager extends Unit {
       },
       buildBombardTower: {
         icon: icons.bombardTower,
-        condition: () => this.player.age >= 4,
+        condition: () => this.player.technologies.bombardTower,
         callback: () => this.build(BombardTower)
       },
       buildDoor: {
