@@ -101,12 +101,18 @@ module.exports = class Unit extends Entity {
   }
 
   onEntityCreated() {
-    this.player.population++;
-    this.player.emitter.emit('did-change-population', this.player);
+    if (!this.isType(EntityType.LIVESTOCK)) {
+      this.player.population++;
+      this.player.emitter.emit('did-change-population', this.player);
+    }
   }
 
   onEntityDestroy() {
     if (this.isAlive()) {
+      if (!this.isType(EntityType.LIVESTOCK)) {
+        this.player.population--;
+        this.player.emitter.emit('did-change-population', this.player);
+      }
       this.setState(Unit.DYING);
     }
   }
