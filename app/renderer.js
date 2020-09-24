@@ -1,3 +1,5 @@
+require('./js/entities/types');
+
 const ResourceManager = require("./resources");
 const AoeMap = require('./js/map');
 const ScxMapBuilder = require('./js/scx/scx');

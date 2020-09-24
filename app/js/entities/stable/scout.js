@@ -59,7 +59,7 @@ module.exports = class ScoutCavalry extends Unit {
   }
 
   defineTypes() {
-    return [Unit.CAVALRY];
+    return [EntityType.CAVALRY];
   }
 
 };

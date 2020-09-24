@@ -1,3 +1,5 @@
+require('../js/entities/types');
+
 var DrsFile = require("../js/drs/drs");
 var SlpModel = require("../js/slp/model");
 var SlpUnitModel = require("../js/slp/unit");

@@ -5,7 +5,7 @@ module.exports = class Camel extends Unit {
 
   static cavalryAttackBonus = {
     apply(attacker, target) {
-      return target.isType(Unit.CAVALRY);
+      return target.isType(EntityType.CAVALRY);
     },
     value(attacker, target) {
       return 9;
@@ -14,7 +14,7 @@ module.exports = class Camel extends Unit {
 
   static camelAttackBonus = {
     apply(attacker, target) {
-      return target.isType(Unit.CAMEL);
+      return target.isType(EntityType.CAMEL);
     },
     value(attacker, target) {
       return 5;
@@ -23,7 +23,7 @@ module.exports = class Camel extends Unit {
 
   static shipAttackBonus = {
     apply(attacker, target) {
-      return target.isType(Unit.SHIP);
+      return target.isType(EntityType.SHIP);
     },
     value(attacker, target) {
       return 5;
@@ -62,6 +62,10 @@ module.exports = class Camel extends Unit {
       pierceArmor: 0,
       lineofSeight: 4,
     }
+  }
+
+  defineTypes() {
+    return [EntityType.CAMEL];
   }
 
   defineAttackBonuses() {

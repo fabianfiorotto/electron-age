@@ -39,7 +39,7 @@ module.exports = class Militia extends Unit {
   }
 
   defineTypes() {
-    return [Unit.INFANTRY]
+    return [EntityType.INFANTRY]
   }
 
 };
