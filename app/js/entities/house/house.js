@@ -14,7 +14,6 @@ module.exports = class House extends Building {
     return {
       constructionTime: 25,
       hitPoints: 550,
-      maxHitPoints: 550,
       meleeArmor: 0,
       pierceArmor: 7,
       population: 5,

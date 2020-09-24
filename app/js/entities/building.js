@@ -29,7 +29,6 @@ module.exports = class Building extends Entity {
       attack: 0,
       constructionTime: 25,
       hitPoints: 550,
-      maxHitPoints: 550,
       meleeArmor: 0,
       pierceArmor: 7,
       population: 0, //salvo este

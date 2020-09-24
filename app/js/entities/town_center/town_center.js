@@ -82,6 +82,22 @@ module.exports = class TownCenter extends Building {
     };
   }
 
+  defineProperties() {
+    return {
+      attack: 5,
+      range: 6,
+      accuracy: 100,
+      projectileSpeed: 7, //???
+      guarrision: 15,
+      constructionTime: 150,
+      hitPoints: 2400,
+      meleeArmor: 3,
+      pierceArmor: 5,
+      population: 5,
+      lineofSeight: 8,
+    };
+  }
+
   defineDashboardControls() {
     return {
       main: [

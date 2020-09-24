@@ -42,7 +42,6 @@ module.exports = class Trebuchet extends Unit {
       accuracy: 15, // 80 againt buildings
       speed: 0.8,
       hitPoints: 150,
-      maxHitPoints: 150,
       attack: 200,
       lineofSeight: 19,
     }

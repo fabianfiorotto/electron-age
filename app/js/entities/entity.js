@@ -16,6 +16,7 @@ module.exports = class Entity {
     this.queue = [];
 
     this.properties = this.defineProperties();
+    this.properties.maxHitPoints = this.properties.hitPoints;
     this.types = this.defineTypes();
     this.updateProperties();
     this.player.onDidChangeAge(() => this.updateProperties());
@@ -43,7 +44,6 @@ module.exports = class Entity {
     return {
       speed: 0.8,
       hitPoints: 100,
-      maxHitPoints: 100,
       attack: 1,
       meleeArmor: 0,
       pierceArmor: 0,

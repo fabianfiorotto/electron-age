@@ -7,7 +7,6 @@ module.exports = class ScoutCavalry extends Unit {
     return {
       speed: 1.2,
       hitPoints: 45,
-      maxHitPoints: 45,
       attack: 3,
       meleeArmor: 0,
       pierceArmor: 1,

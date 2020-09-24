@@ -10,7 +10,6 @@ module.exports = class Sheep extends Livestock {
     return {
       speed: 0.8,
       hitPoints: 7,
-      maxHitPoints: 7,
       attack: 0,
       meleeArmor: 0,
       pierceArmor: 0,

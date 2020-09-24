@@ -56,7 +56,6 @@ module.exports = class Camel extends Unit {
     return {
       speed: 1.45,
       hitPoints: 100,
-      maxHitPoints: 100,
       attack: 6,
       meleeArmor: 0,
       pierceArmor: 0,

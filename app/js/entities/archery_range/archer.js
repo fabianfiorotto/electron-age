@@ -42,7 +42,6 @@ module.exports = class Archer extends Unit {
       accuracy: 80,
       speed: 0.96,
       hitPoints: 30,
-      maxHitPoints: 30,
       attack: 4,
       meleeArmor: 0,
       pierceArmor: 0,
