@@ -198,7 +198,14 @@ module.exports = class Building extends Entity {
       return {};
     }
     if (this.state === Building.FINISHED) {
-      return this.defineControls();
+      let controls = this.defineControls();
+
+      for (const [name,control] of Object.entries(controls)){
+        if (name.startsWith('create') && typeof control.population == 'undefined') {
+          control.population = 1;
+        }
+      }
+      return controls;
     }
     else {
       return {};

@@ -409,6 +409,9 @@ module.exports = class Entity {
   }
 
   operationInit(control) {
+    if (control.population && this.player.population >= this.player.maxPopulation  ) {
+      return false;
+    }
     if (control.cost && !this.player.canAfford(control.cost)) {
       return false;
     }
