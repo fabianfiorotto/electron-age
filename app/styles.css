@@ -71,6 +71,22 @@ body {
 }
 
 /*****
+ Map
+*/
+.map {
+  position:relative;
+  height: 600px;
+}
+
+.map canvas {
+  position: absolute;
+}
+
+#auxCanvas {
+  display: none;
+}
+
+/*****
  Dashboard
 */
 
