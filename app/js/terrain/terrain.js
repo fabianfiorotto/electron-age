@@ -266,24 +266,30 @@ module.exports = class Terrain {
     }
   }
 
-  isWater(pos) {
+  getTileAt(pos) {
     pos = this.mr.x(pos);
     pos = pos.map((e) => Math.floor(e));
     var i = pos.e(1), j = pos.e(2);
     if (!this.tiles[i] || !this.tiles[i][j] ) {
+      return null;
+    }
+    return this.tiles[i][j];
+  }
+
+  isWater(pos) {
+    let tile = this.getTileAt(pos);
+    if (!tile) {
       return false;
     }
-    return this.tiles[i][j].terrain.water || false;
+    return tile.terrain.water || false;
   }
 
   isLand(pos) {
-    pos = this.mr.x(pos);
-    pos = pos.map((e) => Math.floor(e));
-    var i = pos.e(1), j = pos.e(2);
-    if (!this.tiles[i] || !this.tiles[i][j] ) {
+    let tile = this.getTileAt(pos);
+    if (!tile) {
       return false;
     }
-    return !this.tiles[i][j].terrain.water;
+    return !tile.terrain.water;
   }
 
   isWaterAtVec(pos1,pos2) {

@@ -27,9 +27,9 @@ module.exports = class Building extends Entity {
   defineProperties() {
     //Estos son de la casa
     return {
+      attack: 0,
       constructionTime: 25,
       hitPoints: 550,
-      maxHitPoints: 550,
       meleeArmor: 0,
       pierceArmor: 7,
       population: 0, //salvo este
@@ -159,10 +159,7 @@ module.exports = class Building extends Entity {
     if (this.target.properties.hitPoints) {
       var projectileClass = this.getProjectileClass();
       if (projectileClass && this.canReachTarget()) {
-        var projectile = new projectileClass(this.map, this.player);
-        projectile.pos = this.pos;
-        projectile.setTarget(this.target);
-        this.map.addEntity(projectile);
+        this.map.addEntity(projectileClass.fire(this));
       }
     }
     else {
@@ -202,7 +199,14 @@ module.exports = class Building extends Entity {
       return {};
     }
     if (this.state === Building.FINISHED) {
-      return this.defineControls();
+      let controls = this.defineControls();
+
+      for (const [name,control] of Object.entries(controls)){
+        if (name.startsWith('create') && typeof control.population == 'undefined') {
+          control.population = 1;
+        }
+      }
+      return controls;
     }
     else {
       return {};

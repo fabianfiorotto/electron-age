@@ -1,6 +1,6 @@
-const Entity = require('../entity');
+const Projectile = require('./projectile');
 
-module.exports = class Boulder extends Entity {
+module.exports = class Boulder extends Projectile {
 
   constructor(map, player) {
     super(map, player);
@@ -47,23 +47,13 @@ module.exports = class Boulder extends Entity {
     });
   }
 
-  causeDamage() {
-    // console.log(this.debug);
-    var entity = this.targetEntity;
-    var targetMove = this.target.distanceFrom(entity.pos);
-
-    if (targetMove < 30) {
-      if (entity.properties.hitPoints) {
-        entity.decProperty({hitPoints: 1});
-      }
-      else {
-        entity.onEntityDestroy();
-      }
-    }
-  }
-
   getModel() {
-    return this.models.boulder;
+    if (this.player.technologies.chemistry) {
+      return this.models.burningBolder;
+    }
+    else {
+      return this.models.boulder;
+    }
   }
 
   modelsResources() {

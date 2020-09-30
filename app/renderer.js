@@ -1,3 +1,5 @@
+require('./js/entities/types');
+
 const ResourceManager = require("./resources");
 const AoeMap = require('./js/map');
 const ScxMapBuilder = require('./js/scx/scx');
@@ -55,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var showFps = document.getElementById("fps");
   var mapDiv = document.getElementById("map");
 
-  c = document.getElementById("myCanvas");
+  c = document.getElementById("entitiesCanvas");
   ctx = c.getContext("2d");
 
   tr_c = document.getElementById("terrainCanvas");

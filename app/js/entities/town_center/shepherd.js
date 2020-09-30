@@ -1,5 +1,4 @@
 const VillagerRole = require('./role');
-const Livestock = require('../mill/livestock');
 const Unit = require('../unit');
 const TownCenter = require('./town_center');
 
@@ -58,7 +57,7 @@ module.exports = class Shephard extends VillagerRole {
   targetReached() {
     var villager = this.villager;
     var target = this.villager.target;
-    if (target instanceof Livestock) {
+    if (target.isType(EntityType.LIVESTOCK)) {
       if (target.butchered) {
         villager.setState(Unit.WORKING);
       }

@@ -2,18 +2,6 @@ const {Emitter} = require('event-kit');
 
 module.exports = class Entity {
 
-  /* jshint ignore:start */
-  static CIVIL        = Symbol('entity_civil'); //??
-  static CAVALRY      = Symbol('entity_cavalry');
-  static CAMEL        = Symbol('entity_camel');
-  static INFANTRY     = Symbol('entity_infantry');
-  static ARCHER       = Symbol('entity_archer');
-  static BUILDING     = Symbol('entity_building');
-  static SHIP         = Symbol('entity_ship');
-  static SIEGE_WEAPON = Symbol('entity_siege_weapon');
-  static DEFENSIVE_STRUCTURE = Symbol('entity_defensive_structure');
-  /* jshint ignore:end */
-
   constructor(map, player) {
     this.map = map;
     this.player = player;
@@ -28,6 +16,7 @@ module.exports = class Entity {
     this.queue = [];
 
     this.properties = this.defineProperties();
+    this.properties.maxHitPoints = this.properties.hitPoints;
     this.types = this.defineTypes();
     this.updateProperties();
     this.player.onDidChangeAge(() => this.updateProperties());
@@ -55,7 +44,6 @@ module.exports = class Entity {
     return {
       speed: 0.8,
       hitPoints: 100,
-      maxHitPoints: 100,
       attack: 1,
       meleeArmor: 0,
       pierceArmor: 0,
@@ -162,6 +150,46 @@ module.exports = class Entity {
 
   getProjectileClass() {
     return null;
+  }
+
+  _collectBonuses(bonuses, t) {
+    return bonuses.filter((b) => b.apply(this, t)).reduce((a, b) => a + b.value(this, t), 0);
+  }
+
+  attackMeleeDamage(target) {
+    let attackBonus = this._collectBonuses(this.attackBonuses, target);
+    let defensiveBonus = this._collectBonuses(this.defensiveBonuses, target);
+
+    let attack = this.properties.attack;
+    let armor = target.properties.meleeArmor || 0;
+    return Math.floor(Math.max(1,
+      Math.max(0, attack - armor) +
+      Math.max(0, attackBonus - defensiveBonus)
+    ));
+  }
+
+  attackProjectileDamage(target) {
+    let attackBonus = this._collectBonuses(this.attackBonuses, target);
+    let defensiveBonus = this._collectBonuses(this.defensiveBonuses, target);
+
+
+    let attack = this.properties.attack;
+    let armor = target.properties.pierceArmor || 0;
+    return Math.floor(Math.max(1, this.getElevationMultiplier(target) * (
+      Math.max(0, attack - armor) +
+      Math.max(0, attackBonus - defensiveBonus)
+    )));
+  }
+
+  getElevationMultiplier(target) {
+    const terrain = this.map.terrain;
+    const myTile = terrain.getTileAt(this.pos);
+    const theirTile = terrain.getTileAt(target.pos);
+    if (!myTile || !theirTile) {
+      return 1;
+    }
+    const diff = myTile.elevation - theirTile.elevation;
+    return diff == 0 ? 1 : (diff < 0 ? 3/4 : 5/4);
   }
 
   defineDashboardControls() {
@@ -381,6 +409,9 @@ module.exports = class Entity {
   }
 
   operationInit(control) {
+    if (control.population && this.player.population >= this.player.maxPopulation  ) {
+      return false;
+    }
     if (control.cost && !this.player.canAfford(control.cost)) {
       return false;
     }

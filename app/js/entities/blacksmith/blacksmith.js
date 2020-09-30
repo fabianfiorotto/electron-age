@@ -176,7 +176,7 @@ module.exports = class Blacksmith extends Building {
   forginTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.INFANTRY, Building.CAVALRY)) {
+        if (entity.isType(EntityType.INFANTRY, EntityType.CAVALRY)) {
           entity.incProperty({attack: 1});
         }
       },
@@ -189,7 +189,7 @@ module.exports = class Blacksmith extends Building {
   ironCastingTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.INFANTRY, Building.CAVALRY)) {
+        if (entity.isType(EntityType.INFANTRY, EntityType.CAVALRY)) {
           entity.incProperty({attack: 1});
         }
       }
@@ -199,7 +199,7 @@ module.exports = class Blacksmith extends Building {
   blastFurnanceTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.INFANTRY, Building.CAVALRY)) {
+        if (entity.isType(EntityType.INFANTRY, EntityType.CAVALRY)) {
           entity.incProperty({attack: 2});
         }
       }
@@ -209,7 +209,7 @@ module.exports = class Blacksmith extends Building {
   paddedArcherArmorTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER)) {
+        if (entity.isType(EntityType.ARCHER)) {
           entity.incProperty({meleeArmor: 1, pierceArmor: 1});
         }
       }
@@ -219,7 +219,7 @@ module.exports = class Blacksmith extends Building {
   leatherArcherArmorTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER)) {
+        if (entity.isType(EntityType.ARCHER)) {
           entity.incProperty({meleeArmor: 1, pierceArmor: 1});
         }
       }
@@ -229,7 +229,7 @@ module.exports = class Blacksmith extends Building {
   ringArcherArmorTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER)) {
+        if (entity.isType(EntityType.ARCHER)) {
           entity.incProperty({meleeArmor: 1, pierceArmor: 2});
         }
       }
@@ -239,7 +239,7 @@ module.exports = class Blacksmith extends Building {
   fletchingTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER)) {
+        if (entity.isType(EntityType.ARCHER)) {
           entity.incProperty({attack: 1, range: 1});
         }
       }
@@ -249,7 +249,7 @@ module.exports = class Blacksmith extends Building {
   bodkinArrowTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER)) {
+        if (entity.isType(EntityType.ARCHER)) {
           entity.incProperty({attack: 1, range: 1});
         }
       }
@@ -259,7 +259,7 @@ module.exports = class Blacksmith extends Building {
   bracerTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER)) {
+        if (entity.isType(EntityType.ARCHER)) {
           entity.incProperty({attack: 1, range: 1});
         }
       }

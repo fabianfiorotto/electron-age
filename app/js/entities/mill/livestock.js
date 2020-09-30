@@ -23,6 +23,9 @@ module.exports = class Livestock extends Unit {
     }
   }
 
+  defineTypes() {
+    return [EntityType.LIVESTOCK];
+  }
 
   onDied() {
     if (!this.butchered || this.resources.food == 0) {

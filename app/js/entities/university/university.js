@@ -4,7 +4,7 @@ module.exports = class University extends Building {
 
   static heatedShotAttackBonus = {
     apply(attacker, target) {
-      return target.isType(Building.SHIP);
+      return target.isType(EntityType.SHIP);
     },
     value(attacker, target) {
       return attacker.properties.attack * 1.25;
@@ -48,7 +48,7 @@ module.exports = class University extends Building {
     return {
       main: [
         "developMasonry","developFortifiedWall","developBallistica","developGuardTower","developHeatedShot",
-        "developMurderHoles","developTreadmillCrane"
+        "developMurderHoles","developTreadmillCrane", "developChemistry"
       ]
     };
   }
@@ -152,7 +152,7 @@ module.exports = class University extends Building {
   masonryTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.BUILDING)) {
+        if (entity.isType(EntityType.BUILDING)) {
           entity.incProperty({armor: 1, pierceArmor: 1, buildingArmor: 3});
           entity.incMaxHitPointsPerc(10);
         }
@@ -163,7 +163,7 @@ module.exports = class University extends Building {
   architectureTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.BUILDING)) {
+        if (entity.isType(EntityType.BUILDING)) {
           entity.incProperty({armor: 1, pierceArmor: 1, buildingArmor: 3});
           entity.incMaxHitPointsPerc(10);
         }
@@ -174,7 +174,8 @@ module.exports = class University extends Building {
   chemistryTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER, Building.SIEGE_WEAPON, Building.DEFENSIVE_STRUCTURE)) {
+        const t = EntityType;
+        if (entity.isType(t.ARCHER, t.SIEGE_WEAPON, t.DEFENSIVE_STRUCTURE)) {
           entity.incProperty({attack: 1});
         }
       }
@@ -184,7 +185,8 @@ module.exports = class University extends Building {
   ballisticaTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.ARCHER, Building.SHIP, Building.SIEGE_WEAPON, Building.DEFENSIVE_STRUCTURE)) {
+        const t = EntityType;
+        if (entity.isType(t.ARCHER, t.SHIP, t.SIEGE_WEAPON, t.DEFENSIVE_STRUCTURE)) {
           entity.incProperty({accuracy: 1}); ///TODO: +1???
         }
       }
@@ -194,7 +196,7 @@ module.exports = class University extends Building {
   heatedShotTechnology() {
     return {
       updateEntity(entity) {
-        if (entity.isType(Building.DEFENSIVE_STRUCTURE)) {
+        if (entity.isType(EntityType.DEFENSIVE_STRUCTURE)) {
           entity.attackBonuses.push(this.heatedShotAttackBonus);
         }
       }

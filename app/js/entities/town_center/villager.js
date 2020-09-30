@@ -61,7 +61,6 @@ module.exports = class Villager extends Unit {
     return {
       speed: 0.8,
       hitPoints: 25,
-      maxHitPoints: 25,
       attack: 1,
       meleeArmor: 1,
       pierceArmor: 0,
@@ -384,7 +383,7 @@ module.exports = class Villager extends Unit {
       },
       buildBombardTower: {
         icon: icons.bombardTower,
-        condition: () => this.player.age >= 4,
+        condition: () => this.player.technologies.bombardTower,
         callback: () => this.build(BombardTower)
       },
       buildDoor: {

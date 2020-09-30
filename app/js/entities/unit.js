@@ -92,10 +92,7 @@ module.exports = class Unit extends Entity {
     }
     var projectileClass = this.getProjectileClass();
     if (projectileClass) {
-      var projectile = new projectileClass(this.map, this.player);
-      projectile.pos = this.pos;
-      projectile.setTarget(this.target);
-      this.map.addEntity(projectile);
+      this.map.addEntity(projectileClass.fire(this));
     }
     else {
       let damage = this.attackMeleeDamage(this.target);
@@ -103,29 +100,19 @@ module.exports = class Unit extends Entity {
     }
   }
 
-  _collectBonuses(bonuses, t) {
-    return bonuses.filter((b) => b.apply(this, t)).reduce((a, b) => a + b.value(this, t), 0);
-  }
-
-  attackMeleeDamage(target) {
-    let attackBonus = this._collectBonuses(this.attackBonuses, target);
-    let defensiveBonus = this._collectBonuses(this.defensiveBonuses, target);
-
-    let attack = this.properties.attack;
-    let armor = target.properties.meleeArmor || 0;
-    return Math.max(1,
-      Math.max(0, attack - armor) +
-      Math.max(0, attackBonus - defensiveBonus)
-    );
-  }
-
   onEntityCreated() {
-    this.player.population++;
-    this.player.emitter.emit('did-change-population', this.player);
+    if (!this.isType(EntityType.LIVESTOCK)) {
+      this.player.population++;
+      this.player.emitter.emit('did-change-population', this.player);
+    }
   }
 
   onEntityDestroy() {
     if (this.isAlive()) {
+      if (!this.isType(EntityType.LIVESTOCK)) {
+        this.player.population--;
+        this.player.emitter.emit('did-change-population', this.player);
+      }
       this.setState(Unit.DYING);
     }
   }

@@ -34,6 +34,29 @@ module.exports = class Trebuchet extends Unit {
     };
   }
 
+
+  defineProperties() {
+   let properties = {
+      range: 16,
+      minRange: 4,
+      accuracy: 15, // 80 againt buildings
+      speed: 0.8,
+      hitPoints: 150,
+      attack: 200,
+      lineofSeight: 19,
+    }
+    if (this.trebuchet_state == Trebuchet.PACKED) {
+      properties.meleeArmor = 1;
+      properties.pierceArmor = 150;
+    }
+    else {
+      properties.meleeArmor = 2;
+      properties.pierceArmor = 8;
+    }
+
+    return properties;
+  }
+
   thumbnail() {
     // return 28; assembled // como se carga este?
     return 29;
@@ -51,9 +74,12 @@ module.exports = class Trebuchet extends Unit {
     this.frame = 0;
     this.trebuchet_state = state;
     this.path = [];
-    if (Trebuchet.PACKING) {
+    if (state == Trebuchet.PACKING) {
       this.state = Unit.IDLE;
     }
+    let properties = this.defineProperties();
+    this.properties.meleeArmor = properties.meleeArmor;
+    this.properties.pierceArmor = properties.pierceArmor
   }
 
   defineDashboardControls() {
@@ -70,12 +96,14 @@ module.exports = class Trebuchet extends Unit {
       assemble: {
        icon: icons.assemble,
        time: 5,
+       condition: () => this.trebuchet_state != Trebuchet.ASSEMBLED,
        prepare: () => this.setTrebuchetState(Trebuchet.ASSEMBLING),
        callback: () => this.setTrebuchetState(Trebuchet.ASSEMBLED)
       },
       disassemble: {
        icon: icons.disassemble,
        time: 5,
+       condition: () => this.trebuchet_state != Trebuchet.PACKED,
        prepare: () => this.setTrebuchetState(Trebuchet.PACKING),
        callback: () => this.setTrebuchetState(Trebuchet.PACKED)
       },
@@ -123,12 +151,15 @@ module.exports = class Trebuchet extends Unit {
     });
   }
 
+  getProjectileClass() {
+    return Boulder;
+  }
+
   attack() {
     if (this.target && this.target.properties.hitPoints) {
       if (!this.boulder) {
-        this.boulder = new Boulder(this.map, this.player);
+        this.boulder = Boulder.fire(this);
         this.boulder.pos = this.pos.subtract($V([0,210]));
-        this.boulder.setTarget(this.target);
         // this.map.addEntity(boulder);
       }
     }
@@ -136,7 +167,6 @@ module.exports = class Trebuchet extends Unit {
       this.setState(Unit.IDLE);
     }
   }
-
 
   getModel() {
     if (this.trebuchet_state == Trebuchet.PACKING || this.trebuchet_state == Trebuchet.ASSEMBLING) {
