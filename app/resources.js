@@ -33,7 +33,7 @@ module.exports = class ResourceManager {
     if (this.auxcontext2d) {
       return this.auxcontext2d;
     }
-    var c = document.getElementById("myCanvas2");
+    var c = document.getElementById("auxCanvas");
     this.auxcontext2d = c.getContext("2d");
     return this.auxcontext2d;
   }
@@ -42,7 +42,7 @@ module.exports = class ResourceManager {
     if (this.context2d) {
       return this.context2d;
     }
-    var c = document.getElementById("myCanvas");
+    var c = document.getElementById("entitiesCanvas");
     this.context2d = c.getContext("2d");
     return this.context2d;
   }

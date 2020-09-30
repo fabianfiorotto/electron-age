@@ -174,7 +174,7 @@ Blendomatic.getBlendingModes().then((modes) =>{
 document.addEventListener("DOMContentLoaded", function() {
   var c, ctx, doKeyDown, idle;
 
-  c = document.getElementById("myCanvas");
+  c = document.getElementById("entitiesCanvas");
   ctx = c.getContext("2d");
 
   loadModel(2);
