@@ -118,10 +118,10 @@ module.exports = class MapView {
   resizeMap() {
     this.entitiesCanvas.setAttribute('width', window.innerWidth);
     this.terrainCanvas.setAttribute('width', window.innerWidth);
-    this.entitiesCanvas.setAttribute('height', window.innerHeight - 250);
-    this.terrainCanvas.setAttribute('height', window.innerHeight - 250);
+    this.entitiesCanvas.setAttribute('height', window.innerHeight);
+    this.terrainCanvas.setAttribute('height', window.innerHeight);
 
-    this.element.style.height = (window.innerHeight - 250) + "px";
+    this.element.style.height = window.innerHeight + "px";
 
     this.map.terrain.redraw = true;
   };
