@@ -42,12 +42,7 @@ module.exports = class MainManu extends UIWidget {
         properties: ['openFile']
     });
     if (!event.canceled) {
-      var file = await fs.open(event.filePaths[0], "r");
-      map = await ScxMapBuilder.load(file);
-      cameraPos = map.initCameraPos;
-
-      topBar.bind(map, 'top-bar');
-      dashboard.bind(map, 'dashboard');
+      mapView.loadMapScx(event.filePaths[0]);
     }
   }
 
