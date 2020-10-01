@@ -64,23 +64,23 @@ module.exports = class MapView {
     this.entitiesCanvas = document.getElementById("entitiesCanvas");
     this.terrainCanvas = document.getElementById("terrainCanvas");
 
-    this.entitiesCanvas.addEventListener('mousemove', (e) => {
+    this.element.addEventListener('mousemove', (e) => {
       this.map.over(this.eventCoords(e));
     });
 
-    this.entitiesCanvas.addEventListener('mousedown', (e) => {
+    this.element.addEventListener('mousedown', (e) => {
       if (e.which == 1) {
         this.map.mouseDown(this.eventCoords(e));
       }
     });
 
-    this.entitiesCanvas.addEventListener('mouseup', (e) => {
+    this.element.addEventListener('mouseup', (e) => {
       if (e.which == 1) {
         this.map.mouseUp(this.eventCoords(e));
       }
     });
 
-    this.entitiesCanvas.addEventListener('click', (e) => {
+    this.element.addEventListener('click', (e) => {
       this.map.leftClick(this.eventCoords(e));
     });
 
