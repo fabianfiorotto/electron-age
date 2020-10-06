@@ -43,8 +43,8 @@ module.exports = class Terrain {
 
     //Transform matrix
     this.m = $M([
-      [ Terrain.TILE_HALF_WIDTH,  Terrain.TILE_HALF_WIDTH],
-      [-Terrain.TILE_HALF_HEIGHT, Terrain.TILE_HALF_HEIGHT]
+      [ Terrain.TILE_HALF_WIDTH,   Terrain.TILE_HALF_WIDTH],
+      [ Terrain.TILE_HALF_HEIGHT, -Terrain.TILE_HALF_HEIGHT]
       // [24, -24] invert Y axis
     ]);
 
