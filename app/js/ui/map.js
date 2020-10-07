@@ -97,23 +97,29 @@ module.exports = class MapView {
 
   doKeyDown(e) {
     if (e.keyCode == 87) { //w
-      this.cameraPos = this.cameraPos.add($V([0,-10]));
-      this.map.terrain.redraw = true;
+      this.moveCamera($V([0,-10]));
     }
     if (e.keyCode == 65) { //a
-      this.cameraPos = this.cameraPos.add($V([-10, 0]));
-      this.map.terrain.redraw = true;
+      this.moveCamera($V([-10, 0]));
     }
     if (e.keyCode == 83) { //s
-      this.cameraPos = this.cameraPos.add($V([0, 10]));
-      this.map.terrain.redraw = true;
+      this.moveCamera($V([0, 10]));
     }
     if (e.keyCode == 68) { //d
-      this.cameraPos = this.cameraPos.add($V([10, 0]));
-      this.map.terrain.redraw = true;
+      this.moveCamera($V([10, 0]));
     }
     // console.log(e.keyCode);
   };
+
+  moveCamera(v) {
+    this.cameraPos = this.cameraPos.add(v);
+    this.refreshMap();
+  }
+
+  refreshMap() {
+    this.map.terrain.redraw = true;
+    resources.drawRefresh();
+  }
 
   resizeMap() {
     this.entitiesCanvas.setAttribute('width', window.innerWidth);
@@ -123,8 +129,7 @@ module.exports = class MapView {
 
     this.element.style.height = window.innerHeight + "px";
 
-    this.map.terrain.redraw = true;
-    resources.drawRefresh();
+    this.refreshMap();
   };
 
   draw() {
