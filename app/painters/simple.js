@@ -1,4 +1,4 @@
-module.exports = class Painter {
+module.exports = class SimplePainter {
 
   putImage(img, v, ctx) {
     if(!ctx) {
@@ -24,7 +24,7 @@ module.exports = class Painter {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
 
-  refhresh() {    
+  refhresh() {
   }
 
   clearTerrain(ctx) {

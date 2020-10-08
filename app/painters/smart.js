@@ -1,11 +1,11 @@
-const Painter = require('./painter');
+const SimplePainter = require('./simple');
 
-module.exports = class Painter2 {
+module.exports = class SmartPainter {
 
   constructor() {
     this.commands = [];
     this.old_commands = [];
-    this.painter = new Painter();
+    this.painter = new SimplePainter();
   }
 
   isOut(canvas, img, x, y) {

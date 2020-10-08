@@ -4,8 +4,8 @@ var SlpUnitModel = require("./js/slp/unit");
 var SlpTerrainModel = require("./js/slp/terrain");
 var SlpProjectileModel = require("./js/slp/projectile");
 var SlpPalette = require("./js/slp/palette");
-var Painter = require('./painter');
-var Painter2 = require('./painter2');
+var SimplePainter = require('./painters/simple');
+var SmartPainter = require('./painters/smart');
 
 module.exports = class ResourceManager {
 
@@ -16,8 +16,8 @@ module.exports = class ResourceManager {
     this.icons = {};
     this.sounds = {};
     this.dir = ".";
-    // this.painter = new Painter();
-    this.painter = new Painter2();
+    // this.painter = new SimplePainter();
+    this.painter = new SmartPainter();
   }
 
   async loadPalette(pid) {
