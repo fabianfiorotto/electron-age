@@ -99,6 +99,10 @@ body {
   display: none;
 }
 
+#fogCanvas {
+  opacity: 0.5;
+}
+
 /*****
  Dashboard
 */

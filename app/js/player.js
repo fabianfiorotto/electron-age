@@ -23,8 +23,65 @@ module.exports = class Player {
 
     this.onDidChangeAge(() => this.onChangeAge());
     this.onDidDevelopTechnology((tec) => this.onDevelopTechnology(tec));
+
+    this.resetSight();
+    this.refresh_seight = true;
+    this.seight_old = this.seight;
   }
 
+
+  resetSight() {
+    this.seight = Array.from({length: this.map.width}, () => {
+      return Array.from({length: this.map.height}, () => false );
+    });
+  }
+
+  refreshSeight() {
+    let entities = this.map.getPlayerEntities(this);
+    for (let entity of entities) {
+      let pos = this.map.terrain.mr.x(entity.pos);
+      pos = pos.map((e) => Math.floor(e));
+      let i1 = pos.e(1), j1 = pos.e(2);
+      let r = entity.properties.lineofSeight || 1;
+      for (let i = -r; i <= r; i++) {
+        if (i+i1 >= 0 && i+i1 < this.map.width) {
+          for (let j = -r; j <= r; j++) {
+            if (j+j1 >= 0 && j+j1 < this.map.height && i*i + j*j <= r*r ) {
+              this.seight[i+i1][j+j1] = true;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  updateSeight() {
+    this.seight_old = this.seight;
+    this.resetSight();
+    this.refreshSeight();
+    this.refresh_seight = true;
+  }
+
+  drawLineOfSeight(camera) {
+    if (!this.refresh_seight) {
+      return false;
+    }
+    for (let i = 0; i < this.map.width; i++) {
+      for (let j = 0; j < this.map.height; j++) {
+        if (this.seight[i][j]) {
+          let pos = this.map.terrain.m.x($V([i, j]));
+          pos = pos.subtract(camera);
+          resources.drawLineOfSeight(pos);
+        }
+        else if (this.seight_old[i][j]) {
+          let pos = this.map.terrain.m.x($V([i, j]));
+          pos = pos.subtract(camera);
+          resources.drawOldLineOfSeight(pos);
+        }
+      }
+    }
+    this.refresh_seight = false;
+  }
 
   updgrateAge() {
     if (this.age < 4) {
@@ -56,6 +113,11 @@ module.exports = class Player {
 
   onDidDevelopTechnology(callback) {
     return this.emitter.on('did-develop-technology', callback);
+  }
+
+
+  onEntityMoved(callback) {
+    return this.emitter.on('did-entity-moved', callback);
   }
 
   getAgeCode(age) {

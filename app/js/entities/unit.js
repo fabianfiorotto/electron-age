@@ -60,6 +60,7 @@ module.exports = class Unit extends Entity {
       var v = this.path[0].subtract(this.pos);
       if (v.modulus() > 1.0) {
         this.pos = this.pos.add(v.toUnitVector());
+        this.player.emitter.emit('did-entity-moved', this);
       }
       else {
         this.frame = 0;

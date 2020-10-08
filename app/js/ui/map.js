@@ -38,6 +38,14 @@ module.exports = class MapView {
 
     this.topBar.bind(map, 'top-bar');
     this.dashboard.bind(map, 'dashboard');
+
+
+    this.player = map.players[1];
+
+    this.player.onEntityMoved((entity) => {
+      this.player.updateSeight();
+    });
+    this.player.updateSeight();
   }
 
   eventCoords(e) {
@@ -63,6 +71,7 @@ module.exports = class MapView {
 
     this.entitiesCanvas = document.getElementById("entitiesCanvas");
     this.terrainCanvas = document.getElementById("terrainCanvas");
+    this.fogCanvas = document.getElementById("fogCanvas");
 
     this.element.addEventListener('mousemove', (e) => {
       this.map.over(this.eventCoords(e));
@@ -117,6 +126,7 @@ module.exports = class MapView {
   }
 
   refreshMap() {
+    this.player?.updateSeight();
     this.map.terrain.redraw = true;
     resources.drawRefresh();
   }
@@ -124,8 +134,10 @@ module.exports = class MapView {
   resizeMap() {
     this.entitiesCanvas.setAttribute('width', window.innerWidth);
     this.terrainCanvas.setAttribute('width', window.innerWidth);
+    this.fogCanvas.setAttribute('width', window.innerWidth);
     this.entitiesCanvas.setAttribute('height', window.innerHeight);
     this.terrainCanvas.setAttribute('height', window.innerHeight);
+    this.fogCanvas.setAttribute('height', window.innerHeight);
 
     this.element.style.height = window.innerHeight + "px";
 
@@ -137,8 +149,10 @@ module.exports = class MapView {
     this.map.update();
     if (this.map.terrain.redraw) {
       resources.clearTerrain();
+      resources.clearFog();
       this.map.drawTerrain(this.cameraPos);
     }
+    this.player?.drawLineOfSeight(this.cameraPos);
     this.map.draw(this.cameraPos);
     resources.drawCompleted();
   }

@@ -23,6 +23,7 @@ module.exports = class Builder extends VillagerRole {
     else {
       var villager = this.villager;
       building.setState(Building.FINISHED);
+      villager.player.emitter.emit('did-entity-moved', building);
       villager.setState(Unit.IDLE);
       var newTarget = villager.map.closest(building.pos, 200, (e) => this.isAIncompleBuilding(e));
       if (newTarget) {

@@ -60,6 +60,15 @@ module.exports = class ResourceManager {
     return this.terrainContext2d;
   }
 
+  getFog2DContext() {
+    if (this.fogContext2d) {
+      return this.fogContext2d;
+    }
+    var c = document.getElementById("fogCanvas");
+    this.fogContext2d = c.getContext("2d");
+    return this.fogContext2d;
+  }
+
   putImage(img, v, ctx) {
     this.painter.putImage(img, v, ctx);
   }
@@ -78,6 +87,31 @@ module.exports = class ResourceManager {
 
   drawRefresh() {
     this.painter.refhresh();
+  }
+
+  clearFog(ctx) {
+    if(!ctx) {
+      ctx = this.getFog2DContext();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.beginPath();
+    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = "#000";
+    ctx.fill();
+    ctx.globalCompositeOperation = 'destination-out';
+  }
+
+  drawImage(img, v, ctx) {
+    var aux = this.getAux2DContext();
+    if(!ctx) {
+      ctx = this.get2DContext();
+    }
+    var x = v.e(1);
+    var y = v.e(2);
+
+    if (this.isOut(ctx.canvas, img, x, y)) {
+      return;
+    }
   }
 
   drawCompleted() {
@@ -102,6 +136,41 @@ module.exports = class ResourceManager {
 
   drawSelect(start, diff, ctx) {
     this.painter.drawSelect(start, diff, ctx);
+  }
+
+  drawLineOfSeight(v, ctx = null) {
+    if(!ctx) {
+      ctx = this.getFog2DContext();
+    }
+    var x = v.e(1), y = v.e(2);
+    let size = 100;
+
+    ctx.beginPath();
+    ctx.moveTo(x, y - size / 4);
+    ctx.lineTo(x - size / 2, y);
+    ctx.lineTo(x, y + size / 4);
+    ctx.lineTo(x + size / 2, y);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  drawOldLineOfSeight(v, ctx = null) {
+    if(!ctx) {
+      ctx = this.getFog2DContext();
+    }
+    var x = v.e(1), y = v.e(2);
+    let size = 100;
+
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.beginPath();
+    ctx.moveTo(x, y - size / 4);
+    ctx.lineTo(x - size / 2, y);
+    ctx.lineTo(x, y + size / 4);
+    ctx.lineTo(x + size / 2, y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.globalCompositeOperation = 'destination-out';
   }
 
   playSound(audioBuffer) {
