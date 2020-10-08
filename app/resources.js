@@ -1,11 +1,11 @@
-var DrsFile = require("./js/drs/drs");
-var SlpModel = require("./js/slp/model");
-var SlpUnitModel = require("./js/slp/unit");
-var SlpTerrainModel = require("./js/slp/terrain");
-var SlpProjectileModel = require("./js/slp/projectile");
-var SlpPalette = require("./js/slp/palette");
-var SimplePainter = require('./painters/simple');
-var SmartPainter = require('./painters/smart');
+const DrsFile = require("./js/drs/drs");
+const SlpModel = require("./js/slp/model");
+const SlpUnitModel = require("./js/slp/unit");
+const SlpTerrainModel = require("./js/slp/terrain");
+const SlpProjectileModel = require("./js/slp/projectile");
+const SlpPalette = require("./js/slp/palette");
+const SimplePainter = require('./painters/simple');
+const SmartPainter = require('./painters/smart');
 
 module.exports = class ResourceManager {
 
