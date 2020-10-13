@@ -298,10 +298,6 @@ module.exports = class Entity {
 
   }
 
-  blur() {
-
-  }
-
   canClick(pos) {
     var m = this.getModel();
     if (m) {

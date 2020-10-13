@@ -100,10 +100,6 @@ module.exports = class ResourceManager {
     this.painter.drawSquare(v, size, ctx);
   }
 
-  drawSelect(start, diff, ctx) {
-    this.painter.drawSelect(start, diff, ctx);
-  }
-
   playSound(audioBuffer) {
     var audioCtx = new AudioContext();
     var source = audioCtx.createBufferSource();

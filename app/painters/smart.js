@@ -102,20 +102,6 @@ module.exports = class SmartPainter {
     });
   }
 
-  drawSelect(start, diff, ctx) {
-    var x = diff.e(1) > 0 ? start.e(1) : start.e(1) + diff.e(1);
-    var y = diff.e(2) > 0 ? start.e(2) : start.e(2) + diff.e(2);
-    this.commands.push({
-      type: 'select',
-      diff: diff,
-      pos: $V([x-1,y-1]),
-      start: start,
-      width: Math.abs(diff.e(1)) + 2,
-      height: Math.abs(diff.e(2)) + 2,
-      ctx: ctx,
-    });
-  }
-
   drawCompleted() {
 
     var removed = this.commandsDiff(this.old_commands, this.commands);
@@ -174,9 +160,6 @@ module.exports = class SmartPainter {
         break;
       case 'square':
         this.painter.drawSquare(c.center, c.size, c.ctx);
-        break;
-      case 'select':
-        this.painter.drawSelect(c.start, c.diff, c.ctx);
         break;
     }
   }

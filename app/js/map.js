@@ -46,12 +46,6 @@ module.exports = class AoeMap {
     for (selected of this.selected) {
       selected.drawHitpoints(camera);
     }
-
-
-    if (this.selectionStart && this.selectionEnd) {
-      var diff = this.selectionEnd.subtract(this.selectionStart);
-      resources.drawSelect(this.selectionStart.subtract(camera),diff);
-    }
   }
 
   update() {
@@ -127,10 +121,6 @@ module.exports = class AoeMap {
     }
   }
 
-  leftClick(v) {
-
-  }
-
   setEntityTargetPos(entity, pos) {
     var target = this.clickEntity(pos);
     if (target) {
@@ -166,28 +156,9 @@ module.exports = class AoeMap {
       }
       this.selected[0].building.pos = $V([x, y]);
     }
-    if (this.selectionStart) {
-      this.selectionEnd = v;
-    }
-  }
-
-  mouseDown(v) {
-    this.selectionStart = v;
   }
 
   mouseUp(v) {
-    var  newSelected = [];
-    if (this.selectionStart && this.selectionEnd) {
-      newSelected = this.selectEntites();
-      newSelected = this.filterSelection(newSelected);
-    }
-    else {
-      var entity = this.clickEntity(v);
-      if (entity) {
-        newSelected = [entity];
-        entity.click();
-      }
-    }
     for (var selected of this.selected) {
       if (selected instanceof Villager && selected.building) {
         if (this.canPlace(selected.building)) {
@@ -195,19 +166,35 @@ module.exports = class AoeMap {
           selected.startBuilding();
         }
         else {
-          this.selectionStart = null;
-          this.selectionEnd = null;
           console.log("Can't build there"); //Que no haga el ruido
           return;
         }
       }
-      else {
-        selected.blur();
+    }
+  }
+
+  selectEntites(selection) {
+    let newSelected = [];
+    let [x1, y1] = selection.start.elements;
+    let [x2, y2] = selection.end.elements;
+    for (var entity of this.entities) {
+      let [x, y] = entity.pos.elements;
+
+      if (x >= x1 && x <= x2 && y >= y1 && y <=  y2) {
+        newSelected.push(entity);
       }
     }
     this.setSelected(newSelected);
-    this.selectionStart = null;
-    this.selectionEnd = null;
+  }
+
+  leftClick(v) {
+    let newSelected = [];
+    let entity = this.clickEntity(v);
+    if (entity) {
+      newSelected = [entity];
+      entity.click();
+    }
+    this.setSelected(newSelected);
   }
 
   clickEntity(v) {
@@ -216,37 +203,6 @@ module.exports = class AoeMap {
         return this.entities[i];
       }
     }
-  }
-
-  selectEntites() {
-    var x, y, x1, y1, x2, y2;
-    var entities = [];
-    if (this.selectionStart.e(1) < this.selectionEnd.e(1)) {
-      x1 = this.selectionStart.e(1);
-      x2 = this.selectionEnd.e(1);
-    }
-    else {
-      x1 = this.selectionEnd.e(1);
-      x2 = this.selectionStart.e(1);
-    }
-
-    if (this.selectionStart.e(2) < this.selectionEnd.e(2)) {
-      y1 = this.selectionStart.e(2);
-      y2 = this.selectionEnd.e(2);
-    }
-    else {
-      y1 = this.selectionEnd.e(2);
-      y2 = this.selectionStart.e(2);
-    }
-    for (var entity of this.entities) {
-      x = entity.pos.e(1);
-      y = entity.pos.e(2);
-
-      if (x >= x1 && x <= x2 && y >= y1 && y <=  y2) {
-        entities.push(entity);
-      }
-    }
-    return entities;
   }
 
   filterSelection(selection) {

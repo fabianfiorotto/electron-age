@@ -99,6 +99,16 @@ body {
   display: none;
 }
 
+#selectbox {
+  position: fixed;
+  left: 10px;
+  top: 45px;
+  bottom: 200px;
+  right: 300px;
+  border: 2px solid #fff;
+  pointer-events: none;
+}
+
 /*****
  Dashboard
 */
