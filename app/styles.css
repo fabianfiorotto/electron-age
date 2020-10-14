@@ -61,19 +61,15 @@ body {
   top: 60px;
   left: 190px;
   width: 100%; }
-
-.progress progress {
-  -webkit-appearance: none;
-  height: 12px; }
-
-.progress progress::-webkit-progress-value {
-  background-color: red; }
-
-.progress .queue {
-  margin-top: 5px; }
-
-.progress .queue img {
-  margin-right: 5px; }
+  .progress progress {
+    -webkit-appearance: none;
+    height: 12px; }
+  .progress progress::-webkit-progress-value {
+    background-color: red; }
+  .progress .queue {
+    margin-top: 5px; }
+  .progress .queue img {
+    margin-right: 5px; }
 
 .selection td {
   padding-left: 10px; }
@@ -96,28 +92,26 @@ body {
 .map {
   position: relative;
   height: 600px; }
-
-.map canvas {
-  position: absolute; }
+  .map canvas {
+    position: absolute; }
 
 #auxCanvas {
   display: none; }
 
 #selectbox {
   position: fixed;
-  left: 10px;
-  top: 45px;
-  bottom: 200px;
-  right: 300px;
+  left: -1px;
+  top: -1px;
+  bottom: -2px;
+  right: -2px;
   border: 2px solid #fff;
   pointer-events: none; }
 
 .main-menu-options {
   margin: 30px 50px 30px 30px; }
-
-.main-menu-options button {
-  margin-bottom: 10px;
-  width: 100%; }
+  .main-menu-options button {
+    margin-bottom: 10px;
+    width: 100%; }
 
 .top-bar-wrapper {
   position: fixed;
@@ -139,9 +133,8 @@ body {
 .top-bar-menu {
   float: right;
   margin: 5px; }
-
-.top-bar-menu img {
-  float: left; }
+  .top-bar-menu img {
+    float: left; }
 
 .main-menu {
   position: fixed;
@@ -157,9 +150,8 @@ body {
   font-weight: bold;
   padding-top: 10px;
   float: left; }
-
-.view-resources .resource {
-  float: left;
-  margin-left: 27px;
-  width: 49px;
-  text-align: right; }
+  .view-resources .resource {
+    float: left;
+    margin-left: 27px;
+    width: 49px;
+    text-align: right; }

@@ -1,10 +1,10 @@
 .map {
   position:relative;
   height: 600px;
-}
 
-.map canvas {
-  position: absolute;
+  canvas {
+    position: absolute;
+  }
 }
 
 #auxCanvas {
@@ -13,10 +13,10 @@
 
 #selectbox {
   position: fixed;
-  left: 10px;
-  top: 45px;
-  bottom: 200px;
-  right: 300px;
+  left: -1px;
+  top: -1px;
+  bottom: -2px;
+  right: -2px;
   border: 2px solid #fff;
   pointer-events: none;
 }
