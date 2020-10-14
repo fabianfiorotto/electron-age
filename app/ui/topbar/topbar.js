@@ -1,7 +1,7 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../ui_widget');
 
-const ViewResources = require('./resources');
-const TopBarMenu = require('./top_bar_menu');
+const ViewResources = require('./resources/resources');
+const TopBarMenu = require('./menu/menu');
 
 module.exports = class TopBar extends UIWidget {
 

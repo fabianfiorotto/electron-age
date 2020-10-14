@@ -1,0 +1,33 @@
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.debug {
+  color: #fff;
+  background-color: #000;
+  position: fixed;
+  top: 62px;
+  right: 0;
+  padding: 2px;
+}
+
+.debug a {
+  text-decoration: none;
+  font-size: 25px;
+}
+
+@import "dashboard/dashboard";
+@import "dashboard/controls/controls";
+@import "dashboard/entity_info/entity_info";
+@import "dashboard/progress/progress";
+@import "dashboard/selection/selection";
+
+@import "map/map";
+
+@import "popups/main_menu/main_menu";
+
+@import "topbar/topbar";
+@import "topbar/menu/menu";
+@import "topbar/resources/resources";

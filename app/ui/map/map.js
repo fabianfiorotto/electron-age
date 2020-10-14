@@ -1,9 +1,9 @@
-const AoeMap = require('../map');
-const ScxMapBuilder = require('../scx/scx');
-const TestBuilder = require('../test/testmap');
+const AoeMap = require('../../js/map');
+const ScxMapBuilder = require('../../js/scx/scx');
+const TestBuilder = require('../../js/test/testmap');
 
-const TopBar = require('./topbar');
-const Dashboard = require('./dashboard');
+const TopBar = require('../topbar/topbar');
+const Dashboard = require('../dashboard/dashboard');
 
 module.exports = class MapView {
 
@@ -24,11 +24,6 @@ module.exports = class MapView {
 
   async loadMapScx(filename) {
     var file = await fs.open(filename, "r");
-    // var file = await fs.open('/home/fabian/github/aldeano.scx', "r");
-    // var file = await fs.open('/home/fabian/github/test1.scx', "r");
-    // var file = await fs.open('/home/fabian/github/agua.scx', "r");
-    // var file = await fs.open('/home/fabian/github/paredes.scx', "r");
-    // var file = await fs.open('/home/fabian/github/edificios.scx', "r");
     var map = await ScxMapBuilder.load(file);
     this.loadMap(map);
     return map;

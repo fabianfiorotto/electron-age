@@ -1,6 +1,6 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../../ui_widget');
 
-const MainManu = require('./popups/main_menu.js');
+const MainManu = require('../../popups/main_menu/main_menu');
 
 module.exports = class TopBarMenu extends UIWidget {
 
@@ -20,7 +20,7 @@ module.exports = class TopBarMenu extends UIWidget {
   }
 
   template() {
-    return 'top_bar_menu';
+    return 'topbar/menu';
   }
 
 };

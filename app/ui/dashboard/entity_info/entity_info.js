@@ -1,9 +1,9 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../../ui_widget');
 
 module.exports = class EntityInfo extends UIWidget {
 
   template() {
-    return 'entity_info';
+    return 'dashboard/entity_info';
   }
 
   onBind(map) {

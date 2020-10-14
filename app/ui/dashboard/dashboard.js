@@ -1,9 +1,9 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../ui_widget');
 
-const Controls = require('./controls');
-const EntityInfo = require('./entity_info');
-const Selecion = require('./selection');
-const Progress = require('./progress');
+const Controls = require('./controls/controls');
+const EntityInfo = require('./entity_info/entity_info');
+const Selecion = require('./selection/selection');
+const Progress = require('./progress/progress');
 
 module.exports = class Dashboard extends UIWidget {
 

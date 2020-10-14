@@ -1,9 +1,9 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../../ui_widget');
 
 module.exports = class ViewResources extends UIWidget{
 
   template() {
-    return 'resources';
+    return 'topbar/resources';
   }
 
   onBind(map) {

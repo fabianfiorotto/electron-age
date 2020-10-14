@@ -1,8 +1,7 @@
-const UIWidget = require('../ui_widget');
+const UIWidget = require('../../ui_widget');
 
 const {dialog} = require('electron').remote;
 
-const ScxMapBuilder = require('../../scx/scx');
 const fs = require('fs').promises;
 
 

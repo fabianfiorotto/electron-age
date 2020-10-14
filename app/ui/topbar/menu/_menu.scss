@@ -1,0 +1,18 @@
+.top-bar-menu {
+  float: right;
+  margin: 5px;
+}
+
+.top-bar-menu img {
+  float: left;
+}
+
+.main-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  margin: auto;
+}

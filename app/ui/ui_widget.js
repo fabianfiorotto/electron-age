@@ -34,7 +34,9 @@ module.exports = class UIWidget {
     var templateName = this.template();
 
     if (templateName) {
-      fs.readFile('./app/js/ui/' + templateName + '.html', (err, data) => {
+      let parts = templateName.split('/');
+      let last = parts[parts.length - 1];
+      fs.readFile('./app/ui/' + templateName + '/' + last + '.html', (err, data) => {
         if (err) {
           console.log(err);
         }

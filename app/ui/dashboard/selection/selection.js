@@ -1,4 +1,4 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../../ui_widget');
 
 module.exports = class Controls extends UIWidget {
 
