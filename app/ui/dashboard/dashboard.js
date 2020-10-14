@@ -1,9 +1,9 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../ui_widget');
 
-const Controls = require('./controls');
-const EntityInfo = require('./entity_info');
-const Selecion = require('./selection');
-const Progress = require('./progress');
+const Controls = require('./controls/controls');
+const EntityInfo = require('./entity_info/entity_info');
+const Selecion = require('./selection/selection');
+const Progress = require('./progress/progress');
 
 module.exports = class Dashboard extends UIWidget {
 
@@ -19,11 +19,11 @@ module.exports = class Dashboard extends UIWidget {
     return 'dashboard';
   }
 
-  onBind(map) {
-    this.controls.bind(map, this.element.getElementsByClassName('controls')[0]);
-    this.info.bind(map, this.element.getElementsByClassName('entity-info')[0]);
-    this.selection.bind(map, this.element.getElementsByClassName('selection')[0]);
-    this.progress.bind(map, this.element.getElementsByClassName('progress')[0]);
+  onBind(map, $) {
+    this.controls.bind(map, $('.controls'));
+    this.info.bind(map, $('.entity-info'));
+    this.selection.bind(map, $('.selection'));
+    this.progress.bind(map, $('.progress'));
     this.player = map.players[1];
   }
 

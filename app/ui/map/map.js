@@ -1,9 +1,9 @@
-const AoeMap = require('../map');
-const ScxMapBuilder = require('../scx/scx');
-const TestBuilder = require('../test/testmap');
+const AoeMap = require('../../js/map');
+const ScxMapBuilder = require('../../js/scx/scx');
+const TestBuilder = require('../../js/test/testmap');
 
-const TopBar = require('./topbar');
-const Dashboard = require('./dashboard');
+const TopBar = require('../topbar/topbar');
+const Dashboard = require('../dashboard/dashboard');
 
 module.exports = class MapView {
 
@@ -12,15 +12,18 @@ module.exports = class MapView {
     this.cameraPos = $V([0, 0]);
     this.topBar = new TopBar();
     this.dashboard = new Dashboard();
+    this.selection = {
+      x1: -2,
+      y1: -2,
+      x2: -1,
+      y2: -1,
+      resizing: false,
+      click: false,
+    }
   }
 
   async loadMapScx(filename) {
     var file = await fs.open(filename, "r");
-    // var file = await fs.open('/home/fabian/github/aldeano.scx', "r");
-    // var file = await fs.open('/home/fabian/github/test1.scx', "r");
-    // var file = await fs.open('/home/fabian/github/agua.scx', "r");
-    // var file = await fs.open('/home/fabian/github/paredes.scx', "r");
-    // var file = await fs.open('/home/fabian/github/edificios.scx', "r");
     var map = await ScxMapBuilder.load(file);
     this.loadMap(map);
     return map;
@@ -66,6 +69,40 @@ module.exports = class MapView {
     return NULL;
   }
 
+  getSelection() {
+    let x1, y1, x2, y2;
+    x1 = Math.min(this.selection.x1, this.selection.x2)
+    x2 = Math.max(this.selection.x1, this.selection.x2)
+    y1 = Math.min(this.selection.y1, this.selection.y2)
+    y2 = Math.max(this.selection.y1, this.selection.y2)
+    return {
+      start: $V([x1, y1]).add(this.cameraPos),
+      end: $V([x2, y2]).add(this.cameraPos)
+    }
+  }
+
+  updateSelectionbox() {
+    const style = this.selectbox.style;
+    if (this.selection.resizing) {
+      let x1, y1, x2, y2;
+      var dim = this.entitiesCanvas.getBoundingClientRect();
+
+      x1 = Math.min(this.selection.x1, this.selection.x2)
+      x2 = Math.max(this.selection.x1, this.selection.x2)
+      y1 = Math.min(this.selection.y1, this.selection.y2)
+      y2 = Math.max(this.selection.y1, this.selection.y2)
+
+      style.left = x1 + 'px';
+      style.top = y1 + 'px';
+      style.right = (dim.width - x2) + 'px';
+      style.bottom = (dim.height - y2) + 'px';
+      style.display = '';
+    }
+    else {
+      style.display = 'none';
+    }
+  }
+
   documentReady() {
     this.element = document.getElementById("map");
 
@@ -73,24 +110,40 @@ module.exports = class MapView {
     this.terrainCanvas = document.getElementById("terrainCanvas");
     this.fogCanvas = document.getElementById("fogCanvas");
 
+    this.selectbox = document.getElementById("selectbox");
+
     this.element.addEventListener('mousemove', (e) => {
       this.map.over(this.eventCoords(e));
+      if (this.selection.click) {
+        this.selection.x2 = e.clientX;
+        this.selection.y2 = e.clientY;
+        this.selection.resizing = true;
+      }
+      this.updateSelectionbox();
     });
 
     this.element.addEventListener('mousedown', (e) => {
       if (e.which == 1) {
-        this.map.mouseDown(this.eventCoords(e));
+        this.selection.x1 = e.clientX;
+        this.selection.y1 = e.clientY;
+        this.selection.click = true;
       }
     });
 
     this.element.addEventListener('mouseup', (e) => {
       if (e.which == 1) {
-        this.map.mouseUp(this.eventCoords(e));
+        let v = this.eventCoords(e);
+        this.map.mouseUp(v);
+        if (this.selection.resizing) {
+          this.map.selectEntites(this.getSelection());
+        }
+        else {
+          this.map.leftClick(v);
+        }
+        this.selection.resizing = false;
+        this.selection.click = false;
+        this.updateSelectionbox();
       }
-    });
-
-    this.element.addEventListener('click', (e) => {
-      this.map.leftClick(this.eventCoords(e));
     });
 
     window.addEventListener('contextmenu',(e) => {

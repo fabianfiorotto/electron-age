@@ -1,0 +1,23 @@
+.progress {
+  position: absolute;
+  top: 60px;
+  left: 190px;
+  width: 100%;
+
+  progress {
+    -webkit-appearance: none;
+    height: 12px;
+  }
+
+  progress::-webkit-progress-value {
+    background-color: rgb(255, 0, 0);
+  }
+
+  .queue {
+    margin-top: 5px;
+  }
+
+  .queue img {
+    margin-right: 5px;
+  }
+}

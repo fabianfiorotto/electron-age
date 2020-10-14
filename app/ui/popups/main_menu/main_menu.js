@@ -1,8 +1,7 @@
-const UIWidget = require('../ui_widget');
+const UIWidget = require('../../ui_widget');
 
 const {dialog} = require('electron').remote;
 
-const ScxMapBuilder = require('../../scx/scx');
 const fs = require('fs').promises;
 
 
@@ -19,11 +18,11 @@ module.exports = class MainManu extends UIWidget {
     this.element.style.backgroundImage = 'url(' + res.getUrl(img) +')';
   }
 
-  onBind(map) {
-    this.closeButton = this.element.getElementsByClassName('close')[0];
+  onBind(map, $) {
+    this.closeButton = $('.close');
     this.closeButton.addEventListener('click', (e) => this.close());
 
-    this.openButton = this.element.getElementsByClassName('open-scenario')[0];
+    this.openButton = $('.open-scenario');
     this.openButton.addEventListener('click', (e) => this.openScenario());
 
   }

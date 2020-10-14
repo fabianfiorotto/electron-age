@@ -1,7 +1,7 @@
 require('./js/entities/types');
 
 const ResourceManager = require("./resources");
-const MapView = require('./js/ui/map');
+const MapView = require('./ui/map/map');
 const SimplePainter = require('./painters/simple');
 const SmartPainter = require('./painters/smart');
 

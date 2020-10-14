@@ -134,10 +134,6 @@ module.exports = class ResourceManager {
     this.painter.drawSquare(v, size, ctx);
   }
 
-  drawSelect(start, diff, ctx) {
-    this.painter.drawSelect(start, diff, ctx);
-  }
-
   drawLineOfSeight(v, ctx = null) {
     if(!ctx) {
       ctx = this.getFog2DContext();

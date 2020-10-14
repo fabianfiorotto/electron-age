@@ -1,0 +1,26 @@
+.map {
+  position:relative;
+  height: 600px;
+
+  canvas {
+    position: absolute;
+  }
+}
+
+#auxCanvas {
+  display: none;
+}
+
+#selectbox {
+  position: fixed;
+  left: -1px;
+  top: -1px;
+  bottom: -2px;
+  right: -2px;
+  border: 2px solid #fff;
+  pointer-events: none;
+}
+
+#fogCanvas {
+  opacity: 0.5;
+}

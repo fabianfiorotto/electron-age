@@ -1,18 +1,18 @@
-const UIWidget = require('./ui_widget');
+const UIWidget = require('../../ui_widget');
 
 module.exports = class ViewResources extends UIWidget{
 
   template() {
-    return 'resources';
+    return 'topbar/resources';
   }
 
-  onBind(map) {
-    this.wood = this.element.getElementsByClassName('wood')[0];
-    this.food = this.element.getElementsByClassName('food')[0];
-    this.gold = this.element.getElementsByClassName('gold')[0];
-    this.stone = this.element.getElementsByClassName('stone')[0];
-    this.age = this.element.getElementsByClassName('current-age')[0];
-    this.population = this.element.getElementsByClassName('population')[0];
+  onBind(map, $) {
+    this.wood       = $('.wood');
+    this.food       = $('.food');
+    this.gold       = $('.gold');
+    this.stone      = $('.stone');
+    this.age        = $('.current-age');
+    this.population = $('.population');
     var player = map.players[1];
     player.onDidChangeResources((res) => this.display(res));
     player.onDidChangeAge((age) => this.displayAge(age));

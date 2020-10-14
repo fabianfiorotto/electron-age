@@ -107,16 +107,6 @@ module.exports = class SimplePainter {
     ctx.stroke();
   }
 
-  drawSelect(start, diff, ctx) {
-    if(!ctx) {
-      ctx = resources.get2DContext();
-    }
-    ctx.strokeStyle = "#ffffff";
-    ctx.beginPath();
-    ctx.rect(start.e(1), start.e(2) , diff.e(1), diff.e(2));
-    ctx.stroke();
-  }
-
   drawCompleted() {
   }
 

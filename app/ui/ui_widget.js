@@ -32,22 +32,29 @@ module.exports = class UIWidget {
     }
 
     var templateName = this.template();
+    const $ = this.querySelector.bind(this);
 
     if (templateName) {
-      fs.readFile('./app/js/ui/' + templateName + '.html', (err, data) => {
+      let parts = templateName.split('/');
+      let last = parts[parts.length - 1];
+      fs.readFile('./app/ui/' + templateName + '/' + last + '.html', (err, data) => {
         if (err) {
           console.log(err);
         }
         this.element.innerHTML = data;
         this.loadSlpImgs();
-        this.onBind(map, this.element);
+        this.onBind(map, $);
         this.loadResources(resources);
       });
     }
     else {
-      this.onBind(map);
+      this.onBind(map, $);
       this.loadResources(resources);
     }
+  }
+
+  querySelector(selector) {
+    return this.element.querySelector(selector);
   }
 
   async loadResources(res) {
