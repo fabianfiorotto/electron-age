@@ -10,10 +10,10 @@ module.exports = class Controls extends UIWidget {
     return 'dashboard/progress';
   }
 
-  onBind(map) {
-    this.progress = this.element.getElementsByClassName('the-progress')[0];
-    this.icon = this.element.getElementsByClassName('progress-icon')[0];
-    this.queue = this.element.getElementsByClassName('queue')[0];
+  onBind(map, $) {
+    this.progress = $('.the-progress');
+    this.icon     = $('.progress-icon');
+    this.queue    = $('.queue');
 
     this.icon.addEventListener('click', (e) => {
       if (this.selected) {

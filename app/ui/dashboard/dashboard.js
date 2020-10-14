@@ -19,11 +19,11 @@ module.exports = class Dashboard extends UIWidget {
     return 'dashboard';
   }
 
-  onBind(map) {
-    this.controls.bind(map, this.element.getElementsByClassName('controls')[0]);
-    this.info.bind(map, this.element.getElementsByClassName('entity-info')[0]);
-    this.selection.bind(map, this.element.getElementsByClassName('selection')[0]);
-    this.progress.bind(map, this.element.getElementsByClassName('progress')[0]);
+  onBind(map, $) {
+    this.controls.bind(map, $('.controls'));
+    this.info.bind(map, $('.entity-info'));
+    this.selection.bind(map, $('.selection'));
+    this.progress.bind(map, $('.progress'));
     this.player = map.players[1];
   }
 

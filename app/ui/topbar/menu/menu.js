@@ -10,12 +10,10 @@ module.exports = class TopBarMenu extends UIWidget {
     this.mainManu = new MainManu();
   }
 
-  onBind(map) {
-    this.mainManu.bind(map, this.element.getElementsByClassName('main-menu')[0]);
+  onBind(map, $) {
+    this.mainManu.bind(map, $('.main-menu'));
 
-
-    this.openMainManu = this.element.getElementsByClassName('open-main-menu')[0];
-
+    this.openMainManu = $('.open-main-menu');
     this.openMainManu.addEventListener('click',(e) => this.mainManu.open());
   }
 

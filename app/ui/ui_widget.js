@@ -32,6 +32,7 @@ module.exports = class UIWidget {
     }
 
     var templateName = this.template();
+    const $ = this.querySelector.bind(this);
 
     if (templateName) {
       let parts = templateName.split('/');
@@ -42,14 +43,18 @@ module.exports = class UIWidget {
         }
         this.element.innerHTML = data;
         this.loadSlpImgs();
-        this.onBind(map, this.element);
+        this.onBind(map, $);
         this.loadResources(resources);
       });
     }
     else {
-      this.onBind(map);
+      this.onBind(map, $);
       this.loadResources(resources);
     }
+  }
+
+  querySelector(selector) {
+    return this.element.querySelector(selector);
   }
 
   async loadResources(res) {

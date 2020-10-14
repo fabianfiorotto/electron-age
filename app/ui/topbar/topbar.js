@@ -11,9 +11,9 @@ module.exports = class TopBar extends UIWidget {
     this.topBarMenu = new TopBarMenu();
   }
 
-  onBind(map) {
-    this.viewResources.bind(map, this.element.getElementsByClassName('view-resources')[0]);
-    this.topBarMenu.bind(map, this.element.getElementsByClassName('top-bar-menu')[0]);
+  onBind(map, $) {
+    this.viewResources.bind(map, $('.view-resources'));
+    this.topBarMenu.bind(map, $('.top-bar-menu'));
     this.player = map.players[1];
   }
 

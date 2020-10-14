@@ -6,18 +6,18 @@ module.exports = class EntityInfo extends UIWidget {
     return 'dashboard/entity_info';
   }
 
-  onBind(map) {
-    this.resources = this.element.getElementsByClassName('resources')[0];
-    this.thumbnail = this.element.getElementsByClassName('thumbnail')[0];
-    this.stone = this.element.getElementsByClassName('unit-stone')[0];
-    this.food = this.element.getElementsByClassName('unit-food')[0];
-    this.wood = this.element.getElementsByClassName('unit-wood')[0];
-    this.gold = this.element.getElementsByClassName('unit-gold')[0];
-    this.hitPoints = this.element.getElementsByClassName('hit-points')[0];
-    this.hitPointsBar = this.element.getElementsByClassName('hit-points-bar')[0];
-    this.attack = this.element.getElementsByClassName('attack')[0];
-    this.armor = this.element.getElementsByClassName('armor')[0];
-    this.debug = this.element.getElementsByClassName('debug-entity-link')[0];
+  onBind(map, $) {
+    this.resources    = $('.resources');
+    this.thumbnail    = $('.thumbnail');
+    this.stone        = $('.unit-stone');
+    this.food         = $('.unit-food');
+    this.wood         = $('.unit-wood');
+    this.gold         = $('.unit-gold');
+    this.hitPoints    = $('.hit-points');
+    this.hitPointsBar = $('.hit-points-bar');
+    this.attack       = $('.attack');
+    this.armor        = $('.armor');
+    this.debug        = $('.debug-entity-link');
 
     this.debug.addEventListener('click', ()=> {
       require('electron').remote.getCurrentWindow().openDevTools();
