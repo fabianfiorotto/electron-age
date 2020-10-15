@@ -2,41 +2,27 @@ require('./js/entities/types');
 
 const ResourceManager = require("./resources");
 const MapView = require('./ui/map/map');
-const SimplePainter = require('./painters/simple');
-const SmartPainter = require('./painters/smart');
+const DebugInfo = require('./ui/debug/debug');
 
 require("sylvester");
 const fs = require('fs').promises;
-const simplePainter = new SimplePainter();
-const smartPainter = new SmartPainter();
-
-var mapView = new MapView();
 
 window.resources = new ResourceManager();
-var fps = 0;
 
-// resources.painter = simplePainter;
-resources.painter = smartPainter;
+var mapView = new MapView();
+var debugInfo = new DebugInfo();
 
 document.addEventListener("DOMContentLoaded", function() {
-  var idle, loop, resetFps;
+  var idle, loop;
 
-  var showFps = document.getElementById("fps");
-  var toggleSmartPainter = document.getElementById('smart');
+  debugInfo.bind(null , 'debug');
 
-  toggleSmartPainter.checked = resources.painter === smartPainter;
-
-  toggleSmartPainter.addEventListener('change', (e) => {
-    resources.painter = e.target.checked ? smartPainter : simplePainter;
-    mapView.refreshMap();
-  });
-
-  mapView.loadTestMap();
   mapView.documentReady();
+  mapView.loadTestMap();
 
   idle = function() {
     mapView.draw();
-    fps += 1;
+    debugInfo.incFps();
   };
 
   loop = function() {
@@ -49,11 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   };
 
-  resetFps = function() {
-    showFps.textContent = fps;
-    fps = 0;
-  };
-  setInterval(resetFps, 1000);
+  setInterval(() => debugInfo.resetFps(), 1000);
 
   loop();
 

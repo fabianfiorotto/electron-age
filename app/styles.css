@@ -8,7 +8,8 @@ body {
   position: fixed;
   top: 62px;
   right: 0;
-  padding: 2px; }
+  padding: 2px;
+  z-index: 999; }
 
 .debug a {
   text-decoration: none;
@@ -62,6 +63,7 @@ body {
   left: 190px;
   width: 100%; }
   .progress progress {
+    display: none;
     -webkit-appearance: none;
     height: 12px; }
   .progress progress::-webkit-progress-value {
@@ -106,6 +108,23 @@ body {
   right: -2px;
   border: 2px solid #fff;
   pointer-events: none; }
+
+#loading-screen {
+  background-color: #a24300;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 99;
+  color: #fff;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  text-align: center; }
+  #loading-screen .loading-screen-text {
+    width: 100%; }
 
 .main-menu-options {
   margin: 30px 50px 30px 30px; }

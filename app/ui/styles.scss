@@ -4,19 +4,7 @@ body {
   overflow: hidden;
 }
 
-.debug {
-  color: #fff;
-  background-color: #000;
-  position: fixed;
-  top: 62px;
-  right: 0;
-  padding: 2px;
-}
-
-.debug a {
-  text-decoration: none;
-  font-size: 25px;
-}
+@import "debug/debug";
 
 @import "dashboard/dashboard";
 @import "dashboard/controls/controls";
