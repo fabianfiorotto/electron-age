@@ -5,6 +5,8 @@ const TestBuilder = require('../../js/test/testmap');
 const TopBar = require('../topbar/topbar');
 const Dashboard = require('../dashboard/dashboard');
 
+// const UIWidget = require('../ui_widget');
+
 module.exports = class MapView {
 
   constructor() {
@@ -13,27 +15,42 @@ module.exports = class MapView {
     this.topBar = new TopBar();
     this.dashboard = new Dashboard();
     this.selection = {
-      x1: -2,
-      y1: -2,
-      x2: -1,
-      y2: -1,
       resizing: false,
       click: false,
     }
   }
 
   async loadMapScx(filename) {
+    this.loadingStart();
     var file = await fs.open(filename, "r");
-    var map = await ScxMapBuilder.load(file);
+    var map = await ScxMapBuilder.load(file, (v, t) => this.progress(v, t));
     this.loadMap(map);
+    this.loadingComplete();
     return map;
   };
 
   async loadTestMap() {
-    let map = await TestBuilder.loadTestMap();
+    this.loadingStart();
+    let map = await TestBuilder.loadTestMap((v, t) => this.progress(v, t));
     this.loadMap(map);
+    this.loadingComplete();
     return map;
   };
+
+  progress(value, text) {
+    this.loadingText.textContent = text;
+    this.loadingProgress.setAttribute('value', Math.round(value * 100))
+  }
+
+  loadingStart() {
+    if (this.loadingScreen) {
+      this.loadingScreen.style.display = '';
+    }
+  }
+
+  loadingComplete() {
+    this.loadingScreen.style.display = 'none';
+  }
 
   loadMap(map) {
     this.map = map;
@@ -100,6 +117,10 @@ module.exports = class MapView {
 
     this.entitiesCanvas = document.getElementById("entitiesCanvas");
     this.terrainCanvas = document.getElementById("terrainCanvas");
+
+    this.loadingScreen = document.getElementById("loading-screen");
+    this.loadingText = document.getElementById("loading-screen-text");
+    this.loadingProgress = document.getElementById("loading-screen-progress");
 
     this.selectbox = document.getElementById("selectbox");
 
@@ -194,6 +215,17 @@ module.exports = class MapView {
     }
     this.map.draw(this.cameraPos);
     resources.drawCompleted();
+  }
+
+  async loadResources(res) {
+    let palette = await resources.loadPalette(50503);
+    var model = await res.loadInterface(50100);
+    model.load({
+      base: palette,
+      player: 0
+    });
+    var img = model.frames[0].imgs[0];
+    this.loadingScreen.style.backgroundImage = 'url(' + res.getUrl(img) +')';
   }
 
 }

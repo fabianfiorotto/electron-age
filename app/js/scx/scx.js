@@ -11,7 +11,7 @@ const ScxMapReader = require('./reader');
 
 module.exports = class ScxMapBuilder {
 
-  static async load(file) {
+  static async load(file, progress) {
     var i;
 
     var scenario = await ScxMapReader.read(file);
@@ -51,6 +51,7 @@ module.exports = class ScxMapBuilder {
         // entity.pos = $V([unitDef.x, unitDef.y]);
         entity.pos = m.x($V([unitDef.x, unitDef.y]));
         entity.orientation = unitDef.rotation;
+        progress?.( (i+1) / scenario.units.length , "Loading Entities...");
         await map.addEntity(entity);
       }
     }
