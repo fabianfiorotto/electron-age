@@ -21,10 +21,9 @@ const Player = require('../player');
 
 module.exports =  class TestBuilder {
 
-  static async loadTestMap() {
+  static async loadTestMap(progress) {
     var map = new AoeMap(120, 120);
     await map.loadResources(resources);
-
 
     var civ1 = new CentralEuropean();
     var civ2 = new WestEuropean();
@@ -37,37 +36,45 @@ module.exports =  class TestBuilder {
     map.players.push(player2);
 
 
-    var entity;
+    var entity, entities;
+    entities = [];
 
     entity = new Villager(map, player1);
     entity.pos = $V([767.75, 69]);
-    await map.addEntity(entity);
+    entities.push(entity)
 
     entity = new Villager(map, player2);
     entity.pos = $V([240, -24]);
-    await map.addEntity(entity);
+    entities.push(entity)
 
     // entity = new House(map, player1);
     // entity.pos = $V([384, 96]);
-    // await map.addEntity(entity);
+    // entities.push(entity)
 
-    await map.addEntity(new Berries(map, gaia));
-    await map.addEntity(new Stone(map, gaia));
-    await map.addEntity(new Tree(map, gaia));
-    await map.addEntity(new Gold(map, gaia));
+    entities.push(new Berries(map, gaia));
+
+    entities.push(new Stone(map, gaia));
+    entities.push(new Tree(map, gaia));
+    entities.push(new Gold(map, gaia));
 
     entity = new Archer(map, player2);
     // entity = new Trebuchet(map, player2);
     entity.pos = $V([474.90422568373566, 81.54880164849791]);
-    await map.addEntity(entity);
+    entities.push(entity)
 
     // await this.addEntity(map, Sheep,1039, 63, player1);
-
-    await this.addEntity(map, ScoutCavalry,1039, 63, player1);
+    entity = new ScoutCavalry(map, player2);
+    entity.pos = $V([1039, 63]);
+    entities.push(entity)
 
     entity = new TownCenter(map, player1);
     entity.pos = $V([864, -144]);
-    await map.addEntity(entity);
+    entities.push(entity)
+
+    for ( const [i, entity] of entities.entries()) {
+      progress?.( (i+1) / entities.length , "Loading Entities...");
+      await map.addEntity(entity);
+    }
 
     //???
     map.selected = [map.entities[0]];
@@ -86,12 +93,6 @@ module.exports =  class TestBuilder {
 
     map.initCameraPos = $V([0, -340]);
     return map;
-  }
-
-  static async addEntity(map, klass,x , y, player) {
-    var entity = new klass(map, player);
-    entity.pos = $V([x, y]);
-    await map.addEntity(entity);
   }
 
 };
