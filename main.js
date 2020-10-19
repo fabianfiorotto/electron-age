@@ -18,6 +18,7 @@ app.on('ready', function () {
     webPreferences: {
       nodeIntegration: true,
       defaultEncoding: 'UTF-8',
+      enableRemoteModule: true,
     }
   })
 
