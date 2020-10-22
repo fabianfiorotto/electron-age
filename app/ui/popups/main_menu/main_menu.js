@@ -2,9 +2,6 @@ const UIWidget = require('../../ui_widget');
 
 const {dialog} = require('electron').remote;
 
-const fs = require('fs').promises;
-
-
 module.exports = class MainManu extends UIWidget {
 
   async loadResources(res) {
