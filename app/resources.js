@@ -7,6 +7,8 @@ const SlpPalette = require("./js/slp/palette");
 const SimplePainter = require('./painters/simple');
 const SmartPainter = require('./painters/smart');
 
+const config = require('./config');
+
 module.exports = class ResourceManager {
 
   constructor(){
@@ -16,8 +18,14 @@ module.exports = class ResourceManager {
     this.icons = {};
     this.sounds = {};
     this.dir = ".";
-    // this.painter = new SimplePainter();
-    this.painter = new SmartPainter();
+    this.config = config;
+
+    if (this.config.smartpainter) {
+      this.painter = new SmartPainter();
+    }
+    else {
+      this.painter = new SimplePainter();
+    }
   }
 
   async loadPalette(pid) {
