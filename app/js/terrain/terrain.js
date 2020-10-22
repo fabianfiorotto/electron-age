@@ -73,7 +73,10 @@ module.exports = class Terrain {
     ];
   }
 
-  getInfluences(tile, neighbors) {
+  getInfluences(i, j) {
+    let tile = this.tiles[i][j];
+    let neighbors = this.getNeighbors(i,j);
+
     var influences = {};
     for (var i = 0; i < neighbors.length; i++) {
       var k = this.neighbor_lookup[i];
@@ -156,7 +159,10 @@ module.exports = class Terrain {
     return this.modes[blend_mode_id];
   }
 
-  getMasks(i, j, tile, influences) {
+  getMasks(i, j) {
+    let tile = this.tiles[i][j];
+    let influences = this.getInfluences(i, j);
+
     var masks = [];
     for (const [tid,influence] of Object.entries(influences)) {
       if (influence.direction == 0) {
@@ -187,40 +193,39 @@ module.exports = class Terrain {
     if (this.tiles.length) {
       for (var i = 0; i < this.width; i++) {
         for (var j = 0; j < this.height; j++) {
-          var tile = this.tiles[i][j];
-          if (!tile.frame) {
-            continue;
-          }
-          var f = tile.frame;
-          var w = f.width - 1, h = f.height - 1;
-          var cell = $V([
-            (i + j) * w / 2,
-            (i - j) * h / 2
-          ]);
-          f.drawTerrain(this.pos.add(cell).subtract(camera));
-          if (resources.config.blendomatic) {
-            var neighbors = this.getNeighbors(i,j);
-            var influences = this.getInfluences(tile, neighbors);
-            var masks = this.getMasks(i, j, tile, influences);
-
-            if (masks.length) {
-              // console.log(i, j);
-              // console.log(masks);
-              for (var mask of masks) {
-
-                var m = mask.terrain.model;
-                var frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
-                // m.frames[frame_id].drawTerrain(this.pos.add(cell).subtract(camera));
-
-                var img = this.applyMask(mask, m.frames[frame_id].img);
-                resources.drawImage(img, this.pos.add(cell).subtract(camera), tcxt);
-              }
-            }
-          }
+          this.drawTile(i, j, camera);
         }
       }
     }
     this.redraw = false;
+  }
+
+  drawTile(i, j, camera, tcxt) {
+    if (!tcxt) {
+      tcxt = resources.getTerrain2DContext();
+    }
+    let tile = this.tiles[i][j];
+    if (!tile.frame) {
+      return;
+    }
+    let f = tile.frame;
+    let w = f.width - 1, h = f.height - 1;
+    let cell = $V([
+      (i + j) * w / 2,
+      (i - j) * h / 2
+    ]);
+    f.drawTerrain(this.pos.add(cell).subtract(camera), tcxt);
+
+    if (resources.config.blendomatic) {
+      let masks = this.getMasks(i, j);
+      for (var mask of masks) {
+        let m = mask.terrain.model;
+        let frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
+        // m.frames[frame_id].drawTerrain(this.pos.add(cell).subtract(camera));
+        let img = this.applyMask(mask, m.frames[frame_id].img);
+        resources.drawImage(img, this.pos.add(cell).subtract(camera), tcxt);
+      }
+    }
   }
 
   applyMask(mask, img) {
