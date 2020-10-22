@@ -198,7 +198,7 @@ module.exports = class Terrain {
             (i - j) * h / 2
           ]);
           f.drawTerrain(this.pos.add(cell).subtract(camera));
-          if (blend) {
+          if (resources.config.blendomatic) {
             var neighbors = this.getNeighbors(i,j);
             var influences = this.getInfluences(tile, neighbors);
             var masks = this.getMasks(i, j, tile, influences);

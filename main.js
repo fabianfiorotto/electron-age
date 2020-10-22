@@ -19,6 +19,8 @@ app.on('ready', function () {
       nodeIntegration: true,
       defaultEncoding: 'UTF-8',
       enableRemoteModule: true,
+      worldSafeExecuteJavaScript: false,
+      contextIsolation: false,
     }
   })
 

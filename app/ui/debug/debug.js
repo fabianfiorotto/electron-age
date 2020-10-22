@@ -16,8 +16,12 @@ module.exports = class DebugInfo extends UIWidget {
     this.simplePainter = new SimplePainter();
     this.smartPainter = new SmartPainter();
 
-    // resources.painter = this.simplePainter;
-    resources.painter = this.smartPainter;
+    if (resources.config.smartpainter) {
+      resources.painter = this.smartPainter;
+    }
+    else {
+      resources.painter = this.simplePainter;
+    }
   }
 
   onBind(map, $) { //Map no tiene sentido aca...
