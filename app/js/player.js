@@ -27,6 +27,10 @@ module.exports = class Player {
     this.resetSight();
     this.refresh_seight = true;
     this.seight_old = this.seight;
+
+    this.seight_memory = Array.from({length: this.map.width}, () => {
+      return Array.from({length: this.map.height}, () => null );
+    });
   }
 
 
@@ -62,21 +66,48 @@ module.exports = class Player {
     this.refresh_seight = true;
   }
 
-  drawLineOfSeight(camera) {
+  drawAllLineOfSeightMemory(camera) {
+    for (let i = 0; i < this.map.width; i++) {
+      for (let j = 0; j < this.map.height; j++) {
+        this.drawLineOfSeightMemory(camera, i, j);
+      }
+    }
+  }
+
+  drawLineOfSeightMemory(camera, i, j) {
+    if (!this.seight_memory[i][j]) {
+      return;
+    }
+    const ctx = resources.getFog2DContext();
+    const terrain = this.map.terrain;
+
+    let tile = terrain.tiles[i][j].frame.img;
+    let pos1 = terrain.m.x($V([i-1, j])); //TODO no coinciden!!??
+    pos1 = pos1.subtract(camera);
+    ctx.globalCompositeOperation = 'source-over';
+    resources.drawImage(tile, pos1, ctx);
+    let pos = terrain.m.x($V([i, j]));
+    pos = pos.subtract(camera);
+    resources.drawOldLineOfSeight(pos);
+  }
+
+  drawLineOfSeight(camera, redraw) {
     if (!this.refresh_seight) {
       return false;
     }
+    const ctx = resources.getFog2DContext();
+    const terrain = this.map.terrain;
     for (let i = 0; i < this.map.width; i++) {
       for (let j = 0; j < this.map.height; j++) {
         if (this.seight[i][j]) {
-          let pos = this.map.terrain.m.x($V([i, j]));
+          let pos = terrain.m.x($V([i, j]));
           pos = pos.subtract(camera);
           resources.drawLineOfSeight(pos);
+          this.seight_memory[i][j] = null;
         }
         else if (this.seight_old[i][j]) {
-          let pos = this.map.terrain.m.x($V([i, j]));
-          pos = pos.subtract(camera);
-          resources.drawOldLineOfSeight(pos);
+          this.seight_memory[i][j] = terrain.tiles[i][j].frame.img;
+          this.drawLineOfSeightMemory(camera, i, j);
         }
       }
     }

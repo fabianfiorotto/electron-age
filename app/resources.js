@@ -20,6 +20,7 @@ module.exports = class ResourceManager {
     this.dir = ".";
     this.config = config;
 
+    this.simple = new SimplePainter();
     if (this.config.smartpainter) {
       this.painter = new SmartPainter();
     }
@@ -109,25 +110,17 @@ module.exports = class ResourceManager {
     ctx.globalCompositeOperation = 'destination-out';
   }
 
-  drawImage(img, v, ctx) {
-    var aux = this.getAux2DContext();
-    if(!ctx) {
-      ctx = this.get2DContext();
-    }
-    var x = v.e(1);
-    var y = v.e(2);
-
-    if (this.isOut(ctx.canvas, img, x, y)) {
-      return;
-    }
-  }
-
   drawCompleted() {
     this.painter.drawCompleted();
   }
 
   drawImage(img, v, ctx) {
-    this.painter.drawImage(img, v, ctx);
+    if (!ctx || ctx === this.get2DContext()) {
+      this.painter.drawImage(img, v, ctx);
+    }
+    else {
+      this.simple.drawImage(img, v, ctx);
+    }
   }
 
   drawCircle(v, rad, ctx) {
@@ -149,6 +142,9 @@ module.exports = class ResourceManager {
     var x = v.e(1), y = v.e(2);
     let size = 100;
 
+
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = "#000000";
     ctx.beginPath();
     ctx.moveTo(x, y - size / 4);
     ctx.lineTo(x - size / 2, y);
@@ -174,7 +170,6 @@ module.exports = class ResourceManager {
     ctx.lineTo(x + size / 2, y);
     ctx.closePath();
     ctx.fill();
-    ctx.globalCompositeOperation = 'destination-out';
   }
 
   playSound(audioBuffer) {

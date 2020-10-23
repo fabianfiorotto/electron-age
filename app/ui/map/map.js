@@ -222,8 +222,9 @@ module.exports = class MapView {
     this.map.update();
     if (this.map.terrain.redraw) {
       resources.clearTerrain();
-      resources.clearFog();
       this.map.drawTerrain(this.cameraPos);
+      resources.clearFog();
+      this.player?.drawAllLineOfSeightMemory(this.cameraPos);
     }
     this.player?.drawLineOfSeight(this.cameraPos);
     this.map.draw(this.cameraPos);

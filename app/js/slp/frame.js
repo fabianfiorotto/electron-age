@@ -43,8 +43,10 @@ module.exports = class SlpFrame {
     }
   }
 
-  drawTerrain(pos) {
-    var ctx = resources.getTerrain2DContext();
+  drawTerrain(pos, ctx) {
+    if (!ctx) {
+      ctx = resources.getTerrain2DContext();
+    }
     resources.drawImage(this.img, pos.subtract(this.hotspot), ctx);
   }
 
