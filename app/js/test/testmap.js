@@ -47,9 +47,9 @@ module.exports =  class TestBuilder {
     entity.pos = $V([240, -24]);
     entities.push(entity)
 
-    // entity = new House(map, player1);
-    // entity.pos = $V([384, 96]);
-    // entities.push(entity)
+    entity = new House(map, player2);
+    entity.pos = $V([1632, 96]);
+    entities.push(entity)
 
     entities.push(new Berries(map, gaia));
 

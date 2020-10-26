@@ -154,24 +154,6 @@ module.exports = class ResourceManager {
     ctx.fill();
   }
 
-  drawOldLineOfSeight(v, ctx = null) {
-    if(!ctx) {
-      ctx = this.getFog2DContext();
-    }
-    var x = v.e(1), y = v.e(2);
-    let size = 100;
-
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-    ctx.beginPath();
-    ctx.moveTo(x, y - size / 4);
-    ctx.lineTo(x - size / 2, y);
-    ctx.lineTo(x, y + size / 4);
-    ctx.lineTo(x + size / 2, y);
-    ctx.closePath();
-    ctx.fill();
-  }
-
   playSound(audioBuffer) {
     var audioCtx = new AudioContext();
     var source = audioCtx.createBufferSource();

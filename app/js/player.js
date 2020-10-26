@@ -81,14 +81,11 @@ module.exports = class Player {
     const ctx = resources.getFog2DContext();
     const terrain = this.map.terrain;
 
-    let tile = terrain.tiles[i][j].frame.img;
+    let tile = this.seight_memory[i][j];
     let pos1 = terrain.m.x($V([i-1, j])); //TODO no coinciden!!??
     pos1 = pos1.subtract(camera);
     ctx.globalCompositeOperation = 'source-over';
     resources.drawImage(tile, pos1, ctx);
-    let pos = terrain.m.x($V([i, j]));
-    pos = pos.subtract(camera);
-    resources.drawOldLineOfSeight(pos);
   }
 
   drawLineOfSeight(camera, redraw) {
@@ -106,12 +103,47 @@ module.exports = class Player {
           this.seight_memory[i][j] = null;
         }
         else if (this.seight_old[i][j]) {
-          this.seight_memory[i][j] = terrain.tiles[i][j].frame.img;
+          this.seight_memory[i][j] = this.createSeightMemory(i, j);
           this.drawLineOfSeightMemory(camera, i, j);
         }
       }
     }
     this.refresh_seight = false;
+  }
+
+  createSeightMemory(i, j) {
+    const terrain = this.map.terrain;
+    let tile = terrain.tiles[i][j].frame.img;
+
+    const w = tile.width;
+    const h = tile.height;
+
+    var ctx = resources.getAux2DContext();
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.canvas.setAttribute('width', w);
+    ctx.canvas.setAttribute('height', h);
+    ctx.clearRect(0, 0, w, h);
+    ctx.putImageData(tile, 0, 0);
+
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.rect(0, 0, w, h);
+    ctx.fill();
+
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = "#000000";
+    ctx.beginPath();
+    ctx.moveTo( w / 2, 0);
+    ctx.lineTo( w, h / 2);
+    ctx.lineTo( w / 2, h);
+    ctx.lineTo( 0, h / 2);
+    ctx.lineTo( w / 2, 0);
+    ctx.rect(w, 0, -w, h);
+    ctx.fill();
+
+    tile = ctx.getImageData(0, 0, w, h);
+
+    return tile;
   }
 
   updgrateAge() {
