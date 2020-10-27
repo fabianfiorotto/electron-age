@@ -48,6 +48,12 @@ module.exports = class AoeMap {
     }
   }
 
+  drawMemory(camera, ctx) {
+    for (let entity of this.entities) {
+      entity.drawMemory(camera, ctx);
+    }
+  }
+
   update() {
     this.entities.forEach((unit) => {
       unit.update();

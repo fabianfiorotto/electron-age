@@ -34,12 +34,12 @@ module.exports = class SlpFrame {
     }
   }
 
-  draw(pos, player) {
+  draw(pos, player, ctx) {
     if (player && this.imgs[player]) {
-      resources.drawImage(this.imgs[player], pos.subtract(this.hotspot));
+      resources.drawImage(this.imgs[player], pos.subtract(this.hotspot), ctx);
     }
     else {
-      resources.drawImage(this.img, pos.subtract(this.hotspot));
+      resources.drawImage(this.img, pos.subtract(this.hotspot), ctx);
     }
   }
 

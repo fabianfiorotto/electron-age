@@ -78,6 +78,15 @@ module.exports = class ResourceManager {
     return this.fogContext2d;
   }
 
+  getFogAux2DContext() {
+    if (this.fogAuxCanvasContext2d) {
+      return this.fogAuxCanvasContext2d;
+    }
+    var c = document.getElementById("fogAuxCanvas");
+    this.fogAuxCanvasContext2d = c.getContext("2d");
+    return this.fogAuxCanvasContext2d;
+  }
+
   putImage(img, v, ctx) {
     this.painter.putImage(img, v, ctx);
   }
@@ -114,13 +123,13 @@ module.exports = class ResourceManager {
     this.painter.drawCompleted();
   }
 
+  getPainter(ctx) {
+    return (!ctx || ctx === this.get2DContext()) ? this.painter : this.simple;
+  }
+
+
   drawImage(img, v, ctx) {
-    if (!ctx || ctx === this.get2DContext()) {
-      this.painter.drawImage(img, v, ctx);
-    }
-    else {
-      this.simple.drawImage(img, v, ctx);
-    }
+    this.getPainter(ctx).drawImage(img, v, ctx);
   }
 
   drawCircle(v, rad, ctx) {
@@ -140,16 +149,17 @@ module.exports = class ResourceManager {
       ctx = this.getFog2DContext();
     }
     var x = v.e(1), y = v.e(2);
-    let size = 100;
-
+    let w = 96;
+    let h = 48;
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.fillStyle = "#000000";
     ctx.beginPath();
-    ctx.moveTo(x, y - size / 4);
-    ctx.lineTo(x - size / 2, y);
-    ctx.lineTo(x, y + size / 4);
-    ctx.lineTo(x + size / 2, y);
+    ctx.moveTo( x + w / 2, y + 0);
+    ctx.lineTo( x + w    , y + h / 2);
+    ctx.lineTo( x + w / 2, y + h);
+    ctx.lineTo( x + 0    , y + h / 2);
+    ctx.lineTo( x + w / 2, y + 0);
     ctx.closePath();
     ctx.fill();
   }

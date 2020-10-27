@@ -113,6 +113,14 @@ module.exports = class Building extends Entity {
     }
   }
 
+  drawMemory(camera, ctx) {
+    var model = this.getModel();
+    var pos = this.pos.subtract(camera);
+    if (model) {
+      model.draw(pos, 0, this.getFrame(), this.player.id, ctx);
+    }
+  }
+
   update() {
 
     this.each(500, 'attack' , () => {

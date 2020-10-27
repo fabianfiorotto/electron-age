@@ -82,7 +82,7 @@ module.exports = class Player {
     const terrain = this.map.terrain;
 
     let tile = this.seight_memory[i][j];
-    let pos1 = terrain.m.x($V([i-1, j])); //TODO no coinciden!!??
+    let pos1 = terrain.m.x($V([i, j]));
     pos1 = pos1.subtract(camera);
     ctx.globalCompositeOperation = 'source-over';
     resources.drawImage(tile, pos1, ctx);
@@ -118,12 +118,14 @@ module.exports = class Player {
     const w = tile.width;
     const h = tile.height;
 
-    var ctx = resources.getAux2DContext();
+    var ctx = resources.getFogAux2DContext();
     ctx.globalCompositeOperation = 'source-over';
     ctx.canvas.setAttribute('width', w);
     ctx.canvas.setAttribute('height', h);
     ctx.clearRect(0, 0, w, h);
     ctx.putImageData(tile, 0, 0);
+
+    this.map.drawMemory(terrain.m.x($V([i, j])), ctx);
 
     ctx.beginPath();
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";

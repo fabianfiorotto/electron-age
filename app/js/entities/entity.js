@@ -103,6 +103,9 @@ module.exports = class Entity {
   drawHitpoints(camera) {
   }
 
+  drawMemory(camera, ctx) {
+  }
+
   update() {
   }
 

@@ -138,9 +138,9 @@ module.exports = class SlpModel {
     });
   }
 
-  draw(pos, orientation, frame, player) {
+  draw(pos, orientation, frame, player, ctx) {
     if (this.frames[frame]) {
-      this.frames[frame].draw(pos, player);
+      this.frames[frame].draw(pos, player, ctx);
     }
   }
 
