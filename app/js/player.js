@@ -123,9 +123,9 @@ module.exports = class Player {
     ctx.canvas.setAttribute('width', w);
     ctx.canvas.setAttribute('height', h);
     ctx.clearRect(0, 0, w, h);
-    ctx.putImageData(tile, 0, 0);
-
-    this.map.drawMemory(terrain.m.x($V([i, j])), ctx);
+    let camera = terrain.m.x($V([i, j]))
+    terrain.drawTile(i, j, camera, ctx)
+    this.map.drawMemory(camera, ctx);
 
     ctx.beginPath();
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
