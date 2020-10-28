@@ -223,10 +223,14 @@ module.exports = class MapView {
     if (this.map.terrain.redraw) {
       resources.clearTerrain();
       this.map.drawTerrain(this.cameraPos);
-      resources.clearFog();
-      this.player?.drawAllLineOfSeightMemory(this.cameraPos);
+      if (resources.config.fogofwar) {
+        resources.clearFog();
+        this.player?.drawAllLineOfSeightMemory(this.cameraPos);
+      }
     }
-    this.player?.drawLineOfSeight(this.cameraPos);
+    if (resources.config.fogofwar) {
+      this.player?.drawLineOfSeight(this.cameraPos);
+    }
     this.map.draw(this.cameraPos);
     resources.drawCompleted();
   }
