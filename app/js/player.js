@@ -66,14 +66,6 @@ module.exports = class Player {
     this.refresh_seight = true;
   }
 
-  drawAllLineOfSeightMemory(camera) {
-    for (let i = 0; i < this.map.width; i++) {
-      for (let j = 0; j < this.map.height; j++) {
-        this.drawLineOfSeightMemory(camera, i, j);
-      }
-    }
-  }
-
   drawLineOfSeightMemory(camera, i, j) {
     if (!this.seight_memory[i][j]) {
       return;
@@ -89,14 +81,18 @@ module.exports = class Player {
   }
 
   drawLineOfSeight(camera, redraw) {
-    if (!this.refresh_seight) {
+    if (!this.refresh_seight && !redraw) {
       return false;
     }
+    if (redraw) {
+      resources.clearFog();
+    }
+
     const ctx = resources.getFog2DContext();
     const terrain = this.map.terrain;
     for (let i = 0; i < this.map.width; i++) {
       for (let j = 0; j < this.map.height; j++) {
-        if (this.seight[i][j] && !this.seight_old[i][j]) {
+        if (this.seight[i][j] && (!this.seight_old[i][j] || redraw)) {
           let pos = terrain.m.x($V([i, j]));
           pos = pos.subtract(camera);
           resources.drawLineOfSeight(pos);
@@ -105,6 +101,9 @@ module.exports = class Player {
         if (!this.seight[i][j] && this.seight_old[i][j]) {
           this.seight_memory[i][j] = this.createSeightMemory(i, j);
           this.drawLineOfSeightMemory(camera, i, j);
+        }
+        else if (redraw) {
+          this.drawLineOfSeightMemory(camera, i, j)
         }
       }
     }
