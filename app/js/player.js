@@ -96,13 +96,13 @@ module.exports = class Player {
     const terrain = this.map.terrain;
     for (let i = 0; i < this.map.width; i++) {
       for (let j = 0; j < this.map.height; j++) {
-        if (this.seight[i][j]) {
+        if (this.seight[i][j] && !this.seight_old[i][j]) {
           let pos = terrain.m.x($V([i, j]));
           pos = pos.subtract(camera);
           resources.drawLineOfSeight(pos);
           this.seight_memory[i][j] = null;
         }
-        else if (this.seight_old[i][j]) {
+        if (!this.seight[i][j] && this.seight_old[i][j]) {
           this.seight_memory[i][j] = this.createSeightMemory(i, j);
           this.drawLineOfSeightMemory(camera, i, j);
         }

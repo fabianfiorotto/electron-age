@@ -97,6 +97,7 @@ body {
   .map canvas {
     position: absolute; }
 
+#fogAuxCanvas,
 #auxCanvas {
   display: none; }
 
