@@ -74,6 +74,7 @@ var playSound = async function(id, filename) {
   var stat = await file.stat();
   var buffer = Buffer.alloc(stat.size);
   await file.read(buffer, 0, buffer.length, 0);
+  file.close();
 
   var audioCtx = new AudioContext();
 

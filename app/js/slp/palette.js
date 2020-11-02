@@ -12,7 +12,6 @@ module.exports = class SlpPalette {
     var entries = lines.shift();
 
     lines.pop();
-    file.close();
 
     return lines.map((l) => l.split(" ").map((n) => parseInt(n)));
   }

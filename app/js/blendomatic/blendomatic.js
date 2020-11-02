@@ -14,6 +14,7 @@ module.exports = class Blendomatic {
     var file = await fs.open(filename, "r");
     var reader = new BinaryReader();
     await reader.loadFile(file);
+    file.close();
 
     var numBlendingModes = reader.readUInt32LE();
     var numTiles = reader.readUInt32LE();

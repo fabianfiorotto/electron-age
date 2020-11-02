@@ -24,6 +24,7 @@ module.exports = class MapView {
     this.loadingStart();
     var file = await fs.open(filename, "r");
     var map = await ScxMapBuilder.load(file, (v, t) => this.progress(v, t));
+    file.close();
     this.loadMap(map);
     this.loadingComplete();
     return map;

@@ -87,7 +87,6 @@ module.exports = class SlpModel {
       }
 
     }
-    file.close();
   }
 
   getCount(cmd, reader) {

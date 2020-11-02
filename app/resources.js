@@ -38,7 +38,7 @@ module.exports = class ResourceManager {
     await drs.open(filename, pid, "pls");
     this.palettes[pid] = await SlpPalette.load(drs);
     this.palettes[pid].id = pid;
-    // drs.close();
+    drs.close();
     return this.palettes[pid];
   }
 
@@ -240,7 +240,7 @@ module.exports = class ResourceManager {
     }
     await model.loadFrames(drs);
 
-    // drs.close();
+    drs.close();
     this.models[id] = model;
     return model;
   }

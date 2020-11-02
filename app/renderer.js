@@ -5,7 +5,6 @@ const MapView = require('./ui/map/map');
 const DebugInfo = require('./ui/debug/debug');
 
 require("sylvester");
-const fs = require('fs').promises;
 
 window.resources = new ResourceManager();
 

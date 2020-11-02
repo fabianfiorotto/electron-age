@@ -53,6 +53,7 @@ module.exports = class DrsFile {
         return table.ids;
       }
     }
+    fd.close();
     return ids;
   }
 
@@ -106,6 +107,7 @@ module.exports = class DrsFile {
         }
       }
     }
+    fd.close();
     return null;
   }
 
