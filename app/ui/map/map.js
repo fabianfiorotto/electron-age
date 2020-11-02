@@ -204,13 +204,15 @@ module.exports = class MapView {
     resources.drawRefresh();
   }
 
+  resizeMapCanvas(canvas) {
+    canvas.setAttribute('width', window.innerWidth);
+    canvas.setAttribute('height', window.innerHeight);
+  }
+
   resizeMap() {
-    this.entitiesCanvas.setAttribute('width', window.innerWidth);
-    this.terrainCanvas.setAttribute('width', window.innerWidth);
-    this.fogCanvas.setAttribute('width', window.innerWidth);
-    this.entitiesCanvas.setAttribute('height', window.innerHeight);
-    this.terrainCanvas.setAttribute('height', window.innerHeight);
-    this.fogCanvas.setAttribute('height', window.innerHeight);
+    this.resizeMapCanvas(this.entitiesCanvas);
+    this.resizeMapCanvas(this.terrainCanvas);
+    this.resizeMapCanvas(this.fogCanvas);
 
     this.element.style.height = window.innerHeight + "px";
 
