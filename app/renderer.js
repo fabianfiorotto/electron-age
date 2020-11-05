@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
   debugInfo.bind(null , 'debug');
 
   mapView.documentReady();
-  mapView.loadResources(resources);
   mapView.loadTestMap();
 
   idle = function() {

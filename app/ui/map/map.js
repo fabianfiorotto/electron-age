@@ -2,6 +2,7 @@ const AoeMap = require('../../js/map');
 const ScxMapBuilder = require('../../js/scx/scx');
 const TestBuilder = require('../../js/test/testmap');
 
+const LoadingScreen = require('../loading/loading');
 const TopBar = require('../topbar/topbar');
 const Dashboard = require('../dashboard/dashboard');
 
@@ -14,6 +15,7 @@ module.exports = class MapView {
     this.cameraPos = $V([0, 0]);
     this.topBar = new TopBar();
     this.dashboard = new Dashboard();
+    this.loading = new LoadingScreen();
     this.selection = {
       resizing: false,
       click: false,
@@ -21,37 +23,22 @@ module.exports = class MapView {
   }
 
   async loadMapScx(filename) {
-    this.loadingStart();
+    this.loading.start();
     var file = await fs.open(filename, "r");
-    var map = await ScxMapBuilder.load(file, (v, t) => this.progress(v, t));
+    var map = await ScxMapBuilder.load(file, (v, t) => this.loading.progress(v, t));
     file.close();
     this.loadMap(map);
-    this.loadingComplete();
+    this.loading.complete();
     return map;
   };
 
   async loadTestMap() {
-    this.loadingStart();
-    let map = await TestBuilder.loadTestMap((v, t) => this.progress(v, t));
+    this.loading.start();
+    let map = await TestBuilder.loadTestMap((v, t) => this.loading.progress(v, t));
     this.loadMap(map);
-    this.loadingComplete();
+    this.loading.complete();
     return map;
   };
-
-  progress(value, text) {
-    this.loadingText.textContent = text;
-    this.loadingProgress.setAttribute('value', Math.round(value * 100))
-  }
-
-  loadingStart() {
-    if (this.loadingScreen) {
-      this.loadingScreen.style.display = '';
-    }
-  }
-
-  loadingComplete() {
-    this.loadingScreen.style.display = 'none';
-  }
 
   loadMap(map) {
     this.map = map;
@@ -127,11 +114,9 @@ module.exports = class MapView {
     this.entitiesCanvas = document.getElementById("entitiesCanvas");
     this.terrainCanvas = document.getElementById("terrainCanvas");
     this.fogCanvas = document.getElementById("fogCanvas");
-    this.loadingScreen = document.getElementById("loading-screen");
-    this.loadingText = document.getElementById("loading-screen-text");
-    this.loadingProgress = document.getElementById("loading-screen-progress");
-
     this.selectbox = document.getElementById("selectbox");
+
+    this.loading.bind(null, 'loading-screen');
 
     this.element.addEventListener('mousemove', (e) => {
       this.map.over(this.eventCoords(e));
@@ -234,16 +219,4 @@ module.exports = class MapView {
     this.map.draw(this.cameraPos);
     resources.drawCompleted();
   }
-
-  async loadResources(res) {
-    let palette = await resources.loadPalette(50503);
-    var model = await res.loadInterface(50100);
-    model.load({
-      base: palette,
-      player: 0
-    });
-    var img = model.frames[0].imgs[0];
-    this.loadingScreen.style.backgroundImage = 'url(' + res.getUrl(img) +')';
-  }
-
 }

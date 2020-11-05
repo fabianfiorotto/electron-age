@@ -15,6 +15,23 @@ body {
   text-decoration: none;
   font-size: 25px; }
 
+#loading-screen {
+  background-color: #a24300;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 99;
+  color: #fff;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  text-align: center; }
+  #loading-screen .loading-screen-inner {
+    width: 100%; }
+
 .dashboard-wrapper {
   position: fixed;
   width: 100%;
@@ -112,23 +129,6 @@ body {
 
 #fogCanvas {
   opacity: 0.5; }
-
-#loading-screen {
-  background-color: #a24300;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  z-index: 99;
-  color: #fff;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  text-align: center; }
-  #loading-screen .loading-screen-inner {
-    width: 100%; }
 
 .main-menu-options {
   margin: 30px 50px 30px 30px; }
