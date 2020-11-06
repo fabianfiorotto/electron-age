@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 
 module.exports = class UIWidget {
 
@@ -23,7 +23,7 @@ module.exports = class UIWidget {
   onBind(map) {
   }
 
-  bind(element) {
+  async bind(element) {
     if (typeof element === 'string') {
       this.element = document.getElementById(element);
     }
@@ -37,19 +37,15 @@ module.exports = class UIWidget {
     if (templateName) {
       let parts = templateName.split('/');
       let last = parts[parts.length - 1];
-      fs.readFile('./app/ui/' + templateName + '/' + last + '.html', (err, data) => {
-        if (err) {
-          console.log(err);
-        }
-        this.element.innerHTML = data;
-        this.loadSlpImgs();
-        this.onBind($);
-        this.loadResources(resources);
-      });
+      let data = await fs.readFile('./app/ui/' + templateName + '/' + last + '.html')
+      this.element.innerHTML = data;
+      this.loadSlpImgs();
+      this.onBind($);
+      await this.loadResources(resources);
     }
     else {
       this.onBind($);
-      this.loadResources(resources);
+      await this.loadResources(resources);
     }
   }
 

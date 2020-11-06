@@ -11,6 +11,10 @@ module.exports = class TopBar extends UIWidget {
     this.topBarMenu = new TopBarMenu();
   }
 
+  template() {
+    return 'topbar';
+  }
+
   onBind($) {
     this.viewResources.bind($('.view-resources'));
     this.topBarMenu.bind($('.top-bar-menu'));

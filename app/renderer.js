@@ -12,12 +12,16 @@ var mapView = new MapView();
 var debugInfo = new DebugInfo();
 
 document.addEventListener("DOMContentLoaded", function() {
-  var idle, loop;
+  var idle, loop, init;
 
-  debugInfo.bind('debug');
+  init = async () => {
+    await debugInfo.bind('debug');
+    setInterval(() => debugInfo.resetFps(), 1000);
 
-  mapView.documentReady();
-  mapView.loadTestMap();
+    await mapView.bind('map');
+    await mapView.loadTestMap();
+    loop();
+  }
 
   idle = function() {
     mapView.draw();
@@ -34,9 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   };
 
-  setInterval(() => debugInfo.resetFps(), 1000);
-
-  loop();
-
+  init();
   return 1;
 });

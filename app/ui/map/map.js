@@ -6,11 +6,12 @@ const LoadingScreen = require('../loading/loading');
 const TopBar = require('../topbar/topbar');
 const Dashboard = require('../dashboard/dashboard');
 
-// const UIWidget = require('../ui_widget');
+const UIWidget = require('../ui_widget');
 
-module.exports = class MapView {
+module.exports = class MapView extends UIWidget {
 
   constructor() {
+    super();
     this.map = new AoeMap(120, 120); //No puedo dejar la variable map vacia!!
     this.cameraPos = $V([0, 0]);
     this.topBar = new TopBar();
@@ -27,7 +28,7 @@ module.exports = class MapView {
     var file = await fs.open(filename, "r");
     var map = await ScxMapBuilder.load(file, (v, t) => this.loading.progress(v, t));
     file.close();
-    this.loadMap(map);
+    this.bindMap(map);
     this.loading.complete();
     return map;
   };
@@ -35,12 +36,12 @@ module.exports = class MapView {
   async loadTestMap() {
     this.loading.start();
     let map = await TestBuilder.loadTestMap((v, t) => this.loading.progress(v, t));
-    this.loadMap(map);
+    this.bindMap(map);
     this.loading.complete();
     return map;
   };
 
-  loadMap(map) {
+  bindMap(map) {
     this.map = map;
     this.cameraPos = map.initCameraPos;
 
@@ -107,13 +108,15 @@ module.exports = class MapView {
     }
   }
 
-  documentReady() {
-    this.element = document.getElementById("map");
+  template() {
+    return 'map';
+  }
 
-    this.entitiesCanvas = document.getElementById("entitiesCanvas");
-    this.terrainCanvas = document.getElementById("terrainCanvas");
-    this.fogCanvas = document.getElementById("fogCanvas");
-    this.selectbox = document.getElementById("selectbox");
+  onBind($) {
+    this.entitiesCanvas = $("#entitiesCanvas");
+    this.terrainCanvas = $("#terrainCanvas");
+    this.fogCanvas = $("#fogCanvas");
+    this.selectbox = $("#selectbox");
 
     this.topBar.bind('top-bar');
     this.dashboard.bind('dashboard');
