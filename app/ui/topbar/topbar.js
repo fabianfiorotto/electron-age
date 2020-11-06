@@ -11,14 +11,19 @@ module.exports = class TopBar extends UIWidget {
     this.topBarMenu = new TopBarMenu();
   }
 
-  onBind(map, $) {
-    this.viewResources.bind(map, $('.view-resources'));
-    this.topBarMenu.bind(map, $('.top-bar-menu'));
-    this.player = map.players[1];
+  onBind($) {
+    this.viewResources.bind($('.view-resources'));
+    this.topBarMenu.bind($('.top-bar-menu'));
   }
 
-  async loadResources(res) {
-    this.imgs = {};
+  bindMap(map) {
+    this.player = map.players[1];
+    this.viewResources.bindMap(map);
+
+    this.loadCivResources(resources);
+  }
+
+  async loadCivResources(res) {
     var model = await res.loadInterface(this.player.civilization.interface());
     model.load({
       base: resources.palettes[50505],

@@ -6,7 +6,7 @@ module.exports = class EntityInfo extends UIWidget {
     return 'dashboard/entity_info';
   }
 
-  onBind(map, $) {
+  onBind($) {
     this.resources    = $('.resources');
     this.thumbnail    = $('.thumbnail');
     this.stone        = $('.unit-stone');
@@ -23,7 +23,9 @@ module.exports = class EntityInfo extends UIWidget {
       require('electron').remote.getCurrentWindow().openDevTools();
       map.selected[0].debugger();
     });
+ }
 
+ bindMap(map) {
     if (map.selected.length == 1) {
       this.element.style.display = '';
       this.eventsUnsuscribe();

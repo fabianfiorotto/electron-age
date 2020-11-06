@@ -6,13 +6,16 @@ module.exports = class ViewResources extends UIWidget{
     return 'topbar/resources';
   }
 
-  onBind(map, $) {
+  onBind($) {
     this.wood       = $('.wood');
     this.food       = $('.food');
     this.gold       = $('.gold');
     this.stone      = $('.stone');
     this.age        = $('.current-age');
     this.population = $('.population');
+  }
+
+  bindMap(map) {
     var player = map.players[1];
     player.onDidChangeResources((res) => this.display(res));
     player.onDidChangeAge((age) => this.displayAge(age));

@@ -2,7 +2,7 @@ const UIWidget = require('../ui_widget');
 
 module.exports = class LoadingScreen extends UIWidget {
 
-  onBind(map, $) {
+  onBind($) {
     this.text = $("#loading-screen-text");
     this.progressBar = $("#loading-screen-progress");
   }

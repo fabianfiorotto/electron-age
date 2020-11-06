@@ -15,13 +15,12 @@ module.exports = class MainManu extends UIWidget {
     this.element.style.backgroundImage = 'url(' + res.getUrl(img) +')';
   }
 
-  onBind(map, $) {
+  onBind($) {
     this.closeButton = $('.close');
     this.closeButton.addEventListener('click', (e) => this.close());
 
     this.openButton = $('.open-scenario');
     this.openButton.addEventListener('click', (e) => this.openScenario());
-
   }
 
   open() {

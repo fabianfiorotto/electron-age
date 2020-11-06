@@ -19,16 +19,26 @@ module.exports = class Dashboard extends UIWidget {
     return 'dashboard';
   }
 
-  onBind(map, $) {
-    this.controls.bind(map, $('.controls'));
-    this.info.bind(map, $('.entity-info'));
-    this.selection.bind(map, $('.selection'));
-    this.progress.bind(map, $('.progress'));
-    this.player = map.players[1];
+  onBind($) {
+    this.controls.bind($('.controls'));
+    this.info.bind($('.entity-info'));
+    this.selection.bind($('.selection'));
+    this.progress.bind($('.progress'));
   }
 
-  async loadResources(res) {
-    this.imgs = {};
+  bindMap(map) {
+    this.player = map.players[1];
+
+    this.controls.bindMap(map);
+    this.info.bindMap(map);
+    this.selection.bindMap(map);
+    this.progress.bindMap(map);
+
+    this.loadCivResources(resources);
+  }
+
+  async loadCivResources(res) {
+    // var model = await res.loadInterface(51143);
     var model = await res.loadInterface(this.player.civilization.interface());
     model.load({
       base: resources.palettes[50505],

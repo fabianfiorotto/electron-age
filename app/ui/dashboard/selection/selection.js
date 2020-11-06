@@ -2,7 +2,7 @@ const UIWidget = require('../../ui_widget');
 
 module.exports = class Controls extends UIWidget {
 
-  onBind(map) {
+  bindMap(map) {
     map.onDidChangeSelection((selected) => {
 
       if (selected.length > 1) {

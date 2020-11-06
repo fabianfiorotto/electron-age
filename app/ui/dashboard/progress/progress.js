@@ -10,7 +10,7 @@ module.exports = class Controls extends UIWidget {
     return 'dashboard/progress';
   }
 
-  onBind(map, $) {
+  onBind($) {
     this.progress = $('.the-progress');
     this.icon     = $('.progress-icon');
     this.queue    = $('.queue');
@@ -20,7 +20,9 @@ module.exports = class Controls extends UIWidget {
         this.selected.operationCancel();
       }
     });
+  }
 
+  bindMap(map) {  
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
         if (selected[0].operation) {

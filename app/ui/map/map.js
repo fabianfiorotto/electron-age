@@ -44,9 +44,8 @@ module.exports = class MapView {
     this.map = map;
     this.cameraPos = map.initCameraPos;
 
-    this.topBar.bind(map, 'top-bar');
-    this.dashboard.bind(map, 'dashboard');
-
+    this.topBar.bindMap(map);
+    this.dashboard.bindMap(map);
 
     this.player = map.players[1];
 
@@ -116,7 +115,9 @@ module.exports = class MapView {
     this.fogCanvas = document.getElementById("fogCanvas");
     this.selectbox = document.getElementById("selectbox");
 
-    this.loading.bind(null, 'loading-screen');
+    this.topBar.bind('top-bar');
+    this.dashboard.bind('dashboard');
+    this.loading.bind('loading-screen');
 
     this.element.addEventListener('mousemove', (e) => {
       this.map.over(this.eventCoords(e));

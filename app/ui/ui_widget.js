@@ -23,7 +23,7 @@ module.exports = class UIWidget {
   onBind(map) {
   }
 
-  bind(map, element) {
+  bind(element) {
     if (typeof element === 'string') {
       this.element = document.getElementById(element);
     }
@@ -43,14 +43,17 @@ module.exports = class UIWidget {
         }
         this.element.innerHTML = data;
         this.loadSlpImgs();
-        this.onBind(map, $);
+        this.onBind($);
         this.loadResources(resources);
       });
     }
     else {
-      this.onBind(map, $);
+      this.onBind($);
       this.loadResources(resources);
     }
+  }
+
+  bindMap(map) {
   }
 
   querySelector(selector) {

@@ -24,7 +24,7 @@ module.exports = class DebugInfo extends UIWidget {
     }
   }
 
-  onBind(map, $) { //Map no tiene sentido aca...
+  onBind($) {
     this.showFps = $("#fps");
     this.toggleSmartPainter = $('#smart');
 

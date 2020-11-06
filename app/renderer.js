@@ -14,7 +14,7 @@ var debugInfo = new DebugInfo();
 document.addEventListener("DOMContentLoaded", function() {
   var idle, loop;
 
-  debugInfo.bind(null , 'debug');
+  debugInfo.bind('debug');
 
   mapView.documentReady();
   mapView.loadTestMap();
