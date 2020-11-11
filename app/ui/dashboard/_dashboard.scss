@@ -1,33 +1,27 @@
-.dashboard-wrapper {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
-
-.dashboard-wrapper {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-}
-
 .dashboard {
-  height: 218px;
-  width: 1280px;
-  margin: auto;
-}
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 
-.dashboard-column {
-  position: relative;
-  width: 340px;
-  box-sizing: border-box;
-  float: left;
-}
+  .inner {
+    height: 218px;
+    width: 1280px;
+    margin: auto;
+  }
 
-.dashboard-column-1 {
-  width: 340px;
-  padding: 43px;
-}
+  .column {
+    position: relative;
+    width: 340px;
+    box-sizing: border-box;
+    float: left;
+  }
 
-.dashboard-column-2 {
-  padding: 40px 30px;
+  .column-1 {
+    width: 340px;
+    padding: 43px;
+  }
+
+  .column-2 {
+    padding: 40px 30px;
+  }
 }

@@ -20,6 +20,8 @@ module.exports = class Dashboard extends UIWidget {
   }
 
   onBind($) {
+    this.inner = $('.inner');
+
     this.controls.bind($('.controls'));
     this.info.bind($('.entity-info'));
     this.selection.bind($('.selection'));
@@ -45,7 +47,7 @@ module.exports = class Dashboard extends UIWidget {
       player: 0
     });
     var img = model.frames[0].imgs[0];
-    this.element.style.backgroundImage = 'url(' + res.cropUrl(img, 0, 806 ,1280, 218) +')';
+    this.inner.style.backgroundImage = 'url(' + res.cropUrl(img, 0, 806 ,1280, 218) +')';
   }
 
 };
