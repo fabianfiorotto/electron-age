@@ -223,4 +223,16 @@ module.exports = class MapView extends UIWidget {
     this.map.draw(this.cameraPos);
     resources.drawCompleted();
   }
+
+  async loadResources(res) {
+    let palette = await resources.loadPalette(50505);
+
+    var model = await res.loadInterface(51000);
+    model.load({
+      base: palette,
+      player: 0
+    });
+    var img = model.frames[0].imgs[0];
+    this.element.style.cursor = 'url(' + res.getUrl(img) +'), auto';
+  }
 }
