@@ -28,8 +28,8 @@ module.exports = class AoeMap {
   }
 
 
-  drawTerrain(camera) {
-    this.terrain.draw(camera);
+  drawTerrain(camera, player) {
+    this.terrain.draw(camera, player);
   }
 
   draw(camera) {

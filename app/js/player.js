@@ -96,6 +96,7 @@ module.exports = class Player {
           let pos = terrain.m.x($V([i, j]));
           pos = pos.subtract(camera);
           resources.drawLineOfSeight(pos);
+          terrain.drawTile(i, j, camera); // TODO don't draw more than once.
           this.seight_memory[i][j] = null;
         }
         if (!this.seight[i][j] && this.seight_old[i][j]) {

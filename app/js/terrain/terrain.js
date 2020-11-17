@@ -186,14 +186,15 @@ module.exports = class Terrain {
     return masks;
   }
 
-  draw(camera) {
+  draw(camera, player) {
     var tcxt = resources.getTerrain2DContext();
-    // var blend = false;
-    var blend = true;
+    const fog = resources.config.fogofwar && player;
     if (this.tiles.length) {
       for (var i = 0; i < this.width; i++) {
         for (var j = 0; j < this.height; j++) {
-          this.drawTile(i, j, camera);
+          if (!fog || player.seight[i][j]) {
+            this.drawTile(i, j, camera);
+          }
         }
       }
     }

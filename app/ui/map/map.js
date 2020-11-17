@@ -215,7 +215,7 @@ module.exports = class MapView extends UIWidget {
     let redraw = this.map.terrain.redraw;
     if (redraw) {
       resources.clearTerrain();
-      this.map.drawTerrain(this.cameraPos);
+      this.map.drawTerrain(this.cameraPos, this.player);
     }
     if (resources.config.fogofwar) {
       this.player?.drawLineOfSeight(this.cameraPos, redraw);
