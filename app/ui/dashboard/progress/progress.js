@@ -22,11 +22,11 @@ module.exports = class Controls extends UIWidget {
     });
   }
 
-  bindMap(map) {  
+  bindMap(map) {
     map.onDidChangeSelection((selected) => {
       if (selected.length == 1) {
         if (selected[0].operation) {
-          this.element.style.display = '';
+          this.element.style.display = 'block';
           this.progress.setAttribute('value', selected[0].operation.step);
           this.progress.setAttribute('max', selected[0].operation.time);
         }
@@ -61,7 +61,7 @@ module.exports = class Controls extends UIWidget {
 
   eventsSubscribe(selected) {
     this.onOperationInit = selected.onOperationInit((control) => {
-      this.element.style.display = '';
+      this.element.style.display = 'block';
       this.icon.setAttribute('src', control.icon);
       this.progress.setAttribute('value', control.step);
       this.progress.setAttribute('max', control.time);

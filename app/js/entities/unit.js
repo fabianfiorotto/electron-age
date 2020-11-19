@@ -165,7 +165,7 @@ module.exports = class Unit extends Entity {
   }
 
   targetReached() {
-    if (this.target.player.id != this.player.id) {
+    if (this.isEnemy(this.target)) {
       this.setState(Unit.ATTACKING);
     }
   }
@@ -244,6 +244,10 @@ module.exports = class Unit extends Entity {
       default:
         return this.models.stand;
     }
+  }
+
+  getCursorFor(entity) {
+    return this.isEnemy(entity) ? 'attack' : 'default';
   }
 
   thumbnail() {

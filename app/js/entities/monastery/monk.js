@@ -19,6 +19,10 @@ module.exports = class Monk extends Unit {
     };
   }
 
+  getCursorFor(entity) {
+    return this.isEnemy(entity) ? 'convert' : 'default';
+  }
+
   thumbnail() {
     return 33;
   }

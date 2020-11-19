@@ -16,4 +16,8 @@ module.exports = class Resource extends Entity {
     resources.drawSquare(this.pos.subtract(camera), 100);
   }
 
+  defineTypes() {
+    return [EntityType.RESOURCE];
+  }
+
 };

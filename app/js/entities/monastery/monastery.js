@@ -34,6 +34,7 @@ module.exports = class Monastery extends Building {
   }
 
   defineControls() {
+    var icons = this.icons;
     return {
       createMonk: {
         icon: icons.createMonk,

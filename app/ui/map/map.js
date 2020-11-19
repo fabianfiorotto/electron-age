@@ -21,6 +21,9 @@ module.exports = class MapView extends UIWidget {
       resizing: false,
       click: false,
     }
+
+    this.cursors = {};
+    this.overEntity = null;
   }
 
   async loadMapScx(filename) {
@@ -54,6 +57,19 @@ module.exports = class MapView extends UIWidget {
       this.player.updateSeight();
     });
     this.player.updateSeight();
+  }
+
+  setOverEntity(entity) {
+    if (this.map.selected.length && entity) {
+      let selected = this.map.selected[0];
+      let name = selected.getCursorFor(entity);
+      this.setCursor(name);
+    }
+    else {
+      this.setCursor('default');
+    }
+
+    this.overEntity = entity;
   }
 
   eventCoords(e) {
@@ -123,7 +139,12 @@ module.exports = class MapView extends UIWidget {
     this.loading.bind('loading-screen');
 
     this.element.addEventListener('mousemove', (e) => {
-      this.map.over(this.eventCoords(e));
+      let coords = this.eventCoords(e);
+      this.map.over(coords);
+      let entity = this.map.clickEntity(coords);
+      if (entity != this.overEntity) {
+        this.setOverEntity(entity);
+      }
       if (this.selection.click) {
         this.selection.x2 = e.clientX;
         this.selection.y2 = e.clientY;
@@ -224,6 +245,10 @@ module.exports = class MapView extends UIWidget {
     resources.drawCompleted();
   }
 
+  setCursor(name) {
+    this.element.style.cursor = 'url(' + resources.getUrl(this.cursors[name]) +'), auto';
+  }
+
   async loadResources(res) {
     let palette = await resources.loadPalette(50505);
 
@@ -232,7 +257,10 @@ module.exports = class MapView extends UIWidget {
       base: palette,
       player: 0
     });
-    var img = model.frames[0].imgs[0];
-    this.element.style.cursor = 'url(' + res.getUrl(img) +'), auto';
+    this.cursors.default = model.frames[0].imgs[0];
+    this.cursors.pointer = model.frames[3].imgs[0];
+    this.cursors.attack = model.frames[4].imgs[0];
+    this.cursors.convert = model.frames[5].imgs[0];
+    this.setCursor('default')
   }
 }

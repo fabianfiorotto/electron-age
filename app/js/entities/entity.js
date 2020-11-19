@@ -297,6 +297,15 @@ module.exports = class Entity {
     entity.emitter.emit('did-change-resources', entity.resources);
   }
 
+  getCursorFor(entity) {
+    return 'default';
+  }
+
+  isEnemy(entity) {
+    // TODO teams
+    return entity.player.id != this.player.id;
+  }
+
   click() {
 
   }

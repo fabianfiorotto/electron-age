@@ -429,6 +429,10 @@ module.exports = class Villager extends Unit {
   }
 
 
+  getCursorFor(entity) {
+    return entity.isType(EntityType.RESOURCE) ? 'pointer' : super.getCursorFor(entity);
+  }
+
   async loadResources(res) {
     await super.loadResources(res);
     for (const [key,role] of Object.entries(this.roles)){
