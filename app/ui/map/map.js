@@ -24,6 +24,9 @@ module.exports = class MapView extends UIWidget {
 
     this.cursors = {};
     this.overEntity = null;
+    this.viewSize = resources.config.viewSize;
+    this.translating = null;
+    this.translate = $V([0, 0]);
   }
 
   async loadMapScx(filename) {
@@ -46,7 +49,10 @@ module.exports = class MapView extends UIWidget {
 
   bindMap(map) {
     this.map = map;
-    this.cameraPos = map.initCameraPos;
+    this.cameraPos = map.initCameraPos.subtract($V([
+      (this.viewSize - 1) * window.innerWidth  / 2,
+      (this.viewSize - 1) * window.innerHeight / 2,
+    ]));
 
     this.topBar.bindMap(map);
     this.dashboard.bindMap(map);
@@ -80,22 +86,23 @@ module.exports = class MapView extends UIWidget {
   }
 
   windowEventCoords(e) {
-    var dim = this.entitiesCanvas.getBoundingClientRect();
+    var dim = this.inner.getBoundingClientRect();
     var x = e.clientX - dim.left;
     var y = e.clientY - dim.top;
 
     if (x >= 0 && y >=0 && x <= dim.width && y <= dim.height) {
-      return $V([x, y]).add(this.cameraPos);
+      return $V([x, y]).add(this.cameraPos).add(this.translate);
     }
     return NULL;
   }
 
   getSelection() {
     let x1, y1, x2, y2;
-    x1 = Math.min(this.selection.x1, this.selection.x2)
-    x2 = Math.max(this.selection.x1, this.selection.x2)
-    y1 = Math.min(this.selection.y1, this.selection.y2)
-    y2 = Math.max(this.selection.y1, this.selection.y2)
+    const [tx, ty] = this.translate.elements;
+    x1 = Math.min(this.selection.x1, this.selection.x2) + tx;
+    x2 = Math.max(this.selection.x1, this.selection.x2) + tx;
+    y1 = Math.min(this.selection.y1, this.selection.y2) + ty;
+    y2 = Math.max(this.selection.y1, this.selection.y2) + ty;
     return {
       start: $V([x1, y1]).add(this.cameraPos),
       end: $V([x2, y2]).add(this.cameraPos)
@@ -106,12 +113,12 @@ module.exports = class MapView extends UIWidget {
     const style = this.selectbox.style;
     if (this.selection.resizing) {
       let x1, y1, x2, y2;
-      var dim = this.entitiesCanvas.getBoundingClientRect();
+      var dim = this.inner.getBoundingClientRect();
 
-      x1 = Math.min(this.selection.x1, this.selection.x2)
-      x2 = Math.max(this.selection.x1, this.selection.x2)
-      y1 = Math.min(this.selection.y1, this.selection.y2)
-      y2 = Math.max(this.selection.y1, this.selection.y2)
+      x1 = Math.min(this.selection.x1, this.selection.x2);
+      x2 = Math.max(this.selection.x1, this.selection.x2);
+      y1 = Math.min(this.selection.y1, this.selection.y2);
+      y2 = Math.max(this.selection.y1, this.selection.y2);
 
       style.left = x1 + 'px';
       style.top = y1 + 'px';
@@ -129,16 +136,15 @@ module.exports = class MapView extends UIWidget {
   }
 
   onBind($) {
-    this.entitiesCanvas = $("#entitiesCanvas");
-    this.terrainCanvas = $("#terrainCanvas");
-    this.fogCanvas = $("#fogCanvas");
+    this.inner = $("#map-inner");
+    this.wrapper = $(".canvas-wrapper");
     this.selectbox = $("#selectbox");
 
     this.topBar.bind('top-bar');
     this.dashboard.bind('dashboard');
     this.loading.bind('loading-screen');
 
-    this.element.addEventListener('mousemove', (e) => {
+    this.inner.addEventListener('mousemove', (e) => {
       let coords = this.eventCoords(e);
       this.map.over(coords);
       let entity = this.map.clickEntity(coords);
@@ -153,7 +159,7 @@ module.exports = class MapView extends UIWidget {
       this.updateSelectionbox();
     });
 
-    this.element.addEventListener('mousedown', (e) => {
+    this.inner.addEventListener('mousedown', (e) => {
       if (e.which == 1) {
         this.selection.x1 = e.clientX;
         this.selection.y1 = e.clientY;
@@ -161,7 +167,7 @@ module.exports = class MapView extends UIWidget {
       }
     });
 
-    this.element.addEventListener('mouseup', (e) => {
+    this.inner.addEventListener('mouseup', (e) => {
       if (e.which == 1) {
         let v = this.eventCoords(e);
         this.map.mouseUp(v);
@@ -182,10 +188,32 @@ module.exports = class MapView extends UIWidget {
       if (v) this.map.rightClick(v);
     });
 
+    this.inner.addEventListener('mousemove', (e) => {
+      if (e.clientX < 20) {
+        this.translating = $V([-5, 0]);
+      }
+      else if (e.clientX > this.inner.offsetWidth - 20) {
+        this.translating = $V([5, 0]);
+      }
+      else if (e.clientY < 50) {
+        this.translating = $V([0,-5]);
+      }
+      else if (e.clientY > this.inner.offsetHeight - 240) {
+        this.translating = $V([0, 5]);
+      }
+      else {
+        this.translating = null
+      }
+    });
+    this.inner.addEventListener('mouseout', (e) => {
+      this.translating = null
+    });
     window.addEventListener("keydown", (e) => mapView.doKeyDown(e), true);
     window.addEventListener('resize', () => this.resizeMap());
 
     this.resizeMap();
+    let xx = (this.viewSize - 1) / 2;
+    this.translateTo($V([window.innerWidth * xx, window.innerHeight * xx]));
   }
 
   doKeyDown(e) {
@@ -204,6 +232,30 @@ module.exports = class MapView extends UIWidget {
     // console.log(e.keyCode);
   };
 
+
+  translateTo(v) {
+    if (this.viewSize <= 1){
+      return;
+    }
+    this.translate = this.translate.add(v);
+    let [x,y] = this.translate.elements;
+    let xx = (this.viewSize - 1) / 2;
+    if (x < 0 || x > (this.viewSize - 1) * window.innerWidth) {
+      let sg = x < 0 ? -1 : 1;
+      x = window.innerWidth * xx;
+      this.moveCamera($V([sg * x, 0]));
+      this.translate = $V([x, y]);
+    }
+    if (y < 0 || y > (this.viewSize - 1) * window.innerHeight) {
+      let sg = y < 0 ? -1 : 1;
+      y = window.innerHeight * xx;
+      this.moveCamera($V([0, sg * y]));
+      this.translate = $V([x, y]);
+    }
+
+    this.wrapper.style.transform = `translate(${-x}px, ${-y}px)`;
+  }
+
   moveCamera(v) {
     this.cameraPos = this.cameraPos.add(v);
     this.refreshMap();
@@ -216,21 +268,22 @@ module.exports = class MapView extends UIWidget {
   }
 
   resizeMapCanvas(canvas) {
-    canvas.setAttribute('width', window.innerWidth);
-    canvas.setAttribute('height', window.innerHeight);
+    canvas.setAttribute('width', window.innerWidth * this.viewSize);
+    canvas.setAttribute('height', window.innerHeight * this.viewSize);
   }
 
   resizeMap() {
-    this.resizeMapCanvas(this.entitiesCanvas);
-    this.resizeMapCanvas(this.terrainCanvas);
-    this.resizeMapCanvas(this.fogCanvas);
-
-    this.element.style.height = window.innerHeight + "px";
+    for (let canvas of this.wrapper.children) {
+      this.resizeMapCanvas(canvas);
+    }
 
     this.refreshMap();
   };
 
   draw() {
+    if (this.translating) {
+      this.translateTo(this.translating);
+    }
     resources.clear();
     this.map.update();
     let redraw = this.map.terrain.redraw;

@@ -1,9 +1,15 @@
-.map {
-  position:relative;
-  height: 600px;
+.map-inner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 
-  canvas {
-    position: absolute;
+  .canvas-wrapper {
+    position: relative;
+    canvas {
+      position: absolute;
+    }
   }
 }
 

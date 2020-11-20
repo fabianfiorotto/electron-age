@@ -2,5 +2,6 @@
   "blendomatic": true,
   "smartpainter": true,
   "fogofwar": true,
-  "debuginfo": true
+  "debuginfo": true,
+  "viewSize": 3
 }
