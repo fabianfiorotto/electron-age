@@ -92,6 +92,7 @@ module.exports =  class TestBuilder {
     }
 
     map.initCameraPos = $V([0, -340]);
+    map.initialize();
     return map;
   }
 

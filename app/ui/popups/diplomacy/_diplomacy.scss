@@ -1,0 +1,58 @@
+.diplomacy {
+  display:none;
+  width: 796px;
+  height: 534px;
+
+  > .inner {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px);
+    width: calc(100% - 50px);
+    .title {
+      margin: 10px;
+      text-align: center;
+      color: white;
+      font-size: 45px;
+      flex: 1;
+    }
+
+    .body {
+      margin: 30px;
+      flex: 999;
+    }
+
+    .footer {
+      margin: 30px;
+      flex: 1;
+    }
+  }
+
+  table {
+    width: 100%;
+  }
+
+  .ally-victory {
+    margin-left: 50%;
+    margin-bottom: 10px;
+  }
+
+  .actions {
+    text-align: center;
+    button {
+      width: 30%;
+    }
+  }
+
+  .player {
+    position: relative;
+    .player-name {
+      position: absolute;
+      color: white;
+      font-weight: bold;
+      top: 3px;
+    }
+    .flag {
+      position: absolute;
+    }
+  }
+}

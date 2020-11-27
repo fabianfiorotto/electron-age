@@ -14,6 +14,7 @@ module.exports = class Player {
     this.population = 0;
     this.maxPopulation = 0;
     this.age = 1;
+    this.name = "Player " + id;
     this.technologies = {};
     this.builderSpeedBonus = 0;
 
@@ -253,6 +254,18 @@ module.exports = class Player {
       can &= this.resources[key] >= quantity;
     }
     return can;
+  }
+
+  setDiplomacy(player, diplomacy) {
+    this.map.setDiplomacy(this, player, diplomacy);
+  }
+
+  getDiplomacy(player) {
+    return this.map.getDiplomacy(this, player);
+  }
+
+  isAlly(player) {
+    return this.map.isAlly(this, player);
   }
 
   transfer(entity, quantities, revert = false) {

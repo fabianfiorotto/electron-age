@@ -302,8 +302,7 @@ module.exports = class Entity {
   }
 
   isEnemy(entity) {
-    // TODO teams
-    return entity.player.id != this.player.id;
+    return entity.player !== this.player && !this.player.isAlly(entity.player);
   }
 
   click() {

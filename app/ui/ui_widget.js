@@ -9,14 +9,20 @@ module.exports = class UIWidget {
   async loadSlpImgs() {
     var imgs = this.element.getElementsByClassName('slp-image');
     for (var i = 0; i < imgs.length; i++) {
-      var src = imgs[i].getAttribute('src');
-      var [id, frame] = src.split('/');
-      var m = await resources.loadInterface(id.substr(1));
+      let img = imgs[i];
+      if (img.classList.contains('processed')) {
+        continue;
+      }
+      let src = img.getAttribute('src');
+      let [id, frame] = src.split('/');
+      let m = await resources.loadInterface(id.substr(1));
+      let playerColor = img.getAttribute('data-player-color') || 0;
       m.load({
         base: resources.palettes[50505],
-        player: 0
+        player: playerColor
       });
-      imgs[i].setAttribute('src', m.frames[frame || 0].getUrl());
+      img.setAttribute('src', m.frames[frame || 0].getUrl());
+      img.classList.add('processed');
     }
   }
 

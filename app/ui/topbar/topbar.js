@@ -24,6 +24,7 @@ module.exports = class TopBar extends UIWidget {
   bindMap(map) {
     this.player = map.players[1];
     this.viewResources.bindMap(map);
+    this.topBarMenu.bindMap(map);
 
     this.loadCivResources(resources);
   }

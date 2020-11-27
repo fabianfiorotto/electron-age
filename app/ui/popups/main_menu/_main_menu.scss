@@ -1,8 +1,14 @@
-.main-menu-options {
-  margin: 30px 50px 30px 30px;
+.main-menu {
+  display:none;
+  width: 315px;
+  height: 320px;
 
-  button {
-    margin-bottom: 10px;
-    width: 100%;
+  .main-menu-options {
+    margin: 30px 50px 30px 30px;
+
+    button {
+      margin-bottom: 10px;
+      width: 100%;
+    }
   }
 }

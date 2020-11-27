@@ -58,6 +58,7 @@ module.exports = class ScxMapBuilder {
 
 
     map.initCameraPos = $V([6250, -200]);
+    map.initialize();
     return map;
   }
 

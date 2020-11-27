@@ -9,6 +9,10 @@ const {Emitter} = require('event-kit');
 
 module.exports = class AoeMap {
 
+  static ALLY    = Symbol('diplomacy_ally'); //??
+  static NEUTRAL = Symbol('diplomacy_neutral');
+  static ENEMY   = Symbol('diplomacy_enemy');
+
   constructor(width, height) {
 
     this.width = width;
@@ -27,6 +31,11 @@ module.exports = class AoeMap {
     this.initCameraPos = $V([0, 0]);
   }
 
+  initialize() {
+    this.diplomacy = Array.from({length: this.players.length}, () => {
+      return Array.from({length: this.players.length}, () => AoeMap.NEUTRAL );
+    });
+  }
 
   drawTerrain(camera, player) {
     this.terrain.draw(camera, player);
@@ -221,6 +230,18 @@ module.exports = class AoeMap {
 
   getPlayerEntities(player) {
     return this.entities.filter((e) => e.player.id == player.id);
+  }
+
+  setDiplomacy(p1, p2, diplomacy) {
+    this.diplomacy[p1.id][p2.id] = diplomacy
+  }
+
+  getDiplomacy(p1, p2) {
+    return this.diplomacy[p1.id][p2.id];
+  }
+
+  isAlly(p1, p2) {
+    return this.diplomacy[p1.id][p2.id] == AoeMap.ALLY;
   }
 
   onDidChangeSelection(callback){

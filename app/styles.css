@@ -126,18 +126,62 @@ body {
 #fogCanvas {
   opacity: 0.5; }
 
-.main-menu-options {
-  margin: 30px 50px 30px 30px; }
-  .main-menu-options button {
-    margin-bottom: 10px;
+.main-menu {
+  display: none;
+  width: 315px;
+  height: 320px; }
+  .main-menu .main-menu-options {
+    margin: 30px 50px 30px 30px; }
+    .main-menu .main-menu-options button {
+      margin-bottom: 10px;
+      width: 100%; }
+
+.diplomacy {
+  display: none;
+  width: 796px;
+  height: 534px; }
+  .diplomacy > .inner {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px);
+    width: calc(100% - 50px); }
+    .diplomacy > .inner .title {
+      margin: 10px;
+      text-align: center;
+      color: white;
+      font-size: 45px;
+      flex: 1; }
+    .diplomacy > .inner .body {
+      margin: 30px;
+      flex: 999; }
+    .diplomacy > .inner .footer {
+      margin: 30px;
+      flex: 1; }
+  .diplomacy table {
     width: 100%; }
+  .diplomacy .ally-victory {
+    margin-left: 50%;
+    margin-bottom: 10px; }
+  .diplomacy .actions {
+    text-align: center; }
+    .diplomacy .actions button {
+      width: 30%; }
+  .diplomacy .player {
+    position: relative; }
+    .diplomacy .player .player-name {
+      position: absolute;
+      color: white;
+      font-weight: bold;
+      top: 3px; }
+    .diplomacy .player .flag {
+      position: absolute; }
 
 .top-bar {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1; }
-  .top-bar .inner {
+  .top-bar > .inner {
     height: 32px;
     width: 1280px;
     margin: auto; }
@@ -147,15 +191,14 @@ body {
   margin: 5px; }
   .top-bar-menu img {
     float: left; }
-
-.main-menu {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  margin: auto; }
+  .top-bar-menu .popups > div {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    margin: auto; }
 
 .view-resources {
   color: #fff;

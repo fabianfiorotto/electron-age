@@ -24,11 +24,11 @@ module.exports = class MainManu extends UIWidget {
   }
 
   open() {
-    this.element.style.display = '';
+    this.element.style.display = 'block';
   }
 
   close() {
-    this.element.style.display = 'none';
+    this.element.style.display = '';
   }
 
   async openScenario() {
