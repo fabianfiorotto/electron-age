@@ -110,13 +110,13 @@ module.exports = class AoeMap {
     return building.canPlace();
   }
 
-  areThereAnyObstacle(pos, v, target = false) {
+  areThereAnyObstacle(pos, v, target = false, exclude = null) {
     var t = this.terrain;
     var w = t.isWater(pos);
     if ((w && t.isLandAtVec(pos,v)) || (!w && t.isWaterAtVec(pos,v))) {
       return true;
     }
-    if (this.entities.some((e) => e.isAtVec(pos, v, target))) {
+    if (this.entities.some((e) => exclude !== e && e.isAtVec(pos, v, target))) {
       return true;
     }
     return false;

@@ -56,28 +56,40 @@ module.exports = class Unit extends Entity {
   }
 
   walk() {
-    if (this.path.length) {
-      var v = this.path[0].subtract(this.pos);
-      if (v.modulus() > 1.0) {
-        this.pos = this.pos.add(v.toUnitVector());
+    if (!this.path.length) {
+      return;
+    }
+    var v = this.path[0].subtract(this.pos);
+    if (v.modulus() > 1.0) {
+      let newPos = this.pos.add(v.toUnitVector());
+      if (!this.map.areThereAnyObstacle(this.pos, newPos, false, this)) {
+        this.pos = newPos;
         this.player.emitter.emit('did-entity-moved', this);
       }
       else {
-        this.frame = 0;
-        this.path.shift();
-        if (this.path.length == 0) {
-          this.setState(Unit.IDLE);
-        }
-        else {
-          v = this.path[0].subtract(this.pos);
-          this.orientation = Math.atan2(-v.e(2), v.e(1));
-        }
-      }
-      if (this.target && this.canReachTarget()){
         this.path = [];
         this.setState(Unit.IDLE);
-        this.targetReached();
+        // Avoid Deadlock
+        // var path = this.map.pathfinder.find(this.pos, this.path[this.path.length - 1]);
+        // this.setPath(path);
       }
+    }
+    else {
+      this.frame = 0;
+      this.path.shift();
+      if (this.path.length == 0) {
+        this.setState(Unit.IDLE);
+      }
+      else {
+        v = this.path[0].subtract(this.pos);
+        this.orientation = Math.atan2(-v.e(2), v.e(1));
+      }
+    }
+
+    if (this.target && this.canReachTarget()){
+      this.path = [];
+      this.setState(Unit.IDLE);
+      this.targetReached();
     }
   }
 
