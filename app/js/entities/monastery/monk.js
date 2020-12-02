@@ -18,7 +18,8 @@ module.exports = class Monk extends Unit {
         rotting: 775,
         walking: 779,
 
-        heal: 776,
+        converting: 768,
+        healing: 776,
         carry: 3827,
         carring: 3831
 
@@ -54,6 +55,9 @@ module.exports = class Monk extends Unit {
     }
     else if (this.target.isWonded()) {
       this.setState(Monk.HEALING);
+    }
+    else {
+      this.setState(Unit.IDLE);
     }
   }
 
@@ -101,7 +105,7 @@ module.exports = class Monk extends Unit {
   update() {
     super.update();
 
-    this.each(50, 'convert' , () => {
+    this.each(180, 'convert' , () => {
       if (this.state == Monk.CONVERTION_START) {
         this.convertionStarting();
       }
@@ -110,15 +114,25 @@ module.exports = class Monk extends Unit {
       }
     });
 
-    this.each(50, 'healing' , () => {
+    this.each(400, 'healing' , () => {
       if (this.state == Monk.HEALING) {
         this.heal();
       }
     });
-
-
   }
 
+
+  getModel() {
+    switch (this.state) {
+      case Monk.CONVERTION_START:
+      case Monk.CONVERTING:
+        return this.models.converting;
+      case Monk.HEALING:
+        return this.models.healing;
+      default:
+        return super.getModel();
+    }
+  }
 
 
 };
