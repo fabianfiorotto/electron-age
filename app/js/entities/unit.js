@@ -186,7 +186,9 @@ module.exports = class Unit extends Entity {
   update() {
 
     this.each(40 / this.properties.speed, 'walk' , () => {
-      this.walk();
+      if (this.state == Unit.WALKING) {
+        this.walk();
+      }
     });
 
 

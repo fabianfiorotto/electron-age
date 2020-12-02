@@ -39,9 +39,9 @@ module.exports = class House extends Building {
 
     let [x, y] = pos.elements;
     let img = model.frames[0].imgs[this.player.id];
-    if (!resources.simple.isOut(ctx.canvas, img, x, y)) {
-      console.log(camera);
-    }
+    // if (!resources.simple.isOut(ctx.canvas, img, x, y)) {
+    //   console.log(camera);
+    // }
 
     if (model) {
       model.draw(pos, 0, this.getFrame(), this.player.id, ctx);

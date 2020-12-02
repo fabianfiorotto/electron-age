@@ -21,7 +21,7 @@ module.exports = class EntityInfo extends UIWidget {
 
     this.debug.addEventListener('click', ()=> {
       require('electron').remote.getCurrentWindow().openDevTools();
-      map.selected[0].debugger();
+      mapView.map.selected[0].debugger();
     });
  }
 

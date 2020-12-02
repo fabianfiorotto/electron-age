@@ -277,6 +277,10 @@ module.exports = class Entity {
     this.emitter.emit('did-change-properties', this.properties);
   }
 
+  isWonded() {
+    let properties = this.properties;
+    return properties.maxHitPoints > properties.hitPoints;
+  }
 
   transfer(entity, quantities, revert = false) {
     for (const [key,quantity] of Object.entries(quantities)){
