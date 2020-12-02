@@ -141,9 +141,17 @@ module.exports = class Unit extends Entity {
   }
 
   canReachTarget(){
-    // aca depende porque las unicades de que atacan a distancia tienen mas alcance
+    // aca depende porque las unidades que atacan a distancia tienen mas alcance
     // los aldeanos por ejemplo pueden alcanzar ciervos de lejos pero arboles no
-    return this.target.isAt(this.pos);
+    let v;
+
+    if (this.path.length) {
+      v = this.path[0].subtract(this.pos).toUnitVector();
+    }
+    else {
+      v = $V([Math.cos(this.orientation), -Math.sin(this.orientation)]);
+    }
+    return this.target.isAt(this.pos.add(v));
   }
 
   isAt(pos) {
