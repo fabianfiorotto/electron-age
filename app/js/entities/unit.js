@@ -56,6 +56,13 @@ module.exports = class Unit extends Entity {
   }
 
   walk() {
+    if (this.target && this.canReachTarget()){
+      this.path = [];
+      this.setState(Unit.IDLE);
+      this.targetReached();
+      return;
+    }
+
     if (!this.path.length) {
       return;
     }
@@ -84,12 +91,6 @@ module.exports = class Unit extends Entity {
         v = this.path[0].subtract(this.pos);
         this.orientation = Math.atan2(-v.e(2), v.e(1));
       }
-    }
-
-    if (this.target && this.canReachTarget()){
-      this.path = [];
-      this.setState(Unit.IDLE);
-      this.targetReached();
     }
   }
 

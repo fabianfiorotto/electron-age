@@ -257,6 +257,16 @@ module.exports = class Villager extends Unit {
     }
   }
 
+  canReachTarget(){
+    if (this.path.length) {
+      let v = this.path[0].subtract(this.pos).toUnitVector();
+      return this.target.isAt(this.pos.add(v));
+    }
+    else {
+      super.canReachTarget();
+    }
+  }
+
   defineDashboardControls() {
     return {
       main: [
