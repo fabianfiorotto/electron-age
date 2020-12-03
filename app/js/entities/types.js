@@ -1,6 +1,7 @@
 var global = window || global;
 global.EntityType = class EntityType {
   static CIVIL        = Symbol('entity_civil'); //??
+  static RELIC        = Symbol('entity_relic');
   static RESOURCE     = Symbol('entity_resource');
   static LIVESTOCK    = Symbol('entity_livestock');
   static CAVALRY      = Symbol('entity_cavalry');

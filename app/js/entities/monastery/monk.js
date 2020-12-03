@@ -39,15 +39,24 @@ module.exports = class Monk extends Unit {
   }
 
   getCursorFor(entity) {
-    return this.isEnemy(entity) ? 'convert' : 'default';
+    return this.isEnemy(entity) || entity.is(EntityType.RELIC) ? 'convert' : 'default';
   }
 
   thumbnail() {
     return 33;
   }
 
+  controlsIcons() {
+    return {
+      dropRelic: 16
+    };
+  }
+
   targetReached() {
-    if (this.isEnemy(this.target)) {
+    if (this.target.isType(EntityType.RELIC)){
+      this.pickRelic();
+    }
+    else if (this.isEnemy(this.target)) {
       if (!this.isConverting()) {
         this.setState(Monk.CONVERTION_START);
         this.convertion_starting = 0;
@@ -90,8 +99,26 @@ module.exports = class Monk extends Unit {
     }
   }
 
+  dropRelic() {
+    let v = $V([Math.cos(this.orientation), -Math.sin(this.orientation)]);
+    this.relic.pos = this.pos.add(v.x(20.0));
+    this.map.entities.push(this.relic);
+    this.relic = null;
+    this.setState(Unit.IDLE);
+  }
+
+  pickRelic() {
+    this.relic = this.target;
+    this.target = null;
+    this.map.removeEntity(this.relic);
+    this.setState(Unit.IDLE);
+  }
+
   heal() {
-    this.target.incProperty({hitPoints: 1});
+    const t = EntityType;
+    if (!this.target.isType(t.BUILDING, t.SHIP, t.SIEGE_WEAPON)) {
+      this.target.incProperty({hitPoints: 1});
+    }
   }
 
   isConverting() {
@@ -99,7 +126,12 @@ module.exports = class Monk extends Unit {
   }
 
   canReachTarget() {
-    return this.target.pos.subtract(this.pos).modulus() < 100.0;
+    if (!this.target.isType(EntityType.RELIC)) {
+      return this.target.pos.subtract(this.pos).modulus() < 100.0;
+    }
+    else {
+      return super.canReachTarget();
+    }
   }
 
   update() {
@@ -121,16 +153,50 @@ module.exports = class Monk extends Unit {
     });
   }
 
+  defineDashboardControls() {
+    if (this.relic) {
+      return {
+        main: ["dropRelic"]
+      };
+    }
+    else {
+      return {
+        main: []
+      };
+    }
+  }
+
+  defineControls() {
+    var icons = this.icons;
+    return {
+      dropRelic: {
+        icon: icons.dropRelic,
+        callback: () => this.dropRelic(),
+      }
+    }
+  }
 
   getModel() {
-    switch (this.state) {
-      case Monk.CONVERTION_START:
-      case Monk.CONVERTING:
+    if (this.relic) {
+      switch (this.state) {
+        case Unit.WALKING:
+          return this.models.carring;
+        case Monk.IDLE:
+          return this.models.carry;
+        default:
+          return super.getModel();
+      }
+    }
+    else {
+      switch (this.state) {
+        case Monk.CONVERTION_START:
+        case Monk.CONVERTING:
         return this.models.converting;
-      case Monk.HEALING:
+        case Monk.HEALING:
         return this.models.healing;
-      default:
+        default:
         return super.getModel();
+      }
     }
   }
 
