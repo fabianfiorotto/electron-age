@@ -446,4 +446,26 @@ module.exports = class Building extends Entity {
     this.map.setEntityTargetPos(entity, this.spawnReunion);
   }
 
+  ungarrison(entity) {
+    if (this.garrisonedEntities.indexOf(entity) !== -1) {
+      this.garrisonedEntities.splice(this.garrisonedEntities.indexOf(entity), 1);
+      this.emitter.emit('did-change-selection', this.garrisonedEntities);
+
+      entity.pos = this.pos.add(
+        this.spawnReunion
+          .subtract(this.pos)
+          .toUnitVector()
+          .elementMultiply($V([48,24]))
+          .multiply(this.getSize())
+      );
+
+      this.map.addEntity(entity);
+      this.map.setEntityTargetPos(entity, this.spawnReunion);
+    }
+  }
+
+  defineTypes() {
+    return [EntityType.BUILDING];
+  }
+
 };

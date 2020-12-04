@@ -13,6 +13,7 @@ module.exports = class Entity {
     this.eachLastRun = {};
 
     this.emitter = new Emitter();
+    this.garrisonedEntities = [];
     this.queue = [];
 
     this.properties = this.defineProperties();
@@ -128,6 +129,28 @@ module.exports = class Entity {
 
   isType() {
     return this.types.some((type) => [...arguments].includes(type));
+  }
+
+  canGarrison(entity) {
+    return false;
+  }
+
+  garrison(entity) {
+    if (this.canGarrison(entity)) {
+      this.garrisonedEntities.push(entity);
+      this.emitter.emit('did-garrison-changed', this.garrisonedEntities);
+    }
+  }
+
+  ungarrison(entity) {
+    if (this.garrisonedEntities.indexOf(entity) !== -1) {
+      this.garrisonedEntities.splice(this.garrisonedEntities.indexOf(entity), 1);
+      this.emitter.emit('did-change-selection', this.garrisonedEntities);
+
+      let v = $V([Math.cos(this.orientation), -Math.sin(this.orientation)]);
+      this.entity.pos = this.pos.add(v.x(50.0));
+      this.map.entities.push(entity);
+    }
   }
 
   develop(tec) {
@@ -478,6 +501,13 @@ module.exports = class Entity {
   onOperationComplete(callback){
     return this.emitter.on('did-operation-complete', callback);
   }
+  onControlsChange(callback) {
+    return this.emitter.on('did-controls-change', callback);
+  }
+  onGarrisonChange(callback) {
+    return this.emitter.on('did-garrison-change', callback);
+  }
+
 
   each(ms, name, callback) {
     var now = Date.now();

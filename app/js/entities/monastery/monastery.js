@@ -50,4 +50,24 @@ module.exports = class Monastery extends Building {
     return 3;
   }
 
+  update() {
+    super.update();
+
+    this.each(2000, 'relic_gold' , () => {
+      let gold = this.garrisonedEntities.length;
+      if (gold) {
+        this.resources = {gold: gold};
+        this.transfer(this.player, {gold: gold});
+      }
+    });
+  }
+
+  defineTypes() {
+    return [EntityType.BUILDING, EntityType.MONASTERY];
+  }
+
+  canGarrison(entity) {
+    return entity.isType(EntityType.RELIC);
+  }
+
 };

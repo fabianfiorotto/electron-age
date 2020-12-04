@@ -39,7 +39,7 @@ module.exports = class Monk extends Unit {
   }
 
   getCursorFor(entity) {
-    return this.isEnemy(entity) || entity.is(EntityType.RELIC) ? 'convert' : 'default';
+    return this.isEnemy(entity) || entity.isType(EntityType.RELIC) ? 'convert' : 'default';
   }
 
   thumbnail() {
@@ -52,7 +52,14 @@ module.exports = class Monk extends Unit {
     };
   }
 
-  targetReached() {
+  targetReachedWithRelic() {
+    if (this.target.isType(EntityType.MONASTERY)) {
+      this.target.garrison(this.relic);
+      this.relic = null;
+    }
+  }
+
+  targetReachedWithoutRelic() {
     if (this.target.isType(EntityType.RELIC)){
       this.pickRelic();
     }
@@ -67,6 +74,15 @@ module.exports = class Monk extends Unit {
     }
     else {
       this.setState(Unit.IDLE);
+    }
+  }
+
+  targetReached() {
+    if (this.relic) {
+       this.targetReachedWithRelic();
+    }
+    else {
+      this.targetReachedWithoutRelic();
     }
   }
 
@@ -126,11 +142,11 @@ module.exports = class Monk extends Unit {
   }
 
   canReachTarget() {
-    if (!this.target.isType(EntityType.RELIC)) {
-      return this.target.pos.subtract(this.pos).modulus() < 100.0;
+    if (this.relic || this.target.isType(EntityType.RELIC)) {
+      return super.canReachTarget();
     }
     else {
-      return super.canReachTarget();
+      return this.target.pos.subtract(this.pos).modulus() < 100.0;
     }
   }
 

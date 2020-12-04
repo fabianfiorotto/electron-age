@@ -4,6 +4,7 @@ const Controls = require('./controls/controls');
 const EntityInfo = require('./entity_info/entity_info');
 const Selecion = require('./selection/selection');
 const Progress = require('./progress/progress');
+const Garrison = require('./garrison/garrison');
 
 module.exports = class Dashboard extends UIWidget {
 
@@ -13,6 +14,7 @@ module.exports = class Dashboard extends UIWidget {
     this.info = new EntityInfo();
     this.selection = new Selecion();
     this.progress = new Progress();
+    this.garrison = new Garrison();
   }
 
   template() {
@@ -26,6 +28,7 @@ module.exports = class Dashboard extends UIWidget {
     this.info.bind($('.entity-info'));
     this.selection.bind($('.selection'));
     this.progress.bind($('.progress'));
+    this.garrison.bind($('.garrison'));
   }
 
   bindMap(map) {
@@ -35,6 +38,7 @@ module.exports = class Dashboard extends UIWidget {
     this.info.bindMap(map);
     this.selection.bindMap(map);
     this.progress.bindMap(map);
+    this.garrison.bindMap(map);
 
     this.loadCivResources(resources);
   }
