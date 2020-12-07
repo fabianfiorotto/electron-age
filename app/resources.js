@@ -1,5 +1,6 @@
 const DrsFile = require("./js/drs/drs");
 const SlpModel = require("./js/slp/model");
+const SlpModelInstance = require("./js/slp/instance");
 const SlpUnitModel = require("./js/slp/unit");
 const SlpTerrainModel = require("./js/slp/terrain");
 const SlpProjectileModel = require("./js/slp/projectile");
@@ -243,6 +244,12 @@ module.exports = class ResourceManager {
     drs.close();
     this.models[id] = model;
     return model;
+  }
+
+  async loadModelInstance(entity, id, file, modelClass) {
+    let model = await this.loadModel(id, file, modelClass);
+    let instance = new SlpModelInstance(entity, model);
+    return instance;
   }
 
   async loadTerrain(id) {

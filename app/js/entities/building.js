@@ -13,13 +13,11 @@ module.exports = class Building extends Entity {
   constructor(map, player) {
     super(map,player);
     this.spawnReunion = this.pos;
-    this.flagFrame = 0;
     this.focus = false;
     this.state = Building.FINISHED;
     this.finished = true;
     this.frame = 0;
     this.modelFrame = 0;
-    this.fireFrame = 0;
 
     this.attacking = false;
   }
@@ -79,38 +77,39 @@ module.exports = class Building extends Entity {
       model.draw(pos, 0, this.getFrame(), this.player.id);
     }
     if (this.flagModel && this.focus) {
-      this.flagModel.draw(this.spawnReunion.subtract(camera), 0, this.flagFrame, this.player.id);
+      this.flagModel.drawAt(this.spawnReunion.subtract(camera));
     }
     if (this.state === Building.FINISHED && this.models.animation) {
       this.models.animation.draw(pos, 0, this.frame, this.player.id);
     }
 
     if (this.state === Building.FINISHED) {
-      let rate = this.properties.hitPoints / this.properties.maxHitPoints;
-      this.drawFlames(camera, rate);
+      let flames = this.getFlames();
+      flames?.drawAt(pos);
     }
   }
 
-  drawFlames(camera, rate) {
-    var pos = this.pos.subtract(camera);
+  getFlames() {
+    let rate = this.properties.hitPoints / this.properties.maxHitPoints;
     if (this.getSize() == 2) {
       if(rate < 0.25) {
-        this.models.mediumFire3.draw(pos, 0, this.fireFrame, this.player.id);
+        return this.models.mediumFire3;
       } else if (rate < 0.50) {
-        this.models.mediumFire2.draw(pos, 0, this.fireFrame, this.player.id);
+        return this.models.mediumFire2;
       } else if (rate < 0.75) {
-        this.models.mediumFire1.draw(pos, 0, this.fireFrame, this.player.id);
+        return this.models.mediumFire1;
       }
     }
     else {
       if(rate < 0.25) {
-        this.models.fire6.draw(pos, 0, this.fireFrame, this.player.id);
+        return this.models.fire6;
       } else if (rate < 0.50) {
-        this.models.fire4.draw(pos, 0, this.fireFrame, this.player.id);
+        return this.models.fire4;
       } else if (rate < 0.75) {
-        this.models.fire1.draw(pos, 0, this.fireFrame, this.player.id);
+        return this.models.fire1;
       }
     }
+    return null;
   }
 
   drawMemory(camera, ctx) {
@@ -130,17 +129,15 @@ module.exports = class Building extends Entity {
     });
 
     this.each(80, 'animation' , () => {
-      if (this.models.animation) {
-        this.frame = this.models.animation.nextFrame(this.frame, 0);
-      }
-      if (this.models.fire1) {
-        this.fireFrame = this.models.fire1.nextFrame(this.fireFrame, 0);
-      }
+      this.frame = this.models.animation?.nextFrame(this.frame, 0);
+
+      let flames = this.getFlames();
+      flames?.nextFrame();
     });
 
     this.each(100, 'flagAnimation' , () =>{
       if (this.flagModel && this.focus) {
-        this.flagFrame = this.flagModel.nextFrame(this.flagFrame, 0);
+        this.flagModel.nextFrame();
       }
     });
   }
@@ -353,11 +350,8 @@ module.exports = class Building extends Entity {
 
   async loadResources(res) {
     var base_id = 50505;
-    this.flagModel = await res.loadModel(3404);
-    this.flagModel.load({
-      base: resources.palettes[base_id],
-      player: this.player.id
-    });
+    this.flagModel = await res.loadModelInstance(this, 3404);
+    this.flagModel.loadColors();
 
     var mr = this.getModelsResources();
     var marks_id, debris_id;
@@ -402,19 +396,13 @@ module.exports = class Building extends Entity {
       // 0..3 small
       // 4..5 medium
       // 6..8 large
-      this.models['fire' + (i+1)] = await res.loadModel(424+i);
-      this.models['fire' + (i+1)].load({
-        base: resources.palettes[base_id],
-        player: this.player.id
-      });
+      this.models['fire' + (i+1)] = await res.loadModelInstance(this, 424+i);
+      this.models['fire' + (i+1)].loadColors();
     }
 
     for (i = 0; i < 3; i++) {
-      this.models['mediumFire' + (i+1)] = await res.loadModel(362+i);
-      this.models['mediumFire' + (i+1)].load({
-        base: resources.palettes[base_id],
-        player: this.player.id
-      });
+      this.models['mediumFire' + (i+1)] = await res.loadModelInstance(this, 362+i);
+      this.models['mediumFire' + (i+1)].loadColors();
     }
 
   }

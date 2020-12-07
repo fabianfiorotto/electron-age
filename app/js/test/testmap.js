@@ -8,6 +8,8 @@ const Berries = require('../entities/resources/berries');
 const Stone = require('../entities/resources/stone');
 const Tree = require('../entities/resources/tree');
 const Gold = require('../entities/resources/gold');
+const Relic = require('../entities/monastery/relic');
+const Monk = require('../entities/monastery/monk');
 
 const Archer = require("../entities/archery_range/archer");
 const ScoutCavalry = require("../entities/stable/scout");
@@ -56,6 +58,7 @@ module.exports =  class TestBuilder {
     entities.push(new Stone(map, gaia));
     entities.push(new Tree(map, gaia));
     entities.push(new Gold(map, gaia));
+    entities.push(new Relic(map, gaia));
 
     entity = new Archer(map, player2);
     // entity = new Trebuchet(map, player2);
@@ -63,7 +66,7 @@ module.exports =  class TestBuilder {
     entities.push(entity)
 
     // await this.addEntity(map, Sheep,1039, 63, player1);
-    entity = new ScoutCavalry(map, player2);
+    entity = new Monk(map, player2);
     entity.pos = $V([1039, 63]);
     entities.push(entity)
 
