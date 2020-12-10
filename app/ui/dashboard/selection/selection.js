@@ -27,7 +27,7 @@ module.exports = class Controls extends UIWidget {
 
   attachEvents(img, pg ,entity) {
     img.addEventListener('click', (e) => {
-      map.setSelected([entity]);
+      mapView.map.setSelected([entity]);
     });
 
     entity.onDidChangeProperties( () => {
