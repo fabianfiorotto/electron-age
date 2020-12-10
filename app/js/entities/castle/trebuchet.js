@@ -124,18 +124,6 @@ module.exports = class Trebuchet extends Unit {
     }
   }
 
-  getFrame() {
-    if (this.trebuchet_state == Trebuchet.PACKED && this.state == Unit.IDLE) {
-      return 0;
-    }
-    else if (this.trebuchet_state == Trebuchet.PACKING || this.trebuchet_state == Trebuchet.ASSEMBLING) {
-      return 0;
-    }
-    else {
-      return super.getFrame();
-    }
-  }
-
   canReachTarget() {
     return this.trebuchet_state == Trebuchet.ASSEMBLED && this.target.pos.subtract(this.pos).modulus() < 800.0;
   }

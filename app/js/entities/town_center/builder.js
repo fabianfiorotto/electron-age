@@ -19,6 +19,7 @@ module.exports = class Builder extends VillagerRole {
         hitPoints = Math.round(properties.maxHitPoints / time);
       }
       building.incProperty({hitPoints});
+      building.updateBuildingProcess();
     }
     else {
       var villager = this.villager;

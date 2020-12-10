@@ -41,9 +41,7 @@ module.exports = class Unit extends Entity {
   }
 
   draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), this.orientation, this.getFrame(), this.player.id);
-    }
+    this.getModel()?.draw(camera);
   }
 
   drawSelection(camera) {
@@ -232,7 +230,7 @@ module.exports = class Unit extends Entity {
   }
 
   nextFrame() {
-    return this.getModel().nextFrame(this.frame, this.orientation);
+    return this.getModel().nextFrame();
   }
 
   onDied() {

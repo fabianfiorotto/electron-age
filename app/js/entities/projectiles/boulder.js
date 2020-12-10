@@ -5,8 +5,6 @@ module.exports = class Boulder extends Projectile {
   constructor(map, player) {
     super(map, player);
     this.v = $V([10, 10]);
-    this.posZ = this.pos;
-    this.z = 0;
   }
 
   setTarget(target) {
@@ -22,7 +20,7 @@ module.exports = class Boulder extends Projectile {
 
   draw(camera) {
     if (this.getModel()) {
-      this.getModel().draw(this.posZ.subtract(camera), this.orientation, 0, this.player.id);
+      this.getModel().draw(camera);
     }
   }
 
@@ -42,7 +40,10 @@ module.exports = class Boulder extends Projectile {
         var z = 300 * d**2 - 300 * d;
         this.orientation = Math.atan(300*2*d - 300);
 
-        this.posZ = this.pos.add($V([0,z]));
+        let model = this.getModel();
+        if (model) {
+          model.pos = $V([0,z]);
+        }
       }
     });
   }

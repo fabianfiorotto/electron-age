@@ -50,21 +50,12 @@ module.exports = class VillagerRole {
     }
   }
 
-  getFrame() {
-    if (this.villager.state == Unit.IDLE && this.isCarrying()) {
-      return 0;
-    }
-    else {
-      return this.villager.frame;
-    }
-  }
-
   nextFrame() {
     if (this.villager.state == Unit.IDLE && this.isCarrying()) {
       return 0;
     }
     else {
-      return this.getModel().nextFrame(this.villager.frame, this.villager.orientation);
+      return this.getModel().nextFrame();
     }
   }
 
@@ -91,7 +82,7 @@ module.exports = class VillagerRole {
     else {
       res = this.maleModelsResources();
     }
-    res.player_id = this.villager.player.id;
+    res.entity = this.villager;
     return res;
   }
 

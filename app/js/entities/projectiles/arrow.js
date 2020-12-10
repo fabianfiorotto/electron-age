@@ -6,8 +6,6 @@ module.exports = class Arrow extends Projectile {
   constructor(map, player) {
     super(map, player);
     this.v = $V([10, 10]);
-    this.posZ = this.pos;
-    this.z = 0;
   }
 
   setTarget(target) {
@@ -20,9 +18,7 @@ module.exports = class Arrow extends Projectile {
   }
 
   draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.posZ.subtract(camera), this.orientation, 0, this.player.id);
-    }
+    this.getModel()?.draw(camera);
   }
 
   update() {
@@ -56,8 +52,9 @@ module.exports = class Arrow extends Projectile {
             this.orientation = 1.5 * Math.PI - d * Math.PI;
           }
         }
-
-        this.posZ = this.pos.add($V([0,z]));
+        if (this.models.arrow) {
+          this.models.arrow.pos = $V([0,z]);
+        }
       }
     });
   }
@@ -75,12 +72,7 @@ module.exports = class Arrow extends Projectile {
   // }
 
   async loadResources(res) {
-    this.models.arrow = await res.loadProjectile(50);
-    var base_id = 50505;
-    this.models.arrow.load({
-      base: resources.palettes[base_id],
-      player: this.player.id
-    });
+    this.models.arrow = await res.loadProjectileInstance(this, 50);
   }
 
 };

@@ -23,13 +23,27 @@ module.exports = class Wall extends Building {
       for (var j = 1; j <= 3; j++) {
         if (n[i][j]) {
           var m = n[i][j];
-          m.modelFrame = m.calculateModelFrame(m.matrixSlice(n, i, j));
-          if (m.modelFrame == 3) {
-            console.log("aca");
+          let frame = m.calculateModelFrame(m.matrixSlice(n, i, j))
+          m.setModelFrame(frame);
+          if (m.state == Building.INCOMPLETE) {
+            m.updateBuildingProcess();
           }
         }
       }
     }
+  }
+
+  setModelFrame(frame) {
+    //TODO Seria mejor que los modelos tipo wall tengan su propia clase
+    // y utilicen la orientacion de la entidad para calcular los frames.
+    let models = this.models;
+    models.building.frame = frame;
+    models.damaged0.frame = frame;
+    models.damaged1.frame = frame;
+    models.damaged2.frame = frame;
+  }
+
+  update() {
   }
 
   getNeighborsPoints() {
@@ -96,19 +110,15 @@ module.exports = class Wall extends Building {
 
   }
 
-  getStoneWallFrame() {
-    var model = this.getStoneWallModel();
-    if (this.state === Wall.IMAGINARY) {
-      return 2;
-    }
-    if (this.state === Wall.INCOMPLETE && model && this.properties.hitPoints < this.properties.maxHitPoints ) {
-      return 4 * this.modelFrame + Math.floor(4 * this.properties.hitPoints / this.properties.maxHitPoints);
-    }
-    else {
-      return this.modelFrame;
-    }
+  onResourcesLoaded() {
+    this.models.building.frame = 2;
   }
 
+  updateBuildingProcess() {
+    let model = this.models.marks;
+    let {hitPoints, maxHitPoints} = this.properties;
+    model.frame = 4 * this.models.building.frame + Math.floor(4 * hitPoints / maxHitPoints)
+  }
 
   getStoneWallModel() {
     if (this.state === Wall.INCOMPLETE) {

@@ -206,15 +206,6 @@ module.exports = class Villager extends Unit {
     }
   }
 
-  getFrame() {
-    if (this.role) {
-      return this.role.getFrame();
-    }
-    else {
-      return super.getFrame();
-    }
-  }
-
   nextFrame() {
     if (this.role) {
       return this.role.nextFrame();

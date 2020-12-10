@@ -11,10 +11,6 @@ module.exports = class StoneWall extends Wall {
     return 29;
   }
 
-  getFrame() {
-    return this.getStoneWallFrame();
-  }
-
   getModel() {
     return this.getStoneWallModel();
   }

@@ -29,7 +29,7 @@ module.exports = class Stone extends Resource {
   }
 
   onResourcesLoaded() {
-    this.frame = Math.floor(Math.random() * this.models.stone.frames.length);
+    this.models.stone.randomFrame();
   }
 
 };

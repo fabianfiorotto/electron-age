@@ -12,17 +12,21 @@ module.exports = class Palisade extends Wall {
     };
   }
 
+  startBuilding() {
+    super.startBuilding();
+    this.models.marks.frame = 0;
+  }
+
+  updateBuildingProcess() {
+    let {hitPoints, maxHitPoints} = this.properties;
+    this.models.marks.progressFrame(hitPoints / maxHitPoints);
+  }
+
   thumbnail() {
     return 30;
   }
 
-  getFrame() {
-    if (this.state === Wall.IMAGINARY) {
-      return 2;
-    }
-    else {
-      return this.modelFrame;
-    }
+  updateBuildingProcess() {
   }
 
 };

@@ -5,10 +5,10 @@ module.exports = class SiegeUnit extends Unit {
 
   draw(camera) {
     if (this.models.walking && this.models.wheels && this.state == Unit.WALKING) {
-      this.models.walking.draw(this.pos.subtract(camera), this.orientation, 0, this.player.id);
+      this.models.walking.draw(camera);
     }
     if (this.models.attacking && this.models.ram && this.state == Unit.ATTACKING) {
-      this.models.attacking.draw(this.pos.subtract(camera), this.orientation, 0, this.player.id);
+      this.models.attacking.draw(camera);
     }
     super.draw(camera);
   }

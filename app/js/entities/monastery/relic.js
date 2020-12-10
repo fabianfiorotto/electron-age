@@ -36,9 +36,7 @@ module.exports = class Relic extends Entity {
   }
 
   draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), 0, this.getFrame());
-    }
+    this.getModel()?.draw(camera);
   }
 
   defineTypes() {

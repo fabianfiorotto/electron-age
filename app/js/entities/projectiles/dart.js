@@ -17,9 +17,7 @@ module.exports = class Dart extends Projectile {
   }
 
   draw(camera) {
-    if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), this.orientation, 0, this.player.id);
-    }
+    this.getModel()?.draw(camera);
   }
 
   update() {
@@ -49,12 +47,7 @@ module.exports = class Dart extends Projectile {
   // }
 
   async loadResources(res) {
-    this.models.arrow = await res.loadProjectile(50);
-    var base_id = 50505;
-    this.models.arrow.load({
-      base: resources.palettes[base_id],
-      player: this.player.id
-    });
+    this.models.arrow = await res.loadProjectileInstance(this, 50);
   }
 
 };

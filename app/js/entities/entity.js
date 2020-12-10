@@ -119,10 +119,6 @@ module.exports = class Entity {
     return null;
   }
 
-  getFrame() {
-    return this.frame;
-  }
-
   minAge(){
     return 1;
   }
@@ -339,8 +335,7 @@ module.exports = class Entity {
   canClick(pos) {
     var m = this.getModel();
     if (m) {
-      var p = this.pos.subtract(pos);
-      return m.canClick(p, this.getFrame());
+      return m.canClick(pos);
     }
     return false;
   }
@@ -379,7 +374,6 @@ module.exports = class Entity {
         }
       }
     }
-    res.player_id = this.player.id;
     return res;
   }
 

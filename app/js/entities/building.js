@@ -66,26 +66,18 @@ module.exports = class Building extends Entity {
 
   drawShadow(camera) {
     if (this.models.shadow && this.state === Building.FINISHED) {
-      this.models.shadow.draw(this.pos.subtract(camera), 0, this.frame, this.player.id);
+      this.models.shadow.draw(camera);
     }
   }
 
   draw(camera) {
-    var model = this.getModel();
-    var pos = this.pos.subtract(camera);
-    if (model) {
-      model.draw(pos, 0, this.getFrame(), this.player.id);
-    }
+    this.getModel()?.draw(camera);
     if (this.flagModel && this.focus) {
       this.flagModel.drawAt(this.spawnReunion.subtract(camera));
     }
-    if (this.state === Building.FINISHED && this.models.animation) {
-      this.models.animation.draw(pos, 0, this.frame, this.player.id);
-    }
-
     if (this.state === Building.FINISHED) {
-      let flames = this.getFlames();
-      flames?.drawAt(pos);
+      this.models.animation?.draw(camera);
+      this.getFlames()?.draw(camera);
     }
   }
 
@@ -113,11 +105,7 @@ module.exports = class Building extends Entity {
   }
 
   drawMemory(camera, ctx) {
-    var model = this.getModel();
-    var pos = this.pos.subtract(camera);
-    if (model) {
-      model.draw(pos, 0, this.getFrame(), this.player.id, ctx);
-    }
+    this.getModel()?.draw(camera, ctx);
   }
 
   update() {
@@ -129,10 +117,9 @@ module.exports = class Building extends Entity {
     });
 
     this.each(80, 'animation' , () => {
-      this.frame = this.models.animation?.nextFrame(this.frame, 0);
-
-      let flames = this.getFlames();
-      flames?.nextFrame();
+      this.models.shadow?.nextFrame();
+      this.models.animation?.nextFrame();
+      this.getFlames()?.nextFrame();
     });
 
     this.each(100, 'flagAnimation' , () =>{
@@ -178,16 +165,6 @@ module.exports = class Building extends Entity {
     }
     else {
       return this.models.building;
-    }
-  }
-
-  getFrame() {
-    var model = this.getModel();
-    if (this.state === Building.INCOMPLETE && model) {
-      return Math.floor(model.frames.length * this.properties.hitPoints / this.properties.maxHitPoints);
-    }
-    else {
-      return this.modelFrame;
     }
   }
 
@@ -255,10 +232,9 @@ module.exports = class Building extends Entity {
       return this.isAt(pos);
     }
     else {
-      var p = this.pos.subtract(pos);
       var m = this.getModel();
       if (m) {
-        return m.canClick(p, 0);
+        return m.canClick(pos);
       }
       return false;
     }
@@ -329,6 +305,11 @@ module.exports = class Building extends Entity {
     this.properties.hitPoints = 1;
   }
 
+  updateBuildingProcess() {
+    let {hitPoints, maxHitPoints} = this.properties;
+    this.models.marks.progressFrame(hitPoints / maxHitPoints);
+  }
+
   iconsResources() {
     return [
       {
@@ -351,7 +332,6 @@ module.exports = class Building extends Entity {
   async loadResources(res) {
     var base_id = 50505;
     this.flagModel = await res.loadModelInstance(this, 3404);
-    this.flagModel.loadColors();
 
     var mr = this.getModelsResources();
     var marks_id, debris_id;
@@ -378,18 +358,10 @@ module.exports = class Building extends Entity {
         break;
     }
     if (marks_id && (!mr.model || !mr.model.marks)) {
-      this.models.marks  = await res.loadModel(marks_id);
-      this.models.marks.load({
-        base: resources.palettes[base_id],
-        player: this.player.id
-      });
+      this.models.marks = await res.loadModelInstance(this, marks_id);
     }
     if (debris_id && (!mr.model || !mr.model.debris)) {
-      this.models.debris = await res.loadModel(debris_id);
-      this.models.debris.load({
-        base: resources.palettes[base_id],
-        player: this.player.id
-      });
+      this.models.debris = await res.loadModelInstance(this, debris_id);
     }
 
     for (var i = 0; i < 8; i++) {
@@ -397,12 +369,10 @@ module.exports = class Building extends Entity {
       // 4..5 medium
       // 6..8 large
       this.models['fire' + (i+1)] = await res.loadModelInstance(this, 424+i);
-      this.models['fire' + (i+1)].loadColors();
     }
 
     for (i = 0; i < 3; i++) {
       this.models['mediumFire' + (i+1)] = await res.loadModelInstance(this, 362+i);
-      this.models['mediumFire' + (i+1)].loadColors();
     }
 
   }

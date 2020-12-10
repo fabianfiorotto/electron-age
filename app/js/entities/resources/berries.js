@@ -29,7 +29,7 @@ module.exports = class Berries extends Resource {
   }
 
   onResourcesLoaded() {
-    this.frame = Math.floor(Math.random() * this.models.berries.frames.length);
+    this.models.berries.randomFrame();
   }
 
 };

@@ -246,9 +246,10 @@ module.exports = class ResourceManager {
     return model;
   }
 
-  async loadModelInstance(entity, id, file, modelClass) {
+  async loadModelInstance(entity, id, file, modelClass, pallete_id) {
     let model = await this.loadModel(id, file, modelClass);
     let instance = new SlpModelInstance(entity, model);
+    instance.loadColors(pallete_id);
     return instance;
   }
 
@@ -260,12 +261,12 @@ module.exports = class ResourceManager {
     return await this.loadModel(id, 'interfac');
   }
 
-  async loadUnit(id) {
-    return await this.loadModel(id, 'graphics', SlpUnitModel);
+  async loadUnitInstance(entity, id) {
+    return await this.loadModelInstance(entity, id, 'graphics', SlpUnitModel);
   }
 
-  async loadProjectile(id) {
-    return await this.loadModel(id, 'graphics', SlpProjectileModel);
+  async loadProjectileInstance(entity, id) {
+    return await this.loadModelInstance(entity, id, 'graphics', SlpProjectileModel);
   }
 
   async loadSound(id, fname) {
@@ -310,24 +311,18 @@ module.exports = class ResourceManager {
   async load(entity) {
     await entity.loadResources(this);
     var res = entity.getModelsResources();
-    var base_id = 50505;
+    let base_id = 50505;
+
+    let modelEntity = res.entity || entity;
 
     if (res.unit) {
       for (const [key,value] of Object.entries(res.unit)){
-        entity.models[key] = await this.loadUnit(value);
-        entity.models[key].load({
-          base: this.palettes[base_id],
-          player: res.player_id
-        });
+        entity.models[key] = await this.loadUnitInstance(modelEntity, value);
       }
     }
     if (res.model) {
       for (const [key,value] of Object.entries(res.model)){
-        entity.models[key] = await this.loadModel(value);
-        entity.models[key].load({
-          base: this.palettes[base_id],
-          player: res.player_id
-        });
+        entity.models[key] = await this.loadModelInstance(modelEntity, value);
       }
     }
     if (res.sounds) {
@@ -340,16 +335,17 @@ module.exports = class ResourceManager {
         entity.sounds[key] = await this.loadSound(value, 'interfac');
       }
     }
+    let playerColor = modelEntity.player.id;
     var iconsRes = entity.iconsResources();
     for (const icons of iconsRes){
       var model = await this.loadInterface(icons.interface);
       model.load({
         base: this.palettes[base_id],
-        player: res.player_id
+        player: playerColor
       });
       for (const [key,value] of Object.entries(icons.frames)){
         if (key == 'thumbnail') {
-          var img = model.frames[value].imgs[res.player_id];
+          var img = model.frames[value].imgs[playerColor];
           entity.icons.thumbnail = this.getUrl(img);
         }
         else {

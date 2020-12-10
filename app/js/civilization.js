@@ -21,12 +21,13 @@ module.exports = class Civilization {
     var name = entity.constructor.name;
     if (res[name]) {
       var models = {};
-      for (const [key,value] of Object.entries(res[name])){
-        models[key] = await resources.loadModel(value);
-        models[key].load({
-          base: resources.palettes[50505],
-          player: entity.player.id
-        });
+      for (const [key, value] of Object.entries(res[name])){
+        models[key] = await resources.loadModelInstance(entity, value);
+        if (entity.models[key]) {
+          let oldModel = entity.models[key];
+          models[key].frame = oldModel.frame;
+          models[key].pos = oldModel.pos;
+        }
       }
       for (const [key,value] of Object.entries(res[name])){
         entity.models[key] = models[key];

@@ -16,15 +16,6 @@ module.exports = class Tree extends Resource {
     }
   }
 
-  getFrame() {
-    if (this.resources.wood < 600) {
-      return 0;
-    }
-    else {
-      return this.frame;
-    }
-  }
-
   iconsResources() {
     return [{
       interface: 50730,
@@ -45,7 +36,7 @@ module.exports = class Tree extends Resource {
   }
 
   onResourcesLoaded() {
-    this.frame = Math.floor(Math.random() * this.models.tree.frames.length);
+    this.models.tree.randomFrame();
   }
 
 };

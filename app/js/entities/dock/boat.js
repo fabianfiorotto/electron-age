@@ -3,19 +3,15 @@ module.exports = class Boat extends Unit {
 
   draw(camera) {
     if (this.getModel()) {
-      this.getModel().draw(this.pos.subtract(camera), this.orientation, this.getFrame(), this.player.id);
+      this.getModel().draw(camera);
     }
     if (this.models.sail) {
-      this.models.sail.draw(this.pos.subtract(camera), this.orientation, this.getFrame(), this.player.id);
+      this.models.sail.draw(camera);
     }
   }
 
   getModel() {
     return this.models.hull;
-  }
-
-  getFrame() {
-    return 0;
   }
 
   validTargetPos(pos) {

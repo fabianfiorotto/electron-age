@@ -13,33 +13,15 @@ module.exports = class TownCenter extends Building {
 
   draw(camera) {
     if (this.state == Building.FINISHED || this.state == Building.IMAGINARY) {
-      var v0 = $V([0,-45]);
-      super.draw(camera.subtract(v0));
+      super.draw(camera);
 
-      var v1 = $V([0,50]), v2 = $V([0,25]);
-      var pos = this.pos.subtract(camera);
-
-      if(this.models.leftRoof){
-        this.models.leftRoof.draw(pos.add(v1), 0, 0, this.player.id);
-      }
-      if(this.models.leftColumn1){
-        this.models.leftColumn1.draw(pos, 0, 0, this.player.id);
-      }
-      if(this.models.leftColumn2){
-        this.models.leftColumn2.draw(pos.add(v2), 0, 0, this.player.id);
-      }
-      if(this.models.rightRoof){
-        this.models.rightRoof.draw(pos.add(v1), 0, 0, this.player.id);
-      }
-      if(this.models.rightColumn1){
-        this.models.rightColumn1.draw(pos.add(v2), 0, 0, this.player.id);
-      }
-      if(this.models.rightColumn2){
-        this.models.rightColumn2.draw(pos, 0, 0, this.player.id);
-      }
-      if (this.models.floor) {
-        this.models.floor.draw(pos, 0, 0, this.player.id);
-      }
+      this.models.leftRoof?.draw(camera);
+      this.models.leftColumn1?.draw(camera);
+      this.models.leftColumn2?.draw(camera);
+      this.models.rightRoof?.draw(camera);
+      this.models.rightColumn1?.draw(camera);
+      this.models.rightColumn2?.draw(camera);
+      this.models.floor?.draw(camera);
     }
     else {
       super.draw(camera);
@@ -62,6 +44,18 @@ module.exports = class TownCenter extends Building {
         click: 5123
       }
     };
+  }
+
+  onResourcesLoaded() {
+    this.models.building.pos = $V([0, -45]);
+
+    var v1 = $V([0,50]), v2 = $V([0,25]);
+
+    this.models.leftRoof.pos = v1;
+    this.models.rightRoof.pos = v1;
+
+    this.models.leftColumn2.pos = v2;
+    this.models.rightColumn1.pos = v2;
   }
 
   thumbnail() {
