@@ -33,13 +33,6 @@ module.exports = class Dashboard extends UIWidget {
 
   bindMap(map) {
     this.player = map.players[1];
-
-    this.controls.bindMap(map);
-    this.info.bindMap(map);
-    this.selection.bindMap(map);
-    this.progress.bindMap(map);
-    this.garrison.bindMap(map);
-
     this.loadCivResources(resources);
   }
 

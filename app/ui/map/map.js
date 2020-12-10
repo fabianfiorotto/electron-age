@@ -34,7 +34,7 @@ module.exports = class MapView extends UIWidget {
     var file = await fs.open(filename, "r");
     var map = await ScxMapBuilder.load(file, (v, t) => this.loading.progress(v, t));
     file.close();
-    this.bindMap(map);
+    this.triggerMapLoaddedEvent(map);
     this.loading.complete();
     return map;
   };
@@ -42,10 +42,17 @@ module.exports = class MapView extends UIWidget {
   async loadTestMap() {
     this.loading.start();
     let map = await TestBuilder.loadTestMap((v, t) => this.loading.progress(v, t));
-    this.bindMap(map);
+    this.triggerMapLoaddedEvent(map);
     this.loading.complete();
     return map;
   };
+
+  triggerMapLoaddedEvent(map) {
+    var event = new CustomEvent('mapLoaded');
+    event.map = map;
+    document.dispatchEvent(event);
+  }
+
 
   bindMap(map) {
     this.map = map;
@@ -53,9 +60,6 @@ module.exports = class MapView extends UIWidget {
       (this.viewSize - 1) * window.innerWidth  / 2,
       (this.viewSize - 1) * window.innerHeight / 2,
     ]));
-
-    this.topBar.bindMap(map);
-    this.dashboard.bindMap(map);
 
     this.player = map.players[1];
 

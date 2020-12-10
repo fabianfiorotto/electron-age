@@ -23,10 +23,6 @@ module.exports = class TopBarMenu extends UIWidget {
     this.openMainManu.addEventListener('click',(e) => this.mainManu.open());
   }
 
-  bindMap(map) {
-    this.diplomacy.bindMap(map);
-  }
-
   template() {
     return 'topbar/menu';
   }

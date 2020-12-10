@@ -2,6 +2,10 @@ const fs = require('fs').promises;
 
 module.exports = class UIWidget {
 
+  constructor() {
+    document.addEventListener('mapLoaded', (e)=> this.bindMap(e.map), false);
+  }
+
   template() {
     return null;
   }

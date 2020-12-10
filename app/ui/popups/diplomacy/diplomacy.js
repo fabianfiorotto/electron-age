@@ -20,11 +20,6 @@ module.exports = class Diplomacy extends UIWidget {
     this.row.bind($('.row'));
   }
 
-  bindMap(map) {
-    this.firstRow.bindMap(map);
-    this.row.bindMap(map);
-  }
-
   open() {
     this.element.style.display = 'block';
   }
