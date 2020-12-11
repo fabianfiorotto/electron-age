@@ -69,7 +69,7 @@ module.exports = class Monk extends Unit {
         this.convertion_starting = 0;
       }
     }
-    else if (this.target.isWonded()) {
+    else if (this.target.isDamaged()) {
       this.setState(Monk.HEALING);
     }
     else {

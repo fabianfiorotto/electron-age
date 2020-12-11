@@ -136,6 +136,21 @@ module.exports = class AoeMap {
     }
   }
 
+  leftClick(v) {
+    if (this.selected.length && this.selected[0].clickAction) {
+      this.rightClick(v)
+      return;
+    }
+
+    let newSelected = [];
+    let entity = this.clickEntity(v);
+    if (entity) {
+      newSelected = [entity];
+      entity.click();
+    }
+    this.setSelected(newSelected);
+  }
+
   setEntityTargetPos(entity, pos) {
     var target = this.clickEntity(pos);
     if (target) {
@@ -198,16 +213,6 @@ module.exports = class AoeMap {
       if (x >= x1 && x <= x2 && y >= y1 && y <=  y2) {
         newSelected.push(entity);
       }
-    }
-    this.setSelected(newSelected);
-  }
-
-  leftClick(v) {
-    let newSelected = [];
-    let entity = this.clickEntity(v);
-    if (entity) {
-      newSelected = [entity];
-      entity.click();
     }
     this.setSelected(newSelected);
   }

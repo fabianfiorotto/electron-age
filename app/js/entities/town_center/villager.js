@@ -34,10 +34,13 @@ const Forager    = require('./forager');
 const Farmer     = require('./farmer');
 const Shephard   = require('./shepherd');
 const Builder    = require('./builder');
+const Repairer   = require('./repairer');
 const Miner      = require('./miner');
 const LumberJack = require('./lumberjack');
 
 module.exports = class Villager extends Unit {
+
+  static REPAIR = Symbol('villager_action_repair');
 
   constructor(map,player) {
     super(map, player);
@@ -53,6 +56,7 @@ module.exports = class Villager extends Unit {
     this.roles.lumberJack = new LumberJack(this);
     this.roles.farmer = new Farmer(this);
     this.roles.builder = new Builder(this);
+    this.roles.repairer = new Repairer(this);
     this.roles.builder = new Builder(this);
 
   }
@@ -68,7 +72,20 @@ module.exports = class Villager extends Unit {
     };
   }
 
-  setTarget(entity) {
+  setActionTarget(entity) {
+    if (entity) {
+      if (this.clickAction == Villager.REPAIR && this.roles.repairer.canRepair(entity)) {
+        this.role = this.roles.repairer;
+        this.clickAction = null;
+      }
+      if (this.clickAction == Unit.SHELTER && !entity.canGarrison(this)) {
+        console.log("ERROR. Can't shelter there");
+        this.clickAction = null;
+      }
+    }
+  }
+
+  setDefaultActionTarget(entity) {
     if (entity && entity instanceof Berries) {
       this.role = this.roles.forager;
     }
@@ -90,10 +107,24 @@ module.exports = class Villager extends Unit {
     if (entity && entity instanceof TownCenter && entity.state == Building.FINISHED) {
       this.setState(Unit.IDLE);
     }
+  }
+
+  setTarget(entity) {
+    if (this.clickAction) {
+      this.setActionTarget(entity);
+    }
+    else {
+      this.setDefaultActionTarget(entity);
+    }
     this.target = entity;
   }
 
   targetReached() {
+    if (this.clickAction == Unit.SHELTER && this.target.canGarrison(this)) {
+      this.target.garrison(this);
+      this.clickAction = null;
+      return;
+    }
     super.targetReached();
     if (this.role) {
       this.role.targetReached();
@@ -410,17 +441,26 @@ module.exports = class Villager extends Unit {
       },
       repair: {
         icon: icons.repair,
-        callback: () => console.log("repair")
+        callback: () => this.clickAction = Villager.REPAIR
       },
       shelter: {
         icon: icons.shelter,
-        callback: () => console.log("shelter")
+        callback: () => this.clickAction = Unit.SHELTER
       }
     }
   }
 
+  defineTypes() {
+    return [EntityType.CIVIL];
+  }
 
   getCursorFor(entity) {
+    if (this.clickAction == Unit.SHELTER) {
+      return 'shelter';
+    }
+    if (this.clickAction == Villager.REPAIR) {
+      return 'hammer';
+    }
     return entity.isType(EntityType.RESOURCE) ? 'pointer' : super.getCursorFor(entity);
   }
 

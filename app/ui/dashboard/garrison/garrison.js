@@ -24,6 +24,7 @@ module.exports = class Garrison extends UIWidget {
   }
 
   eventsSubscribe(selected) {
+    // BUG this doesn't work
     this.eventSubrition = selected.onGarrisonChange(() => this.display(selected));
   }
 

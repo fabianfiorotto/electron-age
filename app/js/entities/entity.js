@@ -133,15 +133,16 @@ module.exports = class Entity {
 
   garrison(entity) {
     if (this.canGarrison(entity)) {
+      this.map.removeEntity(entity);
       this.garrisonedEntities.push(entity);
-      this.emitter.emit('did-garrison-changed', this.garrisonedEntities);
+      this.emitter.emit('did-garrison-change', this.garrisonedEntities);
     }
   }
 
   ungarrison(entity) {
     if (this.garrisonedEntities.indexOf(entity) !== -1) {
       this.garrisonedEntities.splice(this.garrisonedEntities.indexOf(entity), 1);
-      this.emitter.emit('did-change-selection', this.garrisonedEntities);
+      this.emitter.emit('did-garrison-change', this.garrisonedEntities);
 
       let v = $V([Math.cos(this.orientation), -Math.sin(this.orientation)]);
       this.entity.pos = this.pos.add(v.x(50.0));
@@ -296,7 +297,7 @@ module.exports = class Entity {
     this.emitter.emit('did-change-properties', this.properties);
   }
 
-  isWonded() {
+  isDamaged() {
     let properties = this.properties;
     return properties.maxHitPoints > properties.hitPoints;
   }

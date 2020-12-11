@@ -314,10 +314,12 @@ module.exports = class MapView extends UIWidget {
       base: palette,
       player: 0
     });
-    this.cursors.default = model.frames[0].imgs[0];
-    this.cursors.pointer = model.frames[3].imgs[0];
-    this.cursors.attack = model.frames[4].imgs[0];
-    this.cursors.convert = model.frames[5].imgs[0];
+    this.cursors.default = model.frames[ 0].imgs[0];
+    this.cursors.pointer = model.frames[ 3].imgs[0];
+    this.cursors.attack  = model.frames[ 4].imgs[0];
+    this.cursors.convert = model.frames[ 5].imgs[0];
+    this.cursors.hammer  = model.frames[ 7].imgs[0];
+    this.cursors.shelter = model.frames[14].imgs[0];
     this.setCursor('default')
   }
 }

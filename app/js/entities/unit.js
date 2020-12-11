@@ -11,6 +11,8 @@ module.exports = class Unit extends Entity {
   static WORKING   = Symbol('unit_working');
 /* jshint ignore:end */
 
+  static SHELTER = Symbol('unit_action_shelter');
+
   constructor(map, player) {
     super(map, player);
     this.path = [];

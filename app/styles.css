@@ -99,11 +99,14 @@ body {
 .player2 progress[value]::-webkit-progress-value {
   background-color: #ff5f5f; }
 
-.garrison td {
-  padding-left: 10px; }
-
-.garrison .hit-points-bar {
-  display: block; }
+.garrison {
+  position: absolute;
+  left: 150px;
+  top: 40px; }
+  .garrison td {
+    padding-left: 10px; }
+  .garrison .hit-points-bar {
+    display: block; }
 
 .map-inner {
   position: fixed;

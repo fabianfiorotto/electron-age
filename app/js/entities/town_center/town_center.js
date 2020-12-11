@@ -128,4 +128,8 @@ module.exports = class TownCenter extends Building {
     }
   }
 
+  canGarrison(entity) {
+    return entity.isType(EntityType.CIVIL, EntityType.ARCHER);
+  }
+
 };
