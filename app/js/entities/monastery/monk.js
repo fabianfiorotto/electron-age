@@ -63,13 +63,13 @@ module.exports = class Monk extends Unit {
     if (this.target.isType(EntityType.RELIC)){
       this.pickRelic();
     }
-    else if (this.isEnemy(this.target)) {
+    else if (this.canConvertTarget()) {
       if (!this.isConverting()) {
         this.setState(Monk.CONVERTION_START);
         this.convertion_starting = 0;
       }
     }
-    else if (this.target.isDamaged()) {
+    else if (this.canHealTarget()) {
       this.setState(Monk.HEALING);
     }
     else {
@@ -109,7 +109,17 @@ module.exports = class Monk extends Unit {
     }
 
     if (Math.random() < 0.33) {
+      let enemy = this.target.player
       this.target.player = this.player;
+
+      if (!this.target.isType(EntityType.BUILDING)) {
+        // TODO what happen if there is no population
+        this.player.population += 1;
+        this.player.emitter.emit('did-change-population', this.player);
+        enemy.population -= 1;
+        enemy.emitter.emit('did-change-population', enemy);
+      }
+
       resources.load(this.target);
       this.setState(Unit.IDLE);
     }
@@ -148,6 +158,18 @@ module.exports = class Monk extends Unit {
     else {
       return this.target.pos.subtract(this.pos).modulus() < 100.0;
     }
+  }
+
+  canConvertTarget() {
+    // TODO convert building tec
+    return this.isEnemy(this.target);
+  }
+
+  canHealTarget() {
+    let t = EntityType;
+    return this.target !== this
+      && !entity.isType(t.BUILDING, t.SIEGE_WEAPON, t.SHIP)
+      && this.target.isDamaged();
   }
 
   update() {
@@ -216,5 +238,11 @@ module.exports = class Monk extends Unit {
     }
   }
 
+  onEntityDestroy() {
+    if (this.relic) {
+      this.dropRelic();
+    }
+    super.onEntityDestroy();
+  }
 
 };
