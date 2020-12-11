@@ -66,7 +66,7 @@ module.exports =  class TestBuilder {
     entities.push(entity)
 
     // await this.addEntity(map, Sheep,1039, 63, player1);
-    entity = new Monk(map, player2);
+    entity = new Monk(map, player1);
     entity.pos = $V([1039, 63]);
     entities.push(entity)
 

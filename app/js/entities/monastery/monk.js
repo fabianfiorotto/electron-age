@@ -161,8 +161,13 @@ module.exports = class Monk extends Unit {
   }
 
   canConvertTarget() {
-    // TODO convert building tec
-    return this.isEnemy(this.target);
+    const t = EntityType;
+
+    if (!this.isEnemy(this.target)) {
+      return false;
+    }
+    return  this.player.technologies.redemption
+      || !entity.isType(t.BUILDING, t.SIEGE_WEAPON, t.SHIP);
   }
 
   canHealTarget() {
