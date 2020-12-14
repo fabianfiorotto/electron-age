@@ -322,7 +322,11 @@ module.exports = class ResourceManager {
     }
     if (res.model) {
       for (const [key,value] of Object.entries(res.model)){
-        entity.models[key] = await this.loadModelInstance(modelEntity, value);
+        let modelClass, __;
+        if (typeof entity.getModelClass == 'function') {
+          modelClass = entity.getModelClass(key);
+        }
+        entity.models[key] = await this.loadModelInstance(modelEntity, value, __, modelClass);
       }
     }
     if (res.sounds) {

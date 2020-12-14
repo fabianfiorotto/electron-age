@@ -1,6 +1,12 @@
 const Building = require('../building');
+const SlpWallModel = require('../../slp/wall');
 
 module.exports = class Wall extends Building {
+
+  constructor(map, player) {
+    super(map,player);
+    this.orientation = 2;
+  }
 
   getSize() {
     return 1;
@@ -23,24 +29,13 @@ module.exports = class Wall extends Building {
       for (var j = 1; j <= 3; j++) {
         if (n[i][j]) {
           var m = n[i][j];
-          let frame = m.calculateModelFrame(m.matrixSlice(n, i, j))
-          m.setModelFrame(frame);
+          m.orientation = m.calculateModelFrame(m.matrixSlice(n, i, j))
           if (m.state == Building.INCOMPLETE) {
             m.updateBuildingProcess();
           }
         }
       }
     }
-  }
-
-  setModelFrame(frame) {
-    //TODO Seria mejor que los modelos tipo wall tengan su propia clase
-    // y utilicen la orientacion de la entidad para calcular los frames.
-    let models = this.models;
-    models.building.frame = frame;
-    models.damaged0.frame = frame;
-    models.damaged1.frame = frame;
-    models.damaged2.frame = frame;
   }
 
   update() {
@@ -110,14 +105,10 @@ module.exports = class Wall extends Building {
 
   }
 
-  onResourcesLoaded() {
-    this.models.building.frame = 2;
-  }
-
   updateBuildingProcess() {
     let model = this.models.marks;
     let {hitPoints, maxHitPoints} = this.properties;
-    model.frame = 4 * this.models.building.frame + Math.floor(4 * hitPoints / maxHitPoints)
+    model.frame = Math.floor(4 * hitPoints / maxHitPoints);
   }
 
   getStoneWallModel() {
@@ -139,5 +130,9 @@ module.exports = class Wall extends Building {
     else {
       return this.models.damaged2;
     }
+  }
+
+  getModelClass(id) {
+    return SlpWallModel;
   }
 };
