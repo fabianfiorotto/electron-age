@@ -120,11 +120,6 @@ module.exports = class Villager extends Unit {
   }
 
   targetReached() {
-    if (this.clickAction == Unit.SHELTER && this.target.canGarrison(this)) {
-      this.target.garrison(this);
-      this.clickAction = null;
-      return;
-    }
     super.targetReached();
     if (this.role) {
       this.role.targetReached();

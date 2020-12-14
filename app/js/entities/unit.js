@@ -189,6 +189,10 @@ module.exports = class Unit extends Entity {
     if (this.isEnemy(this.target)) {
       this.setState(Unit.ATTACKING);
     }
+    else if (this.clickAction == Unit.SHELTER && this.target.canGarrison(this)) {
+      this.target.garrison(this);
+      this.clickAction = null;
+    }
   }
 
   update() {
