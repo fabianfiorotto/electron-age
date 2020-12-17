@@ -17,6 +17,7 @@ const SiegeWorkshop = require('../siege_workshop/siege_workshop');
 const Castle = require('../castle/castle');
 const Palisade = require('../wall/palisade');
 const StoneWall = require('../wall/stone');
+const Gate = require('../door/gate');
 const FortifiedWall = require('../wall/fortified');
 const TownCenter = require('./town_center');
 const Outpost = require('../tower/outpost');
@@ -197,7 +198,7 @@ module.exports = class Villager extends Unit {
           guardTower:    26,
           keep:          27,
           bombardTower:  42,
-          door:          36,
+          gate:          36,
         }
       },
       {
@@ -287,7 +288,7 @@ module.exports = class Villager extends Unit {
       military: [
         "buildBarracks", "buildArcheryRange", 'buildStable', 'buildSiegeWorkshop', null,
         'buildOutpost', 'buildPalisade', 'buildSoneWall', 'buildWatchTower', 'buildBombardTower',
-        'buildDoor', null, 'buildCasle', "nextMenuCivilian", "backToMain"
+        'buildGate', null, 'buildCasle', "nextMenuCivilian", "backToMain"
       ],
     }
   }
@@ -403,10 +404,10 @@ module.exports = class Villager extends Unit {
         condition: () => this.player.technologies.bombardTower,
         callback: () => this.build(BombardTower)
       },
-      buildDoor: {
-        icon: icons.door,
+      buildGate: {
+        icon: icons.gate,
         condition: () => this.player.age >= 2,
-        callback: () => this.build(Palisade)
+        callback: () => this.build(Gate)
       },
       buildCasle: {
         icon: icons.castle,

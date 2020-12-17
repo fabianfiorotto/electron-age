@@ -325,6 +325,10 @@ module.exports = class Building extends Entity {
       {
         interface: 50729,
         frames: this.technologyIcons()
+      },
+      {
+        interface: 50721,
+        frames: this.controlsIcons()
       }
     ];
   }

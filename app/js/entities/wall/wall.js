@@ -3,8 +3,7 @@ const SlpWallModel = require('../../slp/wall');
 
 module.exports = class Wall extends Building {
 
-  constructor(map, player) {
-    super(map,player);
+  initialize() {
     this.orientation = 2;
   }
 

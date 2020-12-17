@@ -57,6 +57,25 @@ module.exports = class CentralEuropean extends Civilization {
           damaged1: 4178,
           damaged2: 4186,
         },
+        Gate: {
+          leftWall: 2099,
+          rightWall: 2099,
+
+          marks1: 4068, //    ==
+          marks2: 3707, //    //
+          marks3: 3723, //    \\
+          marks4: 4156, //    ||
+
+          closed1: 4000,   //    ==
+          closed2: 2428,   //    //
+          closed3: 1927,   //    \\
+          closed4: 4088,   //    ||
+
+          open1: 4024,     //    ==
+          open2: 2464,     //    //
+          open3: 2356,     //    \\
+          open4: 4112,     //    ||
+        },
         TownCenter: {
           building: 901,
           shadow: 893,

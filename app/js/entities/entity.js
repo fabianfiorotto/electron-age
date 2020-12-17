@@ -386,6 +386,10 @@ module.exports = class Entity {
     return {};
   }
 
+  controlsIcons() {
+    return {};
+  }
+
   unitsIcons() {
     return {};
   }
