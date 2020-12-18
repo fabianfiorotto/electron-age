@@ -128,6 +128,21 @@ module.exports = class TownCenter extends Building {
     }
   }
 
+  canClick(pos) {
+    const {leftRoof, rightRoof, building} = this.models;
+    if (this.state === Building.INCOMPLETE) {
+      return this.isAt(pos);
+    }
+    else if (leftRoof && rightRoof && building) {
+      return building.canClick(pos)
+        || rightRoof.canClick(pos)
+        || leftRoof.canClick(pos);
+    }
+    else {
+      return false;
+    }
+  }
+
   canGarrison(entity) {
     return entity.isType(EntityType.CIVIL, EntityType.ARCHER);
   }

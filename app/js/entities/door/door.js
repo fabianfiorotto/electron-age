@@ -130,4 +130,20 @@ module.exports = class Door extends Building {
     }
   }
 
+  canClick(pos) {
+    const building = this.getModel();
+    const {leftWall, rightWall} = this.models;
+    if (this.state === Building.INCOMPLETE) {
+      return this.isAt(pos);
+    }
+    else if (leftWall && rightWall && building) {
+      return building.canClick(pos)
+        || leftWall.canClick(pos)
+        || rightWall.canClick(pos);
+    }
+    else {
+      return false;
+    }
+  }
+
 }
