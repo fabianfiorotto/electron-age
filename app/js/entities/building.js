@@ -192,6 +192,7 @@ module.exports = class Building extends Entity {
   }
 
   getTilePoints() {
+    // TODO use constants
     var size = this.getSize();
     var y0 = 48 * size / 2 - 24;
     var points = [];

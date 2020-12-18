@@ -146,4 +146,37 @@ module.exports = class Door extends Building {
     }
   }
 
+  _validateTile(i, j) {
+    // Agregar una funcion que dependiendo de la orientacion descarte tiles.
+    switch (this.orientation) {
+      case 1:
+        return i + j == 3;
+      case 2:
+        return j == 1;
+      case 3:
+        return i == 1;
+      case 4:
+        return i == j;
+    }
+    return true;
+  }
+
+
+  getTilePoints() {
+    var size = this.getSize();
+    var y0 = 48 * size / 2 - 24;
+    var points = [];
+    for (var i = 0; i < size; i++) {
+      for (var j = 0; j < size; j++) {
+        if (this._validateTile(i,j)) {
+          points.push(this.pos.subtract($V([
+            (i - j) * 48,
+            (i + j) * 24 - y0
+          ])));
+        }
+      }
+    }
+    return points;
+  }
+
 }
