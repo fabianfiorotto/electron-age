@@ -18,7 +18,8 @@ module.exports = class SlpModelInstance {
   }
 
   canClick(pos)  {
-    return this.model.canClick(this.entity.pos.subtract(pos), this.frame);
+    let pos1 = this.pos.add(this.entity.pos).subtract(pos);
+    return this.model.canClick(pos1, this.entity.orientation, this.frame);
   }
 
   nextFrame() {

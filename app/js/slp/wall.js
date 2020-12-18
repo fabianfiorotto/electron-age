@@ -14,4 +14,12 @@ module.exports = class SlpWallModel extends SlpModel {
     }
   }
 
+  canClick(pos, orientation, frame) {
+    frame = this.framesCount * orientation + frame;
+    if (this.frames[frame]) {
+      return this.frames[frame].canClick(pos, player, ctx);
+    }
+    return false;
+  }
+
 };

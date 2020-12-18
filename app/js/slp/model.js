@@ -143,7 +143,7 @@ module.exports = class SlpModel {
     }
   }
 
-  canClick(pos, frame) {
+  canClick(pos, orientation, frame) {
     return this.frames[frame].canClick(pos);
   }
 

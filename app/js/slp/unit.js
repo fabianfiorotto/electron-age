@@ -90,16 +90,24 @@ module.exports = class SlpUnitModel extends SlpModel {
     }
   }
 
-  draw(pos, orientation, frame, player) {
+  draw(pos, orientation, frame, player , ctx) {
     var frameSet = this.getFrameSetByOrientation(orientation);
     if (frameSet[frame]) {
-      frameSet[frame].draw(pos, player);
+      frameSet[frame].draw(pos, player, ctx);
     }
   }
 
   nextFrame(n, orientation) {
     var frameSet = this.getFrameSetByOrientation(orientation);
     return n < frameSet.length - 1 ? n + 1 : 0;
+  }
+
+  canClick(pos, orientation, frame) {
+    var frameSet = this.getFrameSetByOrientation(orientation);
+    if (frameSet[frame]) {
+      return frameSet[frame].canClick(pos);
+    }
+    return false;
   }
 
 };
