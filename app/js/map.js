@@ -137,9 +137,15 @@ module.exports = class AoeMap {
   }
 
   leftClick(v) {
-    if (this.selected.length && this.selected[0].clickAction) {
-      this.rightClick(v)
-      return;
+    if (this.selected.length) {
+      let selected1 = this.selected[0];
+      if (selected1.clickAction) {
+        this.rightClick(v)
+        return;
+      }
+      if (selected1 instanceof Villager && selected1.building) {
+        return;
+      }
     }
 
     let newSelected = [];
@@ -175,16 +181,17 @@ module.exports = class AoeMap {
   }
 
   over(v) {
-    if (this.selected[0] instanceof Villager && this.selected[0].building) {
+    let selected1 = this.selected[0];
+    if (selected1 instanceof Villager && selected1.building) {
       var x = v.e(1) - v.e(1) % 48;
       var y = v.e(2) - v.e(2) % 24;
       if (!(x % 96 == 0 ^ y % 48 == 0)) {
         y += 24;
       }
-      if (this.selected[0].building.getSize() % 2 == 0) {
+      if (selected1.building.getSize() % 2 == 0) {
         x -= 48;
       }
-      this.selected[0].building.pos = $V([x, y]);
+      selected1.building.pos = $V([x, y]);
     }
   }
 
