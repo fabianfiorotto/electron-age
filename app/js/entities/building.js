@@ -244,7 +244,7 @@ module.exports = class Building extends Entity {
   isAt(pos) {
     var p = this.pos.subtract(pos).map((e) => Math.abs(e));
     var size = this.getSize();
-    var x = p.e(1), y = p.e(2);
+    var [x, y] = p.elements;
     return  y < - 0.5 * x + 30 * size;
   }
 
@@ -255,25 +255,21 @@ module.exports = class Building extends Entity {
     if (this.isAt(p2)) {
       return !target;
     }
-    var size = this.getSize();
+    let [x , y ] = this.pos.elements;
+    let [x1, y1] = p1.elements;
+    let [x2, y2] = p2.elements;
 
-    var x1 = p1.e(1), y1 = p1.e(2);
-    var x2 = p2.e(1), y2 = p2.e(2);
+    const yy = (y2 - y1) * (x - x1) / (x2 - x1) + y1;
+    const xx = (x2 - x1) * (y - y1) / (y2 - y1) + x1;
+    const sizeX = 25 * this.getSize();
+    const sizeY = 50 * this.getSize();
 
-    var x = this.pos.e(1);
-    var yy = this.pos.e(2);
-    var y = (y2 - y1) * (x - x1) / (x2 - x1) + y1;
-    var cond1 = y < yy + 25 * size && y > yy - 25 * size;
-
-    y = this.pos.e(2);
-    var xx = this.pos.e(1);
-    x = (x2 - x1) * (y - y1) / (y2 - y1) + x1;
-    var cond2 = x < xx + 50 * size  && x > xx - 50 * size;
+    const cond1 = yy < y + sizeY && yy > y - sizeY;
+    const cond2 = xx < x + sizeX && xx > x - sizeX;
 
     if (!cond1 && !cond2) {
       return false;
     }
-
     var pos = $V([xx, yy]);
 
     if (p1.distanceFrom(pos) > p1.distanceFrom(p2)) {
@@ -282,7 +278,6 @@ module.exports = class Building extends Entity {
 
     var u1 = p2.subtract(p1).toUnitVector();
     var u2 = pos.subtract(p1).toUnitVector();
-
 
     return u1.angleFrom(u2) < Math.PI;
     // return u1.eql(u2);
