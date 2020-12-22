@@ -163,15 +163,14 @@ module.exports = class Door extends Building {
 
 
   getTilePoints() {
-    var size = this.getSize();
-    var y0 = 48 * size / 2 - 24;
+    var s = this.getSize();
     var points = [];
-    for (var i = 0; i < size; i++) {
-      for (var j = 0; j < size; j++) {
+    for (var i = 0; i < s; i++) {
+      for (var j = 0; j < s; j++) {
         if (this._validateTile(i,j)) {
           points.push(this.pos.subtract($V([
-            (i - j) * 48,
-            (i + j) * 24 - y0
+            48 * (i - j) ,
+            24 * (i + j - s + 1)
           ])));
         }
       }
