@@ -183,15 +183,8 @@ module.exports = class AoeMap {
   over(v) {
     let selected1 = this.selected[0];
     if (selected1 instanceof Villager && selected1.building) {
-      var x = v.e(1) - v.e(1) % 48;
-      var y = v.e(2) - v.e(2) % 24;
-      if (!(x % 96 == 0 ^ y % 48 == 0)) {
-        y += 24;
-      }
-      if (selected1.building.getSize() % 2 == 0) {
-        x -= 48;
-      }
-      selected1.building.pos = $V([x, y]);
+      let center = selected1.building.getSize() % 2 != 0;
+      selected1.building.pos = this.terrain.adjustToTile(v, center);
     }
   }
 

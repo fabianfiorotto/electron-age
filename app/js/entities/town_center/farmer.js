@@ -16,7 +16,7 @@ module.exports = class Farmer extends VillagerRole {
   }
 
   update() {
-    if (this.villager.target.state == Building.INCOMPLETE) {
+    if (this.villager.target && this.villager.target.state == Building.INCOMPLETE) {
       this.updateFarm();
     }
     else {
@@ -26,7 +26,7 @@ module.exports = class Farmer extends VillagerRole {
 
   updateFarm() {
     this.villager.each(500, 'work' , () => {
-      if (this.villager.state == Unit.WORKING) {
+      if (this.villager.target && this.villager.state == Unit.WORKING) {
         var properties = this.villager.target.properties;
         if (properties.hitPoints < properties.maxHitPoints) {
           var hit = properties.hitPoints;

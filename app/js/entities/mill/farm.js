@@ -7,7 +7,7 @@ module.exports = class Farm extends Building {
   }
 
   draw(camera) {
-    resources.drawSquare(this.pos.subtract(camera), 100 * this.getSize());
+    resources.drawSquare(this.pos.subtract(camera), 96 * this.getSize());
   }
 
   startBuilding() {

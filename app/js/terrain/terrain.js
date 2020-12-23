@@ -330,6 +330,21 @@ module.exports = class Terrain {
     return false;
   }
 
+  adjustToTile(pos, center) {
+    const w = Terrain.TILE_WIDTH;
+    const h = Terrain.TILE_HEIGHT;
+
+    let [x, y] = pos.elements;
+    x = Math.round(x / w) * w;
+    y = Math.round(y / h) * h;
+
+    if (center) {
+      x += w/2;
+      y += h/2;
+    }
+    return $V([x,y]);
+  }
+
   async loadResources(res) {
     for (const [key,type] of Object.entries(this.type)){
       this.models[key] = await res.loadTerrain(type.slp);

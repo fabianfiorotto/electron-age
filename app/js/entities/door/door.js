@@ -169,8 +169,8 @@ module.exports = class Door extends Building {
       for (var j = 0; j < s; j++) {
         if (this._validateTile(i,j)) {
           points.push(this.pos.subtract($V([
-            48 * (i - j) ,
-            24 * (i + j - s + 1)
+            48 * (i - j),
+            24 * (i + j - Math.floor(s / 2))
           ])));
         }
       }

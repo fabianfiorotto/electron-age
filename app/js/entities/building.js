@@ -61,7 +61,7 @@ module.exports = class Building extends Entity {
   }
 
   drawSelection(camera) {
-    resources.drawSquare(this.pos.subtract(camera), 100 * this.getSize());
+    resources.drawSquare(this.pos.subtract(camera), 96 * this.getSize());
   }
 
   drawShadow(camera) {
@@ -199,7 +199,7 @@ module.exports = class Building extends Entity {
       for (var j = 0; j < s; j++) {
         points.push(this.pos.subtract($V([
           48 * (i - j),
-          24 * (i + j - s + 1)
+          24 * (i + j - Math.floor(s / 2))
         ])));
       }
     }
