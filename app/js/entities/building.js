@@ -195,12 +195,13 @@ module.exports = class Building extends Entity {
     // TODO use constants
     var s = this.getSize();
     var points = [];
+    let m = this.map.terrain.m;
+    let pos = this.map.terrain.adjustToTile(this.pos);
     for (var i = 0; i < s; i++) {
       for (var j = 0; j < s; j++) {
-        points.push(this.pos.subtract($V([
-          48 * (i - j),
-          24 * (i + j - Math.floor(s / 2))
-        ])));
+        points.push(pos.subtract(
+          m.x($V([i,j]))
+        ));
       }
     }
     return points;

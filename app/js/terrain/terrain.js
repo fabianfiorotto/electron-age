@@ -53,6 +53,8 @@ module.exports = class Terrain {
       [ 1/Terrain.TILE_WIDTH, -1/Terrain.TILE_HEIGHT]
     ]);
 
+
+    this.adjustVertically = $V([0, -Terrain.TILE_HALF_HEIGHT]);
   }
 
 
@@ -209,13 +211,8 @@ module.exports = class Terrain {
     if (!tile.frame) {
       return;
     }
-    let f = tile.frame;
-    let w = f.width - 1, h = f.height - 1;
-    let cell = $V([
-      (i + j) * w / 2,
-      (i - j) * h / 2
-    ]);
-    f.drawTerrain(this.pos.add(cell).subtract(camera), tcxt);
+    let pos = this.tileImgPos(i, j).subtract(camera);
+    tile.frame.drawTerrain(pos, tcxt);
 
     if (resources.config.blendomatic) {
       let masks = this.getMasks(i, j);
@@ -224,7 +221,7 @@ module.exports = class Terrain {
         let frame_id = (j % m.tc) + ((i % m.tc) * m.tc);
         // m.frames[frame_id].drawTerrain(this.pos.add(cell).subtract(camera));
         let img = this.applyMask(mask, m.frames[frame_id].img);
-        resources.drawImage(img, this.pos.add(cell).subtract(camera), tcxt);
+        resources.drawImage(img, pos, tcxt);
       }
     }
   }
@@ -331,19 +328,15 @@ module.exports = class Terrain {
   }
 
   adjustToTile(pos, center) {
-    const w = Terrain.TILE_WIDTH;
-    const h = Terrain.TILE_HEIGHT;
-
-    let [x, y] = pos.elements;
-    x = Math.round(x / w) * w;
-    y = Math.round(y / h) * h;
-
-    if (center) {
-      x += w/2;
-      y += h/2;
-    }
-    return $V([x,y]);
+    let pos1 = this.mr.x(pos);
+    pos1 = pos1.map(e => Math.round(e) + (center ? .5 : 0));
+    return this.m.x(pos1);
   }
+
+  tileImgPos(i, j) {
+    return this.m.x($V([i, j])).add(this.adjustVertically);
+  }
+
 
   async loadResources(res) {
     for (const [key,type] of Object.entries(this.type)){

@@ -75,8 +75,7 @@ module.exports = class Player {
     const terrain = this.map.terrain;
 
     let tile = this.seight_memory[i][j];
-    let pos1 = terrain.m.x($V([i, j]));
-    pos1 = pos1.subtract(camera);
+    let pos1 = terrain.tileImgPos(i,j).subtract(camera);
     ctx.globalCompositeOperation = 'source-over';
     resources.drawImage(tile, pos1, ctx);
   }
@@ -94,7 +93,7 @@ module.exports = class Player {
     for (let i = 0; i < this.map.width; i++) {
       for (let j = 0; j < this.map.height; j++) {
         if (this.seight[i][j] && (!this.seight_old[i][j] || redraw)) {
-          let pos = terrain.m.x($V([i, j]));
+          let pos = terrain.tileImgPos(i, j);
           pos = pos.subtract(camera);
           resources.drawLineOfSeight(pos);
           terrain.drawTile(i, j, camera); // TODO don't draw more than once.
@@ -124,7 +123,7 @@ module.exports = class Player {
     ctx.canvas.setAttribute('width', w);
     ctx.canvas.setAttribute('height', h);
     ctx.clearRect(0, 0, w, h);
-    let camera = terrain.m.x($V([i, j]))
+    let camera = terrain.tileImgPos(i,j);
     terrain.drawTile(i, j, camera, ctx)
     this.map.drawMemory(camera, ctx);
 
