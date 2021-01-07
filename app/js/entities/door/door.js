@@ -150,13 +150,13 @@ module.exports = class Door extends Building {
     // Agregar una funcion que dependiendo de la orientacion descarte tiles.
     switch (this.orientation) {
       case 1:
-        return i + j == 3;
+        return i == j;
       case 2:
         return j == 1;
       case 3:
         return i == 1;
       case 4:
-        return i == j;
+        return i + j == 3;
     }
     return true;
   }
@@ -166,7 +166,7 @@ module.exports = class Door extends Building {
     var s = this.getSize();
     var points = [];
     let m = this.map.terrain.m;
-    let pos = this.map.terrain.adjustToTile(this.pos);
+    let pos = this.map.terrain.adjustToTile(this.pos, true);
     for (var i = 0; i < s; i++) {
       for (var j = 0; j < s; j++) {
         if (this._validateTile(i,j)) {
@@ -177,6 +177,14 @@ module.exports = class Door extends Building {
       }
     }
     return points;
+  }
+
+  isAt(pos) {
+    return this.getTilePoints().some((tile) => {
+      let p = tile.subtract(pos).map((e) => Math.abs(e));
+      let [x, y] = p.elements;
+      return y < - 0.5 * x + 30;
+    });
   }
 
 }

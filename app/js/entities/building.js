@@ -196,7 +196,7 @@ module.exports = class Building extends Entity {
     var s = this.getSize();
     var points = [];
     let m = this.map.terrain.m;
-    let pos = this.map.terrain.adjustToTile(this.pos);
+    let pos = this.map.terrain.adjustToTile(this.pos, true);
     for (var i = 0; i < s; i++) {
       for (var j = 0; j < s; j++) {
         points.push(pos.subtract(
