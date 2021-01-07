@@ -1,5 +1,7 @@
 module.exports = class PathFinder {
 
+  static MAX_NODES = 1200;
+
   constructor(map) {
     this.map = map;
     this.enabled = true;
@@ -29,6 +31,10 @@ module.exports = class PathFinder {
 
     var result = this.findRecursive(node, pos2, visited, best);
 
+    if (visited.length >= PathFinder.MAX_NODES) {
+      console.log("Max nodes reached");
+    }
+
     if (result === null) {
       return [];
     }
@@ -52,6 +58,9 @@ module.exports = class PathFinder {
   }
 
   findRecursive(node, target, visited, best) {
+    if (visited.length >= PathFinder.MAX_NODES) {
+      return null;
+    }
     var next = this.nextSteps(node, target, visited, best);
 
     var results = [];
