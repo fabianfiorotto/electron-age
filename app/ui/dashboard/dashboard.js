@@ -5,6 +5,7 @@ const EntityInfo = require('./entity_info/entity_info');
 const Selecion = require('./selection/selection');
 const Progress = require('./progress/progress');
 const Garrison = require('./garrison/garrison');
+const Minimap = require('./minimap/minimap');
 
 module.exports = class Dashboard extends UIWidget {
 
@@ -15,6 +16,7 @@ module.exports = class Dashboard extends UIWidget {
     this.selection = new Selecion();
     this.progress = new Progress();
     this.garrison = new Garrison();
+    this.minimap = new Minimap();
   }
 
   template() {
@@ -29,6 +31,7 @@ module.exports = class Dashboard extends UIWidget {
     this.selection.bind($('.selection'));
     this.progress.bind($('.progress'));
     this.garrison.bind($('.garrison'));
+    this.minimap.bind($('.minimap'));
   }
 
   bindMap(map) {

@@ -49,7 +49,10 @@ body {
     width: 340px;
     padding: 43px; }
   .dashboard .column-2 {
+    width: 510px;
     padding: 40px 30px; }
+  .dashboard .column-3 {
+    padding: 5px 10px; }
 
 .controls td {
   min-width: 36px;
@@ -107,6 +110,10 @@ body {
     padding-left: 10px; }
   .garrison .hit-points-bar {
     display: block; }
+
+.minimap {
+  padding: 0 6px;
+  margin-top: 4px; }
 
 .map-inner {
   position: fixed;

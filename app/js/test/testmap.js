@@ -19,6 +19,9 @@ const Trebuchet = require('../entities/castle/trebuchet');
 
 const CentralEuropean = require('../civilizations/styles/central_european');
 const WestEuropean = require('../civilizations/styles/west_european');
+const Asian = require('../civilizations/styles/asian');
+const Arabic = require('../civilizations/styles/arabic');
+
 const Player = require('../player');
 
 module.exports =  class TestBuilder {
@@ -28,6 +31,7 @@ module.exports =  class TestBuilder {
     await map.loadResources(resources);
 
     var civ1 = new CentralEuropean();
+    civ1 = new Asian();
     var civ2 = new WestEuropean();
 
     var gaia = new Player(map, civ1, 0);

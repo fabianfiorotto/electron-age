@@ -178,13 +178,17 @@ module.exports = class ResourceManager {
     return ctx.createImageData(width, height);
   }
 
-  getUrl(img) {
+  getCanvasFromImg(img) {
     var aux = this.getAux2DContext();
     aux.canvas.setAttribute('width', img.width);
     aux.canvas.setAttribute('height', img.height);
     aux.clearRect(0, 0, aux.canvas.width, aux.canvas.height);
     aux.putImageData(img, 0, 0);
-    return aux.canvas.toDataURL();
+    return aux.canvas;
+  }
+
+  getUrl(img) {
+    return this.getCanvasFromImg(img).toDataURL();
   }
 
   cropUrl(img, sx, sy, width, height) {
