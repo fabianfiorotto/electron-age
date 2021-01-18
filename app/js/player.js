@@ -292,4 +292,15 @@ module.exports = class Player {
     this.emitter.dispose();
   }
 
+  getMinimapColor() {
+    switch (this.id) {
+      case 1:
+        return '#0000ff';
+      case 2:
+        return '#ff0000';
+      default:
+        return '#cccccc';
+    }
+  }
+
 };

@@ -47,4 +47,8 @@ module.exports = class Relic extends Entity {
     return [EntityType.RELIC];
   }
 
+  getMinimapColor() {
+    return "#ffffff";
+  }
+
 }

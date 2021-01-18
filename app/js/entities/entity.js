@@ -119,6 +119,10 @@ module.exports = class Entity {
     return null;
   }
 
+  getMinimapColor() {
+    return this.player.getMinimapColor();
+  }
+
   minAge(){
     return 1;
   }
