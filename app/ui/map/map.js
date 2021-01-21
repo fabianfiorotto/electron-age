@@ -260,6 +260,19 @@ module.exports = class MapView extends UIWidget {
     this.wrapper.style.transform = `translate(${-x}px, ${-y}px)`;
   }
 
+  setCamera(v) {
+    let w = this.inner.offsetWidth;
+    let h = this.inner.offsetHeight;
+    this.cameraPos = v.subtract($V([w/2, h/2])) ;
+
+    let e = this.cameraPos.elements;
+    console.log(e[0], e[1]);
+
+    this.translate = $V([0, 0]);
+    this.wrapper.style.transform = `translate(0, 0)`;
+    this.refreshMap();
+  }
+
   moveCamera(v) {
     this.cameraPos = this.cameraPos.add(v);
     this.refreshMap();
