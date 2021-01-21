@@ -43,7 +43,12 @@ module.exports = class Minimap extends UIWidget {
     this.map = map;
     this.img = this.ctx.createImageData(map.width, map.height);
 
+    this.draw();
+    setInterval(()=> this.draw(), 10000);
+  }
 
+  draw() {
+    let map = this.map
     let img = this.img;
     let tiles = map.terrain.tiles;
     for (const [i, row] of tiles.entries()) {
