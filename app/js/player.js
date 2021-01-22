@@ -32,6 +32,10 @@ module.exports = class Player {
     this.seight_memory = Array.from({length: this.map.width}, () => {
       return Array.from({length: this.map.height}, () => null );
     });
+    const black = [0,0,0];
+    this.minimap_seight_memory = Array.from({length: this.map.width}, () => {
+      return Array.from({length: this.map.height}, () => black );
+    });
   }
 
 
@@ -146,6 +150,28 @@ module.exports = class Player {
     tile = ctx.getImageData(0, 0, w, h);
 
     return tile;
+  }
+
+  minimapDrawLineOfSeight(img, redraw) {
+    for (let i = 0; i < this.map.width; i++) {
+      for (let j = 0; j < this.map.height; j++) {
+        if (!this.seight[i][j] && this.seight_old[i][j]) {
+          let des = img.width * i + j;
+          this.minimap_seight_memory[i][j] = img.data.slice(4 * des, 4 * des + 4)
+        }
+        if (!this.seight[i][j]) {
+          let x =  0.5 * i + 0.5 * j;
+          let y =  0.5 * i - 0.5 * j + img.height / 2;
+          let des = Math.floor(x) + img.width * Math.floor(y);
+
+          let memory = this.minimap_seight_memory[i][j];
+          img.data[4 * des + 0] = memory[0];
+          img.data[4 * des + 1] = memory[1];
+          img.data[4 * des + 2] = memory[2];
+          img.data[4 * des + 3] = 255;
+        }
+      }
+    }
   }
 
   updgrateAge() {

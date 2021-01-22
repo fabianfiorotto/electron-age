@@ -67,6 +67,10 @@ module.exports = class Minimap extends UIWidget {
       this.printPixel(img, i, j, color);
     }
 
+    if (resources.config.fogofwar) {
+      mapView.player?.minimapDrawLineOfSeight(img);
+    }
+
     this.ctx.drawImage(resources.getCanvasFromImg(img), 0, 0, Minimap.WIDTH, Minimap.HEIGHT);
   }
 
