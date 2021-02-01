@@ -124,6 +124,12 @@ module.exports = class SmartPainter {
           continue forEachCommand;
         }
       }
+      for (c1 of toRedraw) {
+        if (this.commandsOverlap(c, c1)) {
+          toRedraw.push(c);
+          continue forEachCommand;
+        }
+      }
     }
 
 
