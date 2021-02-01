@@ -109,20 +109,19 @@ module.exports = class SmartPainter {
 
     var toRedraw = [];
 
+    forEachCommand:
     for (var c of this.commands) {
       var c1;
-      redrawAdded:
       for (c1 of added) {
         if (this.commandCompare(c, c1) || this.commandsOverlap(c, c1)) {
           toRedraw.push(c);
-          continue redrawAdded;
+          continue forEachCommand;
         }
       }
-      redrawRemoved:
       for (c1 of removed) {
         if (this.commandsOverlap(c, c1)) {
           toRedraw.push(c);
-          continue redrawRemoved;
+          continue forEachCommand;
         }
       }
     }
