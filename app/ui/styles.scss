@@ -4,6 +4,8 @@ body {
   overflow: hidden;
 }
 
+@import "components";
+
 @import "debug/debug";
 
 @import "loading/loading";

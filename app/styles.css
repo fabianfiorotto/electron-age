@@ -2,6 +2,14 @@ body {
   margin: 0;
   overflow: hidden; }
 
+.aoe-component {
+  position: absolute;
+  visibility: hidden; }
+  .aoe-component + i {
+    width: 39px;
+    height: 39px;
+    display: inline-block; }
+
 .debug {
   color: #fff;
   background-color: #000;

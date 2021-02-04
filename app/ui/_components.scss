@@ -1,0 +1,9 @@
+.aoe-component {
+  position: absolute;
+  visibility: hidden;
+  & + i {
+    width: 39px;
+    height: 39px;
+    display: inline-block;
+  }
+}

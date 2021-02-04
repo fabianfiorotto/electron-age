@@ -18,6 +18,8 @@ module.exports = class Diplomacy extends UIWidget {
 
     this.firstRow.bind($('.first-row'));
     this.row.bind($('.row'));
+
+    this.allyVictory =  $('.ally-victory input');
   }
 
   open() {

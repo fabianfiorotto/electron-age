@@ -30,6 +30,67 @@ module.exports = class UIWidget {
     }
   }
 
+  async loadFormElements() {
+    var components = this.element.getElementsByClassName('aoe-component');
+    if (components.length) {
+      // model = await res.loadInterface(50259);
+      let model = await resources.loadInterface(53009);
+      model.load({
+        base: resources.palettes[50505],
+        player: 0
+      });
+
+      this.boxUnchecked = model.frames[0].imgs[0];
+      this.boxChecked   = model.frames[2].imgs[0];
+
+      this.radioUnchecked = model.frames[4].imgs[0];
+      this.radioChecked   = model.frames[6].imgs[0];
+    }
+    for (var i = 0; i < components.length; i++) {
+      let component = components[i];
+      let type = component.getAttribute('type');
+      if (type == 'radio' || type == 'checkbox') {
+        let label = component.closest('label');
+        if (!label) {
+          label = document.createElement('label');
+          component.parentNode.insertBefore(label, component);
+          label.appendChild(component);
+        }
+
+        let icon = document.createElement('i');
+        component.insertAdjacentElement('afterend', icon);
+      }
+      if (type == 'checkbox') {
+        this.updateCheckboxComponent(component);
+        component.addEventListener('change',e => this.updateCheckboxComponent(e.target));
+      }
+      if (type == 'radio') {
+        this.updateRadioComponent(component);
+        component.addEventListener('change',e => this.updateAllRadioComponents(e.target));
+      }
+
+    }
+  }
+
+  updateRadioComponent(component) {
+    let img = component.checked ? this.radioChecked : this.radioUnchecked;
+    component.nextElementSibling.style.backgroundImage = 'url(' + resources.getUrl(img) +')';
+  }
+
+  updateAllRadioComponents(component) {
+    let name = component.getAttribute('name');
+    let components = document.getElementsByName(name);
+    for (var i = 0; i < components.length; i++) {
+      let img = components[i].checked ? this.radioChecked : this.radioUnchecked;
+      components[i].nextElementSibling.style.backgroundImage = 'url(' + resources.getUrl(img) +')';
+    }
+  }
+
+  updateCheckboxComponent(component) {
+    let img = component.checked ? this.boxChecked : this.boxUnchecked;
+    component.nextElementSibling.style.backgroundImage = 'url(' + resources.getUrl(img) +')';
+  }
+
   onBind(map) {
   }
 
@@ -49,7 +110,8 @@ module.exports = class UIWidget {
       let last = parts[parts.length - 1];
       let data = await fs.readFile('./app/ui/' + templateName + '/' + last + '.html')
       this.element.innerHTML = data;
-      this.loadSlpImgs();
+      await this.loadSlpImgs();
+      await this.loadFormElements();
       this.onBind($);
       await this.loadResources(resources);
     }
