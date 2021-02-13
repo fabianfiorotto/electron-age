@@ -9,15 +9,15 @@ module.exports = class AoeNetProtocol {
  static receivePackage(reader) {
    let package1 = {};
    if (reader.buffer.length == 16) {
-     package1.header = SyncHeader.unpack(reader);
+     package1.header = SyncHeader.read(reader);
    }
    else {
-     package1.header = Header.unpack(reader);
+     package1.header = Header.read(reader);
    }
 
    switch (package1.header.command) {
      case 0x3e:
-       package1.action = Action.unpack(reader);
+       package1.action = Action.read(reader);
        break;
      default:
 

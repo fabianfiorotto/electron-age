@@ -13,6 +13,11 @@ module.exports = class AoeNetPrimaryAction extends DataPackage {
       zero2: BytesData(24),
       x_coord: FloatLE,
       y_coord: FloatLE,
+      selected_ids: {
+        type: Int32LE,
+        length: (that) => that.selection_count,
+        condition: (that) => that.selection_count < 0xFF
+      }
     }
   }
 

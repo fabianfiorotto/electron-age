@@ -18,10 +18,6 @@ module.exports = class DataPackage {
     return {};
   }
 
-  static defineFields() {
-    return {};
-  }
-
   static getAttributes() {
     if (!this.attributes) {
       this.attributes = this.defineAttirbutes();
@@ -29,23 +25,23 @@ module.exports = class DataPackage {
     return this.attributes;
   }
 
-  static getFields() {
-    if (!this.fields) {
-      this.fields = this.defineFields();
-    }
-    return this.fields;
-  }
-
-
   _readType(reader, type) {
     if (typeof type === 'symbol') {
       return reader['read' + type.description]();
     }
-    else if (typeof type.unpack == 'function'){
-      return type.unpack(reader);
+    else if (typeof type.read == 'function'){
+      return type.read(reader);
+    }
+    else if (type.length) {
+      let array = [];
+      let length = Number.isInteger(type.length) ? type.length : type.length(this);
+      for (let i = 0; i < length; i++) {
+        array.push(this._readType(reader, type.type));
+      }
+      return array;
     }
     else {
-      return type.read(reader);
+      return this._readType(reader, type.type);
     }
   }
 
@@ -53,16 +49,25 @@ module.exports = class DataPackage {
     if (typeof type === 'symbol') {
       writer['write' + type.description](value);
     }
-    else if (value instanceof DataPackage) {
-      value.pack(writer);
+    else if (typeof type.write == 'function') {
+      type.write(writer, value);
+    }
+    else if (type.length) {
+      for (const aValue of value) {
+        this._writeType(writer, type.type, aValue);
+      } 
     }
     else {
-      type.write(writer, value);
+      this._writeType(writer, type.type, value);
     }
   }
 
 
-  static unpack(reader) {
+  static write(writer, value) {
+    value.pack(writer);
+  }
+
+  static read(reader) {
     let instance = new this();
     instance.unpack(reader);
     return instance;
@@ -70,71 +75,47 @@ module.exports = class DataPackage {
 
   unpack(reader) {
     let attributes = this.constructor.getAttributes();
-    for (const [key,value_type] of Object.entries(attributes)){
-      let value = this._readType(reader, value_type);
+    for (const [key,type] of Object.entries(attributes)){
+
+      if (typeof type.condition == 'function' && !type.condition(this)) {
+        continue;
+      }
+
+      let value = this._readType(reader, type);
 
       if (typeof this['unpack_' + key ]  == 'function') {
         value = this['unpack_' + key ](value);
       }
       this[key] = value;
     }
-    this._unpackFields(reader)
-  }
-
-  _unpackFields(reader) {
-    let fields = this.constructor.getFields();
-    for (const [key, field] of Object.entries(fields)){
-      if (typeof field.condition == 'function' && !field.condition(this)) {
-        continue;
-      }
-      this[key] = [];
-      let length = field.length(this);
-      for (let i = 0; i < length; i++) {
-        let value = this._readType(reader, field.type);
-        if (typeof this['unpack_' + key ]  == 'function') {
-          value = instance['unpack_' + key ]();
-        }
-        this[key].push(value);
-      }
-    }
   }
 
   pack(writer) {
     let attributes = this.constructor.getAttributes();
-    for (const [key,value_type] of Object.entries(attributes)){
+    for (const [key,type] of Object.entries(attributes)){
+
+      if (typeof type.condition == 'function' && !type.condition(this)) {
+        continue;
+      }
+
       let value = this[key];
       if (typeof this['pack_' + key ]  == 'function') {
         value = instance['pack_' + key ]();
       }
-      this._writeType(writer, value_type, value);
+      this._writeType(writer, type, value);
     }
 
-    this._packFields(writer);
-  }
-
-
-  _packFields(writer) {
-    let fields = this.constructor.getFields();
-    for (const [key, field] of Object.entries(fields)) {
-      for (let i = 0; i < this[key].length; i++) {
-        let value = this[key][i];
-        if (typeof this['pack_' + key ]  == 'function') {
-          value = instance['pack_' + key ]();
-        }
-        this._writeType(writer, field.type, value);
-      }
-    }
   }
 
   static byteSize() {
     let attributes = this.getAttributes();
     let size = 0;
-    for (const [key,value_type] of Object.entries(attributes)) {
-      if (typeof value_type === 'symbol') {
-        size += this._byteSizeForType(value_type);
+    for (const [key,type] of Object.entries(attributes)) {
+      if (typeof type === 'symbol') {
+        size += this._byteSizeForType(type);
       }
       else {
-        size += value_type.byteSize();
+        size += type.byteSize();
       }
     }
     return size;
@@ -158,15 +139,7 @@ module.exports = class DataPackage {
   byteSize() {
     let size = this.constructor.byteSize();
 
-    let fields = this.constructor.getFields();
-    for (const [key, field] of Object.entries(fields)) {
-      if (typeof field.condition == 'function' && !field.condition(this)) {
-        continue;
-      }
-      let length = field.length(this);
-      let type_size = this.constructor._byteSizeForType(field.type); //esto solo funciona para primitivos
-      size += length * type_size;
-    }
+    // TODO solo instancia.
 
     return size;
   }
