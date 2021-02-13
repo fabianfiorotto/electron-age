@@ -41,8 +41,8 @@ var server = net.createServer(function(socket) {
   action.y_coord = 55.55,
   action.selected_ids = [1,2,3];
 
-//  writer.initBuffer(header.byteSize() + action.byteSize() + 4*3);
-writer.initBuffer(200);
+  writer.initBuffer(header.byteSize() + action.byteSize());
+// writer.initBuffer(200);
 
 header.pack(writer);
   action.pack(writer);

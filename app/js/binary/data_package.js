@@ -107,40 +107,33 @@ module.exports = class DataPackage {
 
   }
 
-  static byteSize() {
-    let attributes = this.getAttributes();
-    let size = 0;
-    for (const [key,type] of Object.entries(attributes)) {
-      if (typeof type === 'symbol') {
-        size += this._byteSizeForType(type);
-      }
-      else {
-        size += type.byteSize();
-      }
+  _byteSizeForType(type) {
+    if (typeof type == 'symbol') {
+      switch (type) {
+        case DataPackage.UInt8:
+        case DataPackage.Int8:
+          return 1;
+        case DataPackage.UInt16LE:
+        case DataPackage.Int16LE:
+          return 2;
+        case DataPackage.UInt32LE:
+        case DataPackage.Int32LE:
+        case DataPackage.FloatLE:
+          return 4;
+      }  
     }
-    return size;
-  }
-
-  static _byteSizeForType(type) {
-    switch (type) {
-      case this.UInt8:
-      case this.Int8:
-        return 1;
-      case this.UInt16LE:
-      case this.Int16LE:
-        return 2;
-      case this.UInt32LE:
-      case this.Int32LE:
-      case this.FloatLE:
-        return 4;
+    else {
+      return type.byteSize();
     }
   }
 
   byteSize() {
-    let size = this.constructor.byteSize();
-
-    // TODO solo instancia.
-
+    let attributes = this.constructor.getAttributes();
+    let size = 0;
+    for (const [key,type] of Object.entries(attributes)) {
+      let length = type.length ? this[key].length : 1;
+      size += length * this._byteSizeForType(type.type || type);
+    }
     return size;
   }
 
