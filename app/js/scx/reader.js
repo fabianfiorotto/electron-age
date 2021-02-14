@@ -1,4 +1,4 @@
-const BinaryReader = require('../binary_reader');
+const BinaryReader = require('../binary/reader');
 const pako = require('pako');
 
 module.exports = class ScxMapReader {
