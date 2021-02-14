@@ -1,5 +1,5 @@
-const Header = require('./packages/header');
-const Action = require('./packages/primary_action');
+const Header = require('./actions/header');
+const Action = require('./actions/primary');
 
 const SyncHeader = require('./sync/header');
 
