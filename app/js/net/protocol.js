@@ -1,7 +1,7 @@
 const Header = require('./actions/header');
 const AoeNetPrimaryAction = require('./actions/primary');
 const AoeNetStopAction = require('./actions/stop');
-const Action = require('./actions/primary');
+const AoeNetAction = require('./actions/action');
 
 const SyncHeader = require('./sync/header');
 
@@ -19,7 +19,8 @@ module.exports = class AoeNetProtocol {
 
    switch (package1.header.command) {
      case 0x3e:
-       package1.action = this._receiveActionPackage(reader);
+       // package1.action = this._receiveActionPackage(reader);
+       package1.action = AoeNetAction.read(reader);
        break;
      default:
 

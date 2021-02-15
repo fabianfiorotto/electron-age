@@ -3,6 +3,10 @@ const {Int8, Int16LE,  Int32LE, FloatLE, BytesData} = DataPackage;
 
 module.exports = class AoeNetStopAction extends DataPackage {
 
+  id() {
+    return 0x01;
+  }
+  
   static defineAttirbutes() {
     return {
       // action_identifier: Int8,

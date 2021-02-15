@@ -32,6 +32,10 @@ module.exports = class DataPackage {
     else if (typeof type.read == 'function'){
       return type.read(reader);
     }
+    else if (type.switch && type.cases) {
+      let key = type.switch(this);
+      return this._readType(reader, type.cases[key]);
+    }
     else if (type.length) {
       let array = [];
       let length = Number.isInteger(type.length) ? type.length : type.length(this);
@@ -51,6 +55,10 @@ module.exports = class DataPackage {
     }
     else if (typeof type.write == 'function') {
       type.write(writer, value);
+    }
+    else if (type.switch && type.cases) {
+      let key = type.switch(this);
+      return this._writeType(writer, type.cases[key], value);
     }
     else if (type.length) {
       for (const aValue of value) {
@@ -73,6 +81,12 @@ module.exports = class DataPackage {
     return instance;
   }
 
+  beforePack() {
+  }
+
+  afterUnpack() {
+  }
+
   unpack(reader) {
     let attributes = this.constructor.getAttributes();
     for (const [key,type] of Object.entries(attributes)){
@@ -88,9 +102,13 @@ module.exports = class DataPackage {
       }
       this[key] = value;
     }
+
+    this.afterUnpack();
   }
 
   pack(writer) {
+    this.beforePack();
+
     let attributes = this.constructor.getAttributes();
     for (const [key,type] of Object.entries(attributes)){
 
@@ -100,7 +118,7 @@ module.exports = class DataPackage {
 
       let value = this[key];
       if (typeof this['pack_' + key ]  == 'function') {
-        value = instance['pack_' + key ]();
+        value = this['pack_' + key ]();
       }
       this._writeType(writer, type, value);
     }
@@ -132,7 +150,12 @@ module.exports = class DataPackage {
     let size = 0;
     for (const [key,type] of Object.entries(attributes)) {
       let length = type.length ? this[key].length : 1;
-      size += length * this._byteSizeForType(type.type || type);
+      if (this[key] && typeof this[key].byteSize == 'function') {
+        size += this[key].byteSize();
+      }
+      else {
+        size += length * this._byteSizeForType(type.type || type);
+      }
     }
     return size;
   }

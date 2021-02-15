@@ -3,6 +3,11 @@ const {Int8, Int16LE,  Int32LE, FloatLE, BytesData} = DataPackage;
 
 module.exports = class AoeNetPrimaryAction extends DataPackage {
 
+
+  id() {
+    return 0x00;
+  }
+
   static defineAttirbutes() {
     return {
       // action_identifier: Int8,

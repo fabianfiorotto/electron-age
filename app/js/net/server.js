@@ -1,10 +1,9 @@
 const net = require('net');
 const BinaryWritter = require('../binary/writer');
-const { write } = require('./actions/header');
 const Header = require('./actions/header');
-const Action = require('./actions/primary');
+const Primary = require('./actions/primary');
 const Stop = require('./actions/stop');
-
+const Action = require('./actions/action');
 
 let writer = new BinaryWritter();
 
@@ -20,7 +19,8 @@ var server = net.createServer(function(socket) {
 
 
   let header = new Header();
-  let action = new Action();
+  let action = new Primary();
+  let parent = new Action();
 
   header.network_source_id = 3222;
   header.network_dest_id = 2111;
@@ -42,16 +42,20 @@ var server = net.createServer(function(socket) {
   action.y_coord = 55.55,
   action.selected_ids = [1,2,3];
 
-  action = new Stop();
-  action.selection_count = 3,
-  action.selected_ids = [1,2,3];
+//  action = new Stop();
+//  action.selection_count = 3,
+//  action.selected_ids = [1,2,3];
 
-  writer.initBuffer(header.byteSize() + action.byteSize() + 1);
+  parent.action = action;
+
+  writer.initBuffer(header.byteSize() + parent.byteSize());
 // writer.initBuffer(200);
 
   header.pack(writer);
-  writer.writeInt8(0x01);
-  action.pack(writer);
+
+//  writer.writeInt8(0x01);
+//  action.pack(writer);
+  parent.pack(writer);
 
   socket.write(writer.buffer);
 
