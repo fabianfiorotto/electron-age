@@ -5,9 +5,6 @@ module.exports = class AoeNetHeader extends DataPackage {
 
   static defineAttirbutes() {
     return {
-      network_source_id: UInt32LE,
-      network_dest_id: UInt32LE,
-      command: UInt8,
       option1: UInt8,
       option2: UInt8,
       option3: UInt8,

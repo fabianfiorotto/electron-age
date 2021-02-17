@@ -44,7 +44,7 @@ module.exports = class AoeNetProtocol {
  static _receiveActionPackage(reader) {
     let action_identifier = reader.readInt8();
     switch (action_identifier) {
-      case 0x00: 
+      case 0x00:
         return AoeNetPrimaryAction.read(reader);
       case 0x01:
         return AoeNetStopAction.read(reader);

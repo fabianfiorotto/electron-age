@@ -63,7 +63,7 @@ module.exports = class DataPackage {
     else if (type.length) {
       for (const aValue of value) {
         this._writeType(writer, type.type, aValue);
-      } 
+      }
     }
     else {
       this._writeType(writer, type.type, value);
@@ -138,9 +138,10 @@ module.exports = class DataPackage {
         case DataPackage.Int32LE:
         case DataPackage.FloatLE:
           return 4;
-      }  
+      }
     }
     else {
+      console.log(type);
       return type.byteSize();
     }
   }

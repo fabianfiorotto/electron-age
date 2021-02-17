@@ -8,6 +8,11 @@ const AoeNetStopAction = require('./stop');
 
 module.exports = class AoeNetAction extends DataPackage {
 
+
+  id() {
+    return 0x3e;
+  }
+
   beforePack() {
     this.action_identifier = this.action.id();
   }
@@ -16,7 +21,7 @@ module.exports = class AoeNetAction extends DataPackage {
     const {Int8} = DataPackage;
 
     return {
-//        header: Hader,
+      header: Header,
       action_identifier: Int8,
       action: {
           switch: (that) => that.action_identifier,
