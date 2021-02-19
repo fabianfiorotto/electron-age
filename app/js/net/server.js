@@ -1,6 +1,5 @@
 const net = require('net');
 const BinaryWritter = require('../binary/writer');
-const Header = require('./actions/header');
 const Primary = require('./actions/primary');
 const Stop = require('./actions/stop');
 const Action = require('./actions/action');
@@ -23,18 +22,15 @@ var server = net.createServer(function(socket) {
 
   let thePackage = new AoeNetPackage();
 
-  let header = new Header();
   let action = new Action();
+  action.communication_turn = 1000;
+  action.individual_counter = 999;
 
   thePackage.network_source_id = 3222;
   thePackage.network_dest_id = 2111;
-
-  header.option1 = 21;
-  header.option2 = 22;
-  header.option3 = 23;
-  header.communication_turn = 1000;
-  header.individual_counter = 999;
-
+  thePackage.option1 = 21;
+  thePackage.option2 = 22;
+  thePackage.option3 = 23;
 
   let primary = new Primary();
   primary.player_id = 3,
@@ -50,7 +46,6 @@ var server = net.createServer(function(socket) {
   stop.selection_count = 3,
   stop.selected_ids = [1,2,3];
 
-  action.header = header;
   // action.action = primary;
   action.action = stop;
 

@@ -1,9 +1,10 @@
-const { Int8 } = require('../sync/header');
 const DataPackage = require('../../binary/data_package');
+const {UInt32LE} = DataPackage;
 
-const Header = require('./header');
 const AoeNetPrimaryAction = require('./primary');
 const AoeNetStopAction = require('./stop');
+const AoeNetMoveAction = require('./stop');
+const AoeNetDeleteAction = require('./delete');
 
 
 module.exports = class AoeNetAction extends DataPackage {
@@ -21,13 +22,16 @@ module.exports = class AoeNetAction extends DataPackage {
     const {Int8} = DataPackage;
 
     return {
-      header: Header,
+      communication_turn: UInt32LE,
+      individual_counter: UInt32LE,
       action_identifier: Int8,
       action: {
           switch: (that) => that.action_identifier,
           cases: {
             0x00: AoeNetPrimaryAction,
             0x01: AoeNetStopAction,
+            0x03: AoeNetMoveAction,
+            0x6a: AoeNetDeleteAction,
           }
         }
       }

@@ -1,9 +1,6 @@
-const Header = require('./actions/header');
 const AoeNetPrimaryAction = require('./actions/primary');
 const AoeNetStopAction = require('./actions/stop');
 const AoeNetAction = require('./actions/action');
-
-const SyncHeader = require('./sync/header');
 
 module.exports = class AoeNetProtocol {
 

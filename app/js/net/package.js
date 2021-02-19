@@ -16,6 +16,9 @@ module.exports = class AoeNetPackage extends DataPackage {
       network_source_id: UInt32LE,
       network_dest_id: UInt32LE,
       command_identifier: UInt8,
+      option1: UInt8,
+      option2: UInt8,
+      option3: UInt8,
       command: {
         switch: (that) => that.command_identifier,
         cases: {
