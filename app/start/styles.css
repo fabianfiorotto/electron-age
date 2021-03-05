@@ -1,0 +1,74 @@
+.wrapper {
+  position: relative;
+}
+.wrapper .option {
+  position: absolute;
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.wrapper .option:hover {
+  opacity: 0;
+  z-index: 3;
+}
+
+.wrapper .option-outline {
+  position: absolute;
+  opacity: 0;
+  z-index: 2;
+}
+
+.wrapper .option-outline:hover {
+  opacity: 1;
+}
+
+
+#single-player {
+  top: 14px;
+  left: 313px;
+}
+
+#single-player-outline {
+  left: 309px;
+  top: 12px;
+}
+
+#multiplayer {
+  left: 267px;
+  top: 221px;
+}
+
+#msn {
+  top: 371px;
+  left: 275px;
+}
+
+#tutorial {
+  left: 0;
+  top: 9px;
+}
+
+#map-builder {
+  left: 200px;
+  top: 277px;
+}
+
+#help {
+  top: 168px;
+  left: 107px;
+}
+
+#options {
+  top: 352px;
+  left: 104px;
+}
+
+#exit {
+  left: 7px;
+  bottom: 4px;
+}
+
+#banner {
+  left: 107px;
+  top: 36px;
+}
