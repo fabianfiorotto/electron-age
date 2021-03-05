@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   model.load({base: palette, player: 0});
 
   applyFrame(document.getElementById('background'),    model.frames[ 0]);
-  applyFrame(document.getElementById('single-player'), model.frames[11]);
+  // applyFrame(document.getElementById('single-player'), model.frames[11]);
   applyFrame(document.getElementById('multiplayer'),   model.frames[14]);
   applyFrame(document.getElementById('msn'),           model.frames[18]);
   applyFrame(document.getElementById('tutorial'),      model.frames[22]);
@@ -46,6 +46,13 @@ document.addEventListener("DOMContentLoaded", async function() {
   applyFrame(document.getElementById('options'),       model.frames[34]);
   applyFrame(document.getElementById('exit'),          model.frames[46]);
   applyFrame(document.getElementById('banner'),        model.frames[49]);
+
+
+  let _in = document.querySelector('#single-player .in');
+  let out = document.querySelector('#single-player .out');
+
+  applyFrame(_in, model.frames[11]);
+  applyFrame(out, model.frames[10]);
 
 
   let frame = 1;

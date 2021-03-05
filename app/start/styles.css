@@ -12,23 +12,31 @@
   z-index: 3;
 }
 
-.wrapper .option-outline {
+.wrapper .option1 img {
   position: absolute;
-  opacity: 0;
-  z-index: 2;
+  transition: opacity 1s;
 }
 
-.wrapper .option-outline:hover {
+.wrapper .option1 .in {
+  opacity: 0;
+}
+.wrapper .option1 .out {
   opacity: 1;
 }
 
+.wrapper .option1:hover .in {
+  opacity: 1;
+}
+.wrapper .option1:hover .out {
+  opacity: 0;
+}
 
-#single-player {
+#single-player .out {
   top: 14px;
   left: 313px;
 }
 
-#single-player-outline {
+#single-player .in {
   left: 309px;
   top: 12px;
 }
