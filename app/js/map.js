@@ -29,6 +29,8 @@ module.exports = class AoeMap {
     this.terrain = new Terrain(width, height);
     this.pathfinder = new PathFinder(this);
     this.initCameraPos = $V([0, 0]);
+
+    this.last_entity_id = 0;
   }
 
   initialize() {
@@ -72,6 +74,9 @@ module.exports = class AoeMap {
 
   async addEntity(entity) {
     await resources.load(entity);
+    if (typeof entity.id == 'undefined') {
+      entity.id = this.last_entity_id++;
+    }
     this.entities.push(entity);
     entity.player.applyTechnologies(entity);
     entity.onEntityCreated();

@@ -1,0 +1,236 @@
+body {
+  margin: 0;
+  overflow: hidden; }
+
+.aoe-component {
+  position: absolute;
+  visibility: hidden; }
+  .aoe-component + i {
+    width: 39px;
+    height: 39px;
+    display: inline-block; }
+
+.debug {
+  color: #fff;
+  background-color: #000;
+  position: fixed;
+  top: 62px;
+  right: 0;
+  padding: 2px;
+  z-index: 999; }
+
+.debug a {
+  text-decoration: none;
+  font-size: 25px; }
+
+#loading-screen {
+  background-color: #a24300;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  z-index: 99;
+  color: #fff;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  text-align: center; }
+  #loading-screen .loading-screen-inner {
+    width: 100%; }
+
+.dashboard {
+  position: fixed;
+  width: 100%;
+  bottom: 0; }
+  .dashboard .inner {
+    height: 218px;
+    width: 1280px;
+    margin: auto; }
+  .dashboard .column {
+    position: relative;
+    width: 340px;
+    box-sizing: border-box;
+    float: left; }
+  .dashboard .column-1 {
+    width: 340px;
+    padding: 43px; }
+  .dashboard .column-2 {
+    width: 510px;
+    padding: 40px 30px; }
+  .dashboard .column-3 {
+    padding: 5px 10px; }
+
+.controls td {
+  min-width: 36px;
+  min-height: 36px; }
+
+.debug-entity {
+  position: absolute;
+  right: 0;
+  bottom: 0; }
+
+.debug-entity-link {
+  text-decoration: none;
+  opacity: 0.2;
+  color: black; }
+
+.progress {
+  position: absolute;
+  top: 60px;
+  left: 190px;
+  width: 100%;
+  display: none; }
+  .progress progress {
+    -webkit-appearance: none;
+    height: 12px; }
+  .progress progress::-webkit-progress-value {
+    background-color: red; }
+  .progress .queue {
+    margin-top: 5px; }
+  .progress .queue img {
+    margin-right: 5px; }
+
+.selection td {
+  padding-left: 10px; }
+
+.selection .hit-points-bar {
+  display: block; }
+
+.hit-points-bar {
+  -webkit-appearance: none;
+  width: 37px;
+  height: 7px;
+  margin-top: -4px; }
+
+.player1 progress[value]::-webkit-progress-value {
+  background-color: #5f5fff; }
+
+.player2 progress[value]::-webkit-progress-value {
+  background-color: #ff5f5f; }
+
+.garrison {
+  position: absolute;
+  left: 150px;
+  top: 40px; }
+  .garrison td {
+    padding-left: 10px; }
+  .garrison .hit-points-bar {
+    display: block; }
+
+.minimap {
+  padding: 0 6px;
+  margin-top: 4px; }
+
+.map-inner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0; }
+  .map-inner .canvas-wrapper {
+    position: relative; }
+    .map-inner .canvas-wrapper canvas {
+      position: absolute; }
+
+#fogAuxCanvas,
+#auxCanvas {
+  display: none; }
+
+#selectbox {
+  position: fixed;
+  left: -1px;
+  top: -1px;
+  bottom: -2px;
+  right: -2px;
+  border: 2px solid #fff;
+  pointer-events: none; }
+
+#fogCanvas {
+  opacity: 0.5; }
+
+.main-menu {
+  display: none;
+  width: 315px;
+  height: 320px; }
+  .main-menu .main-menu-options {
+    margin: 30px 50px 30px 30px; }
+    .main-menu .main-menu-options button {
+      margin-bottom: 10px;
+      width: 100%; }
+
+.diplomacy {
+  display: none;
+  width: 796px;
+  height: 534px; }
+  .diplomacy > .inner {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px);
+    width: calc(100% - 50px); }
+    .diplomacy > .inner .title {
+      margin: 10px;
+      text-align: center;
+      color: white;
+      font-size: 45px;
+      flex: 1; }
+    .diplomacy > .inner .body {
+      margin: 30px;
+      flex: 999; }
+    .diplomacy > .inner .footer {
+      margin: 30px;
+      flex: 1; }
+  .diplomacy table {
+    width: 100%; }
+  .diplomacy .ally-victory {
+    margin-left: 50%;
+    margin-bottom: 10px; }
+  .diplomacy .actions {
+    text-align: center; }
+    .diplomacy .actions button {
+      width: 30%; }
+  .diplomacy .player {
+    position: relative; }
+    .diplomacy .player .player-name {
+      position: absolute;
+      color: white;
+      font-weight: bold;
+      top: 3px; }
+    .diplomacy .player .flag {
+      position: absolute; }
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1; }
+  .top-bar > .inner {
+    height: 32px;
+    width: 1280px;
+    margin: auto; }
+
+.top-bar-menu {
+  float: right;
+  margin: 5px; }
+  .top-bar-menu img {
+    float: left; }
+  .top-bar-menu .popups > div {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    margin: auto; }
+
+.view-resources {
+  color: #fff;
+  font-weight: bold;
+  padding-top: 10px;
+  float: left; }
+  .view-resources .resource {
+    float: left;
+    margin-left: 27px;
+    width: 49px;
+    text-align: right; }

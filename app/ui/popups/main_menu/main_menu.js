@@ -16,6 +16,11 @@ module.exports = class MainManu extends UIWidget {
   }
 
   onBind($) {
+    this.quitButton = $('.quit');
+    this.quitButton.addEventListener('click', (e) => {
+      window.location = '../index.html';
+    });
+
     this.closeButton = $('.close');
     this.closeButton.addEventListener('click', (e) => this.close());
 
