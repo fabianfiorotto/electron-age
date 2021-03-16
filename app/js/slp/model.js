@@ -1,4 +1,4 @@
-const BinaryReader = require('../binary_reader');
+const BinaryReader = require('../binary/reader');
 
 const SlpFrame = require('./frame');
 const SlpRow = require('./row');

@@ -52,6 +52,12 @@ module.exports = class BinaryReader {
     return value;
   }
 
+  readInt8() {
+    var value = this.buffer.readInt8(this.offset);
+    this.offset += 1;
+    return value;
+  }
+
   readUInt8() {
     var value = this.buffer.readUInt8(this.offset);
     this.offset += 1;
