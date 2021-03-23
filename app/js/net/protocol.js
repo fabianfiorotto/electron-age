@@ -1,51 +1,78 @@
-const AoeNetPrimaryAction = require('./actions/primary');
-const AoeNetStopAction = require('./actions/stop');
-const AoeNetAction = require('./actions/action');
+const BinaryWritter = require('../binary/writer');
+const BinaryReader = require('../binary/reader');
+
+const Primary = require('./actions/primary');
+const Stop = require('./actions/stop');
+const Action = require('./actions/action');
+
+const AoeNetPackage = require('./package');
+const LobbyTurn = require('./sync/lobby_turn');
+const LobbyClock = require('./sync/lobby_clock');
 
 module.exports = class AoeNetProtocol {
 
+  constructor() {
+    this.writer = new BinaryWritter();
+    this.reader = new BinaryReader();
+  }
 
- static receivePackage(reader) {
-   let package1 = {};
-   if (reader.buffer.length == 16) {
-     package1.header = SyncHeader.read(reader);
-   }
-   else {
-     package1.header = Header.read(reader);
-   }
+  createPrimary() {
+    let primary = new Primary();
+    primary.player_id = 3,
+    primary.zero = 1616,
+    primary.target_id = 3232,
+    primary.selection_count = 3,
+    primary.zero2 = Array.from({length: 24}, () => 0),
+    primary.x_coord = 45.45,
+    primary.y_coord = 55.55,
+    primary.selected_ids = [1,2,3];
+    return primary;
+  }
 
-   switch (package1.header.command) {
-     case 0x3e:
-       // package1.action = this._receiveActionPackage(reader);
-       package1.action = AoeNetAction.read(reader);
-       break;
-     default:
+  createStop() {
+    let stop = new Stop();
+    stop.selection_count = 3,
+    stop.selected_ids = [1,2,3];
+    return stop;
+  }
 
-   }
+  createPackage() {
+    let thePackage = new AoeNetPackage();
 
-   // 0x31 	Sync
-   // 0x32 	Sync
-   // 0x35 	Sync (Lobby)
-   // 0x3e 	Player-issued
-   // 0x41 	Sync
-   // 0x43 	Chat Message
-   // 0x44 	Sync
-   // 0x4d 	Sync
-   // 0x51 	De-Sync
-   // 0x52 	Readying (Lobby)
-   // 0x53 	Sync
-   // 0x5a 	Lobby
-   return package1;
- }
+    thePackage.network_source_id = 3222;
+    thePackage.network_dest_id = 2111;
+    thePackage.option1 = 21;
+    thePackage.option2 = 22;
+    thePackage.option3 = 23;
 
- static _receiveActionPackage(reader) {
-    let action_identifier = reader.readInt8();
-    switch (action_identifier) {
-      case 0x00:
-        return AoeNetPrimaryAction.read(reader);
-      case 0x01:
-        return AoeNetStopAction.read(reader);
-    }
- }
+    return thePackage;
+  }
+
+  createAction() {
+    let action = new Action();
+    action.communication_turn = 1000;
+    action.individual_counter = 999;
+
+    return action;
+  }
+
+  createLobbySyncClock() {
+    let sync = new LobbyClock();
+    sync.connecting1 = LobbyClock.HOST_CONNECTING1;
+    sync.unknown = 0;
+    sync.connecting2 = LobbyClock.HOST_CONNECTING2;
+    return sync;
+  }
+
+  sendPackage(socket, thePackage) {
+    this.writer.initBuffer(thePackage.byteSize());
+    thePackage.pack(this.writer);
+    socket.write(this.writer.buffer);
+  }
+
+  receivePackage(data) {
+    this.reader.loadBuffer(data);
+    return AoeNetPackage.read(this.reader);
+  }
 
 }

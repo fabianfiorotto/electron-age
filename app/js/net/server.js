@@ -1,15 +1,8 @@
 const net = require('net');
-const BinaryWritter = require('../binary/writer');
-const BinaryReader = require('../binary/reader');
-const Primary = require('./actions/primary');
-const Stop = require('./actions/stop');
-const Action = require('./actions/action');
 
-const AoeNetPackage = require('./package');
-const LobbyTurn = require('./sync/lobby_turn');
+const AoeNetProtocol = require('./protocol');
 
-let writer = new BinaryWritter();
-let reader = new BinaryReader();
+let protocol = new AoeNetProtocol();
 
 var server = net.createServer(function(socket) {
   socket.on("error", (err) =>{
@@ -17,51 +10,15 @@ var server = net.createServer(function(socket) {
     console.log(err.stack);
   });
 
-	// socket.write('Echo server\r\n');
+  let thePackage = protocol.createPackage();
+  thePackage.command =  protocol.createAction();
+  thePackage.command.action = protocol.createPrimary();
+  // thePackage.command.action = protocol.createStop();
 
-
-
-  let thePackage = new AoeNetPackage();
-
-  let action = new Action();
-  action.communication_turn = 1000;
-  action.individual_counter = 999;
-
-  thePackage.network_source_id = 3222;
-  thePackage.network_dest_id = 2111;
-  thePackage.option1 = 21;
-  thePackage.option2 = 22;
-  thePackage.option3 = 23;
-
-  let primary = new Primary();
-  primary.player_id = 3,
-  primary.zero = 1616,
-  primary.target_id = 3232,
-  primary.selection_count = 3,
-  primary.zero2 = Array.from({length: 24}, () => 0),
-  primary.x_coord = 45.45,
-  primary.y_coord = 55.55,
-  primary.selected_ids = [1,2,3];
-
-  let stop = new Stop();
-  stop.selection_count = 3,
-  stop.selected_ids = [1,2,3];
-
-  // action.action = primary;
-  action.action = stop;
-
-  thePackage.command = action;
-
-  writer.initBuffer(thePackage.byteSize());
-
-  thePackage.pack(writer);
-
-  socket.write(writer.buffer);
-
+  protocol.sendPackage(socket, thePackage);
 
   socket.on('data', function(data) {
-    reader.loadBuffer(data);
-    let thePackage = AoeNetPackage.read(reader);
+    let thePackage = protocol.receivePackage(data);
     console.log(thePackage);
   });
 	// socket.pipe(socket);

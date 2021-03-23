@@ -10,7 +10,7 @@
   "scripts": {
     "start": "electron .",
     "start-mac": "/Applications/Electron.app/Contents/MacOS/Electron .",
-    "genetic": "node app/js/main.js"
+    "server": "node ./app/js/net/server.js"
   },
   "dependencies": {
     "event-kit": "^2.2.0",

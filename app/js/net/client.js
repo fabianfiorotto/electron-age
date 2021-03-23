@@ -1,25 +1,20 @@
 var net = require('net');
-const BinaryReader = require('../binary/reader');
 const AoeNetProtocol = require('./protocol');
 
-const AoeNetPackage = require('./package')
 
-let reader = new BinaryReader();
+let protocol = new AoeNetProtocol();
 
 var client = new net.Socket();
 
 client.connect(1337, '127.0.0.1', function() {
   console.log('Connected');
-  client.write('Hello, server! Love, Client.');
 });
 
 client.on('data', function(data) {
   console.log('Received: ');
   console.log(data);
 
-  reader.loadBuffer(data);
-  // let package1 = AoeNetProtocol.receivePackage(reader);
-  let thePackage = AoeNetPackage.read(reader);
+  let thePackage = protocol.receivePackage(data);
   console.log(thePackage);
 
   // client.destroy(); // kill client after server's response
