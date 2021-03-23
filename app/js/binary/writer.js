@@ -1,4 +1,4 @@
-BinaryReader = require('./reader');
+const BinaryReader = require('./reader');
 
 module.exports = class BinaryWriter extends BinaryReader {
 

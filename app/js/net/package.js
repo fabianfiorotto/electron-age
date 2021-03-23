@@ -1,8 +1,10 @@
 const DataPackage = require('../binary/data_package');
 const {UInt8, UInt32LE} = DataPackage;
 
-const AoeNetAction = require('./actions/action');
+const NetAction = require('./actions/action');
 
+const LobbyTurn = require('./sync/lobby_turn');
+const LobbyClock = require('./sync/lobby_clock');
 
 module.exports = class AoeNetPackage extends DataPackage {
 
@@ -24,15 +26,15 @@ module.exports = class AoeNetPackage extends DataPackage {
         cases: {
           // 0x31 	Sync
           // 0x32 	Sync
-          // 0x35 	Sync (Lobby)
-          0x3e: AoeNetAction
+          0x35: LobbyClock,
+          0x3e: NetAction,
           // 0x41 	Sync
           // 0x43 	Chat Message
           // 0x44 	Sync
           // 0x4d 	Sync
           // 0x51 	De-Sync
           // 0x52 	Readying (Lobby)
-          // 0x53 	Sync
+          0x53: LobbyTurn,
           // 0x5a 	Lobby
         }
       }

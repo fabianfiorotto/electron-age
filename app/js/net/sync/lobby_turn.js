@@ -1,7 +1,7 @@
 const DataPackage = require('../../binary/data_package');
 const {Int32LE} = DataPackage;
 
-module.exports = class AoeNetSyncLobbyClockServer extends DataPackage {
+module.exports = class AoeNetSyncLobbyTurn extends DataPackage {
 
   id() {
     return 0x53
@@ -9,9 +9,7 @@ module.exports = class AoeNetSyncLobbyClockServer extends DataPackage {
 
   static defineAttirbutes() {
     return {
-      connecting1: Int32,
-      unknown: Int32,
-      connecting2: Int32,
+      communication_turn: Int32LE
     }
   }
 

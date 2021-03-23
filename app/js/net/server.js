@@ -1,14 +1,15 @@
 const net = require('net');
 const BinaryWritter = require('../binary/writer');
+const BinaryReader = require('../binary/reader');
 const Primary = require('./actions/primary');
 const Stop = require('./actions/stop');
 const Action = require('./actions/action');
 
-const AoeNetPackage = require('./package')
-
+const AoeNetPackage = require('./package');
+const LobbyTurn = require('./sync/lobby_turn');
 
 let writer = new BinaryWritter();
-
+let reader = new BinaryReader();
 
 var server = net.createServer(function(socket) {
   socket.on("error", (err) =>{
@@ -59,7 +60,9 @@ var server = net.createServer(function(socket) {
 
 
   socket.on('data', function(data) {
-  	console.log('Received: ' + data);
+    reader.loadBuffer(data);
+    let thePackage = AoeNetPackage.read(reader);
+    console.log(thePackage);
   });
 	// socket.pipe(socket);
 });

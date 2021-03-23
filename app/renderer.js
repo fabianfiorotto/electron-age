@@ -73,6 +73,9 @@ document.addEventListener("DOMContentLoaded", async function() {
   let singlePlayer = document.getElementById('single-player');
   singlePlayer.setAttribute('href', './local_game/index.html');
 
+  let multiplayer = document.getElementById('multiplayer');
+  multiplayer.setAttribute('href', './net_game/index.html');
+
   let exit = document.getElementById('exit');
   exit.addEventListener('click', (e) => {
     remote.getCurrentWindow().close();
