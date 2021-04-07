@@ -1,13 +1,49 @@
+require('../js/entities/types');
 
 var net = require('net');
+require("sylvester");
+
+const ResourceManager = require("../resources");
 const AoeNetProtocol = require('../js/net/protocol');
+const MapView = require('../ui/map/netmap');
+const DebugInfo = require('../ui/debug/debug');
+
+window.resources = new ResourceManager();
 
 let client = new net.Socket();
 let protocol = new AoeNetProtocol();
 
+var mapView = new MapView();
+let debugInfo = new DebugInfo();
+
+init = async () => {
+  await debugInfo.bind('debug');
+  setInterval(() => debugInfo.resetFps(), 1000);
+
+  await mapView.bind('map');
+  await mapView.loadTestMap();
+  mapView.bindSocket(client, protocol);
+  loop();
+}
+
+idle = function() {
+  mapView.draw();
+  debugInfo.incFps();
+};
+
+loop = function() {
+  try {
+    idle();
+  } catch (e) {
+    console.error(e, e.stack);
+  } finally {
+    setTimeout(loop, 1);
+  }
+};
+
 client.on('data', function(data) {
-  console.log('Received: ');
-  console.log(data);
+  // console.log('Received: ');
+  // console.log(data);
 
   let thePackage = protocol.receivePackage(data);
   console.log(thePackage);
@@ -62,5 +98,6 @@ document.addEventListener("DOMContentLoaded", function() {
     protocol.sendPackage(client, thePackage);
   });
 
+  init();
 
 });

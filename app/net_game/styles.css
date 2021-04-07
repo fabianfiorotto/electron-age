@@ -1,0 +1,5 @@
+.net-controls {
+  z-index: 9999999;
+  position: absolute;
+  top: 50px;
+}

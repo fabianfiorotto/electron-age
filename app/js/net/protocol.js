@@ -20,7 +20,7 @@ module.exports = class AoeNetProtocol {
     let primary = new Primary();
     primary.player_id = 3,
     primary.zero = 1616,
-    primary.target_id = 3232,
+    primary.target_id = 0,
     primary.selection_count = 3,
     primary.zero2 = Array.from({length: 24}, () => 0),
     primary.x_coord = 45.45,
@@ -61,6 +61,12 @@ module.exports = class AoeNetProtocol {
     sync.connecting1 = LobbyClock.HOST_CONNECTING1;
     sync.unknown = 0;
     sync.connecting2 = LobbyClock.HOST_CONNECTING2;
+    return sync;
+  }
+
+  createLobbyTurn() {
+    let sync = new LobbyTurn();
+    sync.communication_turn = 0;
     return sync;
   }
 

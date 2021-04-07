@@ -139,6 +139,10 @@ module.exports = class MapView extends UIWidget {
     return 'map';
   }
 
+  rightClick(v) {
+    this.map.rightClick(v);
+  }
+
   onBind($) {
     this.inner = $("#map-inner");
     this.wrapper = $(".canvas-wrapper");
@@ -189,7 +193,7 @@ module.exports = class MapView extends UIWidget {
 
     window.addEventListener('contextmenu',(e) => {
       let v = this.windowEventCoords(e);
-      if (v) this.map.rightClick(v);
+      if (v) this.rightClick(v);
     });
 
     this.inner.addEventListener('mousemove', (e) => {

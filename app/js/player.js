@@ -21,6 +21,7 @@ module.exports = class Player {
     this.emitter = new Emitter();
 
     this.id = id;
+    this.number = id;
 
     this.onDidChangeAge(() => this.onChangeAge());
     this.onDidDevelopTechnology((tec) => this.onDevelopTechnology(tec));
