@@ -3,7 +3,7 @@ const {UInt32LE} = DataPackage;
 
 const AoeNetPrimaryAction = require('./primary');
 const AoeNetStopAction = require('./stop');
-const AoeNetMoveAction = require('./stop');
+const AoeNetMoveAction = require('./move');
 const AoeNetDeleteAction = require('./delete');
 
 
@@ -35,5 +35,9 @@ module.exports = class AoeNetAction extends DataPackage {
           }
         }
       }
+    }
+
+    perform(map) {
+      this.action.perform(map);
     }
   }

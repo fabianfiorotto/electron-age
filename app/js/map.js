@@ -132,7 +132,7 @@ module.exports = class AoeMap {
     for (var i = 0; i < this.selected.length; i++) {
       let selected = this.selected[i];
       selected.setTarget(entity);
-      var f = $V([i % 3, Math.floor(i / 3)]).multiply(50);
+      var f = this.formationPos(i);
       selected.setTargetPos(v.add(f));
       if (selected instanceof Villager && selected.building && selected.building.isImaginary()) {
         this.removeEntity(selected.building);
@@ -160,6 +160,10 @@ module.exports = class AoeMap {
       entity.click();
     }
     this.setSelected(newSelected);
+  }
+
+  formationPos(i) {
+    return $V([i % 3, Math.floor(i / 3)]).multiply(50);
   }
 
   setEntityTargetPos(entity, pos) {
@@ -228,6 +232,10 @@ module.exports = class AoeMap {
         return this.entities[i];
       }
     }
+  }
+
+  entityById(id) {
+    return this.entities.find((e) => e.id == id)
   }
 
   filterSelection(selection) {

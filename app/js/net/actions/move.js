@@ -23,4 +23,13 @@ module.exports = class AoeNetMoveAction extends DataPackage {
       }
     }
   }
+
+  perform(map) {
+    for (var i = 0; i < this.selection_count; i++) {
+      let selected = map.entityById(this.selected_ids[i]);
+      let f = map.formationPos(i);
+      selected.setTargetPos(this.pos().add(f));
+    }
+  }s
+
 }

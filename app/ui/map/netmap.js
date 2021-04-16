@@ -5,6 +5,11 @@ module.exports = class MapNetView extends MapView {
   bindSocket(socket, protocol) {
     this.socket = socket;
     this.protocol = protocol;
+
+    this.socket.on('data', (data) => {
+      let thePackage = this.protocol.receivePackage(data);
+      thePackage.perform(this.map);
+    });
   }
 
   rightClick(v) {
@@ -24,7 +29,7 @@ module.exports = class MapNetView extends MapView {
     action.y_coord = v.e(2);
 
     action.selected_ids = [];
-    action.selection_count = this.map.selected;
+    action.selection_count = this.map.selected.length;
     for (let entity of this.map.selected) {
       action.selected_ids.push(entity.id)
     }

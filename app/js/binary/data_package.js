@@ -161,4 +161,11 @@ module.exports = class DataPackage {
     return size;
   }
 
+  perform() {
+  }
+
+  pos() {
+    return $V([this.x_coord, this.y_coord]);
+  }
+
 }

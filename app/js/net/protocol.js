@@ -1,6 +1,7 @@
 const BinaryWritter = require('../binary/writer');
 const BinaryReader = require('../binary/reader');
 
+const Move = require('./actions/move');
 const Primary = require('./actions/primary');
 const Stop = require('./actions/stop');
 const Action = require('./actions/action');
@@ -21,6 +22,18 @@ module.exports = class AoeNetProtocol {
     primary.player_id = 3,
     primary.zero = 1616,
     primary.target_id = 0,
+    primary.selection_count = 3,
+    primary.zero2 = Array.from({length: 24}, () => 0),
+    primary.x_coord = 45.45,
+    primary.y_coord = 55.55,
+    primary.selected_ids = [1,2,3];
+    return primary;
+  }
+
+  createMove() {
+    let primary = new Move();
+    primary.player_id = 3,
+    primary.zero = 1616,
     primary.selection_count = 3,
     primary.zero2 = Array.from({length: 24}, () => 0),
     primary.x_coord = 45.45,
