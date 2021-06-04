@@ -1,0 +1,27 @@
+.lobby {
+  background-color: #a24300;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: fixed;
+  z-index: 99;
+  color: #fff;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  text-align: center;
+  .lobby-screen {
+     margin: calc(50vh - 300px) calc(50vw - 400px);
+     padding: 10px;
+  }
+  .row {
+    display: flex;
+    .column1 {
+      width: 60%;
+      padding: 0 20px;
+    }
+    .column2 {
+
+    }
+  }
+}

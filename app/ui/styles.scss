@@ -10,6 +10,11 @@ body {
 
 @import "loading/loading";
 
+@import "lobby/lobby";
+@import "lobby/settings/settings";
+@import "lobby/players/players";
+@import "lobby/chat/chat";
+
 @import "dashboard/dashboard";
 @import "dashboard/controls/controls";
 @import "dashboard/entity_info/entity_info";

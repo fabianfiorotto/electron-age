@@ -6,6 +6,7 @@ require("sylvester");
 const ResourceManager = require("../resources");
 const AoeNetProtocol = require('../js/net/protocol');
 const MapView = require('../ui/map/netmap');
+const Lobby = require('../ui/lobby/lobby');
 const DebugInfo = require('../ui/debug/debug');
 
 window.resources = new ResourceManager();
@@ -15,12 +16,14 @@ let protocol = new AoeNetProtocol();
 
 var mapView = new MapView();
 let debugInfo = new DebugInfo();
+let lobby = new Lobby();
 
 init = async () => {
   await debugInfo.bind('debug');
   setInterval(() => debugInfo.resetFps(), 1000);
 
   await mapView.bind('map');
+  await lobby.bind('lobby');
   await mapView.loadTestMap();
   mapView.bindSocket(client, protocol);
   loop();

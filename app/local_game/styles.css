@@ -40,6 +40,42 @@ body {
   #loading-screen .loading-screen-inner {
     width: 100%; }
 
+.lobby {
+  background-color: #a24300;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: fixed;
+  z-index: 99;
+  color: #fff;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  text-align: center; }
+  .lobby .lobby-screen {
+    margin: calc(50vh - 300px) calc(50vw - 400px);
+    padding: 10px; }
+  .lobby .row {
+    display: flex; }
+    .lobby .row .column1 {
+      width: 60%;
+      padding: 0 20px; }
+
+.lobby .settings {
+  text-align: right; }
+  .lobby .settings select {
+    width: 150px; }
+  .lobby .settings .selects > div {
+    margin-bottom: 10px; }
+
+.lobby .players table {
+  width: 100%; }
+
+.lobby .chat {
+  text-align: left; }
+  .lobby .chat input {
+    width: 100%; }
+
 .dashboard {
   position: fixed;
   width: 100%;
