@@ -39,9 +39,9 @@ module.exports = class MapView extends UIWidget {
     return map;
   };
 
-  async loadTestMap() {
+  async loadTestMap(options) {
     this.loading.start();
-    let map = await TestBuilder.loadTestMap((v, t) => this.loading.progress(v, t));
+    let map = await TestBuilder.loadTestMap(options, (v, t) => this.loading.progress(v, t));
     this.triggerMapLoaddedEvent(map);
     this.loading.complete();
     return map;

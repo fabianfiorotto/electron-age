@@ -26,9 +26,16 @@ const Player = require('../player');
 
 module.exports =  class TestBuilder {
 
-  static async loadTestMap(progress) {
-    var map = new AoeMap(120, 120);
+  static async loadTestMap(options, progress) {
+    const width = options.width || options.mapSize || 120;
+    const height = options.height || options.mapSize || 120;
+
+    var map = new AoeMap(width, height);
     await map.loadResources(resources);
+
+    if (options.maxPopulation) {
+      map.maxPopulation = options.maxPopulation;
+    }
 
     var civ1 = new CentralEuropean();
     civ1 = new Asian();

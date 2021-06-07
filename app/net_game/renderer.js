@@ -24,9 +24,6 @@ init = async () => {
 
   await mapView.bind('map');
   await lobby.bind('lobby');
-  await mapView.loadTestMap();
-  mapView.bindSocket(client, protocol);
-  loop();
 }
 
 idle = function() {

@@ -446,7 +446,8 @@ module.exports = class Entity {
   }
 
   operationInit(control) {
-    if (control.population && this.player.population >= this.player.maxPopulation  ) {
+    const maxPopulation = Math.min(this.map.maxPopulation, this.player.maxPopulation);
+    if (control.population && this.player.population >= maxPopulation) {
       return false;
     }
     if (control.cost && !this.player.canAfford(control.cost)) {

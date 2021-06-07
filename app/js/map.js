@@ -18,6 +18,8 @@ module.exports = class AoeMap {
     this.width = width;
     this.height = height;
 
+    this.maxPopulation = 75;
+
     this.Villager = Villager; // This avoids ciclic dependencie among tc and villager
 
     this.players = [];

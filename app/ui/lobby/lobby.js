@@ -8,9 +8,10 @@ module.exports = class Lobby extends UIWidget {
 
   constructor() {
     super();
+    this.options = {};
     this.players = new LobbyPlayers();
     this.chat = new LobbyChat();
-    this.settings = new LobbySettings();
+    this.settings = new LobbySettings(this.options);
   }
 
   template() {
@@ -26,8 +27,12 @@ module.exports = class Lobby extends UIWidget {
     this.settings.bind($('.settings'));
     this.chat.bind($('.chat'));
 
-    this.start.addEventListener('click', (e) => {
+    this.start.addEventListener('click', async (e) => {
       this.element.style.display = 'none';
+
+      await mapView.loadTestMap(this.options);
+      mapView.bindSocket(client, protocol);
+      loop();
     });
     this.cancel.addEventListener('click', (e) => {
       window.location = '../index.html';

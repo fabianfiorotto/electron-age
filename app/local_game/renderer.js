@@ -19,7 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(() => debugInfo.resetFps(), 1000);
 
     await mapView.bind('map');
-    await mapView.loadTestMap();
+
+    let options {
+
+    };
+
+    await mapView.loadTestMap(options);
     loop();
   }
 

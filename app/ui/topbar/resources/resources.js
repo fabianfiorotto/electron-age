@@ -37,6 +37,7 @@ module.exports = class ViewResources extends UIWidget{
   }
 
   displayPopulation(player) {
-    this.population.textContent = player.population + ' / ' + player.maxPopulation;
+    const maxPopulation = Math.min(player.maxPopulation, player.map.maxPopulation)
+    this.population.textContent = player.population + ' / ' + maxPopulation;
   }
 };
