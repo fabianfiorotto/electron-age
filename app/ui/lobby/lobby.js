@@ -31,7 +31,7 @@ module.exports = class Lobby extends UIWidget {
       this.element.style.display = 'none';
 
       await mapView.loadTestMap(this.options);
-      mapView.bindSocket(client, protocol);
+      mapView.bindSocket?.(client, protocol);
       loop();
     });
     this.cancel.addEventListener('click', (e) => {

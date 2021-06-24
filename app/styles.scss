@@ -39,7 +39,17 @@
       opacity: 0;
     }
   }
+
+  .option-content {
+    position: absolute;
+    left: 55%;
+    width: 45%;
+    top: 55px;
+    height: 10px;
+  }
+
 }
+
 
 #single-player {
   .out {

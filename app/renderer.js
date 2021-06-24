@@ -81,4 +81,11 @@ document.addEventListener("DOMContentLoaded", async function() {
     remote.getCurrentWindow().close();
   });
 
+  let server = document.getElementById('server');
+
+  let join = document.getElementById('join');
+  join.addEventListener('click', (e) => {
+    window.location = './net_game/index.html#?server=' + server.value;
+  });
+
 });

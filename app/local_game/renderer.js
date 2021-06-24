@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     await mapView.bind('map');
 
-    let options {
+    let options = {
 
     };
 

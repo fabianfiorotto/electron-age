@@ -5,18 +5,52 @@ require("sylvester");
 
 const ResourceManager = require("../resources");
 const AoeNetProtocol = require('../js/net/protocol');
-const MapView = require('../ui/map/netmap');
+const NetMapView = require('../ui/map/netmap');
+const MapView = require('../ui/map/map');
 const Lobby = require('../ui/lobby/lobby');
 const DebugInfo = require('../ui/debug/debug');
 
 window.resources = new ResourceManager();
 
-let client = new net.Socket();
-let protocol = new AoeNetProtocol();
+let queryString = window.location.hash.slice(1)
+let urlParams = new URLSearchParams(queryString);
 
-var mapView = new MapView();
+var mapView;
+if (urlParams.has('server')) {
+  mapView = new NetMapView();
+}
+else {
+  mapView = new MapView();
+}
 let debugInfo = new DebugInfo();
 let lobby = new Lobby();
+
+if (urlParams.has('server')) {
+  let client = new net.Socket();
+  let protocol = new AoeNetProtocol();
+
+  let server = urlParams.get('server') || '127.0.0.1';
+
+  client.connect(1337, server, function() {
+    console.log('Connected');
+
+    let thePackage = protocol.createPackage();
+    thePackage.command = protocol.createLobbySyncClock();
+    protocol.sendPackage(client, thePackage);
+  });
+
+  client.on('data', function(data) {
+    // console.log('Received: ');
+    // console.log(data);
+
+    let thePackage = protocol.receivePackage(data);
+    console.log(thePackage);
+  });
+
+  client.on('close', function() {
+    console.log('Connection closed');
+  });
+}
 
 init = async () => {
   await debugInfo.bind('debug');
@@ -41,63 +75,6 @@ loop = function() {
   }
 };
 
-client.on('data', function(data) {
-  // console.log('Received: ');
-  // console.log(data);
-
-  let thePackage = protocol.receivePackage(data);
-  console.log(thePackage);
-});
-
-client.on('close', function() {
-  console.log('Connection closed');
-});
-
 document.addEventListener("DOMContentLoaded", function() {
-
-  let sendPrimary = document.getElementById('primary');
-  let sendStop = document.getElementById('stop');
-
-  let sendButtons = document.querySelectorAll('.send');
-  let connectButton = document.getElementById('connect');
-
-  connectButton.addEventListener('click', () => {
-
-    if (connectButton.classList.contains('connected')) {
-      connectButton.textContent = "Connect";
-      connectButton.classList.remove('connected');
-      sendButtons.forEach((button) => button.setAttribute('disabled', 'disabled'));
-      client.end();
-    }
-    else {
-      client.connect(1337, '127.0.0.1', function() {
-        console.log('Connected');
-        connectButton.textContent = "Disconnect";
-        connectButton.classList.add('connected');
-        sendButtons.forEach((button) => button.removeAttribute('disabled'));
-
-
-        let thePackage = protocol.createPackage();
-        thePackage.command = protocol.createLobbySyncClock();
-        protocol.sendPackage(client, thePackage);
-      });
-    }
-  });
-
-  sendPrimary.addEventListener('click', () => {
-    let thePackage = protocol.createPackage();
-    thePackage.command =  protocol.createAction();
-    thePackage.command.action = protocol.createPrimary();
-    protocol.sendPackage(client, thePackage);
-  });
-
-  sendStop.addEventListener('click', () => {
-    let thePackage = protocol.createPackage();
-    thePackage.command = protocol. createAction();
-    thePackage.command.action = protocol.createStop();
-    protocol.sendPackage(client, thePackage);
-  });
-
   init();
-
 });
