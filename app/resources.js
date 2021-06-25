@@ -310,6 +310,24 @@ module.exports = class ResourceManager {
     return await this.loadSound(id, 'interfac');
   }
 
+  timeoutIterable() {
+    return {
+      [Symbol.asyncIterator]() {
+        return {
+          promise: {
+            result: { value: null, done: false },
+            then(cb) {
+              setTimeout(cb, 1, this.result);
+            }
+          },
+          next() {
+            return this.promise;
+          }
+        };
+      }
+    };
+  }
+
   // -------------------------------------------------
 
   async load(entity) {

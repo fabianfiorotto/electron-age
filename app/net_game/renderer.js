@@ -52,29 +52,18 @@ if (urlParams.has('server')) {
   });
 }
 
-init = async () => {
+var loop = async () => {
+  for await(let _null of resources.timeoutIterable()) {
+    mapView.draw();
+    debugInfo.incFps();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async function() {
   await debugInfo.bind('debug');
   setInterval(() => debugInfo.resetFps(), 1000);
 
   await mapView.bind('map');
   await lobby.bind('lobby');
-}
 
-idle = function() {
-  mapView.draw();
-  debugInfo.incFps();
-};
-
-loop = function() {
-  try {
-    idle();
-  } catch (e) {
-    console.error(e, e.stack);
-  } finally {
-    setTimeout(loop, 1);
-  }
-};
-
-document.addEventListener("DOMContentLoaded", function() {
-  init();
 });
