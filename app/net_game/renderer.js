@@ -5,10 +5,66 @@ require("sylvester");
 
 const ResourceManager = require("../resources");
 const AoeNetProtocol = require('../js/net/protocol');
+const AoeNetServerProtocol = require('../js/net/server_protocol');
 const NetMapView = require('../ui/map/netmap');
 const MapView = require('../ui/map/map');
 const Lobby = require('../ui/lobby/lobby');
 const DebugInfo = require('../ui/debug/debug');
+
+serverConnect = function(protocol, port, callback) {
+  if (!callback) {
+    callback = port;
+    port = 1337;
+  }
+
+  var server = net.createServer(function(socket) {
+    socket.on("error", (err) =>{
+      console.log("Caught flash policy server socket error: ");
+      console.log(err.stack);
+    });
+
+    socket.on('data', function(data) {
+      let thePackage = protocol.receivePackage(data);
+      let command = thePackage.command;
+      if (protocol.isConnecting(thePackage)) {
+        thePackage = protocol.connectionAccepedPackage();
+        protocol.sendPackage(socket, thePackage);
+        protocol.addClient(socket, thePackage);
+      }
+      else {
+        protocol.broadcast(thePackage)
+      }
+    });
+    socket.on('close', function() {
+      protocol.removeClient(socket);
+    });
+    socket.on('end', function() {
+      protocol.removeClient(socket);
+    });
+
+    // socket.pipe(socket);
+  });
+  server.listen(1337, '127.0.0.1', callback);
+}
+
+clientConnect = function(client, protocol, server, port = 1337) {
+  client.connect(port, server, function() {
+    console.log('Connected');
+    let thePackage = protocol.createPackage();
+    thePackage.command = protocol.createLobbySyncClock();
+    protocol.sendPackage(client, thePackage);
+  });
+
+  client.on('data', function(data) {
+    let thePackage = protocol.receivePackage(data);
+    console.log(thePackage);
+  });
+
+  client.on('close', function() {
+    console.log('Connection closed');
+  });
+}
+
 
 window.resources = new ResourceManager();
 
@@ -26,30 +82,23 @@ let debugInfo = new DebugInfo();
 let lobby = new Lobby();
 
 if (urlParams.has('server')) {
-  let client = new net.Socket();
-  let protocol = new AoeNetProtocol();
+  var client = new net.Socket();
+  var protocol = new AoeNetProtocol();
+  var serverProtocol;
 
   let server = urlParams.get('server') || '127.0.0.1';
 
-  client.connect(1337, server, function() {
-    console.log('Connected');
+  if (server == 'create') {
+    serverProtocol = new AoeNetServerProtocol();
+    server = '127.0.0.1';
+    serverConnect(serverProtocol, () => {
+      clientConnect(client, protocol, server);
+    });
+  }
+  else {
+    clientConnect(client, protocol, server);
+  }
 
-    let thePackage = protocol.createPackage();
-    thePackage.command = protocol.createLobbySyncClock();
-    protocol.sendPackage(client, thePackage);
-  });
-
-  client.on('data', function(data) {
-    // console.log('Received: ');
-    // console.log(data);
-
-    let thePackage = protocol.receivePackage(data);
-    console.log(thePackage);
-  });
-
-  client.on('close', function() {
-    console.log('Connection closed');
-  });
 }
 
 var loop = async () => {

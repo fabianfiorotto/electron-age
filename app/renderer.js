@@ -88,4 +88,9 @@ document.addEventListener("DOMContentLoaded", async function() {
     window.location = './net_game/index.html#?server=' + server.value;
   });
 
+  let create = document.getElementById('create');
+  create.addEventListener('click', (e) => {
+    window.location = './net_game/index.html#?server=create';
+  });
+
 });
