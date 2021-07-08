@@ -172,7 +172,11 @@ module.exports = class Entity {
   }
 
   getControls() {
-    return this.defineControls();
+    let controls = this.defineControls();
+    for (let controlName in controls) {
+      controls[controlName].name = controlName;
+    }
+    return controls;
   }
 
   getProjectileClass() {

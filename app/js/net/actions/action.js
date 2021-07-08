@@ -5,7 +5,7 @@ const AoeNetPrimaryAction = require('./primary');
 const AoeNetStopAction = require('./stop');
 const AoeNetMoveAction = require('./move');
 const AoeNetDeleteAction = require('./delete');
-
+const AoeNetGenericAction = require('./generic');
 
 module.exports = class AoeNetAction extends DataPackage {
 
@@ -32,6 +32,8 @@ module.exports = class AoeNetAction extends DataPackage {
             0x01: AoeNetStopAction,
             0x03: AoeNetMoveAction,
             0x6a: AoeNetDeleteAction,
+
+            0x0e: AoeNetGenericAction, // Not standard!
           }
         }
       }

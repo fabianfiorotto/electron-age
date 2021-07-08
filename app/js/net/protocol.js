@@ -5,6 +5,7 @@ const Move = require('./actions/move');
 const Primary = require('./actions/primary');
 const Stop = require('./actions/stop');
 const Action = require('./actions/action');
+const Generic = require('./actions/generic');
 
 const AoeNetPackage = require('./package');
 const LobbyTurn = require('./sync/lobby_turn');
@@ -15,6 +16,12 @@ module.exports = class AoeNetProtocol {
   constructor() {
     this.writer = new BinaryWritter();
     this.reader = new BinaryReader();
+  }
+
+  createGeneric(actionName) {
+    let generic = new Generic();
+    generic.actionName = actionName;
+    return generic;
   }
 
   createPrimary() {

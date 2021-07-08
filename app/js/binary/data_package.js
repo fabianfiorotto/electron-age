@@ -106,7 +106,10 @@ module.exports = class DataPackage {
     this.afterUnpack();
   }
 
-  pack(writer) {
+  _preparePackage() {
+    if (this.__packed) {
+      return;
+    }
     this.beforePack();
 
     let attributes = this.constructor.getAttributes();
@@ -118,11 +121,26 @@ module.exports = class DataPackage {
 
       let value = this[key];
       if (typeof this['pack_' + key ]  == 'function') {
-        value = this['pack_' + key ]();
+        this[key] = value = this['pack_' + key ]();
       }
+      if (value && typeof value._preparePackage  == 'function') {
+        value._preparePackage();
+      }
+    }
+    this.__packed = true;
+  }
+
+  pack(writer) {
+    this._preparePackage();
+    let attributes = this.constructor.getAttributes();
+    for (const [key,type] of Object.entries(attributes)){
+      if (typeof type.condition == 'function' && !type.condition(this)) {
+        continue;
+      }
+
+      let value = this[key];
       this._writeType(writer, type, value);
     }
-
   }
 
   _byteSizeForType(type) {
@@ -147,15 +165,19 @@ module.exports = class DataPackage {
   }
 
   byteSize() {
+    this._preparePackage();
     let attributes = this.constructor.getAttributes();
     let size = 0;
     for (const [key,type] of Object.entries(attributes)) {
-      let length = type.length ? this[key].length : 1;
       if (this[key] && typeof this[key].byteSize == 'function') {
         size += this[key].byteSize();
       }
-      else {
+      else if (type.length) {
+        let length = Number.isInteger(type.length) ? type.length : type.length(this);
         size += length * this._byteSizeForType(type.type || type);
+      }
+      else {
+        size += this._byteSizeForType(type.type || type);
       }
     }
     return size;

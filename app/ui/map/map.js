@@ -323,6 +323,10 @@ module.exports = class MapView extends UIWidget {
     this.element.style.cursor = 'url(' + resources.getUrl(this.cursors[name]) +'), auto';
   }
 
+  operationInit(control) {
+    return this.map.selected[0].operationInit(control);
+  }
+
   async loadResources(res) {
     let palette = await resources.loadPalette(50505);
 

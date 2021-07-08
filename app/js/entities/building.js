@@ -178,8 +178,8 @@ module.exports = class Building extends Entity {
     }
     if (this.state === Building.FINISHED) {
       let controls = this.defineControls();
-
       for (const [name,control] of Object.entries(controls)){
+        controls[name].name = name;
         if (name.startsWith('create') && typeof control.population == 'undefined') {
           control.population = 1;
         }

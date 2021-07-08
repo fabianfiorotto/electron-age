@@ -45,7 +45,7 @@ module.exports = class Controls extends UIWidget {
     img.setAttribute('src', control.icon);
     if (control.callback) {
       img.addEventListener('click', (e) => {
-        var init = selected.operationInit(control);
+        var init = mapView.operationInit(control);
         if (init) {
           resources.playSound(this.sounds.click);
         }

@@ -39,4 +39,22 @@ module.exports = class MapNetView extends MapView {
     super.rightClick(v);
   }
 
+  operationInit(control) {
+    let thePackage = protocol.createPackage();
+    thePackage.command =  protocol.createAction();
+    let action = protocol.createGeneric(control.name);
+
+    action.selected_ids = [];
+    action.selection_count = this.map.selected.length;
+    for (let entity of this.map.selected) {
+      action.selected_ids.push(entity.id)
+    }
+
+    thePackage.command.action = action;
+
+    protocol.sendPackage(this.socket, thePackage);
+
+    return super.operationInit(control);
+  }
+
 }
