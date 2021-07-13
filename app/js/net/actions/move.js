@@ -30,6 +30,6 @@ module.exports = class AoeNetMoveAction extends DataPackage {
       let f = map.formationPos(i);
       selected.setTargetPos(this.pos().add(f));
     }
-  }s
+  }
 
 }

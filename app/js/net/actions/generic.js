@@ -38,4 +38,15 @@ module.exports = class AoeNetGenericAction extends DataPackage {
   pack_actionNameLenght() {
     return this.actionName.length;
   }
+
+
+  perform(map) {
+    for (var i = 0; i < this.selection_count; i++) {
+      let selected = map.entityById(this.selected_ids[i]);
+      let civilization = selected.player.civilization;
+      let controls = civilization.getControls(selected);
+      let control = controls[this.actionName];
+      selected.operationInit(control);
+    }
+  }
 }
