@@ -12,6 +12,10 @@ module.exports = class StringData {
     return this.size;
   }
 
+  defaultValue() {
+    return "";
+  }
+
   read(reader) {
     return reader.readString(this.size);
   }

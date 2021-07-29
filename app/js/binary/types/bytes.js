@@ -12,6 +12,10 @@ module.exports = class BytesData {
     return this.size;
   }
 
+  defaultValue() {
+    return []; //Empty buffer?
+  }
+
   read(reader) {
     return reader.readBytes(this.size);
   }

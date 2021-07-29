@@ -1,5 +1,7 @@
 const StringData = require('./types/string');
 const BytesData = require('./types/bytes');
+const ArrayData = require('./types/array');
+const SwitchData = require('./types/switch');
 
 module.exports = class DataPackage {
 
@@ -13,6 +15,8 @@ module.exports = class DataPackage {
 
   static StringData  = StringData.ofSize;
   static BytesData   = BytesData.ofSize;
+  static ArrayData   = ArrayData.of;
+  static SwitchData  = SwitchData.of;
 
   static defineAttirbutes() {
     return {};
@@ -25,12 +29,19 @@ module.exports = class DataPackage {
     return this.attributes;
   }
 
+  loadDefautValues() {
+    let attributes = this.constructor.getAttributes();
+    for (const [key,type] of Object.entries(attributes)) {
+      this[key] = typeof type === 'symbol' ? 0 : type.defaultValue(this);
+    }
+  }
+
   _readType(reader, type) {
     if (typeof type === 'symbol') {
       return reader['read' + type.description]();
     }
     else if (typeof type.read == 'function'){
-      return type.read(reader);
+      return type.read(reader, this);
     }
     else if (type.switch && type.cases) {
       let key = type.switch(this);
@@ -54,7 +65,7 @@ module.exports = class DataPackage {
       writer['write' + type.description](value);
     }
     else if (typeof type.write == 'function') {
-      type.write(writer, value);
+      type.write(writer, value, this);
     }
     else if (type.switch && type.cases) {
       let key = type.switch(this);
@@ -170,7 +181,7 @@ module.exports = class DataPackage {
     let size = 0;
     for (const [key,type] of Object.entries(attributes)) {
       if (this[key] && typeof this[key].byteSize == 'function') {
-        size += this[key].byteSize();
+        size += this[key].byteSize(this);
       }
       else if (type.length) {
         let length = Number.isInteger(type.length) ? type.length : type.length(this);

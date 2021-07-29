@@ -40,6 +40,10 @@ module.exports = class Lobby extends UIWidget {
 
   }
 
+  playerConnected() {
+    this.players.playerConnected();
+  }
+
   async loadResources(res) {
     let palette = await res.loadPalette(50503);
     var model = await res.loadInterface(50104);

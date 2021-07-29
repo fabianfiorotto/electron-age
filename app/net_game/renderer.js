@@ -27,6 +27,11 @@ serverConnect = function(protocol, port, callback) {
       let thePackage = protocol.receivePackage(data);
       let command = thePackage.command;
       if (protocol.isConnecting(thePackage)) {
+        protocol.broadcast(thePackage); ///???
+
+        let config = protocol.createLobbyConfig();
+        protocol.sendPackage(socket, config);
+
         thePackage = protocol.connectionAccepedPackage();
         protocol.sendPackage(socket, thePackage);
         protocol.addClient(socket, thePackage);
@@ -58,6 +63,9 @@ clientConnect = function(client, protocol, server, port = 1337) {
   client.on('data', function(data) {
     let thePackage = protocol.receivePackage(data);
     console.log(thePackage);
+    if (protocol.isConnecting(thePackage)) {
+      lobby.playerConnected();
+    }
   });
 
   client.on('close', function() {

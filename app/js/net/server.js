@@ -18,9 +18,9 @@ var server = net.createServer(function(socket) {
       protocol.sendPackage(socket, thePackage);
       protocol.addClient(socket, thePackage);
     }
-    else {
+    // else {
       protocol.broadcast(thePackage)
-    }
+    // }
   });
   socket.on('close', function() {
     protocol.removeClient(socket);

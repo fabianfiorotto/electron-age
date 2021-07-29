@@ -10,12 +10,18 @@ const Generic = require('./actions/generic');
 const AoeNetPackage = require('./package');
 const LobbyTurn = require('./sync/lobby_turn');
 const LobbyClock = require('./sync/lobby_clock');
+const LobbyConfig = require('./sync/lobby_config');
 
 module.exports = class AoeNetProtocol {
 
   constructor() {
     this.writer = new BinaryWritter();
     this.reader = new BinaryReader();
+  }
+
+  isConnecting(thePackage) {
+    let command = thePackage.command;
+    return command.id() == 0x35 && command.connecting1;
   }
 
   createGeneric(actionName) {
@@ -88,6 +94,14 @@ module.exports = class AoeNetProtocol {
     let sync = new LobbyTurn();
     sync.communication_turn = 0;
     return sync;
+  }
+
+  createLobbyConfig() {
+    let thePackage = this.createPackage();
+    let config = new LobbyConfig();
+    config.loadDefautValues();
+    thePackage.command = config;
+    return thePackage;
   }
 
   sendPackage(socket, thePackage) {

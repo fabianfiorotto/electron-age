@@ -1,10 +1,11 @@
 const DataPackage = require('../binary/data_package');
-const {UInt8, UInt32LE} = DataPackage;
+const {UInt8, UInt32LE, SwitchData} = DataPackage;
 
 const NetAction = require('./actions/action');
 
 const LobbyTurn = require('./sync/lobby_turn');
 const LobbyClock = require('./sync/lobby_clock');
+const LobbyConfig = require('./sync/lobby_config');
 
 module.exports = class AoeNetPackage extends DataPackage {
 
@@ -21,7 +22,7 @@ module.exports = class AoeNetPackage extends DataPackage {
       option1: UInt8,
       option2: UInt8,
       option3: UInt8,
-      command: {
+      command: SwitchData({
         switch: (that) => that.command_identifier,
         cases: {
           // 0x31 	Sync
@@ -35,9 +36,10 @@ module.exports = class AoeNetPackage extends DataPackage {
           // 0x51 	De-Sync
           // 0x52 	Readying (Lobby)
           0x53: LobbyTurn,
-          // 0x5a 	Lobby
-        }
-      }
+          0x5a: LobbyConfig
+        },
+        // default: LobbyTurn,
+      })
     }
   }
 

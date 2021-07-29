@@ -14,11 +14,6 @@ module.exports = class AoeNetServerProtocol extends AoeNetProtocol {
     return thePackage;
   }
 
-  isConnecting(thePackage) {
-    let command = thePackage.command;
-    return command.id() == 0x35 && command.connecting1;
-  }
-
   broadcast(thePackage) {
     for (let client of this.clients) {
       if (client.id != thePackage.network_source_id) {
