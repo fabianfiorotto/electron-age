@@ -1,3 +1,5 @@
+const fs = require("fs").promises;
+
 const AoeMap = require('../../js/map');
 const ScxMapBuilder = require('../../js/scx/scx');
 const TestBuilder = require('../../js/test/testmap');

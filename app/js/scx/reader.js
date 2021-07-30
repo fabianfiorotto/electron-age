@@ -1,4 +1,8 @@
 const BinaryReader = require('../binary/reader');
+const ScxPlayerPackage = require('./player');
+const ScxTilePackage = require('./tile');
+const ScxUnitPackage = require('./unit');
+
 const pako = require('pako');
 
 module.exports = class ScxMapReader {
@@ -47,12 +51,9 @@ module.exports = class ScxMapReader {
 
     scenario.players = [];
     for (i = 0; i < 16; i++) {
-      var player = {};
-      player.active = reader.readUInt32LE();
-      player.human = reader.readUInt32LE();
-      player.civilization = reader.readUInt32LE();
-      player.cty_mode = reader.readUInt32LE();
-      scenario.players.push(player);
+      scenario.players.push(
+        ScxPlayerPackage.read(reader)
+      );
     }
 
     header.conquestMode = reader.readUInt8();
@@ -241,11 +242,9 @@ module.exports = class ScxMapReader {
      for (i = 0; i < map.width; i++) {
        map.tiles.push([]);
        for (j = 0; j < map.height; j++) {
-         var tile = {};
-         tile.terrain = reader.readUInt8();
-         tile.elevation = reader.readUInt8();
-         tile.unused = reader.readUInt8();
-         map.tiles[i].push(tile);
+         map.tiles[i].push(
+           ScxTilePackage.read(reader)
+         );
        }
     }
 
@@ -263,16 +262,8 @@ module.exports = class ScxMapReader {
     for (i = 0; i < pSections; i++) {
       unitCount = reader.readUInt32LE();
       for (j = 0; j < unitCount; j++) {
-        unit = {player: i};
-        unit.x = reader.readFloatLE();
-        unit.y = reader.readFloatLE();
-        unit.z = reader.readFloatLE();
-        unit.id = reader.readUInt32LE();
-        unit.type = reader.readUInt16LE();
-        unit.status = reader.readUInt8();
-        unit.rotation = reader.readFloatLE();
-        unit.initFrame = reader.readUInt16LE();
-        unit.guarrisonedIn = reader.readUInt32LE();
+        unit = ScxUnitPackage.read(reader);
+        unit.player = i;
         units.push(unit);
       }
     }
