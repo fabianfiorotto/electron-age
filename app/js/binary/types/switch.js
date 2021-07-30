@@ -1,7 +1,5 @@
 module.exports = class SwitchData {
 
-  // La idea es eliminar la opcion de if (type.switch) en el DataPackage
-
   constructor(theSwitch, theCases, theDefault) {
     this.switch = theSwitch;
     this.cases = theCases;
@@ -13,17 +11,22 @@ module.exports = class SwitchData {
   }
 
   defaultValue() {
-    return this.cases[this.default];
+    if (!this.default) {
+      return null;
+    }
+    this.default.defaultValue();
   }
 
   read(reader, thePackage) {
     let key = this.switch(thePackage);
-    return thePackage._readType(reader, this.cases[key] || this.default);
+    let type = this.cases[key] || this.default;
+    return type.read(reader, thePackage);
   }
 
   write(writer, value, thePackage) {
     let key = this.switch(thePackage);
-    return thePackage._writeType(writer, this.cases[key] || this.default, value);
+    let type = this.cases[key] || this.default;
+    return type.write(writer, value, thePackage);
   }
 
 }

@@ -1,5 +1,5 @@
 const DataPackage = require('../../binary/data_package');
-const {UInt8, Int8, Int16LE,  Int32LE, FloatLE, BytesData} = DataPackage;
+const {UInt8, Int8, Int16LE,  Int32LE, FloatLE, ArrayData} = DataPackage;
 
 module.exports = class AoeNetGenericAction extends DataPackage {
 
@@ -13,17 +13,17 @@ module.exports = class AoeNetGenericAction extends DataPackage {
   static defineAttirbutes() {
     return {
       selection_count: Int8,
-      selected_ids: {
+      selected_ids: ArrayData({
         type: Int32LE,
         length: (that) => that.selection_count,
         condition: (that) => that.selection_count < 0xFF
-      },
+      }),
       actionNameLenght: UInt8,
-      actionName: {
+      actionName: ArrayData({
         type: UInt8,
         length: (that) => that.actionNameLenght,
         condition: (that) => that.actionNameLenght < 0xFF
-      }
+      })
     }
   }
 

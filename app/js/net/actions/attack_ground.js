@@ -1,5 +1,5 @@
 const DataPackage = require('../../binary/data_package');
-const {Int8, Int16LE,  Int32LE, FloatLE, BytesData} = DataPackage;
+const {Int8, Int16LE,  Int32LE, FloatLE, ArrayData} = DataPackage;
 
 module.exports = class AoeNetAttackGroundAction extends DataPackage {
 
@@ -14,10 +14,10 @@ module.exports = class AoeNetAttackGroundAction extends DataPackage {
       zero: Int16,
       x_coord: Float,
       y_coord: Float,
-      selected_ids: {
+      selected_ids: ArrayData({
         type:  Int32LE,
         length : (that) => that.selection_count
-      }
+      })
     }
   }
 }

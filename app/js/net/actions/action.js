@@ -1,5 +1,5 @@
 const DataPackage = require('../../binary/data_package');
-const {UInt32LE} = DataPackage;
+const {UInt32LE, SwitchData} = DataPackage;
 
 const AoeNetPrimaryAction = require('./primary');
 const AoeNetStopAction = require('./stop');
@@ -25,7 +25,7 @@ module.exports = class AoeNetAction extends DataPackage {
       communication_turn: UInt32LE,
       individual_counter: UInt32LE,
       action_identifier: Int8,
-      action: {
+      action: SwitchData({
           switch: (that) => that.action_identifier,
           cases: {
             0x00: AoeNetPrimaryAction,
@@ -35,7 +35,7 @@ module.exports = class AoeNetAction extends DataPackage {
 
             0x0e: AoeNetGenericAction, // Not standard!
           }
-        }
+        })
       }
     }
 

@@ -1,14 +1,13 @@
 module.exports = class ArrayData {
 
-  // La idea es eliminar la opcion de if (type.length) en el DataPackage
-
-  constructor(length, type) {
+  constructor(length, type , condition) {
     this.length = length;
     this.type = type;
+    this.condition = condition
   }
 
   static of(args) {
-    return new ArrayData(args.length, args.type);
+    return new ArrayData(args.length, args.type, args.condition);
   }
 
   getSize(thePackage) {
@@ -16,7 +15,7 @@ module.exports = class ArrayData {
   }
 
   byteSize(thePackage) {
-    return this.getSize(thePackage) * thePackage._byteSizeForType(this.type);
+    return this.getSize(thePackage) * this.type.byteSize(thePackage);
   }
 
   defaultValue(thePackage) {
@@ -25,16 +24,19 @@ module.exports = class ArrayData {
 
   read(reader, thePackage) {
     let array = [];
+    if (typeof this.condition == 'function' && !this.condition(thePackage)) {
+      return array;
+    }
     let length = this.getSize(thePackage);
     for (let i = 0; i < length; i++) {
-      array.push(thePackage._readType(reader, this.type));
+      array.push(this.type.read(reader, thePackage));
     }
     return array;
   }
 
   write(writer, value, thePackage) {
     for (const aValue of value) {
-      packange._writeType(writer, this.type, aValue);
+      packange._writeType(writer, aValue, thePackage);
     }
   }
 

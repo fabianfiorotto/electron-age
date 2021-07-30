@@ -1,5 +1,5 @@
 const DataPackage = require('../../binary/data_package');
-const {Int8, Int16LE,  Int32LE, FloatLE, BytesData} = DataPackage;
+const {Int8, Int16LE,  Int32LE, FloatLE, ArrayData} = DataPackage;
 
 module.exports = class AoeNetMoveAction extends DataPackage {
 
@@ -16,11 +16,11 @@ module.exports = class AoeNetMoveAction extends DataPackage {
       selection_count: Int8,
       x_coord: FloatLE,
       y_coord: FloatLE,
-      selected_ids: {
+      selected_ids: ArrayData({
         type: Int32LE,
         length: (that) => that.selection_count,
         condition: (that) => that.selection_count < 0xFF
-      }
+      })
     }
   }
 

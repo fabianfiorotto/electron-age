@@ -2,16 +2,17 @@ const StringData = require('./types/string');
 const BytesData = require('./types/bytes');
 const ArrayData = require('./types/array');
 const SwitchData = require('./types/switch');
+const PrimitiveData = require('./types/primitive');
 
 module.exports = class DataPackage {
 
-  static UInt8    = Symbol("UInt8");
-  static UInt16LE = Symbol("UInt16LE");
-  static UInt32LE = Symbol("UInt32LE");
-  static Int8     = Symbol("Int8");
-  static Int16LE  = Symbol("Int16LE");
-  static Int32LE  = Symbol("Int32LE");
-  static FloatLE  = Symbol("FloatLE");
+  static UInt8    = PrimitiveData.ofType(PrimitiveData.UInt8);
+  static UInt16LE = PrimitiveData.ofType(PrimitiveData.UInt16LE);
+  static UInt32LE = PrimitiveData.ofType(PrimitiveData.UInt32LE);
+  static Int8     = PrimitiveData.ofType(PrimitiveData.Int8);
+  static Int16LE  = PrimitiveData.ofType(PrimitiveData.Int16LE);
+  static Int32LE  = PrimitiveData.ofType(PrimitiveData.Int32LE);
+  static FloatLE  = PrimitiveData.ofType(PrimitiveData.FloatLE);
 
   static StringData  = StringData.ofSize;
   static BytesData   = BytesData.ofSize;
@@ -32,55 +33,9 @@ module.exports = class DataPackage {
   loadDefautValues() {
     let attributes = this.constructor.getAttributes();
     for (const [key,type] of Object.entries(attributes)) {
-      this[key] = typeof type === 'symbol' ? 0 : type.defaultValue(this);
+      this[key] = type.defaultValue(this);
     }
   }
-
-  _readType(reader, type) {
-    if (typeof type === 'symbol') {
-      return reader['read' + type.description]();
-    }
-    else if (typeof type.read == 'function'){
-      return type.read(reader, this);
-    }
-    else if (type.switch && type.cases) {
-      let key = type.switch(this);
-      return this._readType(reader, type.cases[key]);
-    }
-    else if (type.length) {
-      let array = [];
-      let length = Number.isInteger(type.length) ? type.length : type.length(this);
-      for (let i = 0; i < length; i++) {
-        array.push(this._readType(reader, type.type));
-      }
-      return array;
-    }
-    else {
-      return this._readType(reader, type.type);
-    }
-  }
-
-  _writeType(writer, type, value) {
-    if (typeof type === 'symbol') {
-      writer['write' + type.description](value);
-    }
-    else if (typeof type.write == 'function') {
-      type.write(writer, value, this);
-    }
-    else if (type.switch && type.cases) {
-      let key = type.switch(this);
-      return this._writeType(writer, type.cases[key], value);
-    }
-    else if (type.length) {
-      for (const aValue of value) {
-        this._writeType(writer, type.type, aValue);
-      }
-    }
-    else {
-      this._writeType(writer, type.type, value);
-    }
-  }
-
 
   static write(writer, value) {
     value.pack(writer);
@@ -101,12 +56,7 @@ module.exports = class DataPackage {
   unpack(reader) {
     let attributes = this.constructor.getAttributes();
     for (const [key,type] of Object.entries(attributes)){
-
-      if (typeof type.condition == 'function' && !type.condition(this)) {
-        continue;
-      }
-
-      let value = this._readType(reader, type);
+      let value = type.read(reader, this);
 
       if (typeof this['unpack_' + key ]  == 'function') {
         value = this['unpack_' + key ](value);
@@ -125,11 +75,6 @@ module.exports = class DataPackage {
 
     let attributes = this.constructor.getAttributes();
     for (const [key,type] of Object.entries(attributes)){
-
-      if (typeof type.condition == 'function' && !type.condition(this)) {
-        continue;
-      }
-
       let value = this[key];
       if (typeof this['pack_' + key ]  == 'function') {
         this[key] = value = this['pack_' + key ]();
@@ -150,28 +95,8 @@ module.exports = class DataPackage {
       }
 
       let value = this[key];
-      this._writeType(writer, type, value);
-    }
-  }
 
-  _byteSizeForType(type) {
-    if (typeof type == 'symbol') {
-      switch (type) {
-        case DataPackage.UInt8:
-        case DataPackage.Int8:
-          return 1;
-        case DataPackage.UInt16LE:
-        case DataPackage.Int16LE:
-          return 2;
-        case DataPackage.UInt32LE:
-        case DataPackage.Int32LE:
-        case DataPackage.FloatLE:
-          return 4;
-      }
-    }
-    else {
-      console.log(type);
-      return type.byteSize();
+      type.write(writer, value, this);
     }
   }
 
@@ -181,14 +106,10 @@ module.exports = class DataPackage {
     let size = 0;
     for (const [key,type] of Object.entries(attributes)) {
       if (this[key] && typeof this[key].byteSize == 'function') {
-        size += this[key].byteSize(this);
-      }
-      else if (type.length) {
-        let length = Number.isInteger(type.length) ? type.length : type.length(this);
-        size += length * this._byteSizeForType(type.type || type);
+        size += this[key].byteSize();
       }
       else {
-        size += this._byteSizeForType(type.type || type);
+        size += type.byteSize(this);
       }
     }
     return size;
