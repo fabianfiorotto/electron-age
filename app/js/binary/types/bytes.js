@@ -13,7 +13,7 @@ module.exports = class BytesData {
   }
 
   defaultValue() {
-    return []; //Empty buffer?
+    return Buffer.alloc(this.size);
   }
 
   read(reader) {

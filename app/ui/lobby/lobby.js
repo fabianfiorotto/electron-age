@@ -38,6 +38,12 @@ module.exports = class Lobby extends UIWidget {
       window.location = '../index.html';
     });
 
+    this.ready.addEventListener('click' , () => {
+      this.package ||= protocol.createLobbyConfig();
+      this.package.command.setReady(1, this.ready.checked);
+      serverProtocol?.broadcast(this.package);
+    });
+
   }
 
   playerConnected() {

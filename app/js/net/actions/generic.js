@@ -40,7 +40,8 @@ module.exports = class AoeNetGenericAction extends DataPackage {
   }
 
 
-  perform(map) {
+  perform() {
+    let map = mapView.map;
     for (var i = 0; i < this.selection_count; i++) {
       let selected = map.entityById(this.selected_ids[i]);
       let civilization = selected.player.civilization;

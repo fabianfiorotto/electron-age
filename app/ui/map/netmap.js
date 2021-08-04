@@ -5,11 +5,6 @@ module.exports = class MapNetView extends MapView {
   bindSocket(socket, protocol) {
     this.socket = socket;
     this.protocol = protocol;
-
-    this.socket.on('data', (data) => {
-      let thePackage = this.protocol.receivePackage(data);
-      thePackage.perform(this.map);
-    });
   }
 
   rightClick(v) {

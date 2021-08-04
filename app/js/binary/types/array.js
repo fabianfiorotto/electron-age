@@ -19,7 +19,8 @@ module.exports = class ArrayData {
   }
 
   defaultValue(thePackage) {
-    return []
+    let length = this.length
+    return Array.from({length}, (v, i) => this.type.defaultValue(thePackage));
   }
 
   read(reader, thePackage) {
@@ -36,7 +37,7 @@ module.exports = class ArrayData {
 
   write(writer, value, thePackage) {
     for (const aValue of value) {
-      packange._writeType(writer, aValue, thePackage);
+      this.type.write(writer, aValue, thePackage);
     }
   }
 

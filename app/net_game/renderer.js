@@ -26,6 +26,8 @@ serverConnect = function(protocol, port, callback) {
     socket.on('data', function(data) {
       let thePackage = protocol.receivePackage(data);
       let command = thePackage.command;
+      thePackage.perform();
+
       if (protocol.isConnecting(thePackage)) {
         protocol.broadcast(thePackage); ///???
 
@@ -62,6 +64,7 @@ clientConnect = function(client, protocol, server, port = 1337) {
 
   client.on('data', function(data) {
     let thePackage = protocol.receivePackage(data);
+    thePackage.perform();
     console.log(thePackage);
     if (protocol.isConnecting(thePackage)) {
       lobby.playerConnected();
@@ -87,7 +90,7 @@ else {
   mapView = new MapView();
 }
 let debugInfo = new DebugInfo();
-let lobby = new Lobby();
+var lobby = new Lobby();
 
 if (urlParams.has('server')) {
   var client = new net.Socket();

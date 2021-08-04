@@ -53,4 +53,19 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
     }
   }
 
+  flipBit(byte, pos, value) {
+    let bits = 2 ** (pos - 1);
+    return value ? (byte | bits) : (byte & (255 ^ bits));
+  }
+
+  setReady(playerId , value) {
+    this.ready = this.flipBit(this.ready, playerId, value)
+  }
+
+  perform() {
+    if (lobby && lobby.ready) {
+      lobby.ready.checked = !!this.ready;
+    }
+  }
+
 }

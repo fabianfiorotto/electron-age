@@ -24,7 +24,8 @@ module.exports = class AoeNetMoveAction extends DataPackage {
     }
   }
 
-  perform(map) {
+  perform() {
+    let map = mapView.map;
     for (var i = 0; i < this.selection_count; i++) {
       let selected = map.entityById(this.selected_ids[i]);
       let f = map.formationPos(i);

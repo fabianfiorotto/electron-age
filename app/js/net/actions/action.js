@@ -39,7 +39,7 @@ module.exports = class AoeNetAction extends DataPackage {
       }
     }
 
-    perform(map) {
-      this.action.perform(map);
+    perform() {
+      this.action.perform();
     }
   }
