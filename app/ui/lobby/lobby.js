@@ -39,11 +39,29 @@ module.exports = class Lobby extends UIWidget {
     });
 
     this.ready.addEventListener('click' , () => {
-      this.package ||= protocol.createLobbyConfig();
-      this.package.command.setReady(1, this.ready.checked);
-      serverProtocol?.broadcast(this.package);
+      this.sendPackage();
     });
 
+    this.settings.onChange(() => {
+      this.sendPackage();
+    });
+
+  }
+
+  sendPackage() {
+    let thePackage = protocol.createLobbyConfig();
+    this.loadPackage(thePackage.command);
+    serverProtocol?.broadcast(thePackage);
+  }
+
+  loadPackage(command) {
+    command.setReady(1, this.ready.checked);
+    this.settings.loadPackage(command);
+  }
+
+  loadFromPackage(command) {
+    this.checked = !!command.ready;
+    this.settings.loadFromPackage(command);
   }
 
   playerConnected() {

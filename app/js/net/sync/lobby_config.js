@@ -1,5 +1,5 @@
 const DataPackage = require('../../binary/data_package');
-const {Int32LE, Int16LE, Int8, BytesData, ArrayData} = DataPackage;
+const {Int32LE, Int16LE, Int8, UInt8, BytesData, ArrayData} = DataPackage;
 
 module.exports = class AoeNetLobbyConfig extends DataPackage {
 
@@ -18,10 +18,12 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
         type: Int32LE,
       }),
 
-      ready: Int8,
+      ready: UInt8,
 
       sixtyNineBytes: BytesData(69), // ??
 
+      checkboxes: UInt8,
+      reveal_map_and_game_speed: Int8,
       starting_age_and_resources: Int8,
       map_size_and_difficulty: Int8,
       map_id: Int8,
@@ -53,18 +55,33 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
     }
   }
 
-  flipBit(byte, pos, value) {
+  setBit(byte, pos, value) {
     let bits = 2 ** (pos - 1);
     return value ? (byte | bits) : (byte & (255 ^ bits));
   }
 
+  getBit(byte, pos) {
+    let bits = 2 ** (pos - 1);
+    return !!(bits & byte)
+  }
+
   setReady(playerId , value) {
-    this.ready = this.flipBit(this.ready, playerId, value)
+    this.ready = this.setBit(this.ready, playerId, value)
+  }
+
+  setCheckbox(checkbox, value) {
+    value = !!((checkbox == 7) ^ value);
+    this.checkboxes = this.setBit(this.checkboxes, checkbox, value);
+  }
+
+  getCheckbox(checkbox) {
+    let value = this.getBit(this.checkboxes, checkbox)
+    return !!((checkbox == 7) ^ value)
   }
 
   perform() {
     if (lobby && lobby.ready) {
-      lobby.ready.checked = !!this.ready;
+      lobby.loadFromPackage(this);
     }
   }
 

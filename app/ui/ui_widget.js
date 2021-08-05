@@ -1,9 +1,12 @@
 const fs = require('fs').promises;
+const {Emitter} = require('event-kit')
+
 
 module.exports = class UIWidget {
 
   constructor() {
     document.addEventListener('mapLoaded', (e)=> this.bindMap(e.map), false);
+    this.emitter = new Emitter();
   }
 
   template() {
@@ -126,6 +129,10 @@ module.exports = class UIWidget {
 
   querySelector(selector) {
     return this.element.querySelector(selector);
+  }
+
+  querySelectorAll(selector) {
+    return this.element.querySelectorAll(selector);
   }
 
   async loadResources(res) {

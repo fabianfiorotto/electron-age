@@ -19,7 +19,7 @@ module.exports = class ArrayData {
   }
 
   defaultValue(thePackage) {
-    let length = this.length
+    let length = this.getSize(thePackage);
     return Array.from({length}, (v, i) => this.type.defaultValue(thePackage));
   }
 

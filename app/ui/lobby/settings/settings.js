@@ -24,6 +24,33 @@ module.exports = class LobbySettings extends UIWidget {
       this.options['mapSize'] = this.mapSize.value;
     });
 
+    this.checkboxes = this.querySelectorAll('.checkboxes input');
+    for (let checkbox of this.checkboxes) {
+      checkbox.addEventListener('change', (e) => {
+        this.emitter.emit('did-change')
+      });
+    }
+
+  }
+
+  loadPackage(command) {
+    for (let checkbox of this.checkboxes) {
+      if (checkbox.value) {
+        command.setCheckbox(parseInt(checkbox.value), checkbox.checked)
+      }
+    }
+  }
+
+  loadFromPackage(command) {
+    for (let checkbox of this.checkboxes) {
+      if (checkbox.value) {
+        checkbox.checked = command.getCheckbox(parseInt(checkbox.value))
+      }
+    }
+  }
+
+  onChange(bk) {
+    return this.emitter.on('did-change', bk)
   }
 
 }
