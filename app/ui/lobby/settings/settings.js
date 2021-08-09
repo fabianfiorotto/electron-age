@@ -5,6 +5,16 @@ module.exports = class LobbySettings extends UIWidget {
   constructor(options) {
     super();
     this.options = options;
+
+    this.mapSizeOptions = {
+      "0x00": 120,
+      "0x10": 144,
+      "0x20": 168,
+      "0x30": 200,
+      "0x40": 220,
+      "0x50": 240,
+    };
+
   }
 
   template() {
@@ -18,15 +28,28 @@ module.exports = class LobbySettings extends UIWidget {
       this.options['maxPopulation'] = this.maxPopulation.value;
     });
 
-    this.mapSize = $('.mapSize');
-    this.options['mapSize'] = this.mapSize.value;
+    this.mapSize = $('.map-size');
+    this.options['mapSize'] = this.mapSizeOptions[this.mapSize.value];
     this.mapSize.addEventListener('change', (e) => {
-      this.options['mapSize'] = this.mapSize.value;
+      this.options['mapSize'] = this.mapSizeOptions[this.mapSize.value];
     });
+
+    this.revealMap = $('.reveal-map');
+    this.gameSpeed = $('.game-speed');
+    this.startingAge = $('.starting-age');
+    this.startingResources = $('.starting-resources');
+    this.mapSize2 = $('.map-size');
+    this.difficulty = $('.difficulty');
 
     this.checkboxes = this.querySelectorAll('.checkboxes input');
     for (let checkbox of this.checkboxes) {
       checkbox.addEventListener('change', (e) => {
+        this.emitter.emit('did-change')
+      });
+    }
+    this.selects = this.querySelectorAll('select');
+    for (let select of this.selects) {
+      select.addEventListener('change', (e) => {
         this.emitter.emit('did-change')
       });
     }
@@ -39,6 +62,12 @@ module.exports = class LobbySettings extends UIWidget {
         command.setCheckbox(parseInt(checkbox.value), checkbox.checked)
       }
     }
+    command.setRevealMap(parseInt(this.revealMap.value));
+    command.setGameSpeed(parseInt(this.gameSpeed.value));
+    command.setStartingAges(parseInt(this.startingAge.value));
+    command.setStartingResources(parseInt(this.startingResources.value));
+    command.setMapSize(parseInt(this.mapSize2.value));
+    command.setDifficulty(parseInt(this.difficulty.value));
   }
 
   loadFromPackage(command) {
@@ -47,10 +76,20 @@ module.exports = class LobbySettings extends UIWidget {
         checkbox.checked = command.getCheckbox(parseInt(checkbox.value))
       }
     }
+    this.revealMap.value = this._hex(command.getRevealMap());
+    this.gameSpeed.value = this._hex(command.getGameSpeed());
+    this.startingAge.value = this._hex(command.getStartingAges());
+    this.startingResources.value = this._hex(command.getStartingResources());
+    this.mapSize2.value = this._hex(command.getMapSize());
+    this.difficulty.value = this._hex(command.getDifficulty());
   }
 
   onChange(bk) {
     return this.emitter.on('did-change', bk)
+  }
+
+  _hex(value) {
+    return '0x' + value.toString(16).padStart(2, '0');
   }
 
 }

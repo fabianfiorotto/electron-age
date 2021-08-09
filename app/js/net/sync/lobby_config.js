@@ -23,9 +23,9 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
       sixtyNineBytes: BytesData(69), // ??
 
       checkboxes: UInt8,
-      reveal_map_and_game_speed: Int8,
-      starting_age_and_resources: Int8,
-      map_size_and_difficulty: Int8,
+      reveal_map_and_game_speed: UInt8,
+      starting_age_and_resources: UInt8,
+      map_size_and_difficulty: UInt8,
       map_id: Int8,
       victory: Int8,
       oneByte: Int8, // ??
@@ -77,6 +77,60 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
   getCheckbox(checkbox) {
     let value = this.getBit(this.checkboxes, checkbox)
     return !!((checkbox == 7) ^ value)
+  }
+
+  setRevealMap(value) {
+    let byte = this.reveal_map_and_game_speed;
+    this.reveal_map_and_game_speed = (byte & 0xf3) | (value & 0x0c);
+  }
+
+  getRevealMap() {
+    return this.reveal_map_and_game_speed & 0x0c;
+  }
+
+  setGameSpeed(value) {
+    let byte = this.reveal_map_and_game_speed;
+    this.reveal_map_and_game_speed = (byte & 0xfc) | (value & 0x03);
+  }
+
+  getGameSpeed() {
+    return this.reveal_map_and_game_speed & 0x03;
+  }
+
+  setStartingAges(value) {
+    let byte = this.starting_age_and_resources;
+    this.starting_age_and_resources = (byte & 0x0f) | (value & 0xf0);
+  }
+
+  getStartingAges() {
+    return this.starting_age_and_resources & 0xf0;
+  }
+
+  setStartingResources(value) {
+    let byte = this.starting_age_and_resources;
+    this.starting_age_and_resources = (byte & 0xf0) | (value & 0x0f);
+  }
+
+  getStartingResources() {
+    return this.starting_age_and_resources & 0x0f;
+  }
+
+  setMapSize(value) {
+    let byte = this.map_size_and_difficulty;
+    this.map_size_and_difficulty = (byte & 0x0f) | (value & 0xf0);
+  }
+
+  getMapSize() {
+    return this.map_size_and_difficulty & 0xf0;
+  }
+
+  setDifficulty(value) {
+    let byte = this.map_size_and_difficulty;
+    this.map_size_and_difficulty = (byte & 0xf0) | (value & 0x0f);
+  }
+
+  getDifficulty() {
+    return this.map_size_and_difficulty & 0x0f;
   }
 
   perform() {

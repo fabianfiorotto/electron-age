@@ -13,25 +13,32 @@
   </div>
   <div class="">
     Map Size
-    <select class="mapSize" name="">
-      <option value="120">Tiny (2 players)</option>
-      <option value="144">Small (3 players)</option>
-      <option value="168">Medium (4 players)</option>
-      <option value="200">Normal (6 players)</option>
-      <option value="220">Large</option>
-      <option value="240">Gigant</option>
+    <select class="map-size" name="">
+      <option value="0x00">Tiny (2 players)</option>
+      <option value="0x10">Small (3 players)</option>
+      <option value="0x20">Medium (4 players)</option>
+      <option value="0x30">Normal (6 players)</option>
+      <option value="0x40">Large</option>
+      <option value="0x50">Gigant</option>
     </select>
   </div>
   <div class="">
     Difficulty
-    <select class="" name="">
-      <option value="test">Standard</option>
+    <select class="difficulty" name="">
+      <option value="0x04">Very Easy</option>
+      <option value="0x03" selected="selected">Standard</option>
+      <option value="0x02">Medium</option>
+      <option value="0x01">Hard</option>
+      <option value="0x00">Hardest</option>
     </select>
   </div>
   <div class="">
     Resources
-    <select class="" name="">
-      <option value="test">Standard</option>
+    <select class="starting-resources" name="">
+      <option value="0x00">Standard</option>
+      <option value="0x01">Low</option>
+      <option value="0x02">Medium</option>
+      <option value="0x03">High</option>
     </select>
   </div>
   <div class="">
@@ -45,26 +52,39 @@
   </div>
   <div class="">
     Game Speed
-    <select class="" name="">
-      <option value="test">Normal</option>
+    <select class="game-speed" name="">
+      <option value="0x01">Slow</option>
+      <option value="0x02" selected="selected">Normal</option>
+      <option value="0x03">Fast</option>
     </select>
   </div>
   <div class="">
     Reveal Map
-    <select class="" name="">
-      <option value="test">Normal</option>
+    <select class="reveal-map" name="">
+      <option value="0x00">Normal</option>
+      <option value="0x04">Visible</option>
+      <option value="0x08">Explored</option>
     </select>
   </div>
   <div class="">
     Starting Age
-    <select class="" name="">
-      <option value="test">Standard</option>
+    <select class="starting-age" name="">
+      <option value="0x00">Standard</option>
+      <option value="0x20">Dark</option>
+      <option value="0x30">Feudal</option>
+      <option value="0x40">Castle</option>
+      <option value="0x50">Imperial</option>
+      <option value="0x60">Post-Imperial</option>
     </select>
   </div>
   <div class="">
     Victory
     <select class="" name="">
-      <option value="test">Standard</option>
+      <option value="0x00">Standard</option>
+      <option value="0x01">Conquest</option>
+      <option value="0x07">Time Limit</option>
+      <option value="0x08">Score</option>
+      <option value="0x0b">Last Man Standing</option>
     </select>
   </div>
 
