@@ -68,6 +68,8 @@ module.exports = class LobbySettings extends UIWidget {
     command.setStartingResources(parseInt(this.startingResources.value));
     command.setMapSize(parseInt(this.mapSize2.value));
     command.setDifficulty(parseInt(this.difficulty.value));
+    command.max_population = parseInt(this.maxPopulation.value);
+
   }
 
   loadFromPackage(command) {
@@ -82,6 +84,8 @@ module.exports = class LobbySettings extends UIWidget {
     this.startingResources.value = this._hex(command.getStartingResources());
     this.mapSize2.value = this._hex(command.getMapSize());
     this.difficulty.value = this._hex(command.getDifficulty());
+
+    this.maxPopulation.value = command.max_population;
   }
 
   onChange(bk) {

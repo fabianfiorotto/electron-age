@@ -30,7 +30,7 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
       victory: Int8,
       oneByte: Int8, // ??
       victory_limit: Int16LE,
-      max_population: Int8,
+      max_population: UInt8,
       eightBytes: BytesData(8), // ??
 
       player_civ_id: ArrayData({
