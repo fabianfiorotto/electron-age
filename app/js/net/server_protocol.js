@@ -10,7 +10,7 @@ module.exports = class AoeNetServerProtocol extends AoeNetProtocol {
   connectionAccepedPackage() {
     let thePackage = this.createPackage();
     thePackage.command = this.createLobbyTurn();
-    thePackage.network_dest_id = this.last_id++;
+    thePackage.network_dest_id = ++this.last_id;
     return thePackage;
   }
 

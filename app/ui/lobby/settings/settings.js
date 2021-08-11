@@ -42,18 +42,22 @@ module.exports = class LobbySettings extends UIWidget {
     this.difficulty = $('.difficulty');
 
     this.checkboxes = this.querySelectorAll('.checkboxes input');
-    for (let checkbox of this.checkboxes) {
-      checkbox.addEventListener('change', (e) => {
-        this.emitter.emit('did-change')
-      });
-    }
+    this._bindInputs(this.checkboxes);
     this.selects = this.querySelectorAll('select');
-    for (let select of this.selects) {
-      select.addEventListener('change', (e) => {
-        this.emitter.emit('did-change')
-      });
-    }
+    this._bindInputs(this.selects);
+  }
 
+  _bindInputs(inputs) {
+    for (let input of inputs) {
+      if (this.isHost()) {
+        input.addEventListener('change', (e) => {
+          this.emitter.emit('did-change')
+        });
+      }
+      else {
+        input.setAttribute('disabled', 'disabled');
+      }
+    }
   }
 
   loadPackage(command) {
@@ -70,6 +74,13 @@ module.exports = class LobbySettings extends UIWidget {
     command.setDifficulty(parseInt(this.difficulty.value));
     command.max_population = parseInt(this.maxPopulation.value);
 
+    for (var i = 0; i < 8; i++) {
+      let networkId = 0;
+      if (this.isHost() && serverProtocol.clients[i]) {
+        networkId = serverProtocol.clients[i].id;
+      }
+      command.player_network_ids[i] = networkId;
+    }
   }
 
   loadFromPackage(command) {
@@ -86,6 +97,10 @@ module.exports = class LobbySettings extends UIWidget {
     this.difficulty.value = this._hex(command.getDifficulty());
 
     this.maxPopulation.value = command.max_population;
+  }
+
+  isHost() {
+    return typeof serverProtocol != 'undefined';
   }
 
   onChange(bk) {

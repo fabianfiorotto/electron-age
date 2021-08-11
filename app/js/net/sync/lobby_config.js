@@ -65,8 +65,12 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
     return !!(bits & byte)
   }
 
-  setReady(playerId , value) {
+  setReady(playerId, value) {
     this.ready = this.setBit(this.ready, playerId, value)
+  }
+
+  getReady(playerId) {
+    return this.getBit(this.ready, playerId)
   }
 
   setCheckbox(checkbox, value) {

@@ -6,6 +6,7 @@ const NetAction = require('./actions/action');
 const LobbyTurn = require('./sync/lobby_turn');
 const LobbyClock = require('./sync/lobby_clock');
 const LobbyConfig = require('./sync/lobby_config');
+const LobbyReady = require('./sync/lobby_ready');
 
 module.exports = class AoeNetPackage extends DataPackage {
 
@@ -34,7 +35,7 @@ module.exports = class AoeNetPackage extends DataPackage {
           // 0x44 	Sync
           // 0x4d 	Sync
           // 0x51 	De-Sync
-          // 0x52 	Readying (Lobby)
+          0x52: LobbyReady,
           0x53: LobbyTurn,
           0x5a: LobbyConfig
         },

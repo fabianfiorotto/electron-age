@@ -11,6 +11,7 @@ const AoeNetPackage = require('./package');
 const LobbyTurn = require('./sync/lobby_turn');
 const LobbyClock = require('./sync/lobby_clock');
 const LobbyConfig = require('./sync/lobby_config');
+const LobbyReady = require('./sync/lobby_ready');
 
 module.exports = class AoeNetProtocol {
 
@@ -99,6 +100,14 @@ module.exports = class AoeNetProtocol {
   createLobbyConfig() {
     let thePackage = this.createPackage();
     let config = new LobbyConfig();
+    config.loadDefautValues();
+    thePackage.command = config;
+    return thePackage;
+  }
+
+  createLobbyReady() {
+    let thePackage = this.createPackage();
+    let config = new LobbyReady();
     config.loadDefautValues();
     thePackage.command = config;
     return thePackage;

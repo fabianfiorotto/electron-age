@@ -39,13 +39,22 @@ module.exports = class Lobby extends UIWidget {
     });
 
     this.ready.addEventListener('click' , () => {
-      this.sendPackage();
+      // this.sendPackage();
+      this.sendReadyPackage();
     });
 
     this.settings.onChange(() => {
       this.sendPackage();
     });
 
+    setTimeout(() => this.sendReadyPackage(), 300); // TODO REMOVE THIS HACK!!
+  }
+
+  sendReadyPackage() {
+    let thePackage = protocol.createLobbyReady();
+    thePackage.command.value   = this.ready.checked ? 1    : 0;
+    thePackage.command.unknow2 = this.ready.checked ? 0x04 : 0;
+    protocol.sendPackage(client, thePackage);
   }
 
   sendPackage() {
@@ -55,17 +64,23 @@ module.exports = class Lobby extends UIWidget {
   }
 
   loadPackage(command) {
-    command.setReady(1, this.ready.checked);
     this.settings.loadPackage(command);
+    this.players.loadPackage(command);
   }
 
   loadFromPackage(command) {
     this.checked = !!command.ready;
     this.settings.loadFromPackage(command);
+    this.players.loadFromPackage(command);
   }
 
   playerConnected() {
     this.players.playerConnected();
+  }
+
+  setPlayerReady(playerId, value) {
+    this.players.setReady(playerId, value);
+    this.sendPackage();
   }
 
   async loadResources(res) {
