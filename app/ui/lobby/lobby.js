@@ -38,14 +38,9 @@ module.exports = class Lobby extends UIWidget {
       window.location = '../index.html';
     });
 
-    this.ready.addEventListener('click' , () => {
-      // this.sendPackage();
-      this.sendReadyPackage();
-    });
-
-    this.settings.onChange(() => {
-      this.sendPackage();
-    });
+    this.ready.addEventListener('click' ,()=> this.sendReadyPackage());
+    this.settings.onChange(() => this.sendConfigPackage());
+    this.players.onChange(() => this.sendConfigPackage());
 
     setTimeout(() => this.sendReadyPackage(), 300); // TODO REMOVE THIS HACK!!
   }
@@ -57,7 +52,7 @@ module.exports = class Lobby extends UIWidget {
     protocol.sendPackage(client, thePackage);
   }
 
-  sendPackage() {
+  sendConfigPackage() {
     let thePackage = protocol.createLobbyConfig();
     this.loadPackage(thePackage.command);
     serverProtocol?.broadcast(thePackage);
@@ -80,7 +75,7 @@ module.exports = class Lobby extends UIWidget {
 
   setPlayerReady(playerId, value) {
     this.players.setReady(playerId, value);
-    this.sendPackage();
+    this.sendConfigPackage();
   }
 
   async loadResources(res) {

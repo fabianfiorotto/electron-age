@@ -19,6 +19,13 @@ module.exports = class LobbyPlayers extends UIWidget {
       let tr1 = tr.cloneNode(true);
       tbody.appendChild(tr1);
     }
+
+    let inputs = this.querySelectorAll('select, input');
+    for (let input of inputs) {
+      input.addEventListener('change', (e) => {
+        this.emitter.emit('did-change')
+      });
+    }
   }
 
   playerConnected() {
@@ -38,8 +45,11 @@ module.exports = class LobbyPlayers extends UIWidget {
     let selects = this.table.querySelectorAll('select.status');
     for (var i = 0; i < 8; i++) {
       let playerReady = this.players[i].ready;
-      let isSystem = selects[i].value == 'system'
-      command.setReady(i + 1, playerReady || isSystem);
+      let isSystem = selects[i].value == 'system';
+      let isClosed = selects[i].value == 'closed';
+      command.setReady(i + 1, playerReady || isSystem || isClosed);
+
+      command.player_civ_id[i] = isClosed ? 0 : 1;
     }
   }
 
@@ -50,10 +60,19 @@ module.exports = class LobbyPlayers extends UIWidget {
         selects[i].value = 'player';
         selects[i].setAttribute('disabled', 'disabled');
       }
-      else if (command.getReady(i + 1)) {
+      else if (!command.getReady(i + 1)) {
+        selects[i].value = 'open';
+      }
+      else if (command.player_civ_id[i]) {
         selects[i].value = 'system';
+      }
+      else {
+        selects[i].value = 'closed';
       }
     }
   }
 
+  onChange(bk) {
+    return this.emitter.on('did-change', bk)
+  }
 }
