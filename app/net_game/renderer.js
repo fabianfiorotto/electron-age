@@ -31,12 +31,14 @@ serverConnect = function(protocol, port, callback) {
       if (protocol.isConnecting(thePackage)) {
         protocol.broadcast(thePackage); ///???
 
-        let config = protocol.createLobbyConfig();
-        protocol.sendPackage(socket, config);
-
         thePackage = protocol.connectionAccepedPackage();
         protocol.sendPackage(socket, thePackage);
         protocol.addClient(socket, thePackage);
+
+        setTimeout(() => {
+          let config = protocol.createLobbyConfig();
+          protocol.broadcast(config);
+        }, 300); // TODO REMOVE THIS HACK!!
       }
       else {
         protocol.broadcast(thePackage)
@@ -64,11 +66,10 @@ clientConnect = function(client, protocol, server, port = 1337) {
 
   client.on('data', function(data) {
     let thePackage = protocol.receivePackage(data);
-    thePackage.perform();
-    console.log(thePackage);
     if (protocol.isConnecting(thePackage)) {
-      lobby.playerConnected();
+      protocol.networkId = thePackage.network_dest_id;
     }
+    thePackage.perform();
   });
 
   client.on('close', function() {
@@ -84,33 +85,21 @@ let urlParams = new URLSearchParams(queryString);
 
 var mapView;
 if (urlParams.has('server')) {
+  let server = urlParams.get('server') || '127.0.0.1';
   mapView = new NetMapView();
+
+  var client = new net.Socket();
+  var protocol = new AoeNetProtocol();
+  var serverProtocol;
+  if (server == 'create') {
+    serverProtocol = new AoeNetServerProtocol();
+  }
 }
 else {
   mapView = new MapView();
 }
 let debugInfo = new DebugInfo();
 var lobby = new Lobby();
-
-if (urlParams.has('server')) {
-  var client = new net.Socket();
-  var protocol = new AoeNetProtocol();
-  var serverProtocol;
-
-  let server = urlParams.get('server') || '127.0.0.1';
-
-  if (server == 'create') {
-    serverProtocol = new AoeNetServerProtocol();
-    server = '127.0.0.1';
-    serverConnect(serverProtocol, () => {
-      clientConnect(client, protocol, server);
-    });
-  }
-  else {
-    clientConnect(client, protocol, server);
-  }
-
-}
 
 var loop = async () => {
   for await(let _null of resources.timeoutIterable()) {
@@ -125,5 +114,18 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   await mapView.bind('map');
   await lobby.bind('lobby');
+
+  if (urlParams.has('server')) {
+    let server = urlParams.get('server') || '127.0.0.1';
+    if (server == 'create') {
+      server = '127.0.0.1';
+      serverConnect(serverProtocol, () => {
+        clientConnect(client, protocol, server);
+      });
+    }
+    else {
+      clientConnect(client, protocol, server);
+    }
+  }
 
 });

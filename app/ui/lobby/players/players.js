@@ -2,11 +2,6 @@ const UIWidget = require('../../ui_widget');
 
 module.exports = class LobbyPlayers extends UIWidget {
 
-  constructor() {
-    super();
-    this.players = Array.from({length: 8}, () => ({ready: false}));
-  }
-
   template() {
     return 'lobby/players';
   }
@@ -28,23 +23,21 @@ module.exports = class LobbyPlayers extends UIWidget {
     }
   }
 
-  playerConnected() {
-    let option = this.table.querySelector('option[value=open]:checked')
-    if (option) {
-      let select = option.parentNode;
-      select.value = 'player';
-      select.setAttribute('disabled', 'disabled');
+  setReady(playerId, value) {
+    let checkboxes = this.table.querySelectorAll('input.ready');
+    if (value) {
+      checkboxes[playerId - 1].setAttribute('checked', 'checked');
+    }
+    else {
+      checkboxes[playerId - 1].removeAttribute('checked');
     }
   }
 
-  setReady(playerId, value) {
-    this.players[playerId].ready = value;
-  }
-
   loadPackage(command) {
+    let checkboxes = this.table.querySelectorAll('input.ready');
     let selects = this.table.querySelectorAll('select.status');
     for (var i = 0; i < 8; i++) {
-      let playerReady = this.players[i].ready;
+      let playerReady = checkboxes[i].hasAttribute('checked');
       let isSystem = selects[i].value == 'system';
       let isClosed = selects[i].value == 'closed';
       command.setReady(i + 1, playerReady || isSystem || isClosed);
@@ -56,6 +49,7 @@ module.exports = class LobbyPlayers extends UIWidget {
   loadFromPackage(command) {
     let selects = this.table.querySelectorAll('select.status');
     for (let i = 0; i < 8; i++) {
+      this.setReady(i + 1, command.getReady(i + 1));
       if (command.player_network_ids[i]) {
         selects[i].value = 'player';
         selects[i].setAttribute('disabled', 'disabled');

@@ -71,6 +71,9 @@ body {
 .lobby .players table {
   width: 100%; }
 
+.lobby .players .ready {
+  display: none; }
+
 .lobby .chat {
   text-align: left; }
   .lobby .chat input {

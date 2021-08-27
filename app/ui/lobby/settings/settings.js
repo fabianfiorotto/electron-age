@@ -49,7 +49,7 @@ module.exports = class LobbySettings extends UIWidget {
 
   _bindInputs(inputs) {
     for (let input of inputs) {
-      if (this.isHost()) {
+      if (protocol.isHost()) {
         input.addEventListener('change', (e) => {
           this.emitter.emit('did-change')
         });
@@ -76,7 +76,7 @@ module.exports = class LobbySettings extends UIWidget {
 
     for (var i = 0; i < 8; i++) {
       let networkId = 0;
-      if (this.isHost() && serverProtocol.clients[i]) {
+      if (protocol.isHost() && serverProtocol.clients[i]) {
         networkId = serverProtocol.clients[i].id;
       }
       command.player_network_ids[i] = networkId;
@@ -97,10 +97,6 @@ module.exports = class LobbySettings extends UIWidget {
     this.difficulty.value = this._hex(command.getDifficulty());
 
     this.maxPopulation.value = command.max_population;
-  }
-
-  isHost() {
-    return typeof serverProtocol != 'undefined';
   }
 
   onChange(bk) {

@@ -1,7 +1,7 @@
 const DataPackage = require('../../binary/data_package');
 const {Int32LE} = DataPackage;
 
-module.exports = class AoeNetSyncLobbyTurn extends DataPackage {
+module.exports = class AoeNetSyncLobbyClock extends DataPackage {
 
 
   static HOST_CONNECTING1 = 0x32d2a4;

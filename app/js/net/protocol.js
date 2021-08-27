@@ -10,7 +10,6 @@ const Generic = require('./actions/generic');
 const AoeNetPackage = require('./package');
 const LobbyTurn = require('./sync/lobby_turn');
 const LobbyClock = require('./sync/lobby_clock');
-const LobbyConfig = require('./sync/lobby_config');
 const LobbyReady = require('./sync/lobby_ready');
 
 module.exports = class AoeNetProtocol {
@@ -18,6 +17,7 @@ module.exports = class AoeNetProtocol {
   constructor() {
     this.writer = new BinaryWritter();
     this.reader = new BinaryReader();
+    this.networkId = 0;
   }
 
   isConnecting(thePackage) {
@@ -65,8 +65,7 @@ module.exports = class AoeNetProtocol {
 
   createPackage() {
     let thePackage = new AoeNetPackage();
-
-    thePackage.network_source_id = 3222;
+    thePackage.network_source_id = protocol.network_id;
     thePackage.network_dest_id = 2111;
     thePackage.option1 = 21;
     thePackage.option2 = 22;
@@ -97,14 +96,6 @@ module.exports = class AoeNetProtocol {
     return sync;
   }
 
-  createLobbyConfig() {
-    let thePackage = this.createPackage();
-    let config = new LobbyConfig();
-    config.loadDefautValues();
-    thePackage.command = config;
-    return thePackage;
-  }
-
   createLobbyReady() {
     let thePackage = this.createPackage();
     let config = new LobbyReady();
@@ -122,6 +113,10 @@ module.exports = class AoeNetProtocol {
   receivePackage(data) {
     this.reader.loadBuffer(data);
     return AoeNetPackage.read(this.reader);
+  }
+
+  isHost() {
+    return typeof serverProtocol != 'undefined';
   }
 
 }

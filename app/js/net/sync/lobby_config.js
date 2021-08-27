@@ -138,9 +138,7 @@ module.exports = class AoeNetLobbyConfig extends DataPackage {
   }
 
   perform() {
-    if (lobby && lobby.ready) {
-      lobby.loadFromPackage(this);
-    }
+    lobby.loadFromPackage(this);
   }
 
 }
