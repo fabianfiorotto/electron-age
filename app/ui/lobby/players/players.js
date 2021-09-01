@@ -36,20 +36,24 @@ module.exports = class LobbyPlayers extends UIWidget {
   loadPackage(command) {
     let checkboxes = this.table.querySelectorAll('input.ready');
     let selects = this.table.querySelectorAll('select.status');
+    let teams = this.table.querySelectorAll('input.player-team');
     for (var i = 0; i < 8; i++) {
       let playerReady = checkboxes[i].hasAttribute('checked');
       let isSystem = selects[i].value == 'system';
       let isClosed = selects[i].value == 'closed';
       command.setReady(i + 1, playerReady || isSystem || isClosed);
 
+      command.teams[i] = parseInt(teams[i].value) || 0;
       command.player_civ_id[i] = isClosed ? 0 : 1;
     }
   }
 
   loadFromPackage(command) {
     let selects = this.table.querySelectorAll('select.status');
+    let teams = this.table.querySelectorAll('input.player-team');
     for (let i = 0; i < 8; i++) {
       this.setReady(i + 1, command.getReady(i + 1));
+      teams[i].value = command.teams[i];
       if (command.player_network_ids[i]) {
         selects[i].value = 'player';
         selects[i].setAttribute('disabled', 'disabled');

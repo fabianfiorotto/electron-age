@@ -58,9 +58,6 @@ module.exports = class DataPackage {
     for (const [key,type] of Object.entries(attributes)){
       let value = type.read(reader, this);
 
-      if (typeof this['unpack_' + key ]  == 'function') {
-        value = this['unpack_' + key ](value);
-      }
       this[key] = value;
     }
 
@@ -76,9 +73,6 @@ module.exports = class DataPackage {
     let attributes = this.constructor.getAttributes();
     for (const [key,type] of Object.entries(attributes)){
       let value = this[key];
-      if (typeof this['pack_' + key ]  == 'function') {
-        this[key] = value = this['pack_' + key ]();
-      }
       if (value && typeof value._preparePackage  == 'function') {
         value._preparePackage();
       }

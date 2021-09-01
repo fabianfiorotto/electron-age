@@ -27,7 +27,7 @@ module.exports = class AoeNetProtocol {
 
   createGeneric(actionName) {
     let generic = new Generic();
-    generic.actionName = actionName;
+    generic.setActionName(actionName);
     return generic;
   }
 

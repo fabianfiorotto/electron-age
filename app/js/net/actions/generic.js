@@ -27,18 +27,14 @@ module.exports = class AoeNetGenericAction extends DataPackage {
     }
   }
 
-  unpack_actionName(value) {
-    return Buffer.from(value).toString('utf8');
+  setActionName(value) {
+    this.actionName = Buffer.from(value, 'utf8');
+    this.actionNameLenght = value.length;
   }
 
-  pack_actionName() {
-    return Buffer.from(this.actionName, 'utf8');
+  getActionName() {
+    return Buffer.from(this.actionName).toString('utf8');
   }
-
-  pack_actionNameLenght() {
-    return this.actionName.length;
-  }
-
 
   perform() {
     let map = mapView.map;
@@ -46,7 +42,8 @@ module.exports = class AoeNetGenericAction extends DataPackage {
       let selected = map.entityById(this.selected_ids[i]);
       let civilization = selected.player.civilization;
       let controls = civilization.getControls(selected);
-      let control = controls[this.actionName];
+      let actionName = this.getActionName();
+      let control = controls[actionName];
       selected.operationInit(control);
     }
   }
