@@ -2,7 +2,9 @@
 
 
 An implementation of the game "Age of Empires Conqueror" on Electron. <br>
-This is just a prof of concept. It doesn't pretend to be a serius project.
+This is just a proof of concept. It doesn't pretend to be a serious project.
+
+![](https://raw.githubusercontent.com/fabianfiorotto/electron-age/master/screenshots/game.png)
 
 ## Requirementes
 * Node v14
