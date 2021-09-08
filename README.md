@@ -1,7 +1,7 @@
 # AGE OF EMPIRES ON ELECTRON
 
 
-An implementation of the game "Age of Empires Conqueror on Electron"
+An implementation of the game "Age of Empires Conqueror" on Electron. <br>
 This is just a prof of concept. It doesn't pretend to be a serius project.
 
 ## Requirementes
@@ -18,7 +18,7 @@ This is just a prof of concept. It doesn't pretend to be a serius project.
 ## Installation
 
 - run `npm install`
-- copy AoE data folder into the project
+- copy AoE DATA folder into the project (uppercase required)
 - run `electron .`
 
 ## Contributing
